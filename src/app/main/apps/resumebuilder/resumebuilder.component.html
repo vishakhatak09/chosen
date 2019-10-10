@@ -1,0 +1,395 @@
+<div id="resumebuilder" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    <img [src]="defaultProfile">
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+
+                    <div class="subtitle secondary-text">
+                        <span>
+                            {{ 'NAV.RESUME' | translate }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button type="button" (click)="formSubmit()" class="save-product-button">
+                <span>SAVE</span>
+            </button>
+
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="resume" [formGroup]="basicDetailForm" class="product w-100-p" fxLayout="column" fxFlex>
+
+                    <mat-tab-group>
+
+                        <mat-tab label="Personal Info">
+
+                            <div class="tab-content p-24">
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>Full Name</mat-label>
+                                    <input matInput placeholder="Full Name" type="text" name="fullName"
+                                        formControlName="fullName">
+                                    <!-- <mat-error *ngIf="basicDetailForm.get('fullName').hasError('required')">
+                                        Please fill full name
+                                    </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>Contact Number</mat-label>
+                                    <input matInput placeholder="Contact Number" type="tel" name="contactNumber"
+                                        formControlName="contactNumber">
+                                    <!-- <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('required')">
+                                        Please fill contact number
+                                    </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput placeholder="Email" type="email" name="Email"
+                                        formControlName="email">
+                                    <!-- <mat-error *ngIf="basicDetailForm.get('email').hasError('required')">
+                                        Please fill email
+                                    </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>Full Address</mat-label>
+                                    <textarea matInput placeholder="Full Address" name="FullAddress"
+                                        formControlName="fullAddress">
+                                    </textarea>
+                                    <!-- <mat-error *ngIf="basicDetailForm.get('fullAddress').hasError('required')">
+                                        Please fill full address
+                                    </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>D.O.B</mat-label>
+                                    <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate"
+                                        formControlName="dateOfBirth">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>Place Of Birth</mat-label>
+                                    <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth"
+                                        formControlName="placeOfBirth">
+                                    <!-- <mat-error *ngIf="basicDetailForm.get('email').hasError('required')">
+                                        Please fill email
+                                    </mat-error> -->
+                                </mat-form-field>
+
+                                <div class="w-100-p">
+                                    <mat-label class="example-radio-group-label">Marital Status: </mat-label>
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                        class="form-radio-group" formControlName="placeOfBirth">
+                                        <mat-radio-button class="form-radio-button" *ngFor="let status of maritalStatus"
+                                            [value]="status.value">
+                                            {{status.viewValue}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+
+                                <div class="w-100-p">
+                                    <mat-label class="example-radio-group-label">Gender: </mat-label>
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                        class="form-radio-group" formControlName="gender">
+                                        <mat-radio-button class="form-radio-button" *ngFor="let status of genderOptions"
+                                            [value]="status.value">
+                                            {{status.viewValue}}&nbsp;
+                                            <!-- <mat-icon [svgIcon]="status.icon" aria-hidden="true"></mat-icon> -->
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>Linked In
+                                    </mat-label>
+                                    <input matInput placeholder="Paste your linked In URL" type="url" name="LinkedInUrl"
+                                        formControlName="linkedInUrl">
+                                    <!-- <mat-error *ngIf="basicDetailForm.get('email').hasError('required')">
+                                            Please fill email
+                                        </mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>Twitter
+                                    </mat-label>
+                                    <input matInput placeholder="Paste your twitter URL" type="url" name="TwitterUrl"
+                                        formControlName="twitterUrl">
+                                    <!-- <mat-error *ngIf="basicDetailForm.get('email').hasError('required')">
+                                                Please fill email
+                                            </mat-error> -->
+                                </mat-form-field>
+
+                                <!--<mat-form-field  floatLabel="always" class="w-100-p">
+
+                                    <mat-label>Categories</mat-label>
+
+                                    <mat-chip-list #categoryList name="categories" formControlName="categories">
+
+                                        <mat-chip *ngFor="let category of product.categories"
+                                                  [removable]="true" (removed)="product.removeCategory(category)">
+                                            {{category}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input [matChipInputFor]="categoryList"
+                                               [matChipInputAddOnBlur]="true"
+                                               (matChipInputTokenEnd)="product.addCategory($event)"/>
+
+                                    </mat-chip-list>
+
+                                </mat-form-field>
+
+                                <mat-form-field  floatLabel="always" class="w-100-p">
+
+                                    <mat-label>Tags</mat-label>
+
+                                    <mat-chip-list #tagList name="tags" formControlName="tags">
+
+                                        <mat-chip *ngFor="let tag of product.tags"
+                                                  [removable]="true" (removed)="product.removeTag(tag)">
+                                            {{tag}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input [matChipInputFor]="tagList"
+                                               [matChipInputAddOnBlur]="true"
+                                               (matChipInputTokenEnd)="product.addTag($event)"/>
+
+                                    </mat-chip-list>
+
+                                </mat-form-field> -->
+
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Career Objective">
+
+                            <div class="tab-content p-24">
+                                <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+                                    <div class="w-100-p">
+                                        <mat-label>My career objective</mat-label>
+                                        <!-- <ckeditor formControlName="careerObjective" #myckeditor [config]="ckeConfig"></ckeditor> -->
+                                        <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
+                                            placeholder="Career objective" formControlName="careerObjective"></ckeditor>
+                                        <!-- <textarea rows="6" cols="100" matInput placeholder="About Me..." name="CareerObjective"
+                                            formControlName="careerObjective" required>
+                                        </textarea> -->
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Work Experience">
+
+                            <div class="tab-content p-24">
+                                <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+                                    <div class="w-100-p">
+                                        <mat-label>My professional experience</mat-label>
+                                        <!-- <ckeditor formControlName="careerObjective" #myckeditor [config]="ckeConfig"></ckeditor> -->
+                                        <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
+                                            formControlName="professionalExperience"></ckeditor>
+                                        <!-- <textarea rows="6" cols="100" matInput placeholder="About Me..." name="CareerObjective"
+                                                    formControlName="careerObjective" required>
+                                                </textarea> -->
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Education History">
+
+                            <div class="tab-content p-24">
+
+                                <div class="w-100-p">
+                                    <mat-label>My professional experience</mat-label>
+                                    <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
+                                        formControlName="educationHistory"></ckeditor>
+                                </div>
+
+                            </div>
+                        </mat-tab>
+
+                        <mat-tab label="Areas of Expertise">
+
+                            <div class="tab-content p-24">
+
+                                <mat-form-field floatLabel="always" class="w-50-p">
+                                    <mat-label> Choose your selection for adding skills</mat-label>
+                                    <mat-select formControlName="skillType" placeholder="Select"
+                                        (selectionChange)="skillTypeSelecttion($event.value)">
+                                        <mat-option [value]="skills.value" *ngFor="let skills of skillOptions">
+                                            {{ skills.viewValue }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <!-- Skill dynamic section -->
+                                <div class="w-100-p" *ngIf="basicDetailForm.get('skillType').value == 'basic' ">
+                                    <mat-label>Key Skills</mat-label>
+                                    <ckeditor [editor]="Editor" [config]="skillconfig" (ready)="onReady($event)"
+                                        [(ngModel)]="basicSkill" [ngModelOptions]="{standalone: true}"></ckeditor>
+                                </div>
+                                <div class="w-100-p" *ngIf="basicDetailForm.get('skillType').value == 'withBox' ">
+                                    <div class="w-100-p">
+                                        <mat-form-field class="w-50-p">
+                                            <input matInput #skillInput placeholder="Enter your skills"
+                                                autocomplete="off" type="text" name="skills">
+                                        </mat-form-field>
+                                        <button mat-icon-button matTooltip="Add" [matTooltipPosition]="'above'"
+                                            (click)="addSkill(skillInput)">
+                                            <mat-icon>check</mat-icon>
+                                        </button>
+                                    </div>
+                                    <div class="skill-content" fxLayout="row" fxLayoutAlign="start center"
+                                        *ngFor="let skill of skillListBox; let index;">
+                                        <span class="message-box text-overflow skill-text"
+                                            style="max-width: 70%;">{{ skill.skillName }}</span>
+                                        <button style="float: left;" mat-icon-button (click)="removeSkill(index)"
+                                            matTooltip="Remove" [matTooltipPosition]="'above'">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="w-100-p" *ngIf="basicDetailForm.get('skillType').value == 'withRating' ">
+                                    <div class="w-100-p">
+                                        <mat-form-field class="w-50-p">
+                                            <input matInput #skillInputRate placeholder="Enter your skills"
+                                                autocomplete="off" type="text" name="skills">
+                                        </mat-form-field>
+                                        <button mat-icon-button matTooltip="Add" [matTooltipPosition]="'above'"
+                                            (click)="addSkill(skillInputRate, 'box-rating')">
+                                            <mat-icon>check</mat-icon>
+                                        </button>
+                                        <mat-form-field floatLabel="always" class="w-20-p">
+                                            <mat-label> Choose rating style</mat-label>
+                                            <mat-select formControlName="ratingType" placeholder="Select"
+                                                (selectionChange)="ratingStyle = $event.value">
+                                                <mat-option [value]="theme.value" *ngFor="let theme of ratingThemeList">
+                                                    {{ theme.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
+                                        *ngFor="let skill of skillRatingList; let index;">
+                                        <div class="skill-box">
+                                            <span
+                                                class="message-box text-overflow skill-text">{{ skill.skillName }}</span>
+                                        </div>
+                                        <div class="skill-box">
+                                            <bar-rating class="w-50-p" [theme]="ratingStyle"
+                                                (rateChange)="skill.ratings = rate.value" [(rate)]="skill.ratings" #rate
+                                                [showText]="false" [max]="maxRate"></bar-rating>
+                                        </div>
+                                        <div class="skill-box">
+                                            <button class="skill-text-button" mat-icon-button
+                                                (click)="removeSkill(index, 'box-rating')" matTooltip="Remove"
+                                                [matTooltipPosition]="'above'">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / Skill dynamic section -->
+
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Other details">
+
+                            <div class="tab-content p-24">
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+
+                                    <mat-label>Languages known</mat-label>
+
+                                    <mat-chip-list #languageList name="Languages">
+
+                                        <mat-chip *ngFor="let lang of selectedLanguages" [removable]="true"
+                                            (removed)="removeLang(lang)">
+                                            {{lang}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input matInput [matChipInputFor]="languageList" [matChipInputAddOnBlur]="true"
+                                            [matAutocomplete]="auto" (matChipInputTokenEnd)="addLang($event)"
+                                            formControlName="languages" />
+
+                                    </mat-chip-list>
+                                    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
+                                        (optionSelected)="selected($event)">
+                                        <mat-option *ngFor="let lang of filteredLanguages | async" [value]="lang">
+                                            {{lang}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="always" class="w-100-p">
+                                    <mat-label>References</mat-label>
+                                    <textarea matInput placeholder="Add references" name="References"
+                                        formControlName="references">
+                                    </textarea>
+                                </mat-form-field>
+
+                                <div>
+                                    <mat-label>Soft Skills</mat-label>
+                                    <bar-rating [theme]="ratingStyle" [(rate)]="currentRate" [titles]="[]"
+                                        [showText]="false" [max]="maxRate"></bar-rating>
+                                </div>
+
+                            </div>
+
+                        </mat-tab>
+
+                    </mat-tab-group>
+
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
