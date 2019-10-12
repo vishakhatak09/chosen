@@ -96,7 +96,7 @@ export class AppConstant {
         },
         {
             value: 'withRating',
-            viewValue: 'Box Styled with Ratings',
+            viewValue: 'Basic with Ratings',
         }
     ];
 

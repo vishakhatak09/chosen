@@ -104,7 +104,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
 
                 // Update the stored config
                 this.fuseConfig = config;
-
+                // console.log(this.fuseConfig);
                 // Set the config form values without emitting an event
                 // so that we don't end up with an infinite loop
                 this.form.setValue(config, {emitEvent: false});
@@ -148,7 +148,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
             ]
         };
 
-        this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
+        // this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
     }
 
     /**

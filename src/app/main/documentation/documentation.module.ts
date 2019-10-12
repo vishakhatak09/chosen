@@ -5,44 +5,21 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { DocsChangelogComponent } from 'app/main/documentation/changelog/changelog.component';
 
 const routes: Routes = [
     {
-        path     : 'changelog',
-        component: DocsChangelogComponent
-    },
-    {
-        path        : 'getting-started',
-        loadChildren: './getting-started/getting-started.module#GettingStartedModule'
-    },
-    {
-        path        : 'working-with-fuse',
-        loadChildren: './working-with-fuse/working-with-fuse.module#WorkingWithFuseModule'
-    },
-    {
-        path        : 'components',
-        loadChildren: './components/components.module#ComponentsModule'
-    },
-    {
-        path        : 'components-third-party',
-        loadChildren: './components-third-party/components-third-party.module#ComponentsThirdPartyModule'
-    },
-    {
-        path        : 'directives',
+        path: 'directives',
         loadChildren: './directives/directives.module#DirectivesModule'
     },
     {
-        path        : 'services',
+        path: 'services',
         loadChildren: './services/services.module#ServicesModule'
     }
 ];
 
 @NgModule({
-    declarations: [
-        DocsChangelogComponent
-    ],
-    imports     : [
+    declarations: [],
+    imports: [
         RouterModule.forChild(routes),
 
         MatIconModule,
@@ -50,6 +27,5 @@ const routes: Routes = [
         FuseSharedModule
     ]
 })
-export class DocumentationModule
-{
+export class DocumentationModule {
 }

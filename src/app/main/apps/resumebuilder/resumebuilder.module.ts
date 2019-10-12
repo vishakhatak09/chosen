@@ -16,6 +16,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BarRatingModule } from 'ngx-bar-rating';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
+// import { MatStepperModule } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ResumeBuilderService } from './resumebuilder.service';
 
 const routes: Routes = [
   {
@@ -26,7 +31,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ResumebuilderComponent],
+  declarations: [
+    ResumebuilderComponent,
+    ResumeTemplateComponent
+  ],
+  entryComponents: [ResumeTemplateComponent],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,
@@ -41,8 +50,11 @@ const routes: Routes = [
     MatChipsModule,
     MatAutocompleteModule,
     BarRatingModule,
-    MatTooltipModule
-
-  ]
+    MatTooltipModule,
+    // MatStepperModule,
+    MatCheckboxModule,
+    MatDialogModule,
+  ],
+  providers: [ResumeBuilderService]
 })
 export class ResumebuilderModule { }

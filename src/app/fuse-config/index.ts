@@ -10,17 +10,22 @@ import { FuseConfig } from '@fuse/types';
 
 export const fuseConfig: FuseConfig = {
     // Color themes can be defined in src/app/app.theme.scss
-    colorTheme      : 'theme-blue-gray-dark',
+    // colorTheme      : 'theme-blue-gray-dark',
+    colorTheme         : 'theme-default',
     customScrollbars: true,
     layout          : {
         style    : 'vertical-layout-1',
+        // style    : 'horizontal-layout-1',
         width    : 'fullwidth',
         navbar   : {
-            primaryBackground  : 'fuse-navy-700',
-            secondaryBackground: 'fuse-navy-900',
-            folded             : false, // side nav bar folded true/false
+            // primaryBackground  : 'fuse-navy-700',
+            primaryBackground  : 'fuse-white-500',
+            // secondaryBackground: 'fuse-navy-900',
+            secondaryBackground: 'fuse-white-500',
+            folded             : true, // side nav bar folded true/false
             hidden             : false,
             position           : 'left',
+            // position           : 'top',
             variant            : 'vertical-style-1'
         },
         toolbar  : {

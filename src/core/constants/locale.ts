@@ -3,5 +3,5 @@ export class LanguageList {
         'English',
         'Hindi',
         'Gujarati'
-    ]
+    ];
 }
