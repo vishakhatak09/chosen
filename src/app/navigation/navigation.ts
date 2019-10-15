@@ -35,7 +35,7 @@ export const navigation: FuseNavigation[] = [
                     title    : 'Create Resume',
                     translate: 'NAV.RESUME',
                     type     : 'item',
-                    icon     : 'today',
+                    icon     : 'import_contacts',
                     url      : '/apps/resume'
             }
             // {

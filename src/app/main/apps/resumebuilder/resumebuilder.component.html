@@ -14,7 +14,9 @@
             <div fxLayout="row" fxLayoutAlign="start center">
 
                 <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                    <img [src]="defaultProfile">
+                    <img [src]="profileSrc" (click)="fileInput.click()">
+                    <input type="file" #fileInput 
+                        accept="image/*" (change)="getFileData($event.target.files)" style="display: none;" >
                 </div>
 
                 <div fxLayout="column" fxLayoutAlign="start start"
@@ -36,7 +38,7 @@
                 <button mat-raised-button type="button" (click)="templatePreview()" class="save-product-button">
                     <mat-icon>remove_red_eye</mat-icon> Preview
                 </button> &nbsp;
-                <button mat-raised-button type="button"class="save-product-button">
+                <button mat-raised-button type="button"class="save-product-button" (click)="saveAsPdf()">
                     <mat-icon>picture_as_pdf</mat-icon> Download
                 </button>
             </div>
@@ -571,7 +573,7 @@
                     fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
                     fusePerfectScrollbar>
                     <!-- <app-resume-template [templateForm]="basicDetailForm.getRawValue()"> -->
-                    <app-resume-template [templateForm]="basicDetailForm.getRawValue()"
+                    <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
                         [skillData]="basicDetailForm.get('skillType').value == 'withRating' ? skillRatingList :
                             ( basicDetailForm.get('skillType').value == 'withBox' ? skillListBox : basicSkill  )
                             ">

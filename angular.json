@@ -30,7 +30,9 @@
                         "styles": [
                             "src/styles.scss"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                            "node_modules/html2canvas/dist/html2canvas.js"
+                        ],
                         "showCircularDependencies": false
                     },
                     "configurations": {

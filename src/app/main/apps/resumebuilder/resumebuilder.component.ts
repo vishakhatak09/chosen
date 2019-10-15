@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation,
-  OnDestroy
+  OnDestroy,
+  ElementRef
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -19,6 +20,7 @@ import { SkillWithBox, SkillRating } from 'core/models/resumebuilder.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeBuilderService } from './resumebuilder.service';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -30,6 +32,7 @@ import { ResumeBuilderService } from './resumebuilder.service';
 export class ResumebuilderComponent implements OnInit, OnDestroy {
 
   public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
+  public profileSrc: string | ArrayBuffer = this.defaultProfile;
   public basicDetailForm: FormGroup;
   maxDate = new Date();
   maritalStatuOpts: OptionType[] = AppConstant.MaritalStatusOptions;
@@ -45,7 +48,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   languagesList: string[] = LanguageList.list;
   filteredLanguages: Observable<string[]>;
   selectedLanguages: string[] = [];
-  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   maxRate = 5;
   currentRate = 0;
   ratingStyle = 'square';
@@ -59,6 +61,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   skillListBox: SkillWithBox[] = [];
   skillRatingList: SkillRating[] = [];
   ratingThemeList: OptionType[] = AppConstant.RatingThemes;
+
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  @ViewChild('templateContent',  { static: false }) templateContent: ElementRef;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -285,6 +290,32 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(() => {
       this.resumeBuilderService.templateData.next(null);
     });
+  }
+
+  /**
+   * Get selected file for profile image
+   * @param files Selected File
+   */
+  getFileData(files: FileList): void {
+    if ( files.length > 0 ) {
+      const fileData: File = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(fileData);
+      reader.onload = (() => {
+        this.profileSrc = reader.result;
+      });
+    } else {
+      this.profileSrc = this.defaultProfile;
+    }
+  }
+
+  saveAsPdf(): void {
+    // const doc = new jsPDF();
+    // doc.addHTML(this.templateContent.nativeElement , () => {
+    //   const timestamp = Date.now();
+    //   doc.save(`resume_${timestamp}.pdf`);
+    // });
+    // doc.text('Hello world!', 10, 10);
   }
 
   /**
