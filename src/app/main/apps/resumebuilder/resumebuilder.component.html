@@ -52,7 +52,7 @@
             <!-- CONTENT -->
             <div class="content" >
 
-                <form name="resume" [formGroup]="basicDetailForm" 
+                <div  
                     fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
                     fusePerfectScrollbar>
 <!-- 
@@ -235,145 +235,121 @@
                         <mat-tab label="Personal Info">
 
                             <div class="tab-content p-24">
+                                <form name="resume" [formGroup]="basicDetailForm">
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>First Name</mat-label>
-                                    <input matInput placeholder="First Name" type="text" name="firstName"
-                                        formControlName="firstName" autocomplete="off" required>
-                                    <mat-error *ngIf="basicDetailForm.get('firstName').hasError('required')">
-                                        First name is required
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput placeholder="First Name" type="text" name="firstName"
+                                            formControlName="firstName" autocomplete="off" required>
+                                        <mat-error *ngIf="basicDetailForm.get('firstName').hasError('required')">
+                                            First name is required
+                                        </mat-error>
+                                    </mat-form-field>
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>Last Name</mat-label>
-                                    <input matInput placeholder="Last Name" type="text" name="lastName"
-                                        formControlName="lastName" autocomplete="off" required>
-                                    <mat-error *ngIf="basicDetailForm.get('lastName').hasError('required')">
-                                        Last name is required
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput placeholder="Last Name" type="text" name="lastName"
+                                            formControlName="lastName" autocomplete="off" required>
+                                        <mat-error *ngIf="basicDetailForm.get('lastName').hasError('required')">
+                                            Last name is required
+                                        </mat-error>
+                                    </mat-form-field>                                
 
-                                
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Contact Number</mat-label>
+                                        <input matInput placeholder="Contact Number" type="number" name="contactNumber"
+                                            formControlName="contactNumber" autocomplete="off" required>
+                                        <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('required')">
+                                            Contact number is required
+                                        </mat-error>
+                                    </mat-form-field>
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>Contact Number</mat-label>
-                                    <input matInput placeholder="Contact Number" type="number" name="contactNumber"
-                                        formControlName="contactNumber" autocomplete="off" required>
-                                    <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('required')">
-                                        Contact number is required
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Email</mat-label>
+                                        <input matInput placeholder="Email" type="email" name="Email"
+                                            formControlName="email" autocomplete="off" required>
+                                        <mat-error *ngIf="basicDetailForm.get('email').hasError('required')">
+                                            Email is required
+                                        </mat-error>
+                                        <mat-error *ngIf="basicDetailForm.get('email').hasError('email')">
+                                            Enter valid email
+                                        </mat-error>
+                                    </mat-form-field>
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>Email</mat-label>
-                                    <input matInput placeholder="Email" type="email" name="Email"
-                                        formControlName="email" autocomplete="off" required>
-                                    <mat-error *ngIf="basicDetailForm.get('email').hasError('required')">
-                                        Email is required
-                                    </mat-error>
-                                    <mat-error *ngIf="basicDetailForm.get('email').hasError('email')">
-                                        Enter valid email
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Full Address</mat-label>
+                                        <textarea matInput placeholder="Full Address" name="FullAddress"
+                                            formControlName="fullAddress" autocomplete="off" required>
+                                        </textarea>
+                                        <mat-error *ngIf="basicDetailForm.get('fullAddress').hasError('required')">
+                                            Full address is required
+                                        </mat-error>
+                                    </mat-form-field>
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>Full Address</mat-label>
-                                    <textarea matInput placeholder="Full Address" name="FullAddress"
-                                        formControlName="fullAddress" autocomplete="off" required>
-                                    </textarea>
-                                    <mat-error *ngIf="basicDetailForm.get('fullAddress').hasError('required')">
-                                        Full address is required
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>D.O.B</mat-label>
+                                        <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate"
+                                            formControlName="dateOfBirth" autocomplete="off" (click)="picker.open()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                        <!-- <mat-error *ngIf="basicDetailForm.get('dateOfBirth').hasError('required')">
+                                            Date of birth is required
+                                        </mat-error> -->
+                                    </mat-form-field>
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>D.O.B</mat-label>
-                                    <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate"
-                                        formControlName="dateOfBirth" autocomplete="off" required>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker disabled="false"></mat-datepicker>
-                                    <mat-error *ngIf="basicDetailForm.get('dateOfBirth').hasError('required')">
-                                        Date of birth is required
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Place Of Birth</mat-label>
+                                        <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth"
+                                            formControlName="placeOfBirth" autocomplete="off" >
+                                        <!-- <mat-error *ngIf="basicDetailForm.get('placeOfBirth').hasError('required')">
+                                            Place of birth is required
+                                        </mat-error> -->
+                                    </mat-form-field>
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>Place Of Birth</mat-label>
-                                    <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth"
-                                        formControlName="placeOfBirth" autocomplete="off" required>
-                                    <mat-error *ngIf="basicDetailForm.get('placeOfBirth').hasError('required')">
-                                        Place of birth is required
-                                    </mat-error>
-                                </mat-form-field>
+                                    <div class="w-100-p">
+                                        <mat-label class="example-radio-group-label">Marital Status: </mat-label>
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="form-radio-group" formControlName="maritalStatus" required>
+                                            <mat-radio-button class="form-radio-button" *ngFor="let status of maritalStatuOpts"
+                                                [value]="status.value">
+                                                {{status.viewValue}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
 
-                                <div class="w-100-p">
-                                    <mat-label class="example-radio-group-label">Marital Status: 
-                                        <ng-container *ngIf="basicDetailForm.get('maritalStatus').untouched || basicDetailForm.get('maritalStatus').valid; else elseTemplate">
-                                           * 
-                                        </ng-container>
-                                        <ng-template #elseTemplate>
-                                            <mat-error *ngIf="basicDetailForm.get('maritalStatus').touched && basicDetailForm.get('maritalStatus').hasError('required')">
-                                                *
-                                            </mat-error>
-                                        </ng-template>                                        
-                                    </mat-label>
-                                    <mat-radio-group aria-labelledby="example-radio-group-label"
-                                        class="form-radio-group" formControlName="maritalStatus" required>
-                                        <mat-radio-button class="form-radio-button" *ngFor="let status of maritalStatuOpts"
-                                            [value]="status.value">
-                                            {{status.viewValue}}
-                                        </mat-radio-button>
-                                    </mat-radio-group>
-                                    <mat-error *ngIf="basicDetailForm.get('maritalStatus').touched && basicDetailForm.get('maritalStatus').hasError('required')">
-                                        Marital Status is required
-                                    </mat-error>
-                                </div>
+                                    <div class="w-100-p">
+                                        <mat-label class="example-radio-group-label">
+                                            Gender: 
+                                        </mat-label>
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="form-radio-group" formControlName="gender">
+                                            <mat-radio-button class="form-radio-button" *ngFor="let status of genderOptions"
+                                                [value]="status.value">
+                                                {{status.viewValue}}&nbsp;
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
 
-                                <div class="w-100-p">
-                                    <mat-label class="example-radio-group-label">
-                                        Gender: 
-                                        <ng-container *ngIf="basicDetailForm.get('maritalStatus').untouched || basicDetailForm.get('maritalStatus').valid; else elseTemplate">
-                                        * 
-                                        </ng-container>
-                                        <ng-template #elseTemplate>
-                                            <mat-error *ngIf="basicDetailForm.get('maritalStatus').touched && basicDetailForm.get('maritalStatus').hasError('required')">
-                                                *
-                                            </mat-error>
-                                        </ng-template>
-                                    </mat-label>
-                                    <mat-radio-group aria-labelledby="example-radio-group-label"
-                                        class="form-radio-group" formControlName="gender" required>
-                                        <mat-radio-button class="form-radio-button" *ngFor="let status of genderOptions"
-                                            [value]="status.value">
-                                            {{status.viewValue}}&nbsp;
-                                        </mat-radio-button>
-                                    </mat-radio-group>
-                                    <mat-error *ngIf="basicDetailForm.get('gender').touched && basicDetailForm.get('gender').hasError('required')">
-                                        Please select gender
-                                    </mat-error>
-                                </div>
+                                    <!-- <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Linked In
+                                        </mat-label>
+                                        <input matInput placeholder="Paste your linked In URL" type="url" name="LinkedInUrl"
+                                            formControlName="linkedInUrl" autocomplete="off">
+                                        <mat-error *ngIf="basicDetailForm.get('linkedInUrl').hasError('pattern')">
+                                            Please enter valid url
+                                        </mat-error>
+                                    </mat-form-field>
 
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>Linked In
-                                    </mat-label>
-                                    <input matInput placeholder="Paste your linked In URL" type="url" name="LinkedInUrl"
-                                        formControlName="linkedInUrl" autocomplete="off">
-                                    <mat-error *ngIf="basicDetailForm.get('linkedInUrl').hasError('pattern')">
-                                        Please enter valid url
-                                    </mat-error>
-                                </mat-form-field>
-
-                                <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                    <mat-label>Twitter
-                                    </mat-label>
-                                    <input matInput placeholder="Paste your twitter URL" type="url" name="TwitterUrl"
-                                        formControlName="twitterUrl" autocomplete="off">
-                                    <mat-error *ngIf="basicDetailForm.get('twitterUrl').hasError('pattern')">
-                                        Please enter valid url
-                                    </mat-error>
-                                </mat-form-field>
-                                
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Twitter
+                                        </mat-label>
+                                        <input matInput placeholder="Paste your twitter URL" type="url" name="TwitterUrl"
+                                            formControlName="twitterUrl" autocomplete="off">
+                                        <mat-error *ngIf="basicDetailForm.get('twitterUrl').hasError('pattern')">
+                                            Please enter valid url
+                                        </mat-error>
+                                    </mat-form-field> -->
+                                </form>
                             </div>
 
                         </mat-tab>
@@ -381,17 +357,18 @@
                         <mat-tab label="Career Objective">
 
                             <div class="tab-content p-24">
-                                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                                <form fxLayout="row wrap" fxLayoutAlign="start start" 
+                                    name="resume" [formGroup]="careerObjForm">
 
                                     <div class="w-100-p">
                                         <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
                                             placeholder="Career objective" formControlName="careerObjective"></ckeditor>  
-                                        <mat-error *ngIf="basicDetailForm.get('careerObjective').touched && basicDetailForm.get('careerObjective').hasError('required')">
+                                        <mat-error *ngIf="careerObjForm.get('careerObjective').touched && careerObjForm.get('careerObjective').hasError('required')">
                                             Career objective is required
                                         </mat-error>                                      
                                     </div>
 
-                                </div>
+                                </form>
                             </div>
 
                         </mat-tab>
@@ -399,7 +376,8 @@
                         <mat-tab label="Work Experience">
 
                             <div class="tab-content p-24">
-                                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                                <form fxLayout="row wrap" fxLayoutAlign="start start" 
+                                    name="WorkForm" [formGroup]="workForm">
 
                                     <div class="w-100-p p-12">
                                         <mat-checkbox (change)="isFresher($event.checked)" >Fresher ?</mat-checkbox>
@@ -408,13 +386,13 @@
                                     <div class="w-100-p">
                                         <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
                                             formControlName="professionalExperience"></ckeditor>
-                                        <mat-error *ngIf="basicDetailForm.get('professionalExperience').touched &&
-                                            basicDetailForm.get('professionalExperience').hasError('required')">
+                                        <mat-error *ngIf="workForm.get('professionalExperience').touched &&
+                                            workForm.get('professionalExperience').hasError('required')">
                                             Work experience is required
                                         </mat-error>
                                     </div>
 
-                                </div>
+                                </form>
                             </div>
 
                         </mat-tab>
@@ -423,21 +401,26 @@
 
                             <div class="tab-content p-24">
 
-                                <div class="w-100-p">
-                                    <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
-                                        formControlName="educationHistory"></ckeditor>
-                                    <mat-error *ngIf="basicDetailForm.get('educationHistory').touched &&
-                                        basicDetailForm.get('educationHistory').hasError('required')">
-                                        Education history is required
-                                    </mat-error>
-                                </div>
+                                <form fxLayout="row wrap" fxLayoutAlign="start start" 
+                                    name="resume" [formGroup]="eduForm">
+
+                                    <div class="w-100-p">
+                                        <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
+                                            formControlName="educationHistory"></ckeditor>
+                                        <mat-error *ngIf="eduForm.get('educationHistory').touched &&
+                                        eduForm.get('educationHistory').hasError('required')">
+                                            Education history is required
+                                        </mat-error>
+                                    </div>
+
+                                </form>
 
                             </div>
                         </mat-tab>
 
-                        <mat-tab label="Areas of Expertise">
+                         <mat-tab label="Areas of Expertise">
 
-                            <div class="tab-content p-24">
+                            <form class="tab-content p-24" [formGroup]="skillForm">
 
                                 <mat-form-field floatLabel="always" class="w-50-p">
                                     <mat-label> Choose your selection for adding skills</mat-label>
@@ -447,17 +430,16 @@
                                             {{ skills.viewValue }}
                                         </mat-option>
                                     </mat-select>
-                                    <mat-error *ngIf="basicDetailForm.get('skillType').hasError('required')">
+                                    <mat-error *ngIf="skillForm.get('skillType').hasError('required')">
                                         Skills are required
                                     </mat-error>
                                 </mat-form-field>
 
-                                <div class="w-100-p" *ngIf="basicDetailForm.get('skillType').value == 'basic' ">
-                                    <!-- <mat-label>Key Skills</mat-label> -->
+                                <div class="w-100-p" *ngIf="skillForm.get('skillType').value == 'basic' ">
                                     <ckeditor [editor]="Editor" [config]="skillconfig" (ready)="onReady($event)"
                                         [(ngModel)]="basicSkill" [ngModelOptions]="{standalone: true}"></ckeditor>
                                 </div>
-                                <div class="w-100-p" *ngIf="basicDetailForm.get('skillType').value == 'withBox' ">
+                                <div class="w-100-p" *ngIf="skillForm.get('skillType').value == 'withBox' ">
                                     <div class="w-100-p">
                                         <mat-form-field class="w-50-p">
                                             <input matInput #skillInput placeholder="Enter your skills"
@@ -478,7 +460,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="w-100-p" *ngIf="basicDetailForm.get('skillType').value == 'withRating' ">
+                                <div class="w-100-p" *ngIf="skillForm.get('skillType').value == 'withRating' ">
                                     <div class="w-100-p">
                                         <mat-form-field class="w-50-p">
                                             <input matInput #skillInputRate placeholder="Enter your skills"
@@ -520,11 +502,11 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </form>
 
-                        </mat-tab>
+                        </mat-tab> 
 
-                        <mat-tab label="Other details">
+                        <!--<mat-tab label="Other details">
 
                             <div class="tab-content p-24">
 
@@ -563,22 +545,22 @@
 
                             </div>
 
-                        </mat-tab>
+                        </mat-tab> -->
 
                     </mat-tab-group>
 
-                </form>
+                </div>
 
-                <div class="template" 
+                <!-- <div class="template" 
                     fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
-                    fusePerfectScrollbar>
+                    fusePerfectScrollbar> -->
                     <!-- <app-resume-template [templateForm]="basicDetailForm.getRawValue()"> -->
-                    <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
+                    <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
                         [skillData]="basicDetailForm.get('skillType').value == 'withRating' ? skillRatingList :
                             ( basicDetailForm.get('skillType').value == 'withBox' ? skillListBox : basicSkill  )
                             ">
-                    </app-resume-template>
-                </div>
+                    </app-resume-template> -->
+                <!-- </div> -->
 
             </div>
             <!-- / CONTENT -->

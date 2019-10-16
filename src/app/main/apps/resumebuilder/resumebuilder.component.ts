@@ -34,6 +34,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
   public profileSrc: string | ArrayBuffer = this.defaultProfile;
   public basicDetailForm: FormGroup;
+  public careerObjForm: FormGroup;
+  public workForm: FormGroup;
+  public eduForm: FormGroup;
   maxDate = new Date();
   maritalStatuOpts: OptionType[] = AppConstant.MaritalStatusOptions;
   genderOptions: OptionType[] = AppConstant.GenderOptions;
@@ -67,6 +70,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
+  skillForm: FormGroup;
 
   /**
    * Constructor
@@ -94,24 +98,41 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       contactNumber: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       fullAddress: ['', [Validators.required]],
-      dateOfBirth: [{ value: '', disabled: false }, [Validators.required]],
-      placeOfBirth: ['', [Validators.required]],
-      maritalStatus: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
-      linkedInUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
-      twitterUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
+      dateOfBirth: [{ value: '', disabled: true }, []],
+      placeOfBirth: ['', []],
+      maritalStatus: ['', []],
+      gender: ['', []],
+      // linkedInUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
+      // twitterUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
+      // careerObjective: ['', [Validators.required]],
+      // professionalExperience: [{ value: '', disabled: false }, [Validators.required]],
+      // educationHistory: ['', [Validators.required]],
+      // languages: ['', []],
+      // references: ['', []],
+      // skillType: ['', [Validators.required]],
+      // ratingType: [this.ratingStyle, []],
+    });
+
+    this.careerObjForm = this._formBuilder.group({
       careerObjective: ['', [Validators.required]],
+    });
+
+    this.workForm = this._formBuilder.group({
       professionalExperience: [{ value: '', disabled: false }, [Validators.required]],
-      educationHistory: ['', [Validators.required]],
-      languages: ['', []],
-      references: ['', []],
+    });
+
+    this.eduForm = this._formBuilder.group({
+      educationHistory: [{ value: '', disabled: false }, [Validators.required]],
+    });
+
+    this.skillForm = this._formBuilder.group({
       skillType: ['', [Validators.required]],
       ratingType: [this.ratingStyle, []],
     });
 
-    this.filteredLanguages = this.basicDetailForm.get('languages').valueChanges.pipe(
-      // startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.languagesList.slice()));
+    // this.filteredLanguages = this.basicDetailForm.get('languages').valueChanges.pipe(
+    //   // startWith(null),
+    //   map((fruit: string | null) => fruit ? this._filter(fruit) : this.languagesList.slice()));
 
   }
 
