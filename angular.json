@@ -25,13 +25,17 @@
                         "assets": [
                             "src/favicon.ico",
                             "src/assets",
-                            "src/app/main/angular-material-elements"
+                            "src/app/main/angular-material-elements",
+                            { "glob": "**/*", "input": "node_modules/tinymce/skins", "output": "/tinymce/skins/" },
+                            { "glob": "**/*", "input": "node_modules/tinymce/themes", "output": "/tinymce/themes/" },
+                            { "glob": "**/*", "input": "node_modules/tinymce/plugins", "output": "/tinymce/plugins/" }
                         ],
                         "styles": [
                             "src/styles.scss"
                         ],
                         "scripts": [
-                            "node_modules/html2canvas/dist/html2canvas.js"
+                            "node_modules/html2canvas/dist/html2canvas.js",
+                            "node_modules/tinymce/tinymce.min.js"
                         ],
                         "showCircularDependencies": false
                     },

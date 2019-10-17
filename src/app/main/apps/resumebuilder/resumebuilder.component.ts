@@ -4,7 +4,9 @@ import {
   ViewChild,
   ViewEncapsulation,
   OnDestroy,
-  ElementRef
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectorRef
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -15,12 +17,13 @@ import { AppConstant, OptionType } from 'core/constants/app.constant';
 import { LanguageList } from 'core/constants/locale';
 import { environment } from 'environments/environment';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { SkillWithBox, SkillRating } from 'core/models/resumebuilder.model';
+import { SkillWithBox, SkillRating, WorkModel } from 'core/models/resumebuilder.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeBuilderService } from './resumebuilder.service';
 import jsPDF from 'jspdf';
+import { AddWorkComponent } from './add-work/add-work.component';
+import { AddEducationComponent } from './add-education/add-education.component';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -29,14 +32,13 @@ import jsPDF from 'jspdf';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class ResumebuilderComponent implements OnInit, OnDestroy {
+export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
   public profileSrc: string | ArrayBuffer = this.defaultProfile;
   public basicDetailForm: FormGroup;
   public careerObjForm: FormGroup;
-  public workForm: FormGroup;
-  public eduForm: FormGroup;
+  // public eduForm: FormGroup;
   maxDate = new Date();
   maritalStatuOpts: OptionType[] = AppConstant.MaritalStatusOptions;
   genderOptions: OptionType[] = AppConstant.GenderOptions;
@@ -65,8 +67,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   skillRatingList: SkillRating[] = [];
   ratingThemeList: OptionType[] = AppConstant.RatingThemes;
 
+  tinyEditorConfig = {};
+  workExperienceData: WorkModel[] = [];
+
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
-  @ViewChild('templateContent',  { static: false }) templateContent: ElementRef;
+  @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -80,7 +85,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private matDialog: MatDialog,
-    private resumeBuilderService: ResumeBuilderService
+    private resumeBuilderService: ResumeBuilderService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   // -----------------------------------------------------------------------------------------------------
@@ -117,13 +123,13 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       careerObjective: ['', [Validators.required]],
     });
 
-    this.workForm = this._formBuilder.group({
-      professionalExperience: [{ value: '', disabled: false }, [Validators.required]],
-    });
+    // this.workForm = this._formBuilder.group({
+    //   professionalExperience: [{ value: '', disabled: false }, [Validators.required]],
+    // });
 
-    this.eduForm = this._formBuilder.group({
-      educationHistory: [{ value: '', disabled: false }, [Validators.required]],
-    });
+    // this.eduForm = this._formBuilder.group({
+    //   educationHistory: [{ value: '', disabled: false }, [Validators.required]],
+    // });
 
     this.skillForm = this._formBuilder.group({
       skillType: ['', [Validators.required]],
@@ -133,6 +139,20 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     // this.filteredLanguages = this.basicDetailForm.get('languages').valueChanges.pipe(
     //   // startWith(null),
     //   map((fruit: string | null) => fruit ? this._filter(fruit) : this.languagesList.slice()));
+
+  }
+
+  ngAfterViewInit(): void {
+
+    this.tinyEditorConfig = {
+      base_url: '/tinymce', // Root for resources
+      suffix: '.min',       // Suffix to use when loading resources
+      plugins: 'lists advlist',
+      toolbar: 'bold italic underline | bullist numlist |  undo redo',
+      height: 300,
+      menubar: false,
+    };
+    this.cdRef.detectChanges();
 
   }
 
@@ -281,22 +301,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     this.basicSkill = '';
   }
 
-  isFresher(checked: boolean): void {
-    this.basicDetailForm.get('professionalExperience').setValue('');
-    if (checked) {
-      this.basicDetailForm.get('professionalExperience').disable();
-    } else {
-      this.basicDetailForm.get('professionalExperience').enable();
-
-    }
-  }
-
-
   templatePreview(): void {
     const data = {
       formData: this.basicDetailForm.getRawValue(),
       skillData: this.basicDetailForm.get('skillType').value === 'withRating' ? this.skillRatingList :
-      ( this.basicDetailForm.get('skillType').value === 'withBox' ? this.skillListBox : this.basicSkill  )
+        (this.basicDetailForm.get('skillType').value === 'withBox' ? this.skillListBox : this.basicSkill)
     };
     const dialogRef = this.matDialog.open(
       ResumeTemplateComponent,
@@ -318,7 +327,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
    * @param files Selected File
    */
   getFileData(files: FileList): void {
-    if ( files.length > 0 ) {
+    if (files.length > 0) {
       const fileData: File = files[0];
       const reader = new FileReader();
       reader.readAsDataURL(fileData);
@@ -337,6 +346,34 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     //   doc.save(`resume_${timestamp}.pdf`);
     // });
     // doc.text('Hello world!', 10, 10);
+  }
+
+  openWorkDialog(): void {
+
+    const dialogRef = this.matDialog.open(
+      AddWorkComponent,
+      {
+        width: 'auto',
+        height: 'auto',
+      }
+    );
+    dialogRef.afterClosed().subscribe(() => {
+
+    });
+  }
+
+  openAddEducationModal(): void {
+
+    const dialogRef = this.matDialog.open(
+      AddEducationComponent,
+      {
+        width: 'auto',
+        height: 'auto',
+      }
+    );
+    dialogRef.afterClosed().subscribe(() => {
+
+    });
   }
 
   /**

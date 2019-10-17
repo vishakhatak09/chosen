@@ -7,6 +7,7 @@
 
 #resumebuilder {
     // font-size: 15px;
+    color: #43a047;
 
     .header {
 
@@ -130,13 +131,36 @@
     .skill-text-button {
         width: 30%;
     }
+    .add-button{
+        width: 100%  !important;
+        border: 1px dotted #43a047 !important;
+    }
+    .work-content{
+        height: 100px;
+        border-radius: 10px;
+        color: #43a047;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center;
+        .work-index{
+            margin-left: 10px;
+        }
+        .work-desc{
+            margin-left: 50px;
+        }
+    }
 }
 
 .current-highlighter{
     border: 2px solid #4da3ff;
     background-color: rgba(76,163,255,0.15);
 }
-button {
+// button {
     // color: #43a047 !important;
-    text-transform: uppercase;
+    // text-transform: uppercase;
+// }
+
+.tiny-editor {
+    width: 95% !important;
+    padding: 12px 0px 64px 10px !important;
 }

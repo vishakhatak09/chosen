@@ -15,8 +15,8 @@
 
                 <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     <img [src]="profileSrc" (click)="fileInput.click()">
-                    <input type="file" #fileInput 
-                        accept="image/*" (change)="getFileData($event.target.files)" style="display: none;" >
+                    <input type="file" #fileInput accept="image/*" (change)="getFileData($event.target.files)"
+                        style="display: none;">
                 </div>
 
                 <div fxLayout="column" fxLayoutAlign="start start"
@@ -36,10 +36,10 @@
             </button> -->
             <div>
                 <button mat-raised-button type="button" (click)="templatePreview()" class="save-product-button">
-                    <mat-icon>remove_red_eye</mat-icon> Preview
+                    <mat-icon>remove_red_eye</mat-icon> {{'Preview' | uppercase}}
                 </button> &nbsp;
-                <button mat-raised-button type="button"class="save-product-button" (click)="saveAsPdf()">
-                    <mat-icon>picture_as_pdf</mat-icon> Download
+                <button mat-raised-button type="button" class="save-product-button" (click)="saveAsPdf()">
+                    <mat-icon>picture_as_pdf</mat-icon> {{'Download' | uppercase}}
                 </button>
             </div>
 
@@ -50,12 +50,10 @@
         <div class="content-card">
 
             <!-- CONTENT -->
-            <div class="content" >
+            <div class="content">
 
-                <div  
-                    fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
-                    fusePerfectScrollbar>
-<!-- 
+                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
+                    <!-- 
                     <mat-vertical-stepper [linear]="true" #stepper 
                         fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="50"
                         fusePerfectScrollbar>
@@ -253,7 +251,7 @@
                                         <mat-error *ngIf="basicDetailForm.get('lastName').hasError('required')">
                                             Last name is required
                                         </mat-error>
-                                    </mat-form-field>                                
+                                    </mat-form-field>
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Contact Number</mat-label>
@@ -300,7 +298,7 @@
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Place Of Birth</mat-label>
                                         <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth"
-                                            formControlName="placeOfBirth" autocomplete="off" >
+                                            formControlName="placeOfBirth" autocomplete="off">
                                         <!-- <mat-error *ngIf="basicDetailForm.get('placeOfBirth').hasError('required')">
                                             Place of birth is required
                                         </mat-error> -->
@@ -310,8 +308,8 @@
                                         <mat-label class="example-radio-group-label">Marital Status: </mat-label>
                                         <mat-radio-group aria-labelledby="example-radio-group-label"
                                             class="form-radio-group" formControlName="maritalStatus" required>
-                                            <mat-radio-button class="form-radio-button" *ngFor="let status of maritalStatuOpts"
-                                                [value]="status.value">
+                                            <mat-radio-button class="form-radio-button"
+                                                *ngFor="let status of maritalStatuOpts" [value]="status.value">
                                                 {{status.viewValue}}
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -319,12 +317,12 @@
 
                                     <div class="w-100-p">
                                         <mat-label class="example-radio-group-label">
-                                            Gender: 
+                                            Gender:
                                         </mat-label>
                                         <mat-radio-group aria-labelledby="example-radio-group-label"
                                             class="form-radio-group" formControlName="gender">
-                                            <mat-radio-button class="form-radio-button" *ngFor="let status of genderOptions"
-                                                [value]="status.value">
+                                            <mat-radio-button class="form-radio-button"
+                                                *ngFor="let status of genderOptions" [value]="status.value">
                                                 {{status.viewValue}}&nbsp;
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -357,18 +355,22 @@
                         <mat-tab label="Career Objective">
 
                             <div class="tab-content p-24">
-                                <form fxLayout="row wrap" fxLayoutAlign="start start" 
-                                    name="resume" [formGroup]="careerObjForm">
+                                <div fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
+                                    [formGroup]="careerObjForm">
 
                                     <div class="w-100-p">
-                                        <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
-                                            placeholder="Career objective" formControlName="careerObjective"></ckeditor>  
-                                        <mat-error *ngIf="careerObjForm.get('careerObjective').touched && careerObjForm.get('careerObjective').hasError('required')">
+                                        <ng-template matTabContent>
+                                            <editor class="tiny-editor" placeholder="Career objective"
+                                                formControlName="careerObjective" [init]="tinyEditorConfig"
+                                                tagName="textarea">
+                                            </editor>
+                                        </ng-template>
+                                        <!-- <mat-error *ngIf="careerObjForm.get('careerObjective').touched && careerObjForm.get('careerObjective').hasError('required')">
                                             Career objective is required
-                                        </mat-error>                                      
+                                        </mat-error>                                       -->
                                     </div>
 
-                                </form>
+                                </div>
                             </div>
 
                         </mat-tab>
@@ -376,20 +378,31 @@
                         <mat-tab label="Work Experience">
 
                             <div class="tab-content p-24">
-                                <form fxLayout="row wrap" fxLayoutAlign="start start" 
-                                    name="WorkForm" [formGroup]="workForm">
-
-                                    <div class="w-100-p p-12">
-                                        <mat-checkbox (change)="isFresher($event.checked)" >Fresher ?</mat-checkbox>
-                                    </div>
+                                <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start"
+                                    name="WorkForm">
 
                                     <div class="w-100-p">
-                                        <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
-                                            formControlName="professionalExperience"></ckeditor>
-                                        <mat-error *ngIf="workForm.get('professionalExperience').touched &&
+
+                                        <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
+                                            *ngFor="let data of workExperienceData; let index;">
+                                            <div class="work-content mat-elevation-z2">
+                                                <span class="work-index">(index+1)</span>
+                                                <span class="work-desc">
+                                                    {{ data.designation }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="skill-content" style='margin-top: 10px;'>
+                                            <button mat-button class="add-button" (click)="openWorkDialog()">
+                                                <mat-icon>add_to_photos</mat-icon> Add Position
+                                            </button>
+                                        </div>
+
+                                        <!-- <mat-error *ngIf="workForm.get('professionalExperience').touched &&
                                             workForm.get('professionalExperience').hasError('required')">
                                             Work experience is required
-                                        </mat-error>
+                                        </mat-error> -->
                                     </div>
 
                                 </form>
@@ -397,20 +410,18 @@
 
                         </mat-tab>
 
-                        <mat-tab label="Education History">
+                        <mat-tab label="Education Summary">
 
                             <div class="tab-content p-24">
 
-                                <form fxLayout="row wrap" fxLayoutAlign="start start" 
-                                    name="resume" [formGroup]="eduForm">
+                                <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume">
 
                                     <div class="w-100-p">
-                                        <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
-                                            formControlName="educationHistory"></ckeditor>
-                                        <mat-error *ngIf="eduForm.get('educationHistory').touched &&
-                                        eduForm.get('educationHistory').hasError('required')">
-                                            Education history is required
-                                        </mat-error>
+                                        <div class="skill-content" style='margin-top: 10px;'>
+                                            <button mat-button class="add-button" (click)="openAddEducationModal()">
+                                                <mat-icon>add_to_photos</mat-icon> Add Degree 
+                                            </button>
+                                        </div>
                                     </div>
 
                                 </form>
@@ -418,7 +429,7 @@
                             </div>
                         </mat-tab>
 
-                         <mat-tab label="Areas of Expertise">
+                        <mat-tab label="Areas of Expertise">
 
                             <form class="tab-content p-24" [formGroup]="skillForm">
 
@@ -504,7 +515,7 @@
 
                             </form>
 
-                        </mat-tab> 
+                        </mat-tab>
 
                         <!--<mat-tab label="Other details">
 
@@ -554,8 +565,8 @@
                 <!-- <div class="template" 
                     fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
                     fusePerfectScrollbar> -->
-                    <!-- <app-resume-template [templateForm]="basicDetailForm.getRawValue()"> -->
-                    <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
+                <!-- <app-resume-template [templateForm]="basicDetailForm.getRawValue()"> -->
+                <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
                         [skillData]="basicDetailForm.get('skillType').value == 'withRating' ? skillRatingList :
                             ( basicDetailForm.get('skillType').value == 'withBox' ? skillListBox : basicSkill  )
                             ">

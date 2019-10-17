@@ -29,3 +29,13 @@ export interface TemplateModel {
     skillType: string;
     ratingType?: string;
 }
+
+
+export interface WorkModel {
+    companyName: string;
+    location: string;
+    designation: string;
+    joiningDate: Date;
+    leavingDate: Date;
+    isTillDate: boolean;
+}

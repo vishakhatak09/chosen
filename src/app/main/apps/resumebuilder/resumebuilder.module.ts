@@ -21,6 +21,9 @@ import { ResumeTemplateComponent } from './resume-template/resumetemplate.compon
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ResumeBuilderService } from './resumebuilder.service';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { AddWorkComponent } from './add-work/add-work.component';
+import { AddEducationComponent } from './add-education/add-education.component';
 
 const routes: Routes = [
   {
@@ -33,9 +36,11 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ResumebuilderComponent,
-    ResumeTemplateComponent
+    ResumeTemplateComponent,
+    AddWorkComponent,
+    AddEducationComponent
   ],
-  entryComponents: [ResumeTemplateComponent],
+  entryComponents: [ResumeTemplateComponent, AddWorkComponent, AddEducationComponent],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,
@@ -54,6 +59,8 @@ const routes: Routes = [
     // MatStepperModule,
     MatCheckboxModule,
     MatDialogModule,
+
+    EditorModule
   ],
   providers: [ResumeBuilderService]
 })
