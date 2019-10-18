@@ -2,10 +2,9 @@
     <div class="template-header">
         <div class="full-name">
             <span class="first-name" *ngIf="templateForm.firstName != ''"
-             [innerHTML]="templateForm.firstName">John</span>
+                [innerHTML]="templateForm.firstName">John</span>
             <span class="first-name" *ngIf="templateForm.firstName == ''">John</span>
-            <span class="last-name" *ngIf="templateForm.lastName != ''" 
-             [innerHTML]="templateForm.lastName">Doe</span>
+            <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName">Doe</span>
             <span class="last-name" *ngIf="templateForm.lastName == ''">Doe</span>
         </div>
         <div class="contact-info">
@@ -14,7 +13,8 @@
             <span class="email-val" *ngIf="templateForm.email == ''">john.doe@gmail.com</span>
             <span class="separator"></span>
             <span class="phone">Phone: </span>
-            <span class="phone-val" *ngIf="templateForm.contactNumber != ''" [innerHTML]="templateForm.contactNumber">111-222-3333</span>
+            <span class="phone-val" *ngIf="templateForm.contactNumber != ''"
+                [innerHTML]="templateForm.contactNumber">111-222-3333</span>
             <span class="phone-val" *ngIf="templateForm.contactNumber == ''">111-222-3333</span>
         </div>
 
@@ -40,19 +40,23 @@
     <div class="details">
         <div class="template-section">
             <div class="section__title">Experience</div>
-            <div class="section__list" *ngIf="str(templateForm.professionalExperience) == ''">
-                <div class="section__list-item">
+            <div class="section__list" *ngIf="experienceData && experienceData.length > 0">
+                <div class="section__list-item" *ngFor="let work of experienceData">
                     <div class="left">
-                        <div class="name">KlowdBox</div>
-                        <div class="addr">San Fr, CA</div>
-                        <div class="duration">Jan 2011 - Feb 2015</div>
+                        <div class="name">{{work.designation}}</div>
+                        <div class="addr">{{work.companyName}}</div>
+                        <div class="addr">{{work.location}}</div>
+                        <div class="duration">
+                            {{ work.joiningDate | date: 'LLLL yyyy' }} -
+                            {{ work.leavingDate | date: 'LLLL yyyy' }}
+                            <!-- Jan 2011 - Feb 2015 -->
+                        </div>
                     </div>
-                    <div class="right">
+                    <!-- <div class="right">
                         <div class="name">Fr developer</div>
-                        <div class="desc">did This and that</div>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="section__list-item">
+                <!-- <div class="section__list-item">
                     <div class="left">
                         <div class="name">Akount</div>
                         <div class="addr">San Monica, CA</div>
@@ -62,12 +66,11 @@
                         <div class="name">Fr developer</div>
                         <div class="desc">did This and that</div>
                     </div>
-                </div>
-
+                </div> -->
             </div>
-            <div class="section__list" [innerHTML]="templateForm.professionalExperience"
+            <!-- <div class="section__list" [innerHTML]="templateForm.professionalExperience"
                 *ngIf="str(templateForm.professionalExperience) != ''">
-            </div>
+            </div> -->
         </div>
         <div class="template-section">
             <div class="section__title">Education</div>
@@ -97,7 +100,7 @@
 
             </div>
             <div class="section__list" *ngIf="str(templateForm.educationHistory) != ''"
-               [innerHTML]="templateForm.educationHistory" >
+                [innerHTML]="templateForm.educationHistory">
             </div>
         </div>
         <!-- <div class="template-section">

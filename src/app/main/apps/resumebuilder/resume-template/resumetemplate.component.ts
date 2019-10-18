@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input, OnChanges, Inject } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { TemplateModel } from 'core/models/resumebuilder.model';
+import { TemplateModel, WorkModel } from 'core/models/resumebuilder.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ResumeBuilderService } from '../resumebuilder.service';
@@ -18,6 +18,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     @Input() templateForm: TemplateModel;
     @Input() skillData: any;
     public str = String;
+    @Input() experienceData: WorkModel[] = [];
 
     /**
      * Constructor

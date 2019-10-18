@@ -357,8 +357,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
         height: 'auto',
       }
     );
-    dialogRef.afterClosed().subscribe(() => {
-
+    dialogRef.afterClosed().subscribe((data: WorkModel) => {
+      if ( data ) {
+        this.workExperienceData.push(data);
+        console.log('workExperienceData', this.workExperienceData);
+      }
     });
   }
 

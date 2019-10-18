@@ -384,11 +384,12 @@
                                     <div class="w-100-p">
 
                                         <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
-                                            *ngFor="let data of workExperienceData; let index;">
+                                            *ngFor="let data of workExperienceData; let index = index;">
                                             <div class="work-content mat-elevation-z2">
-                                                <span class="work-index">(index+1)</span>
+                                                <span class="work-index">{{index+1}}</span>
                                                 <span class="work-desc">
-                                                    {{ data.designation }}
+                                                    {{ data.designation }} 
+                                                    {{ data.companyName }}
                                                 </span>
                                             </div>
                                         </div>
@@ -562,16 +563,17 @@
 
                 </div>
 
-                <!-- <div class="template" 
+                <div class="template" 
                     fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
-                    fusePerfectScrollbar> -->
-                <!-- <app-resume-template [templateForm]="basicDetailForm.getRawValue()"> -->
-                <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
-                        [skillData]="basicDetailForm.get('skillType').value == 'withRating' ? skillRatingList :
-                            ( basicDetailForm.get('skillType').value == 'withBox' ? skillListBox : basicSkill  )
-                            ">
-                    </app-resume-template> -->
-                <!-- </div> -->
+                    fusePerfectScrollbar>
+                    <app-resume-template [templateForm]="basicDetailForm.getRawValue()"
+                        [experienceData]="workExperienceData">
+                    <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
+                            [skillData]="basicDetailForm.get('skillType').value == 'withRating' ? skillRatingList :
+                                ( basicDetailForm.get('skillType').value == 'withBox' ? skillListBox : basicSkill  )
+                                ">-->
+                    </app-resume-template> 
+                </div>
 
             </div>
             <!-- / CONTENT -->

@@ -31,11 +31,11 @@ export interface TemplateModel {
 }
 
 
-export interface WorkModel {
+export class WorkModel {
     companyName: string;
     location: string;
     designation: string;
-    joiningDate: Date;
-    leavingDate: Date;
+    joiningDate: Date | any;
+    leavingDate: Date | any;
     isTillDate: boolean;
 }
