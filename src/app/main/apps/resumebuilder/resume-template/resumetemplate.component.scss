@@ -81,9 +81,15 @@
       margin-bottom: 10px;
       text-transform: uppercase;
     }
+
+    .section__list{
+      display: flex;
+      flex-wrap: wrap;
+    }
     
     .section__list-item {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
+      width: 50%;
     }
     
     .section__list-item:last-of-type {
@@ -151,3 +157,8 @@
   mat-dialog-container{
     height: auto !important;
   }
+  
+  .dialog-close-btn{
+    float: right;
+    color: black !important;
+}

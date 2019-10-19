@@ -1,10 +1,9 @@
 <div class="template-container" *ngIf="templateForm">
     <div class="template-header">
         <div class="full-name">
-            <span class="first-name" *ngIf="templateForm.firstName != ''"
-                [innerHTML]="templateForm.firstName">John</span>
+            <span class="first-name" *ngIf="templateForm.firstName != ''" [innerHTML]="templateForm.firstName"></span>
             <span class="first-name" *ngIf="templateForm.firstName == ''">John</span>
-            <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName">Doe</span>
+            <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName"></span>
             <span class="last-name" *ngIf="templateForm.lastName == ''">Doe</span>
         </div>
         <div class="contact-info">
@@ -14,8 +13,8 @@
             <span class="separator"></span>
             <span class="phone">Phone: </span>
             <span class="phone-val" *ngIf="templateForm.contactNumber != ''"
-                [innerHTML]="templateForm.contactNumber">111-222-3333</span>
-            <span class="phone-val" *ngIf="templateForm.contactNumber == ''">111-222-3333</span>
+                [innerHTML]="templateForm.contactNumber"></span>
+            <span class="phone-val" *ngIf="templateForm.contactNumber == ''">1112223333</span>
         </div>
 
         <div class="address">
@@ -26,18 +25,16 @@
             <span class="desc" *ngIf="templateForm.fullAddress != ''" [innerHTML]="templateForm.fullAddress"></span>
         </div>
 
-        <div class="about" *ngIf="str(templateForm.careerObjective) == ''">
-            <span class="position">Front-End Developer </span>
-            <span class="desc">
-                I am a front-end developer with more than 3 years of experience writing html, css, and js. I'm
-                motivated, result-focused and seeking a successful team-oriented company with opportunity to grow.
-            </span>
-        </div>
-        <div class="about" *ngIf="str(templateForm.careerObjective) != ''">
-            <span class="desc" [innerHTML]="templateForm.careerObjective"></span>
-        </div>
     </div>
     <div class="details">
+        <div class="template-section">
+            <div class="section__list" *ngIf="careerObjective" [innerHTML]="careerObjective">
+            </div>
+            <div class="section__list" *ngIf="!careerObjective">
+                I am a front-end developer with more than 3 years of experience writing html, css, and js. I'm
+                motivated, result-focused and seeking a successful team-oriented company with opportunity to grow.
+            </div>
+        </div>
         <div class="template-section">
             <div class="section__title">Experience</div>
             <div class="section__list" *ngIf="experienceData && experienceData.length > 0">
@@ -48,59 +45,63 @@
                         <div class="addr">{{work.location}}</div>
                         <div class="duration">
                             {{ work.joiningDate | date: 'LLLL yyyy' }} -
-                            {{ work.leavingDate | date: 'LLLL yyyy' }}
-                            <!-- Jan 2011 - Feb 2015 -->
+                            {{ work.leavingDate  }}
                         </div>
                     </div>
-                    <!-- <div class="right">
-                        <div class="name">Fr developer</div>
-                    </div> -->
                 </div>
-                <!-- <div class="section__list-item">
-                    <div class="left">
-                        <div class="name">Akount</div>
-                        <div class="addr">San Monica, CA</div>
-                        <div class="duration">Jan 2011 - Feb 2015</div>
-                    </div>
-                    <div class="right">
-                        <div class="name">Fr developer</div>
-                        <div class="desc">did This and that</div>
-                    </div>
-                </div> -->
             </div>
-            <!-- <div class="section__list" [innerHTML]="templateForm.professionalExperience"
-                *ngIf="str(templateForm.professionalExperience) != ''">
-            </div> -->
+            <div class="section__list" *ngIf="!experienceData || experienceData.length == 0">
+                <div class="section__list-item">
+                    <div class="left">
+                        <div class="name">Fr developer</div>
+                        <div class="addr">KlowdBox</div>
+                        <div class="addr">San Fr, CA</div>
+                        <div class="duration">
+                            Jan 2011 - Feb 2015
+                        </div>
+                    </div>
+                </div>
+                <div class="section__list-item">
+                    <div class="left">
+                        <div class="name">Fr developer</div>
+                        <div class="addr">KlowdBox</div>
+                        <div class="addr">San Fr, CA</div>
+                        <div class="duration">
+                            Jan 2011 - Feb 2015
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="template-section">
             <div class="section__title">Education</div>
-            <div class="section__list" *ngIf="str(templateForm.educationHistory) == ''">
+            <div class="section__list" *ngIf="!educationData || educationData.length == 0">
                 <div class="section__list-item">
                     <div class="left">
-                        <div class="name">Sample Institute of technology</div>
-                        <div class="addr">San Fr, CA</div>
-                        <div class="duration">Jan 2011 - Feb 2015</div>
-                    </div>
-                    <div class="right">
-                        <div class="name">Fr developer</div>
-                        <div class="desc">did This and that</div>
+                        <div class="name">Bachelor of Engineering</div>
+                        <div class="addr">Sample Institute of technology</div>
+                        <div class="addr">Univerisity of SA</div>
+                        <div class="duration">2011</div>
                     </div>
                 </div>
                 <div class="section__list-item">
                     <div class="left">
-                        <div class="name">Akount</div>
-                        <div class="addr">San Monica, CA</div>
-                        <div class="duration">Jan 2011 - Feb 2015</div>
-                    </div>
-                    <div class="right">
-                        <div class="name">Fr developer</div>
-                        <div class="desc">did This and that</div>
+                        <div class="name">Bachelor of Engineering</div>
+                        <div class="addr">Sample Institute of technology</div>
+                        <div class="addr">Univerisity of SA</div>
+                        <div class="duration">2011</div>
                     </div>
                 </div>
-
             </div>
-            <div class="section__list" *ngIf="str(templateForm.educationHistory) != ''"
-                [innerHTML]="templateForm.educationHistory">
+            <div class="section__list" *ngIf="educationData && educationData.length > 0">
+                <div class="section__list-item" *ngFor="let item of educationData">
+                    <div class="left">
+                        <div class="name">{{item.courseName}}</div>
+                        <div class="addr">{{item.collegeName}}</div>
+                        <div class="addr">{{item.universityName}}</div>
+                        <div class="duration">{{item.yearOfPassing | date: 'yyyy'}}</div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- <div class="template-section">

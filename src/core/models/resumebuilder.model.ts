@@ -35,7 +35,15 @@ export class WorkModel {
     companyName: string;
     location: string;
     designation: string;
-    joiningDate: Date | any;
-    leavingDate: Date | any;
+    joiningDate: Moment;
+    leavingDate: Moment;
     isTillDate: boolean;
+}
+
+export class EducationModel {
+    collegeName: string;
+    universityName: string;
+    courseName: string;
+    yearOfPassing: Moment;
+    isCurrentlyPursuing: boolean;
 }

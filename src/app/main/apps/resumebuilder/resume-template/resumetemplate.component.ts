@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input, OnChanges, Inject } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { TemplateModel, WorkModel } from 'core/models/resumebuilder.model';
-import { DomSanitizer } from '@angular/platform-browser';
+import { TemplateModel, WorkModel, EducationModel } from 'core/models/resumebuilder.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ResumeBuilderService } from '../resumebuilder.service';
 
@@ -19,6 +19,8 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     @Input() skillData: any;
     public str = String;
     @Input() experienceData: WorkModel[] = [];
+    @Input() careerObjective: string;
+    @Input() educationData: EducationModel[] = [];
 
     /**
      * Constructor
@@ -50,11 +52,14 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         this.resumeBuilderService.templateData
             .subscribe((matData: any) => {
                 if (matData) {
-                    if (matData.formData) {
-                        this.templateForm = matData.formData;
+                    if (matData.templateForm) {
+                        this.templateForm = matData.templateForm;
                     }
-                    if (matData.skillData) {
-                        this.skillData = matData.skillData;
+                    if (matData.careerObjective) {
+                        this.careerObjective = matData.careerObjective;
+                    }
+                    if (matData.experienceData) {
+                        this.experienceData = matData.experienceData;
                     }
                 }
             });
@@ -73,16 +78,17 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
             );
         }
 
-        if (this.templateForm.careerObjective && this.templateForm.careerObjective !== '') {
-            this.templateForm.careerObjective = this.domsanitizer.bypassSecurityTrustHtml(
-                String(this.templateForm.careerObjective)
-            );
-        }
+        // if (this.templateForm.careerObjective && this.templateForm.careerObjective !== '') {
+        //     this.templateForm.careerObjective = this.domsanitizer.bypassSecurityTrustHtml(
+        //         String(this.templateForm.careerObjective)
+        //     );
+        // }
 
-        if (this.templateForm.educationHistory && this.templateForm.educationHistory !== '') {
-            this.templateForm.educationHistory = this.domsanitizer.bypassSecurityTrustHtml(
-                String(this.templateForm.educationHistory)
-            );
-        }
+        // if (this.templateForm.educationHistory && this.templateForm.educationHistory !== '') {
+        //     this.templateForm.educationHistory = this.domsanitizer.bypassSecurityTrustHtml(
+        //         String(this.templateForm.educationHistory)
+        //     );
+        // }
+
     }
 }

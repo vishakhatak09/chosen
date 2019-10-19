@@ -119,6 +119,8 @@
 }
 .skill-content {
     margin-top: 5px;
+    flex-wrap: wrap;
+    padding: 10px;
     .skill-box {
         width: 100% !important;
         display: flex !important;
@@ -139,9 +141,18 @@
         height: 100px;
         border-radius: 10px;
         color: #43a047;
-        width: 100% !important;
-        display: flex !important;
+        width: 48% !important;
         align-items: center;
+        margin: 0 5px;
+        .action-buttons{
+            float: right;
+            .mat-icon{
+                font-size: 20px;
+            }
+        }
+        .description{
+            display: flex !important;
+        }
         .work-index{
             margin-left: 10px;
         }
@@ -163,4 +174,7 @@
 .tiny-editor {
     width: 95% !important;
     padding: 12px 0px 64px 10px !important;
+}
+.tox-statusbar__text-container{
+    display: none !important;
 }

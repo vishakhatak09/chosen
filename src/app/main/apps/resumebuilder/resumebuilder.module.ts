@@ -24,12 +24,13 @@ import { ResumeBuilderService } from './resumebuilder.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
+import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
 
 const routes: Routes = [
   {
-      path     : '',
-      component: ResumebuilderComponent,
-      children : [],
+    path: '',
+    component: ResumebuilderComponent,
+    children: [],
   }
 ];
 
@@ -38,9 +39,15 @@ const routes: Routes = [
     ResumebuilderComponent,
     ResumeTemplateComponent,
     AddWorkComponent,
-    AddEducationComponent
+    AddEducationComponent,
+    ConfirmationDialogComponent
   ],
-  entryComponents: [ResumeTemplateComponent, AddWorkComponent, AddEducationComponent],
+  entryComponents: [
+    ResumeTemplateComponent,
+    AddWorkComponent,
+    AddEducationComponent,
+    ConfirmationDialogComponent
+  ],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,

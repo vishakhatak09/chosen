@@ -25,6 +25,7 @@ export class AppConstant {
     ];
 
     public static ValidUrlPattern = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+    public static ValidPhonePattern = '[6-9]\\d{9}';
 
     /** Bar Rating Theme List with css imports */
     public static ratingThemeList = [

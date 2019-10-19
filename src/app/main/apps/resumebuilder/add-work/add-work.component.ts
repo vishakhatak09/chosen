@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { WorkModel } from 'core/models/resumebuilder.model';
@@ -8,10 +8,10 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepicker } from '@angular/material/datepicker';
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'MMM-YYYY',
   },
   display: {
-    dateInput: 'MM/YYYY',
+    dateInput: 'MMM-YYYY',
     monthYearLabel: 'MMM YYYY',
     // dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -21,7 +21,14 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-add-work',
   template: `
-  <h1 mat-dialog-title>Add work details</h1>
+  <h1 mat-dialog-title>
+    Add work details
+    <button mat-icon-button matTooltip="Close"
+        [matTooltipPosition]="'above'"
+        mat-dialog-close class="dialog-close-btn">
+        <mat-icon>close</mat-icon>
+    </button>
+  </h1>
   <div mat-dialog-content>
 
     <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start"
@@ -46,12 +53,14 @@ export const MY_FORMATS = {
                 [(ngModel)]="userWork.location"
                 autocomplete="off">
         </mat-form-field>
-        &nbsp;
-        <mat-form-field floatLabel="always" class="w-49" >
+
+        <mat-form-field floatLabel="always" class="w-50-p" >
             <mat-label hidden>Joining Date</mat-label>
             <input matInput [matDatepicker]="picker"
                 [(ngModel)]="userWork.joiningDate"
                 placeholder="Joining Date" name="joiningDate"
+                [max]="userWork.leavingDate || maxDate"
+                name="JoiningDate"
                 autocomplete="off" >
             <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"
@@ -61,8 +70,11 @@ export const MY_FORMATS = {
               panelClass="example-month-picker"
             >
             </mat-datepicker>
+            <mat-error *ngIf="dateValidError == true">
+              Joining Date must be less than Leaving Date
+            </mat-error>
         </mat-form-field>
-        &nbsp;
+
         <mat-form-field floatLabel="always" class="w-50-p" >
             <mat-label hidden>Leaving Date</mat-label>
             <input matInput [matDatepicker]="picker2"
@@ -73,7 +85,7 @@ export const MY_FORMATS = {
             <mat-datepicker #picker2 disabled="false"
               startView="multi-year"
               (yearSelected)="chosenYearHandler($event, 'leavingDate')"
-              (monthSelected)="chosenMonthHandler($event, picker, 'leavingDate')"
+              (monthSelected)="chosenMonthHandler($event, picker2, 'leavingDate')"
               panelClass="example-month-picker"
             >
             </mat-datepicker>
@@ -85,12 +97,10 @@ export const MY_FORMATS = {
           >Currently working</mat-checkbox>
         </div>
         <div mat-dialog-actions>
-          <button type="button" mat-button mat-dialog-close>Close</button>
           <button type="submit" mat-button>Save</button>
         </div>
     </form>
   </div>
-
   `,
   styleUrls: ['./add-work.component.scss'],
   providers: [
@@ -98,35 +108,67 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class AddWorkComponent implements OnInit, OnDestroy {
+export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public maxDate = moment();
   userWork = new WorkModel();
   @ViewChild('workForm', { static: false }) workForm: NgForm;
-
+  dateValidError = false;
 
   /**
    * Constructor
-   * @param data Dialog Data
+   * @param dialogRef Dialog Reference
+   * @param dialogData Dialog Data
    */
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private dialogRef: MatDialogRef<AddWorkComponent>,
   ) {
-    // this.userWork.joiningDate = this.maxDate;
+    if (this.dialogData) {
+      this.userWork = this.dialogData;
+    }
   }
 
   /**
    * On init
    */
-  ngOnInit() { }
+  ngOnInit() {}
 
+  /**
+   * After view init
+   */
+  ngAfterViewInit(): void {
+    this.workForm.valueChanges
+    .subscribe((value) => {
+      if ( value.JoiningDate && value.LeavingDate ) {
+        if ( value.JoiningDate > value.LeavingDate ) {
+          this.dateValidError = true;
+        } else {
+          this.dateValidError = false;
+        }
+      } else {
+        this.dateValidError = false;
+      }
+    });
+  }
+
+  /**
+   * On Year Selection
+   * @param normalizedYear Selected year
+   * @param type Type of form field
+   */
   chosenYearHandler(normalizedYear: moment.Moment, type: 'joiningDate' | 'leavingDate') {
     const ctrlValue = normalizedYear;
     ctrlValue.year(normalizedYear.year());
     this.userWork[type] = ctrlValue;
   }
 
+  /**
+   * On Month Selection
+   * @param normalizedYear Selected month
+   * @param datepicker Selected picker
+   * @param type Type of form field
+   */
   chosenMonthHandler(
     normalizedMonth: moment.Moment,
     datepicker: MatDatepicker<moment.Moment>,
@@ -158,7 +200,7 @@ export class AddWorkComponent implements OnInit, OnDestroy {
    * @param isChecked
    */
   setCurrentDate(isChecked: boolean) {
-    if ( isChecked ) {
+    if (isChecked) {
       this.userWork.leavingDate = this.maxDate;
     } else {
       this.userWork.leavingDate = null;

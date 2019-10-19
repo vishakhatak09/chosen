@@ -255,10 +255,14 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Contact Number</mat-label>
-                                        <input matInput placeholder="Contact Number" type="number" name="contactNumber"
-                                            formControlName="contactNumber" autocomplete="off" required>
+                                        <input matInput placeholder="Contact Number" name="contactNumber"
+                                            formControlName="contactNumber" autocomplete="off" 
+                                            maxlength="10" (keypress)=_keyPress($event) required>
                                         <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('required')">
                                             Contact number is required
+                                        </mat-error>
+                                        <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('pattern')">
+                                            Please enter valid contact number
                                         </mat-error>
                                     </mat-form-field>
 
@@ -384,13 +388,30 @@
                                     <div class="w-100-p">
 
                                         <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
-                                            *ngFor="let data of workExperienceData; let index = index;">
-                                            <div class="work-content mat-elevation-z2">
-                                                <span class="work-index">{{index+1}}</span>
-                                                <span class="work-desc">
-                                                    {{ data.designation }} 
-                                                    {{ data.companyName }}
-                                                </span>
+                                            >
+                                            <div class="work-content mat-elevation-z2" *ngFor="let data of workExperienceData; let index = index;">
+                                                <div class="w-100-p">
+                                                    <button mat-icon-button matTooltip="Delete"
+                                                        [matTooltipPosition]="'above'" class="action-buttons red-300-fg"
+                                                        (click)="deleteWorkExperience(index, 'work')">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                    &nbsp;
+                                                    <button mat-icon-button matTooltip="Edit"
+                                                        [matTooltipPosition]="'above'" class="action-buttons blue-300-fg"
+                                                        (click)="editWorkExperience(index, 'work')">
+                                                        <mat-icon>edit</mat-icon>
+                                                    </button>
+                                                </div>
+                                                <div class="w-100-p description">
+                                                    <span class="work-index">{{index+1}}</span>
+                                                    <span class="work-desc">
+                                                        {{ data.designation }}
+                                                        <ng-container *ngIf="data.companyName">
+                                                            , {{ data.companyName }}
+                                                        </ng-container>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -400,10 +421,6 @@
                                             </button>
                                         </div>
 
-                                        <!-- <mat-error *ngIf="workForm.get('professionalExperience').touched &&
-                                            workForm.get('professionalExperience').hasError('required')">
-                                            Work experience is required
-                                        </mat-error> -->
                                     </div>
 
                                 </form>
@@ -418,9 +435,41 @@
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume">
 
                                     <div class="w-100-p">
+
+                                        <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
+                                            *ngFor="let data of educationData; let index = index;">
+                                            <div class="work-content mat-elevation-z2">
+                                                <div class="w-100-p">
+                                                    <button mat-icon-button matTooltip="Delete"
+                                                        [matTooltipPosition]="'above'" class="action-buttons red-300-fg"
+                                                        (click)="deleteWorkExperience(index, 'education')">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                    &nbsp;
+                                                    <button mat-icon-button matTooltip="Edit"
+                                                        [matTooltipPosition]="'above'" class="action-buttons blue-300-fg"
+                                                        (click)="editWorkExperience(index, 'education')">
+                                                        <mat-icon>edit</mat-icon>
+                                                    </button>
+                                                </div>
+                                                <div class="w-100-p description">
+                                                    <span class="work-index">{{index+1}}</span>
+                                                    <span class="work-desc">
+                                                        {{ data.courseName }}
+                                                        <ng-container *ngIf="data.collegeName">
+                                                            , {{ data.collegeName }}
+                                                        </ng-container>
+                                                        <ng-container *ngIf="data.universityName">
+                                                            , {{ data.universityName }}
+                                                        </ng-container>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="skill-content" style='margin-top: 10px;'>
                                             <button mat-button class="add-button" (click)="openAddEducationModal()">
-                                                <mat-icon>add_to_photos</mat-icon> Add Degree 
+                                                <mat-icon>add_to_photos</mat-icon> Add Degree
                                             </button>
                                         </div>
                                     </div>
@@ -563,16 +612,16 @@
 
                 </div>
 
-                <div class="template" 
-                    fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
-                    fusePerfectScrollbar>
+                <div class="template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
                     <app-resume-template [templateForm]="basicDetailForm.getRawValue()"
-                        [experienceData]="workExperienceData">
-                    <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
+                        [experienceData]="workExperienceData"
+                        [careerObjective]="careerObjForm.get('careerObjective').value"
+                        [educationData]="educationData">
+                        <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
                             [skillData]="basicDetailForm.get('skillType').value == 'withRating' ? skillRatingList :
                                 ( basicDetailForm.get('skillType').value == 'withBox' ? skillListBox : basicSkill  )
                                 ">-->
-                    </app-resume-template> 
+                    </app-resume-template>
                 </div>
 
             </div>

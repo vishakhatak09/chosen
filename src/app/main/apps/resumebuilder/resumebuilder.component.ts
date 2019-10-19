@@ -17,13 +17,14 @@ import { AppConstant, OptionType } from 'core/constants/app.constant';
 import { LanguageList } from 'core/constants/locale';
 import { environment } from 'environments/environment';
 import { Observable, Subject } from 'rxjs';
-import { SkillWithBox, SkillRating, WorkModel } from 'core/models/resumebuilder.model';
+import { SkillWithBox, SkillRating, WorkModel, EducationModel } from 'core/models/resumebuilder.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeBuilderService } from './resumebuilder.service';
 import jsPDF from 'jspdf';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
+import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -69,6 +70,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
 
   tinyEditorConfig = {};
   workExperienceData: WorkModel[] = [];
+  educationData: EducationModel[] = [];
 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
@@ -101,7 +103,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
     this.basicDetailForm = this._formBuilder.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      contactNumber: ['', [Validators.required]],
+      contactNumber: ['', [Validators.required, Validators.pattern(AppConstant.ValidPhonePattern)]],
       email: ['', [Validators.required, Validators.email]],
       fullAddress: ['', [Validators.required]],
       dateOfBirth: [{ value: '', disabled: true }, []],
@@ -303,22 +305,21 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
 
   templatePreview(): void {
     const data = {
-      formData: this.basicDetailForm.getRawValue(),
-      skillData: this.basicDetailForm.get('skillType').value === 'withRating' ? this.skillRatingList :
-        (this.basicDetailForm.get('skillType').value === 'withBox' ? this.skillListBox : this.basicSkill)
+      templateForm: this.basicDetailForm.getRawValue(),
+      careerObjective: this.careerObjForm.get('careerObjective').value,
+      experienceData: this.workExperienceData,
     };
     const dialogRef = this.matDialog.open(
       ResumeTemplateComponent,
       {
         width: 'auto',
-        // height: 'auto',
       }
     );
     dialogRef.afterOpened().subscribe(() => {
       this.resumeBuilderService.templateData.next(data);
     });
     dialogRef.afterClosed().subscribe(() => {
-      this.resumeBuilderService.templateData.next(null);
+      // this.resumeBuilderService.templateData.next(null);
     });
   }
 
@@ -355,12 +356,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       {
         width: 'auto',
         height: 'auto',
+        disableClose: true,
       }
     );
     dialogRef.afterClosed().subscribe((data: WorkModel) => {
-      if ( data ) {
+      if (data) {
         this.workExperienceData.push(data);
-        console.log('workExperienceData', this.workExperienceData);
       }
     });
   }
@@ -372,11 +373,68 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       {
         width: 'auto',
         height: 'auto',
+        disableClose: true,
       }
     );
-    dialogRef.afterClosed().subscribe(() => {
-
+    dialogRef.afterClosed().subscribe((data: EducationModel) => {
+      if (data) {
+        this.educationData.push(data);
+      }
     });
+  }
+
+  editWorkExperience(index: number, type: 'work' | 'education'): void {
+    const component: any = type === 'work' ? AddWorkComponent : AddEducationComponent;
+    const dialogData = type === 'work' ? this.workExperienceData[index] : this.educationData[index];
+    const dialogRef = this.matDialog.open(
+      component,
+      {
+        width: 'auto',
+        height: 'auto',
+        data: dialogData,
+        disableClose: true,
+      }
+    );
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data) {
+        if (type === 'work') {
+          this.workExperienceData[index] = data;
+        } else {
+          this.educationData[index] = data;
+        }
+      }
+    });
+  }
+
+  deleteWorkExperience(index: number, type: 'work' | 'education'): void {
+    if (index !== -1) {
+      const dialogRef = this.matDialog.open(
+        ConfirmationDialogComponent,
+        {
+          width: 'auto',
+          height: 'auto',
+          disableClose: true,
+        }
+      );
+      dialogRef.afterClosed().subscribe((data: boolean) => {
+        if (data === true) {
+          if (type === 'work') {
+            this.workExperienceData.splice(index, 1);
+          } else {
+            this.educationData.splice(index, 1);
+          }
+        }
+      });
+    }
+  }
+
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+
+    }
   }
 
   /**

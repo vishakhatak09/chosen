@@ -10,8 +10,10 @@
         }
         
         .mat-dialog-actions {
-            float: right;
+            // float: right;
             color: #43a047;   
+            width: 100%;
+            flex-direction: row-reverse;
         }
     } 
     .w-49 {

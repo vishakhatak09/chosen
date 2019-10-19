@@ -1,6 +1,22 @@
 :host{
-    color: #43a047 !important;    
-    .mat-dialog-actions {
-        float: right;
+    .mat-dialog-title{
+        color: #43a047;   
+    }
+    .mat-dialog-content{
+        overflow: visible;
+
+        .mat-datepicker-toggle{
+            font-size: 22px !important;
+        }
+        
+        .mat-dialog-actions {
+            // float: right;
+            color: #43a047;   
+            width: 100%;
+            flex-direction: row-reverse;
+        }
+    } 
+    .w-49 {
+        width: 49% !important;
     }
 }
