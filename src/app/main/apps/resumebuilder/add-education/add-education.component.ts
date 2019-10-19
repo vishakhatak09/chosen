@@ -33,29 +33,31 @@ export const MY_FORMATS = {
   </h1>
   <div mat-dialog-content>
 
-    <form fxLayout="row wrap" #eduForm="ngForm" fxLayoutAlign="start start"
+    <form fxLayout="row wrap" fxLayoutGap="25px" #eduForm="ngForm"
       name="EduForm" (ngSubmit)="submitForm()">
 
-        <mat-form-field floatLabel="always" class="w-50-p" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>College Name</mat-label>
             <input matInput placeholder="College Name" type="text"
                 [(ngModel)]="educationDetail.collegeName"
                 name="CollegeName" autocomplete="off">
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" class="w-50-p">
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
             <mat-label hidden>University Name</mat-label>
             <input matInput placeholder="University Name" type="text"
                 [(ngModel)]="educationDetail.universityName"
                 name="UniversityName" autocomplete="off">
         </mat-form-field>
-        <mat-form-field floatLabel="always" class="w-50-p" >
+
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Course Name</mat-label>
             <input matInput placeholder="Course Name" type="text" name="CourseName"
                 [(ngModel)]="educationDetail.courseName"
                 autocomplete="off">
         </mat-form-field>
-        <mat-form-field floatLabel="always" class="w-50-p" >
+
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Year of passing</mat-label>
             <input matInput [matDatepicker]="picker"
                 [(ngModel)]="educationDetail.yearOfPassing"
@@ -71,14 +73,14 @@ export const MY_FORMATS = {
             </mat-datepicker>
         </mat-form-field>
 
-        <div class="w-50-p"></div>
-        <div class="w-50-p">
+        <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)"></div>
+        <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
           <mat-checkbox name="current" [(ngModel)]="educationDetail.isCurrentlyPursuing"
             (ngModelChange)="setCurrentDate(educationDetail.isCurrentlyPursuing)"
           >Currently Pursuing</mat-checkbox>
         </div>
         <div mat-dialog-actions>
-          <button type="submit" mat-button>Save</button>
+          <button type="submit" class="accent" mat-raised-button>Save</button>
         </div>
     </form>
   </div>

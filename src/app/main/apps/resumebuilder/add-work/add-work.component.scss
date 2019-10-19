@@ -5,15 +5,19 @@
     .mat-dialog-content{
         overflow: visible;
 
-        .mat-datepicker-toggle{
-            font-size: 22px !important;
-        }
+        form {
+            padding-left: 20px;
+            
+            .mat-datepicker-toggle{
+                font-size: 22px !important;
+            }
         
-        .mat-dialog-actions {
-            // float: right;
-            color: #43a047;   
-            width: 100%;
-            flex-direction: row-reverse;
+            .mat-dialog-actions {
+                // float: right;
+                color: #43a047;   
+                width: 100%;
+                flex-direction: row-reverse;
+            }
         }
     } 
     .w-49 {

@@ -31,30 +31,31 @@ export const MY_FORMATS = {
   </h1>
   <div mat-dialog-content>
 
-    <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start"
+    <form fxLayout="row wrap" fxLayoutGap="25px" #workForm="ngForm"
       name="WorkForm" (ngSubmit)="submitForm()">
 
-        <mat-form-field floatLabel="always" class="w-100-p" >
+        <mat-form-field floatLabel="always" fxFlex.xs="100" fxFlex="100" >
             <mat-label hidden>Designation</mat-label>
             <input matInput placeholder="Designation" type="text"
                 [(ngModel)]="userWork.designation"
                 name="DesignationName" autocomplete="off">
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" class="w-49">
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Company name</mat-label>
             <input matInput placeholder="Company name" type="text"
                 [(ngModel)]="userWork.companyName"
                 name="CompanyName" autocomplete="off">
         </mat-form-field>
-        <mat-form-field floatLabel="always" class="w-50-p" >
+
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Location</mat-label>
             <input matInput placeholder="Location" type="text" name="LocationName"
                 [(ngModel)]="userWork.location"
                 autocomplete="off">
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" class="w-50-p" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Joining Date</mat-label>
             <input matInput [matDatepicker]="picker"
                 [(ngModel)]="userWork.joiningDate"
@@ -75,7 +76,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" class="w-50-p" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Leaving Date</mat-label>
             <input matInput [matDatepicker]="picker2"
                 [(ngModel)]="userWork.leavingDate"
@@ -90,14 +91,15 @@ export const MY_FORMATS = {
             >
             </mat-datepicker>
         </mat-form-field>
-        <div class="w-50-p"></div>
-        <div class="w-50-p">
+
+        <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)"></div>
+        <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
           <mat-checkbox name="current" [(ngModel)]="userWork.isTillDate"
             (ngModelChange)="setCurrentDate(userWork.isTillDate)"
           >Currently working</mat-checkbox>
         </div>
         <div mat-dialog-actions>
-          <button type="submit" mat-button>Save</button>
+          <button type="submit" class="accent" mat-raised-button>Save</button>
         </div>
     </form>
   </div>
@@ -132,24 +134,28 @@ export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * On init
    */
-  ngOnInit() {}
+  ngOnInit() { }
 
   /**
    * After view init
    */
   ngAfterViewInit(): void {
-    this.workForm.valueChanges
-    .subscribe((value) => {
-      if ( value.JoiningDate && value.LeavingDate ) {
-        if ( value.JoiningDate > value.LeavingDate ) {
-          this.dateValidError = true;
-        } else {
-          this.dateValidError = false;
-        }
-      } else {
-        this.dateValidError = false;
-      }
-    });
+    if (this.workForm) {
+
+      this.workForm.valueChanges
+        .subscribe((value) => {
+          if (value.JoiningDate && value.LeavingDate) {
+            if (value.JoiningDate > value.LeavingDate) {
+              this.dateValidError = true;
+            } else {
+              this.dateValidError = false;
+            }
+          } else {
+            this.dateValidError = false;
+          }
+        });
+
+    }
   }
 
   /**
