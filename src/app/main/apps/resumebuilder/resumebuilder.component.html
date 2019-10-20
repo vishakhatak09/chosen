@@ -332,6 +332,12 @@
                                         </mat-radio-group>
                                     </div>
 
+                                    <!-- <div class="skill-content" style='margin-top: 10px;'>
+                                        <button mat-button class="add-button" (click)="openWorkDialog()">
+                                            <mat-icon>add_to_photos</mat-icon> Add Position
+                                        </button>
+                                    </div> -->
+
                                     <!-- <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Linked In
                                         </mat-label>
@@ -499,7 +505,8 @@
 
                                 <div floatLabel="always" class="w-50-p">
                                     <mat-checkbox [(ngModel)]="haveAdditionalInfo"
-                                    [ngModelOptions]="{standalone: true}">Do you want to add Additional Information ?</mat-checkbox>
+                                        [ngModelOptions]="{standalone: true}">Do you want to add Additional Information
+                                        ?</mat-checkbox>
                                 </div>
 
                                 <div class="w-50-p" *ngIf=" skillForm.get('skillType').value == 'basicStyled' ">
@@ -564,7 +571,7 @@
 
                             <div class="tab-content p-24">
 
-                                
+
 
                             </div>
 
