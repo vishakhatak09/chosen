@@ -8,10 +8,9 @@ import {
   AfterViewInit,
   ChangeDetectorRef
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { fuseAnimations } from '@fuse/animations';
 import { AppConstant, OptionType } from 'core/constants/app.constant';
 import { LanguageList } from 'core/constants/locale';
@@ -44,8 +43,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
   maritalStatuOpts: OptionType[] = AppConstant.MaritalStatusOptions;
   genderOptions: OptionType[] = AppConstant.GenderOptions;
   baseUrl = environment.baseUrl;
-  public Editor = DecoupledEditor;
-  // @ViewChild('myckeditor', {static: false}) ckeditor: any;
   config = {
     uiColor: '#F0F3F4',
     height: '100%',
@@ -71,6 +68,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
   tinyEditorConfig = {};
   workExperienceData: WorkModel[] = [];
   educationData: EducationModel[] = [];
+  fontColor = '#fff';
+  backColor = '#43a047';
+  public haveAdditionalInfo = false;
 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
@@ -136,6 +136,17 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
     this.skillForm = this._formBuilder.group({
       skillType: ['', [Validators.required]],
       ratingType: [this.ratingStyle, []],
+      skillInput: [''],
+    });
+
+    this.skillForm.get('skillType').valueChanges.subscribe((val) => {
+      if ( val === 'basicStyled' ) {
+        this.fontColor = '#fff';
+        this.backColor = '#43a047';
+      } else {
+        this.fontColor = '';
+        this.backColor = '';
+      }
     });
 
     // this.filteredLanguages = this.basicDetailForm.get('languages').valueChanges.pipe(
@@ -436,6 +447,44 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
 
     }
   }
+
+  /**
+   * Add skill event on mat chip selection
+   * @param event Mat chip add event
+   */
+  addSkills(event: MatChipInputEvent): void {
+    // Add skill only when MatAutocomplete is not open
+    // To make sure this does not conflict with OptionSelected Event
+    // if (!this.matAutocomplete.isOpen) {
+      const input = event.input;
+      const value = event.value;
+
+      // Add our value
+      if ((value || '').trim()) {
+          this.skillRatingList.push({skillName: value.trim(), ratings: 0});
+      }
+
+      // Reset the input value
+      if (input) {
+        input.value = '';
+      }
+
+      this.skillForm.get('skillInput').setValue(null);
+    // }
+  }
+
+  /**
+   * On remove language event
+   * @param lang Selected langugage
+   */
+  removeSkillItem(index: number): void {
+
+    if (index >= 0) {
+      this.skillRatingList.splice(index, 1);
+    }
+
+  }
+
 
   /**
    * On destroy

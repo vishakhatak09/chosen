@@ -92,13 +92,17 @@ export class AppConstant {
             viewValue: 'Basic',
         },
         {
-            value: 'withBox',
-            viewValue: 'Box Styled',
+            value: 'basicStyled',
+            viewValue: 'Basic Styled',
         },
         {
-            value: 'withRating',
-            viewValue: 'Basic with Ratings',
-        }
+            value: 'basicWithRating',
+            viewValue: 'Basic With Ratings',
+        },
+        // {
+        //     value: 'withRating',
+        //     viewValue: 'Basic with Ratings',
+        // }
     ];
 
 }

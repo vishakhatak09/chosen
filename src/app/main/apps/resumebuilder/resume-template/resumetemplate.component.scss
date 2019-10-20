@@ -18,6 +18,25 @@
   
   .template-header {
     margin-bottom: 30px;
+
+    .profile-image {
+      overflow: hidden;
+      width: 56px;
+      min-width: 56px;
+      max-width: 56px;
+      height: 56px;
+      min-height: 56px;
+      max-height: 56px;
+      border-radius: 4px;
+
+      img {
+          height: 50px;
+          width: 50px;
+          // width: auto;
+          max-width: none;                
+          border-radius: 25px;
+      }
+  }
     
     .full-name {
       font-size: 40px;

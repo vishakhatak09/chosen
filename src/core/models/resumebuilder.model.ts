@@ -7,7 +7,7 @@ export interface SkillWithBox {
 
 export interface SkillRating {
     skillName: string;
-    ratings: number;
+    ratings?: number;
 }
 
 export interface TemplateModel {
@@ -28,6 +28,7 @@ export interface TemplateModel {
     references: string;
     skillType: string;
     ratingType?: string;
+    skills: SkillRating[];
 }
 
 

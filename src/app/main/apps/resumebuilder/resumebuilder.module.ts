@@ -11,7 +11,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { HttpClientModule } from '@angular/common/http';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BarRatingModule } from 'ngx-bar-rating';
@@ -25,6 +24,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
 import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
+import { FuseMaterialColorPickerModule } from '@fuse/components';
 
 const routes: Routes = [
   {
@@ -58,7 +58,6 @@ const routes: Routes = [
     MatDatepickerModule,
     MatRadioModule,
     HttpClientModule,
-    CKEditorModule,
     MatChipsModule,
     MatAutocompleteModule,
     BarRatingModule,
@@ -66,6 +65,7 @@ const routes: Routes = [
     // MatStepperModule,
     MatCheckboxModule,
     MatDialogModule,
+    FuseMaterialColorPickerModule,
 
     EditorModule
   ],

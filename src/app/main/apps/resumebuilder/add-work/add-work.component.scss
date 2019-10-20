@@ -1,6 +1,9 @@
+@import "src/@fuse/scss/fuse";
+@import "src/@fuse/scss/fuse";
+
 :host{
     .mat-dialog-title{
-        color: #43a047;   
+        color: mat-color($mat-green, 600); 
     }
     .mat-dialog-content{
         overflow: visible;
@@ -14,7 +17,7 @@
         
             .mat-dialog-actions {
                 // float: right;
-                color: #43a047;   
+                color: mat-color($mat-green, 600); 
                 width: 100%;
                 flex-direction: row-reverse;
             }

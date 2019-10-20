@@ -256,8 +256,8 @@
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Contact Number</mat-label>
                                         <input matInput placeholder="Contact Number" name="contactNumber"
-                                            formControlName="contactNumber" autocomplete="off" 
-                                            maxlength="10" (keypress)=_keyPress($event) required>
+                                            formControlName="contactNumber" autocomplete="off" maxlength="10"
+                                            (keypress)=_keyPress($event) required>
                                         <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('required')">
                                             Contact number is required
                                         </mat-error>
@@ -387,9 +387,9 @@
 
                                     <div class="w-100-p">
 
-                                        <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
-                                            >
-                                            <div class="work-content mat-elevation-z2" *ngFor="let data of workExperienceData; let index = index;">
+                                        <div class="skill-content" fxLayout="row" fxLayoutAlign="start end">
+                                            <div class="work-content mat-elevation-z2"
+                                                *ngFor="let data of workExperienceData; let index = index;">
                                                 <div class="w-100-p">
                                                     <button mat-icon-button matTooltip="Delete"
                                                         [matTooltipPosition]="'above'" class="action-buttons red-300-fg"
@@ -398,7 +398,8 @@
                                                     </button>
                                                     &nbsp;
                                                     <button mat-icon-button matTooltip="Edit"
-                                                        [matTooltipPosition]="'above'" class="action-buttons blue-300-fg"
+                                                        [matTooltipPosition]="'above'"
+                                                        class="action-buttons blue-300-fg"
                                                         (click)="editWorkExperience(index, 'work')">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
@@ -447,7 +448,8 @@
                                                     </button>
                                                     &nbsp;
                                                     <button mat-icon-button matTooltip="Edit"
-                                                        [matTooltipPosition]="'above'" class="action-buttons blue-300-fg"
+                                                        [matTooltipPosition]="'above'"
+                                                        class="action-buttons blue-300-fg"
                                                         (click)="editWorkExperience(index, 'education')">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
@@ -485,8 +487,7 @@
 
                                 <mat-form-field floatLabel="always" class="w-50-p">
                                     <mat-label> Choose your selection for adding skills</mat-label>
-                                    <mat-select formControlName="skillType" placeholder="Select"
-                                        (selectionChange)="skillTypeSelecttion($event.value)" required>
+                                    <mat-select formControlName="skillType" placeholder="Select" required>
                                         <mat-option [value]="skills.value" *ngFor="let skills of skillOptions">
                                             {{ skills.viewValue }}
                                         </mat-option>
@@ -496,117 +497,78 @@
                                     </mat-error>
                                 </mat-form-field>
 
-                                <div class="w-100-p" *ngIf="skillForm.get('skillType').value == 'basic' ">
-                                    <ckeditor [editor]="Editor" [config]="skillconfig" (ready)="onReady($event)"
-                                        [(ngModel)]="basicSkill" [ngModelOptions]="{standalone: true}"></ckeditor>
-                                </div>
-                                <div class="w-100-p" *ngIf="skillForm.get('skillType').value == 'withBox' ">
-                                    <div class="w-100-p">
-                                        <mat-form-field class="w-50-p">
-                                            <input matInput #skillInput placeholder="Enter your skills"
-                                                autocomplete="off" type="text" name="skills" autocomplete="off">
-                                        </mat-form-field>
-                                        <button mat-icon-button matTooltip="Add" [matTooltipPosition]="'above'"
-                                            (click)="addSkill(skillInput)">
-                                            <mat-icon>check</mat-icon>
-                                        </button>
-                                    </div>
-                                    <div class="skill-content" fxLayout="row" fxLayoutAlign="start center"
-                                        *ngFor="let skill of skillListBox; let index;">
-                                        <span class="message-box text-overflow skill-text"
-                                            style="max-width: 70%;">{{ skill.skillName }}</span>
-                                        <button style="float: left;" mat-icon-button (click)="removeSkill(index)"
-                                            matTooltip="Remove" [matTooltipPosition]="'above'">
-                                            <mat-icon>close</mat-icon>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="w-100-p" *ngIf="skillForm.get('skillType').value == 'withRating' ">
-                                    <div class="w-100-p">
-                                        <mat-form-field class="w-50-p">
-                                            <input matInput #skillInputRate placeholder="Enter your skills"
-                                                autocomplete="off" type="text" name="skills" autocomplete="off">
-                                        </mat-form-field>
-                                        <button mat-icon-button matTooltip="Add" [matTooltipPosition]="'above'"
-                                            (click)="addSkill(skillInputRate, 'box-rating')">
-                                            <mat-icon>check</mat-icon>
-                                        </button>
-                                        <mat-form-field floatLabel="always" class="w-20-p">
-                                            <mat-label> Choose rating style</mat-label>
-                                            <mat-select formControlName="ratingType" placeholder="Select"
-                                                (selectionChange)="ratingStyle = $event.value">
-                                                <mat-option [value]="theme.value" *ngFor="let theme of ratingThemeList">
-                                                    {{ theme.viewValue }}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
-                                        *ngFor="let skill of skillRatingList; let index;">
-                                        <div class="skill-box">
-                                            <span class="text-overflow skill-text">
-                                                {{ skill.skillName }}
-                                            </span>
-                                        </div>
-                                        <div class="skill-box">
-                                            <bar-rating class="w-50-p" [theme]="ratingStyle"
-                                                (rateChange)="skill.ratings = rate.value" [(rate)]="skill.ratings" #rate
-                                                [showText]="false" [max]="maxRate"></bar-rating>
-                                        </div>
-                                        <div class="skill-box">
-                                            <button class="skill-text-button" mat-icon-button
-                                                (click)="removeSkill(index, 'box-rating')" matTooltip="Remove"
-                                                [matTooltipPosition]="'above'">
-                                                <mat-icon>close</mat-icon>
-                                            </button>
-                                        </div>
-                                    </div>
+                                <div floatLabel="always" class="w-50-p">
+                                    <mat-checkbox [(ngModel)]="haveAdditionalInfo"
+                                    [ngModelOptions]="{standalone: true}">Do you want to add Additional Information ?</mat-checkbox>
                                 </div>
 
+                                <div class="w-50-p" *ngIf=" skillForm.get('skillType').value == 'basicStyled' ">
+                                    <span class="mt-16 mb-8">Font Color: </span>
+                                    <fuse-material-color-picker class="mb-16" (colorChanged)="fontColor =  $event.bg">
+                                    </fuse-material-color-picker>
+                                    &nbsp;
+                                    <span class="mt-16 mb-8">Back Color: </span>
+                                    <fuse-material-color-picker class="mb-16" (colorChanged)="backColor =  $event.bg">
+                                    </fuse-material-color-picker>
+                                </div>
+
+                                <div class="w-100-p" *ngIf="skillForm.get('skillType').value ">
+                                    <mat-form-field class="w-50-p">
+                                        <input matInput [matChipInputFor]="skillList" placeholder="Add Skill.."
+                                            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addSkills($event)"
+                                            formControlName="skillInput" />
+                                    </mat-form-field>
+                                    <mat-chip-list #skillList name="Skills" class="w-100-p">
+
+                                        <ng-container
+                                            *ngIf="skillForm.get('skillType').value != 'basicWithRating' ; else elseTemplate">
+                                            <mat-chip *ngFor="let skills of skillRatingList; let index=index;"
+                                                [removable]="true" (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
+                                                    'background-color' : backColor}">
+                                                {{skills.skillName}}
+                                                <mat-icon matChipRemove>cancel</mat-icon>
+                                            </mat-chip>
+                                        </ng-container>
+
+                                        <ng-template #elseTemplate>
+
+                                            <div class="w-100-p flex-display"
+                                                *ngFor="let skills of skillRatingList; let index=index;">
+                                                <mat-chip [removable]="true" (removed)="removeSkillItem(index)"
+                                                    [ngStyle]="{'color': fontColor , 
+                                                    'background-color' : backColor}">
+                                                    {{skills.skillName}}
+                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                </mat-chip>
+
+                                                <bar-rating [theme]="ratingStyle"
+                                                    (rateChange)="skills.ratings = rate.value" [(rate)]="skills.ratings"
+                                                    #rate [showText]="false" [max]="maxRate">
+                                                </bar-rating>
+                                                <button mat-icon-button class="refresh-icon"
+                                                    (click)="skills.ratings = 0">
+                                                    <mat-icon>refresh</mat-icon>
+                                                </button>
+
+                                            </div>
+
+                                        </ng-template>
+
+                                    </mat-chip-list>
+                                </div>
                             </form>
 
                         </mat-tab>
 
-                        <!--<mat-tab label="Other details">
+                        <mat-tab label="Other details" *ngIf="haveAdditionalInfo == true">
 
                             <div class="tab-content p-24">
 
-                                <mat-form-field floatLabel="always" class="w-100-p">
-
-                                    <mat-label>Languages known</mat-label>
-
-                                    <mat-chip-list #languageList name="Languages">
-
-                                        <mat-chip *ngFor="let lang of selectedLanguages" [removable]="true"
-                                            (removed)="removeLang(lang)">
-                                            {{lang}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-
-                                        <input matInput [matChipInputFor]="languageList" [matChipInputAddOnBlur]="true"
-                                            [matAutocomplete]="auto" (matChipInputTokenEnd)="addLang($event)"
-                                            formControlName="languages" />
-
-                                    </mat-chip-list>
-                                    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
-                                        (optionSelected)="selected($event)">
-                                        <mat-option *ngFor="let lang of filteredLanguages | async" [value]="lang">
-                                            {{lang}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-
-                                </mat-form-field>
-
-                                <mat-form-field floatLabel="always" class="w-100-p">
-                                    <mat-label>References</mat-label>
-                                    <textarea matInput placeholder="Add references" name="References"
-                                        formControlName="references">
-                                    </textarea>
-                                </mat-form-field>
+                                
 
                             </div>
 
-                        </mat-tab> -->
+                        </mat-tab>
 
                     </mat-tab-group>
 
@@ -615,12 +577,8 @@
                 <div class="template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
                     <app-resume-template [templateForm]="basicDetailForm.getRawValue()"
                         [experienceData]="workExperienceData"
-                        [careerObjective]="careerObjForm.get('careerObjective').value"
-                        [educationData]="educationData">
-                        <!-- <app-resume-template #templateContent [templateForm]="basicDetailForm.getRawValue()"
-                            [skillData]="basicDetailForm.get('skillType').value == 'withRating' ? skillRatingList :
-                                ( basicDetailForm.get('skillType').value == 'withBox' ? skillListBox : basicSkill  )
-                                ">-->
+                        [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData"
+                        [skillData]="skillRatingList">
                     </app-resume-template>
                 </div>
 
@@ -634,4 +592,3 @@
     <!-- / CENTER -->
 
 </div>
-<!-- <ckeditor formControlName="careerObjective" #myckeditor [config]="ckeConfig"></ckeditor> -->

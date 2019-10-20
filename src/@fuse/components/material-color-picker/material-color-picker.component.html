@@ -1,5 +1,6 @@
 <button mat-icon-button
         class="mat-elevation-z1"
+        #menuTriggerButton
         [matMenuTriggerFor]="colorMenu"
         (menuOpened)="onMenuOpen()"
         [ngClass]="selectedPalette + '-' + selectedHue">

@@ -5,8 +5,8 @@ export class ResumeMock {
         firstName: 'John',
         lastName: 'Doe',
         contactNumber: '111-222-3333',
-        email:  'john.doe@gmail.com',
-        fullAddress:  '',
+        email: 'john.doe@gmail.com',
+        fullAddress: '',
         dateOfBirth: null,
         placeOfBirth: '',
         gender: '',
@@ -66,5 +66,19 @@ export class ResumeMock {
         references: '',
         skillType: '',
         ratingType: '',
+        skills: [
+            {
+                skillName: 'Javascript',
+                ratings: 0,
+            },
+            {
+                skillName: 'Css',
+                ratings: 1,
+            },
+            {
+                skillName: 'jquery',
+                ratings: 5,
+            },
+        ]
     };
 }

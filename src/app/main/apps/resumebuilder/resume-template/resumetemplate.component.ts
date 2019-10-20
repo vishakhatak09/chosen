@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, Input, OnChanges, Inject } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { TemplateModel, WorkModel, EducationModel } from 'core/models/resumebuilder.model';
+import { TemplateModel, WorkModel, EducationModel, SkillRating } from 'core/models/resumebuilder.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ResumeBuilderService } from '../resumebuilder.service';
+import { environment } from 'environments/environment';
+import { ResumeMock } from 'core/mock/resume.mock';
 
 @Component({
     selector: 'app-resume-template',
@@ -15,12 +17,18 @@ import { ResumeBuilderService } from '../resumebuilder.service';
 
 export class ResumeTemplateComponent implements OnInit, OnChanges {
 
-    @Input() templateForm: TemplateModel;
-    @Input() skillData: any;
     public str = String;
+    public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
+    public Arr = Array;
+    public ratingMax = 5;
+    public skillMockData = ResumeMock.data;
+
+    @Input() templateForm: TemplateModel;
+    @Input() skillData: SkillRating[];
     @Input() experienceData: WorkModel[] = [];
     @Input() careerObjective: string;
     @Input() educationData: EducationModel[] = [];
+    @Input() public profileSrc: string | ArrayBuffer = this.defaultProfile;
 
     /**
      * Constructor
@@ -29,16 +37,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     constructor(
         private domsanitizer: DomSanitizer,
         private resumeBuilderService: ResumeBuilderService
-    ) {
-        // if (matData) {
-        //     if (this.matData.formData) {
-        //         this.templateForm = matData.formData;
-        //     }
-        //     if (this.matData.skillData) {
-        //         this.skillData = matData.skillData;
-        //     }
-        // }
-    }
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks

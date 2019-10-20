@@ -1,6 +1,10 @@
 <div class="template-container" *ngIf="templateForm">
     <div class="template-header">
+
         <div class="full-name">
+            <!-- <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}"> -->
+            <img [src]="profileSrc">
+            <!-- </div> -->
             <span class="first-name" *ngIf="templateForm.firstName != ''" [innerHTML]="templateForm.firstName"></span>
             <span class="first-name" *ngIf="templateForm.firstName == ''">John</span>
             <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName"></span>
@@ -104,75 +108,44 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="template-section">
-            <div class="section__title">Projects</div>
-            <div class="section__list">
-                <div class="section__list-item">
-                    <div class="name">DSP</div>
-                    <div class="text">I am a front-end developer with more than 3 years of experience writing html, css,
-                        and js. I'm motivated, result-focused and seeking a successful team-oriented company with
-                        opportunity to grow.</div>
-                </div>
-
-                <div class="section__list-item">
-                    <div class="name">DSP</div>
-                    <div class="text">I am a front-end developer with more than 3 years of experience writing html, css,
-                        and js. I'm motivated, result-focused and seeking a successful team-oriented company with
-                        opportunity to grow. <a href="/login">link</a>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="template-section">
             <div class="section__title">Skills</div>
-            <div class="skills">
-                <div class="skills__item">
-                    <div class="left">
-                        <div class="name">
-                            Javascript
+            <ng-container *ngIf="skillData && skillData.length > 0; else mockTemplate">
+                <div class="skills" *ngFor="let skill of skillData">
+                    <div class="skills__item">
+                        <div class="left">
+                            <div class="name">
+                                {{ skill.skillName }}
+                            </div>
+                        </div>
+                        <div class="right">
+                            <ng-container *ngFor="let i of Arr(ratingMax); let ind = index">
+                                <input [id]="skill.skillName + ind" type="checkbox" [disabled]="true" [checked]="(ind + 1) <= skill.ratings" />
+                                <label for="{{skill.skillName}}{{ind}}"></label>
+                            </ng-container>
                         </div>
                     </div>
-                    <div class="right">
-                        <input id="ck1" type="checkbox" checked />
-
-                        <label for="ck1"></label>
-                        <input id="ck2" type="checkbox" checked />
-
-                        <label for="ck2"></label>
-                        <input id="ck3" type="checkbox" />
-
-                        <label for="ck3"></label>
-                        <input id="ck4" type="checkbox" />
-                        <label for="ck4"></label>
-                        <input id="ck5" type="checkbox" />
-                        <label for="ck5"></label>
-
+                </div>
+            </ng-container>
+            <ng-template #mockTemplate>
+                <div class="skills" *ngFor="let skill of skillMockData.skills">
+                    <div class="skills__item">
+                        <div class="left">
+                            <div class="name">
+                                {{ skill.skillName }}
+                            </div>
+                        </div>
+                        <div class="right">
+                            <ng-container *ngFor="let i of Arr(ratingMax); let ind = index">
+                                <input [id]="skill.skillName + ind" type="checkbox" [disabled]="true" [checked]="(ind + 1) <= skill.ratings" />
+                                <label for="{{skill.skillName}}{{ind}}"></label>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
+            </ng-template>
 
-            </div>
-            <div class="skills__item">
-                <div class="left">
-                    <div class="name">
-                        CSS</div>
-                </div>
-                <div class="right">
-                    <input id="ck1" type="checkbox" checked />
 
-                    <label for="ck1"></label>
-                    <input id="ck2" type="checkbox" checked />
-
-                    <label for="ck2"></label>
-                    <input id="ck3" type="checkbox" />
-
-                    <label for="ck3"></label>
-                    <input id="ck4" type="checkbox" />
-                    <label for="ck4"></label>
-                    <input id="ck5" type="checkbox" />
-                    <label for="ck5"></label>
-
-                </div>
-            </div>
         </div>
         <div class="template-section">
             <div class="section__title">
