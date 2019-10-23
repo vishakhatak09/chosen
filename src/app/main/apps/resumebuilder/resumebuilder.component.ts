@@ -24,6 +24,7 @@ import jsPDF from 'jspdf';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
 import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
+import {ENTER} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -74,6 +75,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
+  separatorKeysCodes: number[] = [ENTER];
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -106,10 +108,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       contactNumber: ['', [Validators.required, Validators.pattern(AppConstant.ValidPhonePattern)]],
       email: ['', [Validators.required, Validators.email]],
       fullAddress: ['', [Validators.required]],
-      dateOfBirth: [{ value: '', disabled: true }, []],
-      placeOfBirth: ['', []],
-      maritalStatus: ['', []],
-      gender: ['', []],
+      dateOfBirth: [{ value: '', disabled: true }],
+      placeOfBirth: [''],
+      maritalStatus: [''],
+      gender: [''],
       // linkedInUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
       // twitterUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
       // careerObjective: ['', [Validators.required]],

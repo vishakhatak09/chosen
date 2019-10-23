@@ -522,7 +522,7 @@
                                 <div class="w-100-p" *ngIf="skillForm.get('skillType').value ">
                                     <mat-form-field class="w-50-p">
                                         <input matInput [matChipInputFor]="skillList" placeholder="Add Skill.."
-                                            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addSkills($event)"
+                                            [matChipInputAddOnBlur]="true" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addSkills($event)"
                                             formControlName="skillInput" />
                                     </mat-form-field>
                                     <mat-chip-list #skillList name="Skills" class="w-100-p">
@@ -533,7 +533,7 @@
                                                 [removable]="true" (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
                                                     'background-color' : backColor}">
                                                 {{skills.skillName}}
-                                                <mat-icon matChipRemove>cancel</mat-icon>
+                                                <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel</mat-icon>
                                             </mat-chip>
                                         </ng-container>
 
@@ -545,7 +545,7 @@
                                                     [ngStyle]="{'color': fontColor , 
                                                     'background-color' : backColor}">
                                                     {{skills.skillName}}
-                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                    <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel</mat-icon>
                                                 </mat-chip>
 
                                                 <bar-rating [theme]="ratingStyle"

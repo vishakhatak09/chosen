@@ -69,15 +69,15 @@ export class ResumeMock {
         skills: [
             {
                 skillName: 'Javascript',
-                ratings: 0,
+                ratings: 3,
             },
             {
                 skillName: 'Css',
-                ratings: 1,
+                ratings: 2,
             },
             {
                 skillName: 'jquery',
-                ratings: 5,
+                ratings: 3,
             },
         ]
     };

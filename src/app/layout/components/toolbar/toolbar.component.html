@@ -25,18 +25,21 @@
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
 
-            <div class="user-login ">
-                <a>Login</a>
-            </div>
-
-            <!-- <button mat-button [matMenuTriggerFor]="userMenu"
-                    class="user-button">
+            <button mat-button class="user-button" *ngIf="!isLoggedIn">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg">
-                    <span class="username mr-12" fxHide fxShow.gt-sm>Charlie Adams</span>
+                    <!-- <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg"> -->
+                    <span class="username mr-12" fxHide fxShow.gt-sm>Login</span>
                     <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
-            </button> -->
+            </button>
+
+            <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <!-- <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg"> -->
+                    <span class="username mr-12" fxHide fxShow.gt-sm>Login</span>
+                    <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+                </div>
+            </button>
 
             <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
 
