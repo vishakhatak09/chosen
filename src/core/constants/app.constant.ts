@@ -105,6 +105,13 @@ export class AppConstant {
         // }
     ];
 
+    public static SocialSites: string[] = [
+        'Twitter',
+        'LinkedIn',
+        'Website',
+        'Facebook'
+    ];
+
 }
 
 export interface OptionType {

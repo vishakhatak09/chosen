@@ -16,7 +16,7 @@ import { AppConstant, OptionType } from 'core/constants/app.constant';
 import { LanguageList } from 'core/constants/locale';
 import { environment } from 'environments/environment';
 import { Observable, Subject } from 'rxjs';
-import { SkillWithBox, SkillRating, WorkModel, EducationModel } from 'core/models/resumebuilder.model';
+import { SkillWithBox, SkillRating, WorkModel, EducationModel, SocialModel } from 'core/models/resumebuilder.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeBuilderService } from './resumebuilder.service';
@@ -24,7 +24,7 @@ import jsPDF from 'jspdf';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
 import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
-import {ENTER} from '@angular/cdk/keycodes';
+import { ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -72,6 +72,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
   fontColor = '#fff';
   backColor = '#43a047';
   public haveAdditionalInfo = false;
+  socialLinkArray: SocialModel[] = [];
+  public socialSites: string[] = AppConstant.SocialSites;
+  urlPattern = AppConstant.ValidUrlPattern;
 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
@@ -142,7 +145,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
     });
 
     this.skillForm.get('skillType').valueChanges.subscribe((val) => {
-      if ( val === 'basicStyled' ) {
+      if (val === 'basicStyled') {
         this.fontColor = '#fff';
         this.backColor = '#43a047';
       } else {
@@ -441,12 +444,15 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   }
 
+  /**
+   * Contact number validation
+   * @param {*} event Key press event
+   */
   _keyPress(event: any) {
     const pattern = /[0-9]/;
     const inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
-
     }
   }
 
@@ -455,38 +461,51 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
    * @param event Mat chip add event
    */
   addSkills(event: MatChipInputEvent): void {
-    // Add skill only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
-    // if (!this.matAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
+    const input = event.input;
+    const value = event.value;
 
-      // Add our value
-      if ((value || '').trim()) {
-          this.skillRatingList.push({skillName: value.trim(), ratings: 0});
-      }
+    // Add our value
+    if ((value || '').trim()) {
+      this.skillRatingList.push({ skillName: value.trim(), ratings: 0 });
+    }
 
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
-
-      this.skillForm.get('skillInput').setValue(null);
-    // }
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    this.skillForm.get('skillInput').setValue(null);
   }
 
   /**
-   * On remove language event
-   * @param lang Selected langugage
+   * On remove skills event
+   * @param index Skill index
    */
   removeSkillItem(index: number): void {
-
     if (index >= 0) {
       this.skillRatingList.splice(index, 1);
     }
-
   }
 
+  /**
+   * Add Social Link Array
+   */
+  addSocialLink(): void {
+    this.socialLinkArray.push(
+      {
+        website: '',
+        link: ''
+      }
+    );
+  }
+
+  /**
+   * Remove Social Link Array
+   */
+  removeSocialLink(index: number): void {
+    if ( index !== -1 ) {
+      this.socialLinkArray.splice(index, 1);
+    }
+  }
 
   /**
    * On destroy

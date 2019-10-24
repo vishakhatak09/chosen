@@ -332,31 +332,36 @@
                                         </mat-radio-group>
                                     </div>
 
-                                    <!-- <div class="skill-content" style='margin-top: 10px;'>
-                                        <button mat-button class="add-button" (click)="openWorkDialog()">
-                                            <mat-icon>add_to_photos</mat-icon> Add Position
+                                    <div style='margin-top: 10px; margin-bottom: 10px;'>
+                                        <button mat-button type="button" (click)="addSocialLink()">
+                                            <mat-icon>add_comment</mat-icon> Add Social Links
                                         </button>
-                                    </div> -->
+                                    </div>
 
-                                    <!-- <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                        <mat-label>Linked In
-                                        </mat-label>
-                                        <input matInput placeholder="Paste your linked In URL" type="url" name="LinkedInUrl"
-                                            formControlName="linkedInUrl" autocomplete="off">
-                                        <mat-error *ngIf="basicDetailForm.get('linkedInUrl').hasError('pattern')">
-                                            Please enter valid url
-                                        </mat-error>
-                                    </mat-form-field>
+                                    <div class="w-100-p" *ngFor="let social of socialLinkArray; let i = index">
+                                        <mat-form-field floatLabel="always" class="w-45-p" appearance="outline">
+                                            <mat-label>Website</mat-label>
+                                            <mat-select placeholder="Select Website" [(value)]="social.website"
+                                                required>
+                                                <mat-option [value]="site" *ngFor="let site of socialSites">
+                                                    {{ site }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        &nbsp;
+                                        <mat-form-field floatLabel="always" class="w-45-p" appearance="outline">
+                                            <mat-label>Link</mat-label>
+                                            <input matInput placeholder="Social Link" #linkUrl
+                                                (change)="social.link = linkUrl.value" [(value)]="social.link"
+                                                type="text" name="socialLink" [pattern]="urlPattern" autocomplete="off">
+                                        </mat-form-field>
+                                        <button mat-button type="button" class="red-300-fg social-del"
+                                            (click)="removeSocialLink(i)" *ngIf="socialLinkArray.length > 1">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
 
-                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                        <mat-label>Twitter
-                                        </mat-label>
-                                        <input matInput placeholder="Paste your twitter URL" type="url" name="TwitterUrl"
-                                            formControlName="twitterUrl" autocomplete="off">
-                                        <mat-error *ngIf="basicDetailForm.get('twitterUrl').hasError('pattern')">
-                                            Please enter valid url
-                                        </mat-error>
-                                    </mat-form-field> -->
+                                    </div>
+
                                 </form>
                             </div>
 
@@ -522,8 +527,9 @@
                                 <div class="w-100-p" *ngIf="skillForm.get('skillType').value ">
                                     <mat-form-field class="w-50-p">
                                         <input matInput [matChipInputFor]="skillList" placeholder="Add Skill.."
-                                            [matChipInputAddOnBlur]="true" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addSkills($event)"
-                                            formControlName="skillInput" />
+                                            [matChipInputAddOnBlur]="true"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            (matChipInputTokenEnd)="addSkills($event)" formControlName="skillInput" />
                                     </mat-form-field>
                                     <mat-chip-list #skillList name="Skills" class="w-100-p">
 
@@ -533,7 +539,8 @@
                                                 [removable]="true" (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
                                                     'background-color' : backColor}">
                                                 {{skills.skillName}}
-                                                <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel</mat-icon>
+                                                <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel
+                                                </mat-icon>
                                             </mat-chip>
                                         </ng-container>
 
@@ -545,7 +552,8 @@
                                                     [ngStyle]="{'color': fontColor , 
                                                     'background-color' : backColor}">
                                                     {{skills.skillName}}
-                                                    <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel</mat-icon>
+                                                    <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel
+                                                    </mat-icon>
                                                 </mat-chip>
 
                                                 <bar-rating [theme]="ratingStyle"
@@ -571,6 +579,11 @@
 
                             <div class="tab-content p-24">
 
+                                <div>
+                                    <mat-checkbox class='w-100-p'>Accomplishments</mat-checkbox>
+                                    <mat-checkbox class='w-100-p'>Affilication</mat-checkbox>
+                                    <mat-checkbox class='w-100-p'>Additional</mat-checkbox>
+                                </div>
 
 
                             </div>

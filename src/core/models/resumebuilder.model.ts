@@ -48,3 +48,9 @@ export class EducationModel {
     yearOfPassing: Moment;
     isCurrentlyPursuing: boolean;
 }
+
+export interface SocialModel {
+    website: string;
+    link: string;
+}
+
