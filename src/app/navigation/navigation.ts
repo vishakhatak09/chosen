@@ -3,11 +3,12 @@ import { FuseNavigation } from '@fuse/types';
 export const navigation: FuseNavigation[] = [
     {
         id       : 'resumebuildermenu',
-        title    : 'resumeBuilder',
-        translate: 'NAV.RESUMEBUILDERMENU',
-        type     : 'group',
+        title    : 'Create Resume',
+        translate: 'NAV.RESUME',
+        type     : 'item',
         icon     : 'apps',
-        children : [
+        url      : '/apps/resume'
+        // children : [
             // {
             //     id       : 'dashboards',
             //     title    : 'Dashboards',
@@ -30,14 +31,14 @@ export const navigation: FuseNavigation[] = [
                 //     // }
                 // ]
             // },
-            {
-                    id       : 'resume',
-                    title    : 'Create Resume',
-                    translate: 'NAV.RESUME',
-                    type     : 'item',
-                    icon     : 'import_contacts',
-                    url      : '/apps/resume'
-            }
+            // {
+            //         id       : 'resume',
+            //         title    : 'Create Resume',
+            //         translate: 'NAV.RESUME',
+            //         type     : 'item',
+            //         icon     : 'import_contacts',
+            //         url      : '/apps/resume'
+            // }
             // {
             //     id       : 'calendar',
             //     title    : 'Calendar',
@@ -169,7 +170,7 @@ export const navigation: FuseNavigation[] = [
             //     icon     : 'assessment',
             //     url      : '/apps/scrumboard'
             // }
-        ]
+        // ]
     },
     // {
     //     id      : 'pages',

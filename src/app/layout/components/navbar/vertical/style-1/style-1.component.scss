@@ -71,8 +71,12 @@ fuse-sidebar {
 
                                     .nav-link {
                                         border-radius: 20px;
-                                        margin: 0 12px;
-                                        padding: 0 12px;
+                                        margin: 15px 12px;
+                                        padding: 0 10px;
+                                        &.active{
+                                            background-color: white !important;
+                                            color: mat-color($mat-green, 600) !important; 
+                                        }
                                     }
                                 }
                             }
@@ -130,6 +134,7 @@ navbar {
             .logo {
                 display: flex;
                 align-items: center;
+                padding: 5px;
 
                 .logo-icon {
                     // width: 24px;
@@ -196,6 +201,7 @@ navbar {
 
             .navbar-content {
                 flex: 1 1 auto;
+                background-color: mat-color($mat-green, 600) !important; 
                 // padding-top: 32px;
             }
         }

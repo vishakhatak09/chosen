@@ -15,7 +15,7 @@
     .header {
 
         height: 90px !important;
-        min-height: 90px !important;
+        min-height: 70px !important;
         max-height: 90px!important;
 
         .profile-image {
@@ -40,6 +40,10 @@
 
         .subtitle {
             margin: 6px 0 0 0;
+        }
+
+        .save-product-button {
+            font-size: 12px;            
         }
     }
 
@@ -200,4 +204,7 @@ mat-chip {
 }
 .social-del{
     vertical-align: top !important;
+}
+.additional {
+    padding: 10px;
 }

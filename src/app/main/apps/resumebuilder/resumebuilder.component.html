@@ -13,16 +13,16 @@
             <!-- APP TITLE -->
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}" hidden>
                     <img [src]="profileSrc" (click)="fileInput.click()">
                     <input type="file" #fileInput accept="image/*" (change)="getFileData($event.target.files)"
                         style="display: none;">
                 </div>
 
                 <div fxLayout="column" fxLayoutAlign="start start"
-                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" hidden>
 
-                    <div class="subtitle secondary-text">
+                    <div class="subtitle secondary-text" hidden>
                         <span>
                             {{ 'NAV.RESUME' | translate }}
                         </span>
@@ -579,12 +579,11 @@
 
                             <div class="tab-content p-24">
 
-                                <div>
-                                    <mat-checkbox class='w-100-p'>Accomplishments</mat-checkbox>
-                                    <mat-checkbox class='w-100-p'>Affilication</mat-checkbox>
-                                    <mat-checkbox class='w-100-p'>Additional</mat-checkbox>
-                                </div>
+                                <h3><strong>Additional</strong></h3>
 
+                                <div class="w-100-p additional" *ngFor="let add of additionalInfoList">
+                                    <mat-checkbox>{{add}}</mat-checkbox>
+                                </div>
 
                             </div>
 

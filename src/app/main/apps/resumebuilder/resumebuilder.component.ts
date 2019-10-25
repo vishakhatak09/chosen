@@ -23,7 +23,7 @@ import { ResumeBuilderService } from './resumebuilder.service';
 import jsPDF from 'jspdf';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
-import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
+import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { ENTER } from '@angular/cdk/keycodes';
 
 @Component({
@@ -75,6 +75,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
   socialLinkArray: SocialModel[] = [];
   public socialSites: string[] = AppConstant.SocialSites;
   urlPattern = AppConstant.ValidUrlPattern;
+  additionalInfoList = AppConstant.AdditionalInfo;
+  additionalInfoTitle = [];
 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateContent', { static: false }) templateContent: ElementRef;

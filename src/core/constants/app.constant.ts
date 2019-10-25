@@ -112,6 +112,15 @@ export class AppConstant {
         'Facebook'
     ];
 
+    public static AdditionalInfo = [
+        'Languages',
+        'Interests',
+        'References',
+        'Accomplishments',
+        'Affiliations',
+        'Certifications',
+    ];
+
 }
 
 export interface OptionType {

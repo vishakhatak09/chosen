@@ -40,6 +40,7 @@
             cursor: pointer;
             user-select: none;
             color: currentColor;
+            margin-top: 15px;
 
             > .nav-link-title {
                 flex: 1 1 auto;
@@ -89,7 +90,7 @@
 
             .nav-link-icon,
             .collapsable-arrow {
-                font-size: 16px;
+                font-size: 20px;
                 width: 16px;
                 height: 16px;
                 min-width: 16px;

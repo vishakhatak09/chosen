@@ -1,3 +1,4 @@
+@import "src/@fuse/scss/fuse";
 :host {
 
     .folded:not(.unfolded) & {
@@ -33,6 +34,10 @@
     &.open {
 
         > .nav-link {
+
+            
+            background-color: white !important;
+            color: mat-color($mat-green, 600) !important; 
 
             .collapsable-arrow {
                 transform: rotate(90deg);

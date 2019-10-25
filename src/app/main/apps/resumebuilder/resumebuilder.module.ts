@@ -23,7 +23,7 @@ import { ResumeBuilderService } from './resumebuilder.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
-import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
+import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { FuseMaterialColorPickerModule } from '@fuse/components';
 
 const routes: Routes = [
