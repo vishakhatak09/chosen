@@ -147,15 +147,17 @@
 
 
         </div>
-        <div class="template-section">
-            <div class="section__title">
-                Interests
-            </div>
-            <div class="section__list">
-                <div class="section__list-item">
-                    Football, programming.
+        <ng-container *ngIf="additionalInfo.length > 0">            
+            <div class="template-section" *ngFor="let item of additionalInfo">
+                <div class="section__title">
+                    {{ item.type }}
+                </div>
+                <div class="section__list">
+                    <div class="section__list-item">
+                        {{ item.value }}
+                    </div>
                 </div>
             </div>
-        </div>
+        </ng-container>
     </div>
 </div>

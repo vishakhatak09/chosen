@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TranslateService } from '@ngx-translate/core';
@@ -123,6 +123,26 @@ export class AppComponent implements OnInit, OnDestroy {
         this.iconRegistry.addSvgIcon(
             'female-icon',
             sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl + 'assets/icons/material-icons/resume/female.svg'));
+    }
+
+    // Disable ctrl + p, ctrl + c,  ctrl + v,  ctrl + x
+    @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+        if (event.ctrlKey &&
+            // tslint:disable-next-line: deprecation
+            (event.key === 'p' || event.charCode === 16 || event.charCode === 112 || event.keyCode === 80 ||
+                event.key === 'c' || event.key === 'v' || event.key === 'x')
+        ) {
+            event.cancelBubble = true;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    }
+
+    // Disable right click menu open
+    @HostListener('contextmenu', ['$event'])
+    onRightClick(event: KeyboardEvent) {
+        event.preventDefault();
     }
 
     // -----------------------------------------------------------------------------------------------------

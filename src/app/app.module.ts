@@ -23,10 +23,10 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { LandingComponent } from './main/landing/landing.component';
 
 const appRoutes: Routes = [
-    {
-        path: '',
-        component: LandingComponent
-    },
+    // {
+    //     path: '',
+    //     component: LandingComponent
+    // },
     {
         path: 'apps',
         loadChildren: './main/apps/apps.module#AppsModule'
@@ -41,7 +41,7 @@ const appRoutes: Routes = [
     },
     {
         path: '**',
-        redirectTo: '',
+        redirectTo: 'apps/resume',
         pathMatch: 'full'
     }
 ];

@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, Input, OnChanges, Inject } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { fuseAnimations } from '@fuse/animations';
-import { TemplateModel, WorkModel, EducationModel, SkillRating } from 'core/models/resumebuilder.model';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ResumeBuilderService } from '../resumebuilder.service';
-import { environment } from 'environments/environment';
 import { ResumeMock } from 'core/mock/resume.mock';
+import { AdditionalModel, EducationModel, SkillRating, TemplateModel, WorkModel } from 'core/models/resumebuilder.model';
+import { environment } from 'environments/environment';
+import { ResumeBuilderService } from '../resumebuilder.service';
 
 @Component({
     selector: 'app-resume-template',
@@ -28,6 +27,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     @Input() experienceData: WorkModel[] = [];
     @Input() careerObjective: string;
     @Input() educationData: EducationModel[] = [];
+    @Input() additionalInfo: AdditionalModel[] = [];
     @Input() public profileSrc: string | ArrayBuffer = this.defaultProfile;
 
     /**
@@ -37,7 +37,27 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     constructor(
         private domsanitizer: DomSanitizer,
         private resumeBuilderService: ResumeBuilderService
-    ) {}
+    ) { }
+
+    // Disable ctrl + p, ctrl + c,  ctrl + v,  ctrl + x
+    @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+        if (event.ctrlKey &&
+            // tslint:disable-next-line: deprecation
+            (event.key === 'p' || event.charCode === 16 || event.charCode === 112 || event.keyCode === 80 ||
+                event.key === 'c' || event.key === 'v' || event.key === 'x')
+        ) {
+            event.cancelBubble = true;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    }
+
+    // Disable right click menu open
+    @HostListener('contextmenu', ['$event'])
+    onRightClick(event: KeyboardEvent) {
+        event.preventDefault();
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -60,6 +80,9 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
                     if (matData.experienceData) {
                         this.experienceData = matData.experienceData;
                     }
+                    if (matData.additionalInfo) {
+                        this.additionalInfo = matData.additionalInfo;
+                    }
                 }
             });
 
@@ -69,25 +92,11 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
      * On Changes
      */
     ngOnChanges(): void {
-
         // Sanitize ckeditor html
         if (this.templateForm.professionalExperience && this.templateForm.professionalExperience !== '') {
             this.templateForm.professionalExperience = this.domsanitizer.bypassSecurityTrustHtml(
                 String(this.templateForm.professionalExperience)
             );
         }
-
-        // if (this.templateForm.careerObjective && this.templateForm.careerObjective !== '') {
-        //     this.templateForm.careerObjective = this.domsanitizer.bypassSecurityTrustHtml(
-        //         String(this.templateForm.careerObjective)
-        //     );
-        // }
-
-        // if (this.templateForm.educationHistory && this.templateForm.educationHistory !== '') {
-        //     this.templateForm.educationHistory = this.domsanitizer.bypassSecurityTrustHtml(
-        //         String(this.templateForm.educationHistory)
-        //     );
-        // }
-
     }
 }
