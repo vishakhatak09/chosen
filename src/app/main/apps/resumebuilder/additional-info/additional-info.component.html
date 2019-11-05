@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>
     Add {{ additionalInfo.type }}
-    <button mat-icon-button matTooltip="Close" [matTooltipPosition]="'above'" mat-dialog-close class="dialog-close-btn">
+    <button mat-icon-button matTooltip="Close" type="button" [matTooltipPosition]="'above'" 
+        (click)="dialogRef.close()"  class="dialog-close-btn">
         <mat-icon>close</mat-icon>
     </button>
 </h1>

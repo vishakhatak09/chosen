@@ -215,3 +215,15 @@ mat-chip {
         margin: 5px 0 5px 0;
     }
 }
+button.upload-btn{
+    .mat-button-wrapper {
+        font-weight: 500 !important;
+    } 
+}
+.upload-class{
+    padding: 0 0 20px 10px !important;
+    span{
+        margin-left: 15%;
+        font-weight: 800;
+    }
+}

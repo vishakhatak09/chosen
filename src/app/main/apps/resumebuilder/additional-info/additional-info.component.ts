@@ -18,7 +18,7 @@ export class AdditionalInfoComponent implements OnInit {
    */
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private dialogRef: MatDialogRef<AdditionalInfoComponent>,
+    public dialogRef: MatDialogRef<AdditionalInfoComponent>,
   ) {
     if (this.dialogData) {
       this.additionalInfo = this.dialogData;

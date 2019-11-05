@@ -16,7 +16,14 @@ import { AppConstant, OptionType } from 'core/constants/app.constant';
 import { LanguageList } from 'core/constants/locale';
 import { environment } from 'environments/environment';
 import { Observable, Subject } from 'rxjs';
-import { SkillWithBox, SkillRating, WorkModel, EducationModel, SocialModel, AdditionalModel } from 'core/models/resumebuilder.model';
+import {
+  SkillWithBox,
+  SkillRating,
+  WorkModel,
+  EducationModel,
+  SocialModel,
+  AdditionalModel
+} from 'core/models/resumebuilder.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeBuilderService } from './resumebuilder.service';
