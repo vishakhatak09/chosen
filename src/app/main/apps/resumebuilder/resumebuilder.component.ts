@@ -6,9 +6,9 @@ import {
   OnDestroy,
   ElementRef,
   AfterViewInit,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { fuseAnimations } from '@fuse/animations';
@@ -16,7 +16,14 @@ import { AppConstant, OptionType } from 'core/constants/app.constant';
 import { LanguageList } from 'core/constants/locale';
 import { environment } from 'environments/environment';
 import { Observable, Subject } from 'rxjs';
-import { SkillWithBox, SkillRating, WorkModel, EducationModel, SocialModel } from 'core/models/resumebuilder.model';
+import {
+  SkillWithBox,
+  SkillRating,
+  WorkModel,
+  EducationModel,
+  SocialModel,
+  AdditionalModel
+} from 'core/models/resumebuilder.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeBuilderService } from './resumebuilder.service';
@@ -25,6 +32,7 @@ import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
 import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { ENTER } from '@angular/cdk/keycodes';
+import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -76,7 +84,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
   public socialSites: string[] = AppConstant.SocialSites;
   urlPattern = AppConstant.ValidUrlPattern;
   additionalInfoList = AppConstant.AdditionalInfo;
-  additionalInfoTitle = [];
+  additionalInfoData: AdditionalModel[] = [];
+  allowDownload = false;
 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
@@ -117,28 +126,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       placeOfBirth: [''],
       maritalStatus: [''],
       gender: [''],
-      // linkedInUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
-      // twitterUrl: ['', [Validators.pattern(AppConstant.ValidUrlPattern)]],
-      // careerObjective: ['', [Validators.required]],
-      // professionalExperience: [{ value: '', disabled: false }, [Validators.required]],
-      // educationHistory: ['', [Validators.required]],
-      // languages: ['', []],
-      // references: ['', []],
-      // skillType: ['', [Validators.required]],
-      // ratingType: [this.ratingStyle, []],
     });
 
     this.careerObjForm = this._formBuilder.group({
       careerObjective: ['', [Validators.required]],
     });
-
-    // this.workForm = this._formBuilder.group({
-    //   professionalExperience: [{ value: '', disabled: false }, [Validators.required]],
-    // });
-
-    // this.eduForm = this._formBuilder.group({
-    //   educationHistory: [{ value: '', disabled: false }, [Validators.required]],
-    // });
 
     this.skillForm = this._formBuilder.group({
       skillType: ['', [Validators.required]],
@@ -155,6 +147,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
         this.backColor = '';
       }
     });
+
+
 
     // this.filteredLanguages = this.basicDetailForm.get('languages').valueChanges.pipe(
     //   // startWith(null),
@@ -326,6 +320,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       templateForm: this.basicDetailForm.getRawValue(),
       careerObjective: this.careerObjForm.get('careerObjective').value,
       experienceData: this.workExperienceData,
+      additionalInfo: this.additionalInfoData
     };
     const dialogRef = this.matDialog.open(
       ResumeTemplateComponent,
@@ -504,8 +499,66 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
    * Remove Social Link Array
    */
   removeSocialLink(index: number): void {
-    if ( index !== -1 ) {
+    if (index !== -1) {
       this.socialLinkArray.splice(index, 1);
+    }
+  }
+
+  /**
+   * Add / Remove additional info data
+   * @param checked Checkbox checked property
+   * @param type Additional info type
+   */
+  addRemoveAdditional(checked: boolean, type: string): void {
+
+    if (checked) {
+      let dialogData = {
+        type: type,
+        value: '',
+      };
+      let isExist: number;
+      if (this.additionalInfoData.length > 0) {
+        isExist = this.additionalInfoData.findIndex((info: AdditionalModel) => {
+          return info.type.toLowerCase() === type.toLowerCase();
+        });
+        if (isExist !== -1) {
+          dialogData = this.additionalInfoData[isExist];
+        }
+      }
+      const dialogRef = this.matDialog.open(AdditionalInfoComponent, {
+        width: '500px',
+        height: 'auto',
+        disableClose: true,
+        data: dialogData,
+      });
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response) {
+          if (isExist !== undefined && isExist !== -1) {
+            this.additionalInfoData[isExist] = response;
+          } else {
+            this.additionalInfoData.push(response);
+          }
+        }
+      });
+    } else {
+      const index = this.additionalInfoData.findIndex((info: AdditionalModel) => {
+        return info.type.toLowerCase() === type.toLowerCase();
+      });
+      if (index !== -1) {
+        this.additionalInfoData.splice(index, 1);
+      }
+    }
+  }
+
+  /**
+   * Mat tab index change event
+   * @param tabIndex Current tab index
+   */
+  tabChangeEvent(tabIndex: number): void {
+    if (tabIndex >= 4) {
+      this.allowDownload = true;
+    } else {
+      this.allowDownload = false;
     }
   }
 

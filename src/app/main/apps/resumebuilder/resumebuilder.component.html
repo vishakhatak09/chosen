@@ -36,12 +36,12 @@
                     <span>SAVE</span>
                 </button> -->
             <div>
-                <button mat-icon-button type="button" matTooltip="Preview" [matTooltipPosition]="'above'"
+                <button mat-button type="button" matTooltip="Preview" [matTooltipPosition]="'above'"
                     (click)="templatePreview()" class="save-product-button">
                     <mat-icon>remove_red_eye</mat-icon>
-                </button> &nbsp;
-                <button mat-icon-button type="button" matTooltip="Download" [matTooltipPosition]="'above'"
-                    class="save-product-button" (click)="saveAsPdf()">
+                </button>
+                <button *ngIf="allowDownload" mat-button type="button" matTooltip="Download"
+                    [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf()">
                     <mat-icon>picture_as_pdf</mat-icon>
                 </button>
             </div>
@@ -56,187 +56,16 @@
             <div class="content">
 
                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
-                    <!-- 
-                        <mat-vertical-stepper [linear]="true" #stepper 
-                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="50"
-                            fusePerfectScrollbar>
-                            <mat-step [stepControl]="basicDetailForm">
-                                <form [formGroup]="basicDetailForm">
-                                    <ng-template matStepLabel>Personal Info</ng-template>
-                                    
-                                    <div class="tab-content p-24">
-    
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>First Name</mat-label>
-                                            <input matInput placeholder="First Name" type="text" name="firstName"
-                                                formControlName="firstName" autocomplete="off" required>
-                                            <mat-error *ngIf="basicDetailForm.get('firstName').hasError('required')">
-                                                First name is required
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>Last Name</mat-label>
-                                            <input matInput placeholder="Last Name" type="text" name="lastName"
-                                                formControlName="lastName" autocomplete="off" required>
-                                            <mat-error *ngIf="basicDetailForm.get('lastName').hasError('required')">
-                                                Last name is required
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>Contact Number</mat-label>
-                                            <input matInput placeholder="Contact Number" type="number" name="contactNumber"
-                                                formControlName="contactNumber" autocomplete="off" required>
-                                            <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('required')">
-                                                Contact number is required
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>Email</mat-label>
-                                            <input matInput placeholder="Email" type="email" name="Email"
-                                                formControlName="email" autocomplete="off" required>
-                                            <mat-error *ngIf="basicDetailForm.get('email').hasError('required')">
-                                                Email is required
-                                            </mat-error>
-                                            <mat-error *ngIf="basicDetailForm.get('email').hasError('email')">
-                                                Enter valid email
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>Full Address</mat-label>
-                                            <textarea matInput placeholder="Full Address" name="FullAddress"
-                                                formControlName="fullAddress" autocomplete="off" required>
-                                            </textarea>
-                                            <mat-error *ngIf="basicDetailForm.get('fullAddress').hasError('required')">
-                                                Full address is required
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>D.O.B</mat-label>
-                                            <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate"
-                                                formControlName="dateOfBirth" autocomplete="off" required>
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker disabled="false"></mat-datepicker>
-                                            <mat-error *ngIf="basicDetailForm.get('dateOfBirth').hasError('required')">
-                                                Date of birth is required
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>Place Of Birth</mat-label>
-                                            <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth"
-                                                formControlName="placeOfBirth" autocomplete="off" required>
-                                            <mat-error *ngIf="basicDetailForm.get('placeOfBirth').hasError('required')">
-                                                Place of birth is required
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        <div class="w-100-p">
-                                            <mat-label class="example-radio-group-label">Marital Status: 
-                                                <ng-container *ngIf="basicDetailForm.get('maritalStatus').untouched || basicDetailForm.get('maritalStatus').valid; else elseTemplate">
-                                                    * 
-                                                </ng-container>
-                                                <ng-template #elseTemplate>
-                                                    <mat-error *ngIf="basicDetailForm.get('maritalStatus').touched && basicDetailForm.get('maritalStatus').hasError('required')">
-                                                        *
-                                                    </mat-error>
-                                                </ng-template>                                        
-                                            </mat-label>
-                                            <mat-radio-group aria-labelledby="example-radio-group-label"
-                                                class="form-radio-group" formControlName="maritalStatus" required>
-                                                <mat-radio-button class="form-radio-button" *ngFor="let status of maritalStatuOpts"
-                                                    [value]="status.value">
-                                                    {{status.viewValue}}
-                                                </mat-radio-button>
-                                            </mat-radio-group>
-                                            <mat-error *ngIf="basicDetailForm.get('maritalStatus').touched && basicDetailForm.get('maritalStatus').hasError('required')">
-                                                Marital Status is required
-                                            </mat-error>
-                                        </div>
-        
-                                        <div class="w-100-p">
-                                            <mat-label class="example-radio-group-label">
-                                                Gender: 
-                                                <ng-container *ngIf="basicDetailForm.get('maritalStatus').untouched || basicDetailForm.get('maritalStatus').valid; else elseTemplate">
-                                                * 
-                                                </ng-container>
-                                                <ng-template #elseTemplate>
-                                                    <mat-error *ngIf="basicDetailForm.get('maritalStatus').touched && basicDetailForm.get('maritalStatus').hasError('required')">
-                                                        *
-                                                    </mat-error>
-                                                </ng-template>
-                                            </mat-label>
-                                            <mat-radio-group aria-labelledby="example-radio-group-label"
-                                                class="form-radio-group" formControlName="gender" required>
-                                                <mat-radio-button class="form-radio-button" *ngFor="let status of genderOptions"
-                                                    [value]="status.value">
-                                                    {{status.viewValue}}&nbsp;
-                                                </mat-radio-button>
-                                            </mat-radio-group>
-                                            <mat-error *ngIf="basicDetailForm.get('gender').touched && basicDetailForm.get('gender').hasError('required')">
-                                                Please select gender
-                                            </mat-error>
-                                        </div>
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>Linked In
-                                            </mat-label>
-                                            <input matInput placeholder="Paste your linked In URL" type="url" name="LinkedInUrl"
-                                                formControlName="linkedInUrl" autocomplete="off">
-                                            <mat-error *ngIf="basicDetailForm.get('linkedInUrl').hasError('pattern')">
-                                                Please enter valid url
-                                            </mat-error>
-                                        </mat-form-field>
-        
-                                        <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
-                                            <mat-label>Twitter
-                                            </mat-label>
-                                            <input matInput placeholder="Paste your twitter URL" type="url" name="TwitterUrl"
-                                                formControlName="twitterUrl" autocomplete="off">
-                                            <mat-error *ngIf="basicDetailForm.get('twitterUrl').hasError('pattern')">
-                                                Please enter valid url
-                                            </mat-error>
-                                        </mat-form-field>
-                                        
-                                    </div>
-    
-                                    <div>
-                                        <button mat-button matStepperNext>Next</button>
-                                    </div>
-                                </form>
-                            </mat-step>
-                            <mat-step>
-                                <form>
-                                <ng-template matStepLabel>Career Objective</ng-template>
-                                
-                                <div>
-                                    <button mat-button matStepperPrevious>Back</button>
-                                    <button mat-button matStepperNext>Next</button>
-                                </div>
-                                </form>
-                            </mat-step>
-                            <mat-step>
-                                <ng-template matStepLabel>Done</ng-template>
-                                You are now done.
-                                <div>
-                                <button mat-button matStepperPrevious>Back</button>
-                                <button mat-button (click)="stepper.reset()">Reset</button>
-                                </div>
-                            </mat-step>
-                        </mat-vertical-stepper> -->
+
+                    <!-- <mat-tab-group (selectedIndexChange)="tabChangeEvent($event)"> -->
 
                     <!-- <mat-tab-group> -->
                     <mat-vertical-stepper [linear]="true" #stepper fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100"
                         fusePerfectScrollbar>
 
                         <!-- <mat-tab label="Personal Info"> -->
-                        <mat-step [stepControl]="basicDetailForm">
+                        <!-- <mat-step [stepControl]="basicDetailForm"> -->
+                        <mat-step>
                             <div class="tab-content p-24">
                                 <form name="resume" [formGroup]="basicDetailForm">
                                     <ng-template matStepLabel>Personal Info</ng-template>
@@ -293,6 +122,14 @@
                                             Full address is required
                                         </mat-error>
                                     </mat-form-field>
+
+                                    <div class="w-100-p upload-class">
+                                        <input type="file" #file hidden>
+                                        <button class="upload-btn" type="button" mat-icon-button (click)="file.click()">
+                                            <mat-icon>cloud_upload</mat-icon> Upload Profile Image
+                                        </button>
+                                        <span>File Name</span>
+                                    </div>
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>D.O.B</mat-label>
@@ -378,7 +215,8 @@
                         <!-- </mat-tab> -->
 
                         <!-- <mat-tab label="Career Objective"> -->
-                        <mat-step [stepControl]="careerObjForm">
+                        <!-- <mat-step [stepControl]="careerObjForm"> -->
+                        <mat-step>
 
                             <div class="tab-content p-24">
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
@@ -410,7 +248,8 @@
                             <!-- </mat-tab> -->
                         </mat-step>
 
-                        <mat-step [stepControl]="workForm">
+                        <!-- <mat-step [stepControl]="workForm"> -->
+                        <mat-step>
                             <!-- <mat-tab label="Work Experience"> -->
 
                             <div class="tab-content p-24">
@@ -527,7 +366,8 @@
                             <!-- </mat-tab> -->
                         </mat-step>
 
-                        <mat-step [stepControl]="skillForm">
+                        <!-- <mat-step [stepControl]="skillForm"> -->
+                        <mat-step>
                             <!-- <mat-tab label="Areas of Expertise"> -->
 
                             <form class="tab-content p-24" [formGroup]="skillForm">
@@ -572,7 +412,8 @@
 
                                         <ng-container
                                             *ngIf="skillForm.get('skillType').value != 'basicWithRating' ; else elseTemplate">
-                                            <mat-chip *ngFor="let skills of skillRatingList; let index=index;"
+                                            <mat-chip tabindex="-1"
+                                                *ngFor="let skills of skillRatingList; let index=index;"
                                                 [removable]="true" (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
                                                         'background-color' : backColor}">
                                                 {{skills.skillName}}
@@ -585,9 +426,9 @@
 
                                             <div class="w-100-p flex-display"
                                                 *ngFor="let skills of skillRatingList; let index=index;">
-                                                <mat-chip [removable]="true" (removed)="removeSkillItem(index)"
-                                                    [ngStyle]="{'color': fontColor , 
-                                                        'background-color' : backColor}">
+                                                <mat-chip tabindex="-1" [removable]="true"
+                                                    (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
+                                                    'background-color' : backColor}">
                                                     {{skills.skillName}}
                                                     <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel
                                                     </mat-icon>
@@ -611,7 +452,7 @@
                                 <div>
                                     <button type="button" class="stepper-back" mat-raised-button
                                         matStepperPrevious>Back</button>
-                                    <button type="button" class="stepper-next" mat-raised-button
+                                    <button type="button" *ngIf="haveAdditionalInfo" class="stepper-next" mat-raised-button
                                         matStepperNext>Next</button>
                                 </div>
                             </form>
@@ -624,17 +465,27 @@
                             <ng-template matStepLabel>Other details</ng-template>
                             <div class="tab-content p-24">
 
-                                <h3><strong>Additional</strong></h3>
+                                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
 
-                                <div class="w-100-p additional" *ngFor="let add of additionalInfoList">
-                                    <mat-checkbox>{{add}}</mat-checkbox>
+                                    <h3><strong>Additional</strong></h3>
+
+                                    <div class="w-100-p additional" *ngFor="let add of additionalInfoList">
+                                        <mat-checkbox (change)="addRemoveAdditional($event.checked, add)">{{add}}
+                                        </mat-checkbox>
+                                    </div>
+
+                                </div>
+
+                                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
+                                    <div class="w-100-p additional" *ngFor="let add of additionalInfoData">
+                                        <h3>{{ add.type }}</h3>
+                                        <p>{{ add.value }}</p>
+                                    </div>
                                 </div>
 
                                 <div>
                                     <button type="button" class="stepper-back" mat-raised-button
                                         matStepperPrevious>Back</button>
-                                    <button type="button" class="stepper-next" mat-raised-button
-                                        matStepperNext>Next</button>
                                 </div>
                             </div>
 
@@ -650,7 +501,7 @@
                     <app-resume-template [templateForm]="basicDetailForm.getRawValue()"
                         [experienceData]="workExperienceData"
                         [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData"
-                        [skillData]="skillRatingList">
+                        [skillData]="skillRatingList" [additionalInfo]="additionalInfoData">
                     </app-resume-template>
                 </div>
 

@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>
+    Add {{ additionalInfo.type }}
+    <button mat-icon-button matTooltip="Close" type="button" [matTooltipPosition]="'above'" 
+        (click)="dialogRef.close()"  class="dialog-close-btn">
+        <mat-icon>close</mat-icon>
+    </button>
+</h1>
+<div mat-dialog-content>
+
+    <form fxLayout="row wrap" fxLayoutGap="25px" #addForm="ngForm" name="AddForm" (ngSubmit)="submitForm()">
+
+        <mat-form-field floatLabel="always" fxFlex.xs="100" fxFlex="100">
+            <mat-label hidden>{{ additionalInfo.type }}</mat-label>
+            <textarea matInput [placeholder]="additionalInfo.type" name="additionalData" autocomplete="off" #data
+                [(value)]="additionalInfo.value" (change)="additionalInfo.value = data.value">
+            </textarea>
+        </mat-form-field>
+
+        <div mat-dialog-actions>
+            <button type="submit" class="accent" mat-raised-button>Save</button>
+        </div>
+    </form>
+</div>

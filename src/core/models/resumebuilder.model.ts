@@ -54,3 +54,7 @@ export interface SocialModel {
     link: string;
 }
 
+export interface AdditionalModel {
+    type: string;
+    value: any;
+}
