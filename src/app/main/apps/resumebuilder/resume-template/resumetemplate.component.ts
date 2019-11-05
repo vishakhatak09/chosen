@@ -2,7 +2,7 @@ import { Component, HostListener, Input, OnChanges, OnInit, ViewEncapsulation } 
 import { DomSanitizer } from '@angular/platform-browser';
 import { fuseAnimations } from '@fuse/animations';
 import { ResumeMock } from 'core/mock/resume.mock';
-import { AdditionalModel, EducationModel, SkillRating, TemplateModel, WorkModel } from 'core/models/resumebuilder.model';
+import { AdditionalModel, EducationModel, SkillRating, TemplateModel, WorkModel, SocialModel } from 'core/models/resumebuilder.model';
 import { environment } from 'environments/environment';
 import { ResumeBuilderService } from '../resumebuilder.service';
 
@@ -28,7 +28,8 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     @Input() careerObjective: string;
     @Input() educationData: EducationModel[] = [];
     @Input() additionalInfo: AdditionalModel[] = [];
-    @Input() public profileSrc: string | ArrayBuffer = this.defaultProfile;
+    @Input() public profileSrc: string | ArrayBuffer;
+    @Input() socialData: SocialModel[] = [];
 
     /**
      * Constructor
@@ -82,6 +83,9 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
                     }
                     if (matData.additionalInfo) {
                         this.additionalInfo = matData.additionalInfo;
+                    }
+                    if (matData.socialData) {
+                        this.socialData = matData.socialData;
                     }
                 }
             });

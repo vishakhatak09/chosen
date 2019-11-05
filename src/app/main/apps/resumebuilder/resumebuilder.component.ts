@@ -44,7 +44,8 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
-  public profileSrc: string | ArrayBuffer = this.defaultProfile;
+  public profileSrc: string | ArrayBuffer;
+  public profileFileName: string;
   public basicDetailForm: FormGroup;
   public careerObjForm: FormGroup;
   // public eduForm: FormGroup;
@@ -320,7 +321,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       templateForm: this.basicDetailForm.getRawValue(),
       careerObjective: this.careerObjForm.get('careerObjective').value,
       experienceData: this.workExperienceData,
-      additionalInfo: this.additionalInfoData
+      additionalInfo: this.additionalInfoData,
+      socialData: this.socialLinkArray
     };
     const dialogRef = this.matDialog.open(
       ResumeTemplateComponent,
@@ -347,9 +349,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       reader.readAsDataURL(fileData);
       reader.onload = (() => {
         this.profileSrc = reader.result;
+        this.profileFileName = fileData.name;
       });
     } else {
-      this.profileSrc = this.defaultProfile;
+      this.profileSrc = null;
+      this.profileFileName = null;
     }
   }
 

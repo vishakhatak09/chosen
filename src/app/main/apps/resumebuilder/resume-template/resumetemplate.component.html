@@ -29,6 +29,11 @@
             <span class="desc" *ngIf="templateForm.fullAddress != ''" [innerHTML]="templateForm.fullAddress"></span>
         </div>
 
+        <div class="contact-info" *ngFor="let social of socialData">
+            <span class="email">{{ social.website }}: </span>
+            <span class="email-val">{{ social.link }}</span>
+        </div>
+
     </div>
     <div class="details">
         <div class="template-section">
