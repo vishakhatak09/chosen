@@ -46,7 +46,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         if (event.ctrlKey &&
             // tslint:disable-next-line: deprecation
             (event.key === 'p' || event.charCode === 16 || event.charCode === 112 || event.keyCode === 80 ||
-                event.key === 'c' || event.key === 'v' || event.key === 'x')
+                event.key === 'c' || event.key === 'x')
         ) {
             event.cancelBubble = true;
             event.preventDefault();

@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { WorkModel } from 'core/models/resumebuilder.model';
 import * as moment from 'moment';
@@ -31,34 +31,42 @@ export const MY_FORMATS = {
   </h1>
   <div mat-dialog-content>
 
-    <form fxLayout="row wrap" fxLayoutGap="25px" #workForm="ngForm"
+    <form fxLayout="row wrap" fxLayoutGap="25px" #workForm="ngForm" [formGroup]="userWorkForm"
       name="WorkForm" (ngSubmit)="submitForm()">
 
         <mat-form-field floatLabel="always" fxFlex.xs="100" fxFlex="100" >
             <mat-label hidden>Designation</mat-label>
             <input matInput placeholder="Designation" type="text"
-                [(ngModel)]="userWork.designation"
+                formControlName="designation"
                 name="DesignationName" autocomplete="off">
+            <mat-error *ngIf="userWorkForm.get('designation').hasError('required')">
+              Please enter designation
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Company name</mat-label>
             <input matInput placeholder="Company name" type="text"
-                [(ngModel)]="userWork.companyName"
+                formControlName="companyName"
                 name="CompanyName" autocomplete="off">
+            <mat-error *ngIf="userWorkForm.get('companyName').hasError('required')">
+              Please enter company name
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Location</mat-label>
             <input matInput placeholder="Location" type="text" name="LocationName"
-                [(ngModel)]="userWork.location"
-                autocomplete="off">
+            formControlName="location" autocomplete="off">
+            <mat-error *ngIf="userWorkForm.get('location').hasError('required')">
+              Please enter work location
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Joining Date</mat-label>
             <input matInput [matDatepicker]="picker"
-                [(ngModel)]="userWork.joiningDate"
+                formControlName="joiningDate"
                 placeholder="Joining Date" name="joiningDate"
                 [max]="userWork.leavingDate || maxDate"
                 name="JoiningDate"
@@ -71,6 +79,9 @@ export const MY_FORMATS = {
               panelClass="example-month-picker"
             >
             </mat-datepicker>
+            <mat-error *ngIf="userWorkForm.get('joiningDate').hasError('required')">
+              Please select joining date
+            </mat-error>
             <mat-error *ngIf="dateValidError == true">
               Joining Date must be less than Leaving Date
             </mat-error>
@@ -79,7 +90,7 @@ export const MY_FORMATS = {
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Leaving Date</mat-label>
             <input matInput [matDatepicker]="picker2"
-                [(ngModel)]="userWork.leavingDate"
+                formControlName="leavingDate"
                 placeholder="Leaving Date" name="LeavingDate" [max]="maxDate"
                 autocomplete="off" >
             <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
@@ -90,12 +101,14 @@ export const MY_FORMATS = {
               panelClass="example-month-picker"
             >
             </mat-datepicker>
+            <mat-error *ngIf="userWorkForm.get('leavingDate').hasError('required')">
+              Please select leaving date
+            </mat-error>
         </mat-form-field>
 
         <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)"></div>
         <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
-          <mat-checkbox name="current" [(ngModel)]="userWork.isTillDate"
-            (ngModelChange)="setCurrentDate(userWork.isTillDate)"
+          <mat-checkbox name="current" formControlName="isTillDate" (change)="setCurrentDate($event.checked)"
           >Currently working</mat-checkbox>
         </div>
         <div mat-dialog-actions>
@@ -110,12 +123,14 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AddWorkComponent implements OnInit, OnDestroy {
 
   public maxDate = moment();
   userWork = new WorkModel();
   @ViewChild('workForm', { static: false }) workForm: NgForm;
   dateValidError = false;
+  str = String;
+  public userWorkForm: FormGroup;
 
   /**
    * Constructor
@@ -125,37 +140,50 @@ export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private dialogRef: MatDialogRef<AddWorkComponent>,
+    private formbuilder: FormBuilder
   ) {
+
+    this.userWorkForm = this.formbuilder.group({
+      companyName: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+      designation: ['', [Validators.required]],
+      joiningDate: ['', [Validators.required]],
+      leavingDate: ['', [Validators.required]],
+      isTillDate: ['', []],
+    });
+
     if (this.dialogData) {
       this.userWork = this.dialogData;
+      this.userWorkForm.setValue({
+        companyName: this.userWork.companyName,
+        location: this.userWork.location,
+        designation: this.userWork.designation,
+        joiningDate: this.userWork.joiningDate,
+        leavingDate: this.userWork.leavingDate,
+        isTillDate: moment(this.userWork.leavingDate).year() === moment().year() &&
+                    moment(this.userWork.leavingDate).month() === moment().month() ? true : false,
+      });
     }
   }
 
   /**
    * On init
    */
-  ngOnInit() { }
+  ngOnInit() {
 
-  /**
-   * After view init
-   */
-  ngAfterViewInit(): void {
-    if (this.workForm) {
-
-      this.workForm.valueChanges
-        .subscribe((value) => {
-          if (value.JoiningDate && value.LeavingDate) {
-            if (value.JoiningDate > value.LeavingDate) {
-              this.dateValidError = true;
-            } else {
-              this.dateValidError = false;
-            }
+    this.userWorkForm.valueChanges
+      .subscribe((value) => {
+        if (value.joiningDate && value.leavingDate) {
+          if (value.joiningDate > value.leavingDate) {
+            this.dateValidError = true;
           } else {
             this.dateValidError = false;
           }
-        });
+        } else {
+          this.dateValidError = false;
+        }
+      });
 
-    }
   }
 
   /**
@@ -167,6 +195,7 @@ export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
     const ctrlValue = normalizedYear;
     ctrlValue.year(normalizedYear.year());
     this.userWork[type] = ctrlValue;
+    this.userWorkForm.get(type).setValue(ctrlValue);
   }
 
   /**
@@ -183,15 +212,24 @@ export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
     const ctrlValue = normalizedMonth;
     ctrlValue.month(normalizedMonth.month());
     this.userWork[type] = ctrlValue;
+    this.userWorkForm.get(type).setValue(ctrlValue);
     datepicker.close();
+    if ( type === 'leavingDate' ) {
+      if ( ctrlValue.year() === moment().year() && ctrlValue.month() === moment().month() ) {
+        this.userWorkForm.get('isTillDate').setValue(true);
+      } else {
+        this.userWorkForm.get('isTillDate').setValue(false);
+      }
+    }
   }
 
   /**
    * Submit form
    */
   submitForm(): void {
-    console.log('userWork', this.userWork);
-    this.dialogRef.close(this.userWork);
+    if (this.userWorkForm.valid) {
+      this.dialogRef.close(this.userWorkForm.value);
+    }
   }
 
   /**
@@ -199,6 +237,7 @@ export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   reset(): void {
     this.workForm.reset();
+    this.userWorkForm.reset();
   }
 
   /**
@@ -208,8 +247,10 @@ export class AddWorkComponent implements OnInit, OnDestroy, AfterViewInit {
   setCurrentDate(isChecked: boolean) {
     if (isChecked) {
       this.userWork.leavingDate = this.maxDate;
+      this.userWorkForm.get('leavingDate').setValue(this.maxDate);
     } else {
       this.userWork.leavingDate = null;
+      this.userWorkForm.get('leavingDate').setValue(null);
     }
   }
 

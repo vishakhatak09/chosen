@@ -80,6 +80,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
   educationData: EducationModel[] = [];
   fontColor = '#fff';
   backColor = '#43a047';
+  defaultColor = '#fff';
   public haveAdditionalInfo = false;
   socialLinkArray: SocialModel[] = [];
   public socialSites: string[] = AppConstant.SocialSites;
@@ -564,6 +565,28 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
     } else {
       this.allowDownload = false;
     }
+  }
+
+  editAdditional(value): void {
+
+    const dialogRef = this.matDialog.open(AdditionalInfoComponent, {
+      width: '500px',
+      height: 'auto',
+      disableClose: true,
+      data: value,
+    });
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
+        const isExist = this.additionalInfoData.findIndex((info: AdditionalModel) => {
+          return info.type.toLowerCase() === value.type.toLowerCase();
+        });
+        if ( isExist !== -1) {
+          this.additionalInfoData[isExist] = response;
+        } else {
+          this.additionalInfoData.push(response);
+        }
+      }
+    });
   }
 
   /**

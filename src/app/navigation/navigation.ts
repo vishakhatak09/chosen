@@ -2,6 +2,14 @@ import { FuseNavigation } from '@fuse/types';
 
 export const navigation: FuseNavigation[] = [
     {
+        id       : 'templates',
+        title    : 'Templates',
+        translate: 'NAV.TEMPLATES',
+        type     : 'item',
+        icon     : 'import_contacts',
+        url      : '/pages/auth/login'
+    },
+    {
         id       : 'resumebuildermenu',
         title    : 'Create Resume',
         translate: 'NAV.RESUME',
@@ -172,6 +180,30 @@ export const navigation: FuseNavigation[] = [
             // }
         // ]
     },
+    {
+        id       : 'my_resumes',
+        title    : 'My Resumes',
+        translate: 'NAV.MY_RESUMES',
+        type     : 'item',
+        icon     : 'import_contacts',
+        url      : '/pages/auth/login'
+    },
+    // {
+    //     id       : 'login-v2',
+    //     title    : 'Login',
+    //     translate: 'NAV.LOGIN',
+    //     type     : 'item',
+    //     icon     : 'lock',
+    //     url      : '/pages/auth/login'
+    // },
+    // {
+    //     id   : 'register-v2',
+    //     title: 'Register',
+    //     type : 'item',
+    //     translate: 'NAV.REGISTER',
+    //     icon     : 'lock',
+    //     url  : '/pages/auth/register'
+    // },
     // {
     //     id      : 'pages',
     //     title   : 'Pages',

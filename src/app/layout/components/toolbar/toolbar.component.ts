@@ -103,6 +103,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, { id: this._translateService.currentLang });
+        if (localStorage.getItem('isLogin')) {
+            this.isLoggedIn = true;
+        }
     }
 
     /**
@@ -148,5 +151,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
+    }
+
+    /**
+     * Logout
+     */
+    logout(): void {
+        localStorage.removeItem('isLogin');
+        this.isLoggedIn = false;
     }
 }

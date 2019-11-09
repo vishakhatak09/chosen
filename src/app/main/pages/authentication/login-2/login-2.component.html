@@ -3,16 +3,15 @@
     <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
 
         <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
-            <img src="assets/images/logos/fuse.svg">
+            <img src="assets/icons/chosen-logo.svg">
         </div>
 
         <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
-            Welcome to the FUSE!
+            Welcome to the Chosen you!
         </div>
 
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat,
-            vel convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis viverra.
+            Chosen is a site where you can build your resume with the best designs and help you to take first step with highly professional resume templates to get perfect job according to your profile. Chosen believes that resume is the first impression of job seekers / first step for getting the right job.
         </div>
 
     </div>
@@ -23,12 +22,12 @@
         <div id="login-form">
 
             <div class="logo" fxHide.gt-xs>
-                <img src="assets/images/logos/fuse.svg">
+                <img src="assets/icons/chosen-logo.svg">
             </div>
 
             <div class="title">LOGIN TO YOUR ACCOUNT</div>
 
-            <form name="loginForm" [formGroup]="loginForm" novalidate>
+            <form name="loginForm" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
 
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
@@ -59,7 +58,7 @@
                         Remember Me
                     </mat-checkbox>
 
-                    <a class="forgot-password" [routerLink]="'/pages/auth/forgot-password-2'">
+                    <a class="forgot-password" [routerLink]="'/pages/auth/forgot-password'">
                         Forgot Password?
                     </a>
                 </div>
@@ -75,7 +74,7 @@
                 <span class="text">OR</span>
             </div>
 
-            <div fxLayout="column" fxLayoutAlign="start center">
+            <!-- <div fxLayout="column" fxLayoutAlign="start center">
 
                 <button mat-raised-button class="google">
                     Log in with Google
@@ -85,11 +84,11 @@
                     Log in with Facebook
                 </button>
 
-            </div>
+            </div> -->
 
             <div class="register" fxLayout="column" fxLayoutAlign="center center">
                 <span class="text">Don't have an account?</span>
-                <a class="link" [routerLink]="'/pages/auth/register-2'">Create an account</a>
+                <a class="link" [routerLink]="'/pages/auth/register'">Create an account</a>
             </div>
         </div>
     </div>

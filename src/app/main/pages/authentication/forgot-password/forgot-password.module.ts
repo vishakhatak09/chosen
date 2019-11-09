@@ -11,7 +11,7 @@ import { ForgotPasswordComponent } from 'app/main/pages/authentication/forgot-pa
 
 const routes = [
     {
-        path     : 'auth/forgot-password',
+        path     : 'auth/forgot-password-old',
         component: ForgotPasswordComponent
     }
 ];

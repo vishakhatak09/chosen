@@ -21,7 +21,11 @@ export const locale = {
             'CONTACTS'    : 'Contacts',
             'TODO'        : 'To-Do',
             'SCRUMBOARD'  : 'Scrumboard',
-            'RESUMEBUILDERMENU' : 'Resume-Builder'
+            'RESUMEBUILDERMENU' : 'Resume-Builder',
+            'LOGIN'       : 'Login',
+            'REGISTER'    : 'Register',
+            'TEMPLATES'   : 'Templates',
+            'MY_RESUMES'  : 'My Resumes',
         },
     }
 };

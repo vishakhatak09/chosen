@@ -5,7 +5,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { EducationModel } from 'core/models/resumebuilder.model';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'YYYY',
@@ -33,34 +33,43 @@ export const MY_FORMATS = {
   </h1>
   <div mat-dialog-content>
 
-    <form fxLayout="row wrap" fxLayoutGap="25px" #eduForm="ngForm"
+    <form fxLayout="row wrap" fxLayoutGap="25px" #eduForm="ngForm" [formGroup]="userEduForm"
       name="EduForm" (ngSubmit)="submitForm()">
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>College Name</mat-label>
             <input matInput placeholder="College Name" type="text"
-                [(ngModel)]="educationDetail.collegeName"
+                formControlName="collegeName"
                 name="CollegeName" autocomplete="off">
+            <mat-error *ngIf="userEduForm.get('collegeName').hasError('required')">
+              Please enter college name
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
             <mat-label hidden>University Name</mat-label>
             <input matInput placeholder="University Name" type="text"
-                [(ngModel)]="educationDetail.universityName"
+                formControlName="universityName"
                 name="UniversityName" autocomplete="off">
+            <mat-error *ngIf="userEduForm.get('universityName').hasError('required')">
+              Please enter university name
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Course Name</mat-label>
             <input matInput placeholder="Course Name" type="text" name="CourseName"
-                [(ngModel)]="educationDetail.courseName"
+                formControlName="courseName"
                 autocomplete="off">
+            <mat-error *ngIf="userEduForm.get('courseName').hasError('required')">
+              Please enter course name
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Year of passing</mat-label>
             <input matInput [matDatepicker]="picker"
-                [(ngModel)]="educationDetail.yearOfPassing"
+                formControlName="yearOfPassing"
                 placeholder="Year of passing" name="YearOfPassing"
                 [max]="maxDate"
                 autocomplete="off" >
@@ -71,12 +80,15 @@ export const MY_FORMATS = {
               panelClass="example-month-picker"
             >
             </mat-datepicker>
+            <mat-error *ngIf="userEduForm.get('yearOfPassing').hasError('required')">
+              Please select year of passing
+            </mat-error>
         </mat-form-field>
 
         <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)"></div>
         <div fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
-          <mat-checkbox name="current" [(ngModel)]="educationDetail.isCurrentlyPursuing"
-            (ngModelChange)="setCurrentDate(educationDetail.isCurrentlyPursuing)"
+          <mat-checkbox name="current" formControlName="isCurrentlyPursuing"
+            (change)="setCurrentDate($event.checked)"
           >Currently Pursuing</mat-checkbox>
         </div>
         <div mat-dialog-actions>
@@ -84,8 +96,6 @@ export const MY_FORMATS = {
         </div>
     </form>
   </div>
-
-
 
   `,
   styleUrls: ['./add-education.component.scss'],
@@ -99,6 +109,7 @@ export class AddEducationComponent implements OnInit, OnDestroy {
   public maxDate = moment();
   educationDetail = new EducationModel();
   @ViewChild('eduForm', { static: false }) eduForm: NgForm;
+  public userEduForm: FormGroup;
 
   /**
    * Constructor
@@ -108,16 +119,34 @@ export class AddEducationComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private dialogRef: MatDialogRef<AddEducationComponent>,
+    private formbuilder: FormBuilder
   ) {
+
+    this.userEduForm = this.formbuilder.group({
+      collegeName: ['', [Validators.required]],
+      universityName: ['', [Validators.required]],
+      courseName: ['', [Validators.required]],
+      yearOfPassing: ['', [Validators.required]],
+      isCurrentlyPursuing: [false, [Validators.required]],
+    });
+
     if (this.dialogData) {
       this.educationDetail = this.dialogData;
+      this.userEduForm.setValue({
+        collegeName: this.educationDetail.collegeName,
+        universityName: this.educationDetail.universityName,
+        courseName: this.educationDetail.courseName,
+        yearOfPassing: this.educationDetail.yearOfPassing,
+        isCurrentlyPursuing: moment(this.educationDetail.yearOfPassing).year() ===  moment().year() ? true : false,
+      });
     }
+
   }
 
   /**
    * On init
    */
-  ngOnInit() {}
+  ngOnInit() { }
 
   /**
    * On Year Selection
@@ -130,15 +159,22 @@ export class AddEducationComponent implements OnInit, OnDestroy {
     const ctrlValue = normalizedYear;
     ctrlValue.year(normalizedYear.year());
     this.educationDetail.yearOfPassing = ctrlValue;
+    this.userEduForm.get('yearOfPassing').setValue(ctrlValue);
     datepicker.close();
+    if ( normalizedYear.year() === moment().year() ) {
+      this.userEduForm.get('isCurrentlyPursuing').setValue(true);
+    } else {
+      this.userEduForm.get('isCurrentlyPursuing').setValue(false);
+    }
   }
 
   /**
    * Submit form
    */
   submitForm(): void {
-    console.log('educationDetail', this.educationDetail);
-    this.dialogRef.close(this.educationDetail);
+    if (this.userEduForm.valid) {
+      this.dialogRef.close(this.userEduForm.value);
+    }
   }
 
   /**
@@ -146,6 +182,7 @@ export class AddEducationComponent implements OnInit, OnDestroy {
    */
   reset(): void {
     this.eduForm.reset();
+    this.userEduForm.reset();
   }
 
   /**
@@ -155,8 +192,10 @@ export class AddEducationComponent implements OnInit, OnDestroy {
   setCurrentDate(isChecked: boolean) {
     if (isChecked) {
       this.educationDetail.yearOfPassing = this.maxDate;
+      this.userEduForm.get('yearOfPassing').setValue(this.maxDate);
     } else {
       this.educationDetail.yearOfPassing = null;
+      this.userEduForm.get('yearOfPassing').setValue(null);
     }
   }
 

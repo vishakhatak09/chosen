@@ -5,16 +5,16 @@ import { takeUntil } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
+import { confirmPasswordValidator } from '../register/register.component';
 
 @Component({
-    selector     : 'register-2',
-    templateUrl  : './register-2.component.html',
-    styleUrls    : ['./register-2.component.scss'],
+    selector: 'register-2',
+    templateUrl: './register-2.component.html',
+    styleUrls: ['./register-2.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class Register2Component implements OnInit, OnDestroy
-{
+export class Register2Component implements OnInit, OnDestroy {
     registerForm: FormGroup;
 
     // Private
@@ -23,18 +23,17 @@ export class Register2Component implements OnInit, OnDestroy
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder
-    )
-    {
+    ) {
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
-                navbar   : {
+                navbar: {
                     hidden: true
                 },
-                toolbar  : {
+                toolbar: {
                     hidden: true
                 },
-                footer   : {
+                footer: {
                     hidden: true
                 },
                 sidepanel: {
@@ -54,12 +53,11 @@ export class Register2Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this.registerForm = this._formBuilder.group({
-            name           : ['', Validators.required],
-            email          : ['', [Validators.required, Validators.email]],
-            password       : ['', Validators.required],
+            // name           : ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', Validators.required],
             passwordConfirm: ['', [Validators.required, confirmPasswordValidator]]
         });
 
@@ -75,44 +73,9 @@ export class Register2Component implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
 }
-
-/**
- * Confirm password validator
- *
- * @param {AbstractControl} control
- * @returns {ValidationErrors | null}
- */
-export const confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-
-    if ( !control.parent || !control )
-    {
-        return null;
-    }
-
-    const password = control.parent.get('password');
-    const passwordConfirm = control.parent.get('passwordConfirm');
-
-    if ( !password || !passwordConfirm )
-    {
-        return null;
-    }
-
-    if ( passwordConfirm.value === '' )
-    {
-        return null;
-    }
-
-    if ( password.value === passwordConfirm.value )
-    {
-        return null;
-    }
-
-    return {passwordsNotMatching: true};
-};

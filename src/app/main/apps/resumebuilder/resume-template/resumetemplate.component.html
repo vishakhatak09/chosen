@@ -2,9 +2,6 @@
     <div class="template-header">
 
         <div class="full-name">
-            <!-- <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}"> -->
-            <!-- <img [src]="profileSrc"> -->
-            <!-- </div> -->
             <span class="first-name" *ngIf="templateForm.firstName != ''" [innerHTML]="templateForm.firstName"></span>
             <span class="first-name" *ngIf="templateForm.firstName == ''">John</span>
             <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName"></span>
@@ -54,7 +51,7 @@
                         <div class="addr">{{work.location}}</div>
                         <div class="duration">
                             {{ work.joiningDate | date: 'LLLL yyyy' }} -
-                            {{ work.leavingDate  }}
+                            {{ work.leavingDate | date: 'LLLL yyyy' }}
                         </div>
                     </div>
                 </div>
@@ -149,8 +146,6 @@
                     </div>
                 </div>
             </ng-template>
-
-
         </div>
         <ng-container *ngIf="additionalInfo.length > 0">            
             <div class="template-section" *ngFor="let item of additionalInfo">

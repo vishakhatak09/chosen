@@ -3,16 +3,15 @@
     <div id="register-intro" fxFlex fxHide fxShow.gt-xs>
 
         <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
-            <img src="assets/images/logos/fuse.svg">
+            <img src="assets/icons/chosen-logo.svg">
         </div>
 
         <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
-            Welcome to the FUSE!
+            Welcome to the Chosen you!
         </div>
 
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat,
-            vel convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis viverra.
+            Chosen is a site where you can build your resume with the best designs and help you to take first step with highly professional resume templates to get perfect job according to your profile. Chosen believes that resume is the first impression of job seekers / first step for getting the right job.
         </div>
 
     </div>
@@ -23,21 +22,21 @@
         <div id="register-form">
 
             <div class="logo" fxHide.gt-xs>
-                <img src="assets/images/logos/fuse.svg">
+                <img src="assets/icons/chosen-logo.svg">
             </div>
 
             <div class="title">CREATE AN ACCOUNT</div>
 
             <form name="registerForm" [formGroup]="registerForm" novalidate>
 
-                <mat-form-field appearance="outline">
+                <!-- <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
                     <input matInput formControlName="name">
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <mat-error>
                         Name is required
                     </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
@@ -89,7 +88,7 @@
 
             <div class="register" fxLayout="column" fxLayoutAlign="center center">
                 <span class="text">Already have an account?</span>
-                <a class="link" [routerLink]="'/pages/auth/login-2'">Login</a>
+                <a class="link" [routerLink]="'/pages/auth/login'">Login</a>
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@ import { LoginComponent } from 'app/main/pages/authentication/login/login.compon
 
 const routes = [
     {
-        path     : 'auth/login',
+        path     : 'auth/login-old',
         component: LoginComponent
     }
 ];
