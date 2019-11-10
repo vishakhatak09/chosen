@@ -23,6 +23,14 @@ const routes = [
     {
         path: 'resumebuilder',
         loadChildren: './resumebuilder/resumebuilder.module#ResumebuilderModule'
+    },
+    {
+        path: 'templates',
+        loadChildren: './templates/templates.module#TemplatesModule',
+    },
+    {
+        path: 'my-resumes',
+        loadChildren: './my-resumes/my-resumes.module#MyResumesModule'
     }
 ];
 

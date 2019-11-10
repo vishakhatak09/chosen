@@ -140,10 +140,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     // Disable right click menu open
-    @HostListener('contextmenu', ['$event'])
-    onRightClick(event: KeyboardEvent) {
-        event.preventDefault();
-    }
+    // @HostListener('contextmenu', ['$event'])
+    // onRightClick(event: KeyboardEvent) {
+    //     event.preventDefault();
+    // }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks

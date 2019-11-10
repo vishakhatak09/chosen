@@ -6,6 +6,7 @@
             <span class="first-name" *ngIf="templateForm.firstName == ''">John</span>
             <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName"></span>
             <span class="last-name" *ngIf="templateForm.lastName == ''">Doe</span>
+            <img *ngIf="profileSrc" [src]="profileSrc" style="float: right;border-radius: 100%;">
         </div>
         <div class="contact-info">
             <span class="email">Email: </span>

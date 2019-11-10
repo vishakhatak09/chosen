@@ -21,6 +21,7 @@ import { AppComponent } from 'app/app.component';
 import { AppStoreModule } from 'app/store/store.module';
 import { LayoutModule } from 'app/layout/layout.module';
 import { LandingComponent } from './main/landing/landing.component';
+import { CoreModule } from 'core/core.module';
 
 const appRoutes: Routes = [
     // {
@@ -41,7 +42,7 @@ const appRoutes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'apps/resume',
+        redirectTo: 'pages/auth/login',
         pathMatch: 'full'
     }
 ];
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        AppStoreModule
+        AppStoreModule,
+        CoreModule
     ],
     bootstrap: [
         AppComponent

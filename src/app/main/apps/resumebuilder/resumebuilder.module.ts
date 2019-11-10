@@ -16,7 +16,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BarRatingModule } from 'ngx-bar-rating';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
-// import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ResumeBuilderService } from './resumebuilder.service';
@@ -42,7 +42,7 @@ const routes: Routes = [
     AddWorkComponent,
     AddEducationComponent,
     ConfirmationDialogComponent,
-    AdditionalInfoComponent
+    AdditionalInfoComponent,
   ],
   entryComponents: [
     ResumeTemplateComponent,
@@ -65,7 +65,7 @@ const routes: Routes = [
     MatAutocompleteModule,
     BarRatingModule,
     MatTooltipModule,
-    // MatStepperModule,
+    MatStepperModule,
     MatCheckboxModule,
     MatDialogModule,
     FuseMaterialColorPickerModule,

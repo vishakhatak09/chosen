@@ -33,12 +33,13 @@
                 </div>
             </button>
 
-            <!-- <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn"> -->
-            <button mat-button class="user-button" *ngIf="isLoggedIn">
+            <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn">
+            <!-- <button mat-button class="user-button" *ngIf="isLoggedIn"> -->
                 <div fxLayout="row" fxLayoutAlign="center center">
                     <!-- <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg"> -->
-                    <span class="username mr-12" fxHide fxShow.gt-sm (click)="logout()">Logout</span>
-                    <!-- <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon> -->
+                    <!-- <span class="username mr-12" fxHide fxShow.gt-sm (click)="logout()">Logout</span> -->
+                    <span class="username mr-12" fxHide fxShow.gt-sm>Admin</span>
+                    <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
             </button>
 
@@ -49,12 +50,12 @@
                     <span>My Profile</span>
                 </button>
 
-                <button mat-menu-item class="">
+                <!-- <button mat-menu-item class="">
                     <mat-icon>mail</mat-icon>
                     <span>Inbox</span>
-                </button>
+                </button> -->
 
-                <button mat-menu-item class="">
+                <button mat-menu-item class="" (click)="logout()">
                     <mat-icon>exit_to_app</mat-icon>
                     <span>Logout</span>
                 </button>

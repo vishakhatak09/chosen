@@ -5,7 +5,6 @@ import {
   ViewEncapsulation,
   OnDestroy,
   ElementRef,
-  AfterViewInit,
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -33,6 +32,10 @@ import { AddEducationComponent } from './add-education/add-education.component';
 import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { ENTER } from '@angular/cdk/keycodes';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import 'tinymce';
+import { ToastrService } from 'core/services/toastr.service';
+declare var tinymce: any;
 
 @Component({
   selector: 'app-resumebuilder',
@@ -41,7 +44,7 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ResumebuilderComponent implements OnInit, OnDestroy {
 
   public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
   public profileSrc: string | ArrayBuffer;
@@ -92,6 +95,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
   separatorKeysCodes: number[] = [ENTER];
+  selectedIndex = 0;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -106,7 +110,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
     private _formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private resumeBuilderService: ResumeBuilderService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private toastrService: ToastrService
   ) { }
 
   // -----------------------------------------------------------------------------------------------------
@@ -151,25 +156,27 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
     });
 
 
-
+    this.setupTinyMce();
     // this.filteredLanguages = this.basicDetailForm.get('languages').valueChanges.pipe(
     //   // startWith(null),
     //   map((fruit: string | null) => fruit ? this._filter(fruit) : this.languagesList.slice()));
 
   }
-
-  ngAfterViewInit(): void {
-
+  private setupTinyMce(): void {
+    tinymce.baseURL = 'assets';
     this.tinyEditorConfig = {
-      base_url: '/tinymce', // Root for resources
+      // selector: 'textarea#editorId',
+      // skin_url: '/skins', // Or loaded from your environments config
       suffix: '.min',       // Suffix to use when loading resources
       plugins: 'lists advlist',
+      statusbar: false,
+      browser_spellcheck: true,
       toolbar: 'bold italic underline | bullist numlist |  undo redo',
       height: 300,
       menubar: false,
+      header: false,
     };
-    this.cdRef.detectChanges();
-
+    tinymce.init(this.tinyEditorConfig);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -323,7 +330,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
       careerObjective: this.careerObjForm.get('careerObjective').value,
       experienceData: this.workExperienceData,
       additionalInfo: this.additionalInfoData,
-      socialData: this.socialLinkArray
+      socialData: this.socialLinkArray,
+      profileSrc: this.profileSrc
     };
     const dialogRef = this.matDialog.open(
       ResumeTemplateComponent,
@@ -432,6 +440,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
           width: 'auto',
           height: 'auto',
           disableClose: true,
+          data: {
+            msg: 'Do you want to remove this detail ?',
+          }
         }
       );
       dialogRef.afterClosed().subscribe((data: boolean) => {
@@ -580,13 +591,43 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterViewInit 
         const isExist = this.additionalInfoData.findIndex((info: AdditionalModel) => {
           return info.type.toLowerCase() === value.type.toLowerCase();
         });
-        if ( isExist !== -1) {
+        if (isExist !== -1) {
           this.additionalInfoData[isExist] = response;
         } else {
           this.additionalInfoData.push(response);
         }
       }
     });
+  }
+
+  stepChange(event: StepperSelectionEvent): void {
+    this.selectedIndex = event.selectedIndex;
+  }
+
+  finishStep(): void {
+    if (this.selectedIndex === 4) {
+      const dialogRef = this.matDialog.open(
+        ConfirmationDialogComponent,
+        {
+          width: 'auto',
+          height: 'auto',
+          disableClose: true,
+          data: {
+            msg: 'Do you want to add Additional Information ?',
+          }
+        }
+      );
+      dialogRef.afterClosed().subscribe((resp: boolean) => {
+        if ( resp === true ) {
+          this.haveAdditionalInfo = true;
+          setTimeout(() => {
+            this.selectedIndex = 5;
+          }, 10);
+        }
+      });
+    } else {
+      this.toastrService.displaySnackBar('Your resume has been saved', 'success');
+    }
   }
 
   /**

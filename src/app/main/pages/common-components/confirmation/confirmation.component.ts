@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     selector: 'app-confirmation-dialog',
     template: `
         <div mat-dialog-content>
-            Do you want to remove this detail ?
+            {{ dialogData.msg }}
         </div>
         <div mat-dialog-actions>
             <button type="button" mat-button tabindex="1" (click)="onConfirmation()">Yes</button>

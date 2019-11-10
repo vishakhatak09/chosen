@@ -10,6 +10,7 @@ login-2 {
 
         #login-intro {
             padding: 128px;
+            background: url('/assets/images/background/login-background.svg') no-repeat;
 
             @include media-breakpoint('sm') {
                 padding: 128px 64px;
@@ -24,12 +25,14 @@ login-2 {
                 font-size: 42px;
                 font-weight: 300;
                 line-height: 1;
+                color: #0e9c78;
             }
 
             .description {
                 padding-top: 16px;
                 font-size: 14px;
                 max-width: 600px;
+                color: gray;
             }
         }
 

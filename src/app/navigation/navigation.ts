@@ -6,15 +6,23 @@ export const navigation: FuseNavigation[] = [
         title    : 'Templates',
         translate: 'NAV.TEMPLATES',
         type     : 'item',
-        icon     : 'import_contacts',
-        url      : '/pages/auth/login'
+        icon     : 'folder_open',
+        url      : '/apps/templates'
+    },
+    {
+        id       : 'my_resumes',
+        title    : 'My Resumes',
+        translate: 'NAV.MY_RESUMES',
+        type     : 'item',
+        icon     : 'folder_shared',
+        url      : '/apps/my-resumes'
     },
     {
         id       : 'resumebuildermenu',
         title    : 'Create Resume',
         translate: 'NAV.RESUME',
         type     : 'item',
-        icon     : 'apps',
+        icon     : 'description',
         url      : '/apps/resume'
         // children : [
             // {
@@ -179,14 +187,6 @@ export const navigation: FuseNavigation[] = [
             //     url      : '/apps/scrumboard'
             // }
         // ]
-    },
-    {
-        id       : 'my_resumes',
-        title    : 'My Resumes',
-        translate: 'NAV.MY_RESUMES',
-        type     : 'item',
-        icon     : 'import_contacts',
-        url      : '/pages/auth/login'
     },
     // {
     //     id       : 'login-v2',

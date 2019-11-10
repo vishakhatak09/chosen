@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { Router } from '@angular/router';
+import { ToastrService } from 'core/services/toastr.service';
 
 @Component({
     selector: 'login-2',
@@ -24,7 +25,8 @@ export class Login2Component implements OnInit {
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _router: Router,
+        private _toastrService: ToastrService
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -59,12 +61,17 @@ export class Login2Component implements OnInit {
         });
     }
 
+    /**
+     * Login
+     */
     login(): void {
         if (this.loginForm.valid) {
             const formValue = this.loginForm.value;
             if (formValue.email === 'admin@chosen.com' && formValue.password === 'admin123') {
                 localStorage.setItem('isLogin', 'true');
                 this._router.navigate(['/apps/resume']);
+            } else {
+                this._toastrService.displaySnackBar('Invalid email or password', 'error');
             }
         }
     }

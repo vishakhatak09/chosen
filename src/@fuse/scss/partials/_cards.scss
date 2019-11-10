@@ -24,6 +24,9 @@
     min-width: 320px;
     border-radius: 8px;
     border: 1px solid;
+    img{
+        max-width: 80%;
+    }
 
     &.variable-width {
         min-width: 0;

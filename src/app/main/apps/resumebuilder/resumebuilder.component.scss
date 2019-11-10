@@ -213,6 +213,16 @@ mat-chip {
     h3 {
         margin: 5px 0 5px 0;
         font-weight: bold;
+        .mat-icon{
+            font-size: 20px;
+            background-color: green;
+            padding: 5px;
+            border-radius: 100px;
+            margin: 10px;
+            color: white;
+            display: inline !important;
+            cursor: pointer;
+        }
     }
     p {
         margin: 5px 0 5px 0;
@@ -224,9 +234,14 @@ button.upload-btn{
     } 
 }
 .upload-class{
-    padding: 0 0 20px 10px !important;
-    span{
-        margin-left: 15%;
+    padding: 0 0 20px 0 !important;
+    span.upload-span{
+        margin-left: 150px;
         font-weight: 800;
+        border-radius: 10px;
+        padding: 10px;
     }
+}
+.tox .tox-menubar{
+    display: none !important;
 }

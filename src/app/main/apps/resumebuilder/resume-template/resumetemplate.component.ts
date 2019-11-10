@@ -87,6 +87,9 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
                     if (matData.socialData) {
                         this.socialData = matData.socialData;
                     }
+                    if( matData.profileSrc ) {
+                        this.profileSrc = matData.profileSrc;
+                    }
                 }
             });
 
