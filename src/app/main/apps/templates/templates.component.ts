@@ -213,8 +213,7 @@ export class TemplatesComponent {
   toggleView(): void {
     if (this.view === 'preview') {
       this.view = 'source';
-    }
-    else {
+    } else {
       this.view = 'preview';
     }
   }

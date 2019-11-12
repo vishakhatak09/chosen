@@ -163,7 +163,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
 
   }
   private setupTinyMce(): void {
-    tinymce.baseURL = 'assets';
+    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config
@@ -175,6 +175,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       height: 300,
       menubar: false,
       header: false,
+      setup: (editor) => {
+        editor.on('init',  (e) => {
+          // console.log('editor initialized', e);
+        });
+      }
     };
     tinymce.init(this.tinyEditorConfig);
   }
@@ -602,6 +607,15 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
 
   stepChange(event: StepperSelectionEvent): void {
     this.selectedIndex = event.selectedIndex;
+    if (this.selectedIndex === 1) {
+      if (tinymce) {
+        tinymce.activeEditor.focus();
+        // setTimeout(() => {
+          // alert(document.getElementsByTagName('editor')[0]);
+          // document.getElementsByTagName('editor')[0].scrollIntoView({behavior: 'smooth', block: 'start'});          
+        // }, 10);
+      }
+    }
   }
 
   finishStep(): void {
@@ -618,7 +632,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
         }
       );
       dialogRef.afterClosed().subscribe((resp: boolean) => {
-        if ( resp === true ) {
+        if (resp === true) {
           this.haveAdditionalInfo = true;
           setTimeout(() => {
             this.selectedIndex = 5;
