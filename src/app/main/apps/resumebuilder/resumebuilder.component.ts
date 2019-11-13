@@ -35,6 +35,8 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import 'tinymce';
 import { ToastrService } from 'core/services/toastr.service';
+import { Template1Component } from 'core/components/template1/template1.component';
+import { mockTemplate } from 'core/mock/temp-content';
 declare var tinymce: any;
 
 @Component({
@@ -176,7 +178,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       menubar: false,
       header: false,
       setup: (editor) => {
-        editor.on('init',  (e) => {
+        editor.on('init', (e) => {
           // console.log('editor initialized', e);
         });
       }
@@ -336,13 +338,15 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       experienceData: this.workExperienceData,
       additionalInfo: this.additionalInfoData,
       socialData: this.socialLinkArray,
-      profileSrc: this.profileSrc
+      profileSrc: this.profileSrc,
+      // templateContent: mockTemplate,
     };
     const dialogRef = this.matDialog.open(
       ResumeTemplateComponent,
+      // Template1Component,
       {
         width: 'auto',
-      }
+      },
     );
     dialogRef.afterOpened().subscribe(() => {
       this.resumeBuilderService.templateData.next(data);
@@ -611,8 +615,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       if (tinymce) {
         tinymce.activeEditor.focus();
         // setTimeout(() => {
-          // alert(document.getElementsByTagName('editor')[0]);
-          // document.getElementsByTagName('editor')[0].scrollIntoView({behavior: 'smooth', block: 'start'});          
+        // alert(document.getElementsByTagName('editor')[0]);
+        // document.getElementsByTagName('editor')[0].scrollIntoView({behavior: 'smooth', block: 'start'});
         // }, 10);
       }
     }

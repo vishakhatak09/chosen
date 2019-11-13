@@ -25,6 +25,10 @@
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
 
+            <fuse-search-bar (input)="search($event)"></fuse-search-bar>
+
+            <div class="toolbar-separator"></div>
+
             <button mat-button class="user-button" *ngIf="!isLoggedIn">
                 <div fxLayout="row" fxLayoutAlign="center center">
                     <!-- <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg"> -->
@@ -36,9 +40,10 @@
             <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn">
             <!-- <button mat-button class="user-button" *ngIf="isLoggedIn"> -->
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <!-- <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg"> -->
+                    <img class="avatar mr-0 mr-sm-16" src="assets/icons/chosen-logo.svg">
                     <!-- <span class="username mr-12" fxHide fxShow.gt-sm (click)="logout()">Logout</span> -->
                     <span class="username mr-12" fxHide fxShow.gt-sm>Admin</span>
+                    <!-- <p class="username mr-12" fxHide fxShow.gt-sm>admin@gmail.com</p> -->
                     <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
             </button>

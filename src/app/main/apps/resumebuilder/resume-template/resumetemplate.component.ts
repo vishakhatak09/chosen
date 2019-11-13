@@ -17,7 +17,6 @@ import { ResumeBuilderService } from '../resumebuilder.service';
 export class ResumeTemplateComponent implements OnInit, OnChanges {
 
     public str = String;
-    public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
     public Arr = Array;
     public ratingMax = 5;
     public skillMockData = ResumeMock.data;
@@ -31,9 +30,13 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     @Input() public profileSrc: string | ArrayBuffer;
     @Input() socialData: SocialModel[] = [];
 
+    // Template content
+    @Input() content;
+
     /**
      * Constructor
      * @param domsanitizer DomSanitizer
+     * @param resumeBuilderService ResumeBuilderService
      */
     constructor(
         private domsanitizer: DomSanitizer,
@@ -87,8 +90,11 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
                     if (matData.socialData) {
                         this.socialData = matData.socialData;
                     }
-                    if( matData.profileSrc ) {
+                    if (matData.profileSrc) {
                         this.profileSrc = matData.profileSrc;
+                    }
+                    if (matData.templateContent) {
+                        this.content = matData.templateContent;
                     }
                 }
             });

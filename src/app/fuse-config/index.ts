@@ -18,10 +18,10 @@ export const fuseConfig: FuseConfig = {
         // style    : 'horizontal-layout-1',
         width    : 'fullwidth',
         navbar   : {
-            // primaryBackground  : 'fuse-navy-700',
-            primaryBackground  : 'fuse-white-500',
-            // secondaryBackground: 'fuse-navy-900',
-            secondaryBackground: 'fuse-white-500',
+            primaryBackground  : 'fuse-navy-700',
+            // primaryBackground  : 'fuse-white-500',
+            secondaryBackground: 'fuse-navy-900',
+            // secondaryBackground: 'fuse-white-500',
             folded             : true, // side nav bar folded true/false
             hidden             : false,
             position           : 'left',

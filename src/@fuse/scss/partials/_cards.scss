@@ -9,6 +9,9 @@
     .fuse-card {
         background: map-get($background, card);
         border-color: map-get($foreground, divider);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         .card-divider {
             border-top: 1px solid map-get($foreground, divider);
@@ -25,7 +28,7 @@
     border-radius: 8px;
     border: 1px solid;
     img{
-        max-width: 80%;
+        max-width: 95%;
     }
 
     &.variable-width {

@@ -1,6 +1,5 @@
-<div *ngIf="content" [innerHTML]="content">
-</div>
-<div class="template-container" *ngIf="templateForm && !content">
+export const mockTemplate = `
+<div class="template-container" *ngIf="templateForm">
     <div class="template-header">
 
         <div class="full-name">
@@ -30,8 +29,8 @@
         </div>
 
         <div class="contact-info" *ngFor="let social of socialData">
-            <span class="email">{{ social.website }}: </span>
-            <span class="email-val">{{ social.link }}</span>
+            <span class="email" [innerHTML]="social.website"></span>: 
+            <span class="email-val" [innerHTML]="social.link"></span>
         </div>
 
     </div>
@@ -49,12 +48,12 @@
             <div class="section__list" *ngIf="experienceData && experienceData.length > 0">
                 <div class="section__list-item" *ngFor="let work of experienceData">
                     <div class="left">
-                        <div class="name">{{work.designation}}</div>
-                        <div class="addr">{{work.companyName}}</div>
-                        <div class="addr">{{work.location}}</div>
-                        <div class="duration">
-                            {{ work.joiningDate | date: 'LLLL yyyy' }} -
-                            {{ work.leavingDate | date: 'LLLL yyyy' }}
+                        <div class="name" [innerHTML]="work.designation"></div>
+                        <div class="addr" [innerHTML]="work.companyName"></div>
+                        <div class="addr" [innerHTML]="work.location"></div>
+                        <div class="duration" [innerHTML]=" work.joiningDate | date: 'LLLL yyyy' -  work.leavingDate | date: 'LLLL yyyy'">
+                            <!-- {{ work.joiningDate | date: 'LLLL yyyy' }} -
+                            {{ work.leavingDate | date: 'LLLL yyyy' }} -->
                         </div>
                     </div>
                 </div>
@@ -105,10 +104,10 @@
             <div class="section__list" *ngIf="educationData && educationData.length > 0">
                 <div class="section__list-item" *ngFor="let item of educationData">
                     <div class="left">
-                        <div class="name">{{item.courseName}}</div>
-                        <div class="addr">{{item.collegeName}}</div>
-                        <div class="addr">{{item.universityName}}</div>
-                        <div class="duration">{{item.yearOfPassing | date: 'yyyy'}}</div>
+                        <div class="name" [innerHTML]="item.courseName"></div>
+                        <div class="addr" [innerHTML]="item.collegeName"></div>
+                        <div class="addr" [innerHTML]="item.universityName"></div>
+                        <div class="duration" [innerHTML]="item.yearOfPassing | date: 'yyyy'"></div>
                     </div>
                 </div>
             </div>
@@ -119,15 +118,14 @@
                 <div class="skills" *ngFor="let skill of skillData">
                     <div class="skills__item">
                         <div class="left">
-                            <div class="name">
-                                {{ skill.skillName }}
+                            <div class="name" [innerHTML]="skill.skillName">
                             </div>
                         </div>
                         <div class="right">
                             <ng-container *ngFor="let i of Arr(ratingMax); let ind = index">
                                 <input [id]="skill.skillName + ind" type="checkbox" [disabled]="true"
                                     [checked]="(ind + 1) <= skill.ratings" />
-                                <label for="{{skill.skillName}}{{ind}}"></label>
+                                <label [for]="skill.skillName + ind"></label>
                             </ng-container>
                         </div>
                     </div>
@@ -137,32 +135,29 @@
                 <div class="skills" *ngFor="let skill of skillMockData.skills">
                     <div class="skills__item">
                         <div class="left">
-                            <div class="name">
-                                {{ skill.skillName }}
+                            <div class="name" [innerHTML]="skill.skillName">
                             </div>
                         </div>
                         <div class="right">
                             <ng-container *ngFor="let i of Arr(ratingMax); let ind = index">
-                                <input [id]="skill.skillName + ind" type="checkbox" [disabled]="true"
-                                    [checked]="(ind + 1) <= skill.ratings" />
+                                <input [id]="skill.skillName + ind" type="checkbox"
+                                    [disabled]="true" [checked]="(ind + 1) <= skill.ratings" />
                                 <label [for]="skill.skillName + ind"></label>
                             </ng-container>
-                        </div>x
+                        </div>
                     </div>
                 </div>
             </ng-template>
         </div>
         <ng-container *ngIf="additionalInfo.length > 0">
             <div class="template-section" *ngFor="let item of additionalInfo">
-                <div class="section__title">
-                    {{ item.type }}
+                <div class="section__title" [innerHTML]="item.type">
                 </div>
                 <div class="section__list">
-                    <div class="section__list-item">
-                        {{ item.value }}
+                    <div class="section__list-item" [innerHTML]="item.value">
                     </div>
                 </div>
             </div>
         </ng-container>
     </div>
-</div>
+</div>`;

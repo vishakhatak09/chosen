@@ -20,6 +20,8 @@ app-templates {
                 .card-preview {
                     display: flex;
                     min-width: 320px;
+                    flex-wrap: wrap;
+                    justify-content: space-evenly;
                 }
 
                 .card-source {

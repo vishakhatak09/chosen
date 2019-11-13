@@ -23,7 +23,7 @@ export const navigation: FuseNavigation[] = [
         translate: 'NAV.RESUME',
         type     : 'item',
         icon     : 'description',
-        url      : '/apps/resume'
+        url      : '/apps/resumebuilder'
         // children : [
             // {
             //     id       : 'dashboards',
