@@ -11,7 +11,7 @@ import { ResetPassword2Component } from 'app/main/pages/authentication/reset-pas
 
 const routes = [
     {
-        path     : 'auth/reset-password-2',
+        path: 'auth/reset-password',
         component: ResetPassword2Component
     }
 ];
@@ -20,7 +20,7 @@ const routes = [
     declarations: [
         ResetPassword2Component
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -31,6 +31,5 @@ const routes = [
         FuseSharedModule
     ]
 })
-export class ResetPassword2Module
-{
+export class ResetPassword2Module {
 }

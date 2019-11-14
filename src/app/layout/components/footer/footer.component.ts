@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
-    selector   : 'footer',
+    selector: 'footer',
     templateUrl: './footer.component.html',
-    styleUrls  : ['./footer.component.scss']
+    styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent
-{
+export class FooterComponent {
+
+    footerLink = AppConstant.FooterLinkUrl;
     /**
      * Constructor
      */
-    constructor()
-    {
+    constructor() {
     }
 }

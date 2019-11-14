@@ -121,6 +121,7 @@ export class AppConstant {
         'Certifications',
     ];
 
+    public static FooterLinkUrl = 'http://staging.chosenyou.com/';
 }
 
 export interface OptionType {

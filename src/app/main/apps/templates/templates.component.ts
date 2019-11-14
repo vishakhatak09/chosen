@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import * as shape from 'd3-shape';
 
 import { fuseAnimations } from '@fuse/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-templates',
@@ -25,7 +26,9 @@ export class TemplatesComponent {
     'assets/images/templates/tp-4.png',
   ];
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     // Set the defaults
     this.view = 'preview';
 
@@ -44,6 +47,10 @@ export class TemplatesComponent {
     } else {
       this.view = 'preview';
     }
+  }
+
+  selectTemplate(): void {
+    this.router.navigate(['/apps/resumebuilder']);
   }
 
 }

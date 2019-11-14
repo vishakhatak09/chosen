@@ -31,7 +31,7 @@
 
                     <div class="fuse-card m-12" *ngFor="let item of templateData">
 
-                        <img [src]="item">
+                        <img [src]="item" (click)="selectTemplate()">
 
                         <div class="pl-16" style="align-self: flex-start;">
                             <div class="h3"><strong>Basic</strong></div>

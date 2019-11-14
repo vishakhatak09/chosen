@@ -31,6 +31,10 @@ const routes = [
     {
         path: 'my-resumes',
         loadChildren: './my-resumes/my-resumes.module#MyResumesModule'
+    },
+    {
+        path: 'profile',
+        loadChildren: './profile/profile.module#ProfileModule'
     }
 ];
 

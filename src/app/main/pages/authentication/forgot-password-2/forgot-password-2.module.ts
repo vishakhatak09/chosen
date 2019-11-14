@@ -11,7 +11,7 @@ import { ForgotPassword2Component } from 'app/main/pages/authentication/forgot-p
 
 const routes = [
     {
-        path     : 'auth/forgot-password',
+        path: 'auth/forgot-password',
         component: ForgotPassword2Component
     }
 ];
@@ -20,7 +20,7 @@ const routes = [
     declarations: [
         ForgotPassword2Component
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -31,6 +31,5 @@ const routes = [
         FuseSharedModule,
     ]
 })
-export class ForgotPassword2Module
-{
+export class ForgotPassword2Module {
 }

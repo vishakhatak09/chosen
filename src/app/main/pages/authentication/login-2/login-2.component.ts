@@ -69,7 +69,7 @@ export class Login2Component implements OnInit {
             const formValue = this.loginForm.value;
             if (formValue.email === 'admin@chosen.com' && formValue.password === 'admin123') {
                 localStorage.setItem('isLogin', 'true');
-                this._router.navigate(['/apps/resume']);
+                this._router.navigate(['/apps/templates']);
             } else {
                 this._toastrService.displaySnackBar('Invalid email or password', 'error');
             }

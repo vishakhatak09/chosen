@@ -11,7 +11,7 @@ import { ResetPasswordComponent } from 'app/main/pages/authentication/reset-pass
 
 const routes = [
     {
-        path     : 'auth/reset-password',
+        path     : 'auth/reset-password-old',
         component: ResetPasswordComponent
     }
 ];

@@ -18,12 +18,21 @@ export const navigation: FuseNavigation[] = [
         url      : '/apps/my-resumes'
     },
     {
-        id       : 'resumebuildermenu',
-        title    : 'Create Resume',
-        translate: 'NAV.RESUME',
+        id       : 'mrofile',
+        title    : 'Profile',
+        translate: 'NAV.PROFILE',
         type     : 'item',
-        icon     : 'description',
-        url      : '/apps/resumebuilder'
+        icon     : 'person',
+        url      : '/apps/profile'
+    },
+    // {
+    //     id       : 'resumebuildermenu',
+    //     title    : 'Create Resume',
+    //     translate: 'NAV.RESUME',
+    //     type     : 'item',
+    //     icon     : 'description',
+    //     url      : '/apps/resumebuilder'
+    // },
         // children : [
             // {
             //     id       : 'dashboards',
@@ -187,7 +196,6 @@ export const navigation: FuseNavigation[] = [
             //     url      : '/apps/scrumboard'
             // }
         // ]
-    },
     // {
     //     id       : 'login-v2',
     //     title    : 'Login',

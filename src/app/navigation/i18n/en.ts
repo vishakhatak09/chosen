@@ -26,6 +26,7 @@ export const locale = {
             'REGISTER'    : 'Register',
             'TEMPLATES'   : 'Templates',
             'MY_RESUMES'  : 'My Resumes',
+            'PROFILE'     : 'Profile',
         },
     }
 };
