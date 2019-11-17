@@ -6,7 +6,7 @@ export class ResumeMock {
         lastName: 'Doe',
         contactNumber: '111-222-3333',
         email: 'john.doe@gmail.com',
-        fullAddress: '',
+        fullAddress: 'Lorem ipsum dolor met ',
         dateOfBirth: null,
         placeOfBirth: '',
         gender: '',
@@ -75,6 +75,7 @@ export class ResumeMock {
                 skillName: 'Sample Skill 2',
                 ratings: 2,
             },
-        ]
+        ],
+        profileSrc: 'assets/images/logos/profile.jpg',
     };
 }

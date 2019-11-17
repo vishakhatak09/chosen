@@ -122,6 +122,16 @@ export class AppConstant {
     ];
 
     public static FooterLinkUrl = 'http://staging.chosenyou.com/';
+
+    public static ConstantMsgs = {
+        'inactiveUser': 'Your account is not active, please contact to administrator',
+        'somethingWentWrong': 'Something went wrong, please try again later',
+        'notAuthorized': 'Not a valid authorization, please login again with valid credentials',
+        'internalServerError': 'Internal server error occurred, please try again',
+        'serverDown': 'The server is temporary unavailable. Please try again later',
+    };
+
+    public static AuthStorageKey = 'user';
 }
 
 export interface OptionType {

@@ -48,6 +48,9 @@
     }
 
     .content {
+        .mat-vertical-content{
+            padding: 0 !important;
+        }
         flex-wrap: wrap !important;
         // width: 50%;
         .mat-tab-group,
@@ -142,15 +145,16 @@
     }
     .add-button{
         width: 100%  !important;
-        border: 1px dotted #43a047 !important;
+        border: 1px solid #43a047 !important;
     }
     .work-content{
-        height: 100px;
+        height: auto;
         border-radius: 10px;
         color: mat-color($mat-green, 600); 
         width: 48% !important;
         align-items: center;
         margin: 0 5px;
+        padding: 5px;
         .action-buttons{
             float: right;
             .mat-icon{
@@ -164,7 +168,8 @@
             margin-left: 10px;
         }
         .work-desc{
-            margin-left: 50px;
+            width: 100%;
+            margin-left: 30px;
         }
     }
 }

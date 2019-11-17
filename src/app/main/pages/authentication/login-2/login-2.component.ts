@@ -1,10 +1,15 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { Router } from '@angular/router';
 import { ToastrService } from 'core/services/toastr.service';
+import { AuthenticationService } from 'core/services/authentication.service';
+import { environment } from 'environments/environment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
     selector: 'login-2',
@@ -13,8 +18,11 @@ import { ToastrService } from 'core/services/toastr.service';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class Login2Component implements OnInit {
+export class Login2Component implements OnInit, OnDestroy {
     loginForm: FormGroup;
+    loginUrl = environment.serverBaseUrl + 'api/login';
+
+    private _unSubscribeAll: Subject<any> = new Subject();
 
     /**
      * Constructor
@@ -26,7 +34,8 @@ export class Login2Component implements OnInit {
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private _toastrService: ToastrService
+        private _toastrService: ToastrService,
+        private authService: AuthenticationService,
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -73,6 +82,26 @@ export class Login2Component implements OnInit {
             } else {
                 this._toastrService.displaySnackBar('Invalid email or password', 'error');
             }
+            // this.authService.login(this.loginUrl, formValue)
+            //     .pipe(takeUntil(this._unSubscribeAll))
+            //     .subscribe(
+            //         (response) => {
+            //             this._toastrService.displaySnackBar('Login successfull', 'success');
+            //             this._router.navigate(['/apps/templates']);
+            //         },
+            //         error => {
+            //             this._toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error');
+            //         }
+            //     );
         }
+
+    }
+
+    /**
+     * On Destroy
+     */
+    ngOnDestroy(): void {
+        this._unSubscribeAll.next();
+        this._unSubscribeAll.complete();
     }
 }

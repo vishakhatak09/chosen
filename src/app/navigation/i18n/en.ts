@@ -27,6 +27,7 @@ export const locale = {
             'TEMPLATES'   : 'Templates',
             'MY_RESUMES'  : 'My Resumes',
             'PROFILE'     : 'Profile',
+            'MENU'        : 'Menu',
         },
     }
 };

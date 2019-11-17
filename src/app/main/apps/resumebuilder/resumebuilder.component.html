@@ -64,7 +64,7 @@
                         <mat-step [stepControl]="basicDetailForm">
                             <!-- <mat-tab label="Personal Info"> -->
 
-                            <div class="tab-content p-24">
+                            <div class="tab-content pl-12">
                                 <form name="resume" [formGroup]="basicDetailForm">
                                     <ng-template matStepLabel>Personal Info</ng-template>
 
@@ -153,7 +153,7 @@
                                     <div class="w-100-p">
                                         <mat-label class="example-radio-group-label">Marital Status: </mat-label>
                                         <mat-radio-group aria-labelledby="example-radio-group-label"
-                                            class="form-radio-group" formControlName="maritalStatus" required>
+                                            class="form-radio-group" formControlName="maritalStatus">
                                             <mat-radio-button class="form-radio-button"
                                                 *ngFor="let status of maritalStatuOpts" [value]="status.value">
                                                 {{status.viewValue}}
@@ -205,8 +205,8 @@
 
                                     </div>
                                     <div class="pt-12">
-                                        <button type="button" class="stepper-next ml-12" color="accent"  mat-raised-button
-                                            matStepperNext>Next</button>
+                                        <button type="button" class="stepper-next ml-12" color="accent"
+                                            mat-raised-button matStepperNext>Next</button>
                                     </div>
 
                                 </form>
@@ -218,25 +218,25 @@
                         <mat-step [stepControl]="careerObjForm">
                             <!-- <mat-tab label="Career Objective"> -->
 
-                            <div class="tab-content p-24">
+                            <div class="tab-content">
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
                                     [formGroup]="careerObjForm">
                                     <ng-template matStepLabel>Career Objective</ng-template>
 
                                     <div class="w-100-p">
                                         <ng-container *ngTemplateOutlet="editor"></ng-container>
-                                        <ng-template #editor>
-                                            <editor [id]="'careerTextArea'" autofocus class="tiny-editor" [init]="tinyEditorConfig"
-                                                placeholder="Career objective" [formControlName]="'careerObjective'"
-                                                tagName="textarea">
+                                        <ng-template matTabContent #editor>
+                                            <editor [id]="'careerTextArea'" autofocus class="tiny-editor"
+                                                [init]="tinyEditorConfig" placeholder="Career objective"
+                                                [formControlName]="'careerObjective'" tagName="textarea">
                                             </editor>
                                         </ng-template>
 
-                                        <div class="pt-12">
+                                        <div class="pt-12 pl-8 pb-4">
                                             <button type="button" class="stepper-back" mat-raised-button
                                                 matStepperPrevious>Back</button>
-                                            <button type="button" class="stepper-next ml-12" color="accent"  mat-raised-button
-                                                matStepperNext>Next</button>
+                                            <button type="button" class="stepper-next ml-12" color="accent"
+                                                mat-raised-button matStepperNext>Next</button>
                                         </div>
                                     </div>
 
@@ -249,7 +249,7 @@
                         <mat-step [stepControl]="workForm">
                             <!-- <mat-tab label="Work Experience"> -->
 
-                            <div class="tab-content p-24">
+                            <div class="tab-content">
                                 <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start"
                                     name="WorkForm">
                                     <ng-template matStepLabel>Work Experience</ng-template>
@@ -276,10 +276,11 @@
                                                 <div class="w-100-p description">
                                                     <span class="work-index">{{index+1}}</span>
                                                     <span class="work-desc">
-                                                        {{ data.designation }}
-                                                        <ng-container *ngIf="data.companyName">
-                                                            , {{ data.companyName }}
-                                                        </ng-container>
+                                                        <p>{{ data.designation }}</p>
+                                                        <p>{{ data.companyName }}</p>
+                                                        <p>{{ data.location }}</p>
+                                                        <p>{{data.joiningDate | date: 'LLLL yyyy'}} -
+                                                            {{data.leavingDate | date: 'LLLL yyyy'}}</p>
                                                     </span>
                                                 </div>
                                             </div>
@@ -293,11 +294,11 @@
 
                                     </div>
 
-                                    <div class="pt-12">
+                                    <div class="pt-12 pl-8 pb-4">
                                         <button type="button" class="stepper-back" mat-raised-button
                                             matStepperPrevious>Back</button>
-                                        <button type="button" class="stepper-next ml-12" color="accent"  mat-raised-button
-                                            matStepperNext>Next</button>
+                                        <button type="button" class="stepper-next ml-12" color="accent"
+                                            mat-raised-button matStepperNext>Next</button>
                                     </div>
 
                                 </form>
@@ -309,7 +310,7 @@
                         <mat-step>
                             <!-- <mat-tab label="Education Summary"> -->
 
-                            <div class="tab-content p-24">
+                            <div class="tab-content">
 
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume">
                                     <ng-template matStepLabel>Education Summary</ng-template>
@@ -335,13 +336,10 @@
                                                 <div class="w-100-p description">
                                                     <span class="work-index">{{index+1}}</span>
                                                     <span class="work-desc">
-                                                        {{ data.courseName }}
-                                                        <ng-container *ngIf="data.collegeName">
-                                                            , {{ data.collegeName }}
-                                                        </ng-container>
-                                                        <ng-container *ngIf="data.universityName">
-                                                            , {{ data.universityName }}
-                                                        </ng-container>
+                                                        <p>{{ data.courseName }}</p>
+                                                        <p>{{ data.collegeName }}</p>
+                                                        <p>{{ data.universityName }} ,
+                                                            {{ data.yearOfPassing | date: 'yyyy' }}</p>
                                                     </span>
                                                 </div>
                                             </div>
@@ -353,11 +351,11 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="pt-12">
+                                    <div class="pt-12 pl-8 pb-4">
                                         <button type="button" class="stepper-back" mat-raised-button
                                             matStepperPrevious>Back</button>
-                                        <button type="button" class="stepper-next ml-12" color="accent"  mat-raised-button
-                                            matStepperNext>Next</button>
+                                        <button type="button" class="stepper-next ml-12" color="accent"
+                                            mat-raised-button matStepperNext>Next</button>
                                     </div>
                                 </form>
 
@@ -369,7 +367,7 @@
                         <mat-step [stepControl]="skillForm">
                             <!-- <mat-tab label="Areas of Expertise"> -->
 
-                            <form class="tab-content p-24" [formGroup]="skillForm" fxLayout="row wrap"
+                            <form class="tab-content pt-4" [formGroup]="skillForm" fxLayout="row wrap"
                                 fxLayoutGap="25px">
                                 <ng-template matStepLabel>Areas of Expertise</ng-template>
 
@@ -463,12 +461,13 @@
                                         ?</mat-checkbox>
                                 </div> -->
 
-                                <div class="pt-12">
+                                <div class="pt-12 pl-8 pb-4">
                                     <button type="button" class="stepper-back" mat-raised-button
                                         matStepperPrevious>Back</button>
-                                    <button type="button"  *ngIf="haveAdditionalInfo == false" color="accent" mat-raised-button class="ml-12" (click)="finishStep()">Finish</button>
-                                    <button type="button" *ngIf="haveAdditionalInfo == true" class="stepper-next ml-12" color="accent" 
-                                        mat-raised-button matStepperNext>Next</button>
+                                    <button type="button" *ngIf="haveAdditionalInfo == false" color="accent"
+                                        mat-raised-button class="ml-12" (click)="finishStep()">Finish</button>
+                                    <button type="button" *ngIf="haveAdditionalInfo == true" class="stepper-next ml-12"
+                                        color="accent" mat-raised-button matStepperNext>Next</button>
                                 </div>
                             </form>
 
@@ -478,7 +477,7 @@
                         <mat-step *ngIf="haveAdditionalInfo == true">
                             <!-- <mat-tab label="Other details" *ngIf="haveAdditionalInfo == true"> -->
                             <ng-template matStepLabel>Other details</ng-template>
-                            <div class="tab-content p-24">
+                            <div class="tab-content">
 
                                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
 
@@ -500,10 +499,11 @@
                                 </div>
 
                             </div>
-                            <div class="pt-12">
+                            <div class="pt-12 pl-8 pb-4">
                                 <button type="button" class="stepper-back" mat-raised-button
                                     matStepperPrevious>Back</button>
-                                <button type="button" class="ml-12" color="accent" mat-raised-button (click)="finishStep()">Finish</button>
+                                <button type="button" class="ml-12" color="accent" mat-raised-button
+                                    (click)="finishStep()">Finish</button>
                             </div>
                             <!-- </mat-tab> -->
                         </mat-step>
@@ -514,11 +514,11 @@
                 </div>
 
                 <div class="template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
-                    <app-resume-template [templateForm]="basicDetailForm.getRawValue()"
+                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()"
                         [experienceData]="workExperienceData"
                         [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData"
                         [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                        [socialData]="socialLinkArray" [profileSrc]="profileSrc">
+                        [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate">
                     </app-resume-template>
                 </div>
 

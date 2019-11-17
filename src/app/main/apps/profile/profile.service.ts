@@ -4,8 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
-export class ProfileService implements Resolve<any>
-{
+export class ProfileService implements Resolve<any> {
     timeline: any;
     about: any;
     photosVideos: any;
@@ -21,8 +20,7 @@ export class ProfileService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient
-    )
-    {
+    ) {
         // Set the defaults
         this.timelineOnChanged = new BehaviorSubject({});
         this.aboutOnChanged = new BehaviorSubject({});
@@ -36,13 +34,12 @@ export class ProfileService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         return new Promise((resolve, reject) => {
             Promise.all([
-                this.getTimeline(),
-                this.getAbout(),
-                this.getPhotosVideos()
+                // this.getTimeline(),
+                // this.getAbout(),
+                // this.getPhotosVideos()
             ]).then(
                 () => {
                     resolve();
@@ -55,8 +52,7 @@ export class ProfileService implements Resolve<any>
     /**
      * Get timeline
      */
-    getTimeline(): Promise<any[]>
-    {
+    getTimeline(): Promise<any[]> {
         return new Promise((resolve, reject) => {
 
             this._httpClient.get('api/profile-timeline')
@@ -71,8 +67,7 @@ export class ProfileService implements Resolve<any>
     /**
      * Get about
      */
-    getAbout(): Promise<any[]>
-    {
+    getAbout(): Promise<any[]> {
         return new Promise((resolve, reject) => {
 
             this._httpClient.get('api/profile-about')
@@ -87,8 +82,7 @@ export class ProfileService implements Resolve<any>
     /**
      * Get photos & videos
      */
-    getPhotosVideos(): Promise<any[]>
-    {
+    getPhotosVideos(): Promise<any[]> {
         return new Promise((resolve, reject) => {
 
             this._httpClient.get('api/profile-photos-videos')

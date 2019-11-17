@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { fuseAnimations } from '@fuse/animations';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MMM-YYYY',
@@ -122,6 +123,7 @@ export const MY_FORMATS = {
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
+  animations: fuseAnimations
 })
 export class AddWorkComponent implements OnInit, OnDestroy {
 

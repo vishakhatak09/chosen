@@ -26,7 +26,8 @@ import { AddEducationComponent } from './add-education/add-education.component';
 import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { FuseMaterialColorPickerModule } from '@fuse/components';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
-import { Template1Component } from 'core/components/template1/template1.component';
+// import { Template1Component } from 'core/components/template1/template1.component';
+import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
     AddEducationComponent,
     ConfirmationDialogComponent,
     AdditionalInfoComponent,
-    Template1Component
+    // Template1Component,
+    ResumePreviewComponent
   ],
   entryComponents: [
     ResumeTemplateComponent,
@@ -52,7 +54,8 @@ const routes: Routes = [
     AddEducationComponent,
     ConfirmationDialogComponent,
     AdditionalInfoComponent,
-    Template1Component
+    // Template1Component
+    ResumePreviewComponent
   ],
   imports: [
     RouterModule.forChild(routes),

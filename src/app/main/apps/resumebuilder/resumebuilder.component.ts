@@ -24,9 +24,9 @@ import {
   AdditionalModel
 } from 'core/models/resumebuilder.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
+// import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeBuilderService } from './resumebuilder.service';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
 import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
@@ -35,8 +35,9 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import 'tinymce';
 import { ToastrService } from 'core/services/toastr.service';
-import { Template1Component } from 'core/components/template1/template1.component';
+// import { Template1Component } from 'core/components/template1/template1.component';
 import { mockTemplate } from 'core/mock/temp-content';
+import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 declare var tinymce: any;
 
 @Component({
@@ -58,11 +59,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   maritalStatuOpts: OptionType[] = AppConstant.MaritalStatusOptions;
   genderOptions: OptionType[] = AppConstant.GenderOptions;
   baseUrl = environment.baseUrl;
-  config = {
-    uiColor: '#F0F3F4',
-    height: '100%',
-    placeholder: 'Enter your data here...'
-  };
   languagesList: string[] = LanguageList.list;
   filteredLanguages: Observable<string[]>;
   selectedLanguages: string[] = [];
@@ -71,11 +67,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   ratingStyle = 'square';
   skillOptions: OptionType[] = AppConstant.SkillCustomOptions;
   basicSkill = '';
-  skillconfig = {
-    uiColor: '#F0F3F4',
-    height: '100%',
-    placeholder: 'Enter your skills.'
-  };
   skillListBox: SkillWithBox[] = [];
   skillRatingList: SkillRating[] = [];
   ratingThemeList: OptionType[] = AppConstant.RatingThemes;
@@ -95,13 +86,15 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   allowDownload = false;
 
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
-  @ViewChild('templateContent', { static: false }) templateContent: ElementRef;
+  @ViewChild('templateRef', { static: false }) templateContent: ElementRef;
   separatorKeysCodes: number[] = [ENTER];
   selectedIndex = 0;
+  public MockTemplate;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
   skillForm: FormGroup;
+
 
   /**
    * Constructor
@@ -156,14 +149,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
         this.backColor = '';
       }
     });
-
-
     this.setupTinyMce();
-    // this.filteredLanguages = this.basicDetailForm.get('languages').valueChanges.pipe(
-    //   // startWith(null),
-    //   map((fruit: string | null) => fruit ? this._filter(fruit) : this.languagesList.slice()));
-
+    this.sendTemplateValues();
   }
+
   private setupTinyMce(): void {
     tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
@@ -184,31 +173,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       }
     };
     tinymce.init(this.tinyEditorConfig);
+    this.MockTemplate = mockTemplate;
   }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Methods
   // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Language filter event
-   */
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.languagesList.filter(lang => lang.toLowerCase().includes(filterValue));
-  }
-
-  /**
-   * Ckeditor ready event
-   * @param editor Ckeditor
-   */
-  public onReady(editor: any) {
-    editor.ui.getEditableElement().parentElement.insertBefore(
-      editor.ui.view.toolbar.element,
-      editor.ui.getEditableElement()
-    );
-  }
 
   /**
    * On form submit
@@ -332,28 +302,36 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   }
 
   templatePreview(): void {
-    const data = {
-      templateForm: this.basicDetailForm.getRawValue(),
-      careerObjective: this.careerObjForm.get('careerObjective').value,
-      experienceData: this.workExperienceData,
-      additionalInfo: this.additionalInfoData,
-      socialData: this.socialLinkArray,
-      profileSrc: this.profileSrc,
-      // templateContent: mockTemplate,
-    };
-    const dialogRef = this.matDialog.open(
-      ResumeTemplateComponent,
-      // Template1Component,
-      {
-        width: 'auto',
-      },
-    );
-    dialogRef.afterOpened().subscribe(() => {
-      this.resumeBuilderService.templateData.next(data);
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      // this.resumeBuilderService.templateData.next(null);
-    });
+    // const data = {
+    //   templateForm: this.basicDetailForm.getRawValue(),
+    //   careerObjective: this.careerObjForm.get('careerObjective').value,
+    //   experienceData: this.workExperienceData,
+    //   additionalInfo: this.additionalInfoData,
+    //   socialData: this.socialLinkArray,
+    //   profileSrc: this.profileSrc,
+    //   templateContent: mockTemplate,
+    // };
+    console.log(this.templateContent);
+    if (this.templateContent) {
+      const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
+      const dialogRef = this.matDialog.open(
+        // ResumeTemplateComponent,
+        // Template1Component,
+        ResumePreviewComponent,
+        {
+          width: 'auto',
+          data: data,
+        },
+      );
+      dialogRef.afterOpened().subscribe(() => {
+        // this.resumeBuilderService.templateData.next(null);
+        // this.resumeBuilderService.templateData.next(data);
+      });
+      dialogRef.afterClosed().subscribe(() => {
+        // this.resumeBuilderService.templateData.next(null);
+      });
+    }
+
   }
 
   /**
@@ -646,6 +624,45 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     } else {
       this.toastrService.displaySnackBar('Your resume has been saved', 'success');
     }
+  }
+
+  sendTemplateValues(): void {
+    // const data: any = {
+    //   templateForm: this.basicDetailForm.getRawValue(),
+    //   careerObjective: this.careerObjForm.get('careerObjective').value,
+    //   experienceData: this.workExperienceData,
+    //   additionalInfo: this.additionalInfoData,
+    //   socialData: this.socialLinkArray,
+    //   profileSrc: this.profileSrc,
+    //   // templateContent: mockTemplate,
+    // };
+    this.resumeBuilderService.templateData.next(
+      {
+        templateContent: mockTemplate,
+      }
+    );
+    this.basicDetailForm.valueChanges
+      .subscribe((_val) => {
+        const data: any = {
+          templateForm: this.basicDetailForm.getRawValue(),
+        };
+        this.resumeBuilderService.templateData.next(data);
+      });
+
+    this.careerObjForm.valueChanges
+      .subscribe((value) => {
+        const data: any = {
+          careerObjective: value.careerObjective,
+        };
+        this.resumeBuilderService.templateData.next(data);
+      });
+
+    this.skillForm.valueChanges
+      .subscribe((_val) => {
+        const data: any = {
+          skillData: this.skillRatingList,
+        };
+      });
   }
 
   /**

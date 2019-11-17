@@ -6,6 +6,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepicker } from '@angular/material/datepicker';
 import { EducationModel } from 'core/models/resumebuilder.model';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { fuseAnimations } from '@fuse/animations';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'YYYY',
@@ -103,6 +104,7 @@ export const MY_FORMATS = {
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
+  animations: fuseAnimations
 })
 export class AddEducationComponent implements OnInit, OnDestroy {
 

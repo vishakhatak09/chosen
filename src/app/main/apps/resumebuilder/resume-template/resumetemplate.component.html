@@ -1,11 +1,11 @@
-<div *ngIf="content" [innerHTML]="content">
+<div class="main" *ngIf="content" [innerHTML]="safeInnerHtml">
 </div>
-<div class="template-container" *ngIf="templateForm && !content">
+ <!-- <div class="template-container" *ngIf="templateForm && !content">
     <div class="template-header">
 
         <div class="full-name">
             <span class="first-name" *ngIf="templateForm.firstName != ''" [innerHTML]="templateForm.firstName"></span>
-            <span class="first-name" *ngIf="templateForm.firstName == ''">John</span>
+            <span class="first-name" *ngIf="templateForm.firstName == ''" [ngStyle]="{'color': templateForm.firstName ? 'red' : ''}">John</span>
             <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName"></span>
             <span class="last-name" *ngIf="templateForm.lastName == ''">Doe</span>
             <img *ngIf="profileSrc" [src]="profileSrc" style="float: right;border-radius: 100%;">
@@ -134,7 +134,7 @@
                 </div>
             </ng-container>
             <ng-template #mockTemplate>
-                <div class="skills" *ngFor="let skill of skillMockData.skills">
+                <div class="skills" *ngFor="let skill of MockData.skills">
                     <div class="skills__item">
                         <div class="left">
                             <div class="name">
@@ -165,4 +165,4 @@
             </div>
         </ng-container>
     </div>
-</div>
+</div>  -->

@@ -174,8 +174,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy {
     private _resetFormValues(value): void {
         switch (value) {
             // Vertical Layout #1
-            case 'vertical-layout-1':
-                {
+            case 'vertical-layout-1': {
                     this.form.patchValue({
                         layout: {
                             width: 'fullwidth',
@@ -210,8 +209,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy {
                 }
 
             // Vertical Layout #2
-            case 'vertical-layout-2':
-                {
+            case 'vertical-layout-2': {
                     this.form.patchValue({
                         layout: {
                             width: 'fullwidth',
@@ -246,8 +244,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy {
                 }
 
             // Vertical Layout #3
-            case 'vertical-layout-3':
-                {
+            case 'vertical-layout-3': {
                     this.form.patchValue({
                         layout: {
                             width: 'fullwidth',
@@ -282,8 +279,7 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy {
                 }
 
             // Horizontal Layout #1
-            case 'horizontal-layout-1':
-                {
+            case 'horizontal-layout-1': {
                     this.form.patchValue({
                         layout: {
                             width: 'fullwidth',

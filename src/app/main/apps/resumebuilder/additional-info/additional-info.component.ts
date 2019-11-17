@@ -1,11 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AdditionalModel } from 'core/models/resumebuilder.model';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
   selector: 'app-additional-info',
   templateUrl: './additional-info.component.html',
   styleUrls: ['./additional-info.component.scss'],
+  animations: fuseAnimations
 })
 export class AdditionalInfoComponent implements OnInit {
 

@@ -1,44 +1,36 @@
 export const mockTemplate = `
-<div class="template-container" *ngIf="templateForm">
+<div class="template-container" id="main2">
     <div class="template-header">
 
         <div class="full-name">
-            <span class="first-name" *ngIf="templateForm.firstName != ''" [innerHTML]="templateForm.firstName"></span>
-            <span class="first-name" *ngIf="templateForm.firstName == ''">John</span>
-            <span class="last-name" *ngIf="templateForm.lastName != ''" [innerHTML]="templateForm.lastName"></span>
-            <span class="last-name" *ngIf="templateForm.lastName == ''">Doe</span>
-            <img *ngIf="profileSrc" [src]="profileSrc" style="float: right;border-radius: 100%;">
+            <span class="first-name" id="firstName" [ngStyle]="{'color': templateForm.firstName ? 'red' : ''}"  #firstnm>John</span>
+            <span class="last-name" id="lastName" *ngIf="templateForm.lastName == ''">Doe</span>
+            <img id="profileSrc" [src]="profileSrc" style="float: right;border-radius: 100%;">
         </div>
         <div class="contact-info">
             <span class="email">Email: </span>
-            <span class="email-val" *ngIf="templateForm.email != ''" [innerHTML]="templateForm.email"></span>
-            <span class="email-val" *ngIf="templateForm.email == ''">john.doe@gmail.com</span>
+            <span class="email-val" id="email">john.doe@gmail.com</span>
             <span class="separator"></span>
             <span class="phone">Phone: </span>
-            <span class="phone-val" *ngIf="templateForm.contactNumber != ''"
-                [innerHTML]="templateForm.contactNumber"></span>
-            <span class="phone-val" *ngIf="templateForm.contactNumber == ''">1112223333</span>
+            <span class="phone-val" id="contactNumber">1112223333</span>
         </div>
 
         <div class="address">
             <span class="email">Address: </span>
-            <span class="desc" *ngIf="templateForm.fullAddress == ''">
+            <span class="desc" id="fullAddress">
                 KlowdBox, San Fr, CA
             </span>
-            <span class="desc" *ngIf="templateForm.fullAddress != ''" [innerHTML]="templateForm.fullAddress"></span>
         </div>
 
         <div class="contact-info" *ngFor="let social of socialData">
-            <span class="email" [innerHTML]="social.website"></span>: 
+            <span class="email" [innerHTML]="social.website"></span>
             <span class="email-val" [innerHTML]="social.link"></span>
         </div>
 
     </div>
     <div class="details">
         <div class="template-section">
-            <div class="section__list" *ngIf="careerObjective" [innerHTML]="careerObjective">
-            </div>
-            <div class="section__list" *ngIf="!careerObjective">
+            <div class="section__list" id="careerObjective">
                 I am a front-end developer with more than 3 years of experience writing html, css, and js. I'm
                 motivated, result-focused and seeking a successful team-oriented company with opportunity to grow.
             </div>

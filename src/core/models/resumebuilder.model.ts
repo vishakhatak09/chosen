@@ -29,6 +29,7 @@ export interface TemplateModel {
     skillType: string;
     ratingType?: string;
     skills: SkillRating[];
+    profileSrc?: string | ArrayBuffer;
 }
 
 

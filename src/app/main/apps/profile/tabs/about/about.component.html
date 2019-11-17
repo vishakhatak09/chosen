@@ -1,98 +1,193 @@
-<div id="about" class="p-24" fxLayout="row wrap">
+<div id="about" class="p-24" fxFlex>
 
-    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
+    <div class="about-content" fxLayout="row wrap" fxFlex="100" fxlayoutgap="5px" fxLayoutAlign="space-between">
 
-        <div class="profile-box info-box general" fxLayout="column">
+        <div class="profile-box info-box general" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
+            fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
 
             <header class="accent">
-                <div class="title">General Information</div>
+                <div class="title">Personal Information</div>
             </header>
 
             <div class="content">
-                <div class="info-line">
-                    <div class="title">Gender</div>
-                    <div class="info">{{about.general.gender}}</div>
-                </div>
 
+                <div class="info-line">
+                    <div class="title">Name</div>
+                    <div class="info">Adam Smith</div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Phone.</div>
+                    <div class="info">
+                        <span>12345689</span>
+                    </div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Email</div>
+                    <div class="info">
+                        <span>adamsmith@gmail.com</span>
+                    </div>
+                </div>
+                <div class="info-line">
+                    <div class="title">Address</div>
+                    <div class="info">Lorem ipsum</div>
+                </div>
                 <div class="info-line">
                     <div class="title">Birthday</div>
-                    <div class="info">{{about.general.birthday}}</div>
+                    <div class="info">1/1/1990</div>
                 </div>
-
                 <div class="info-line">
+                    <div class="title">Gender</div>
+                    <div class="info">Male</div>
+                </div>
+                <!-- <div class="info-line">
                     <div class="title">Locations</div>
                     <div class="info location" fxLayout="row" fxLayoutAlign="start center"
                          *ngFor="let location of about.general.locations">
                         <span>{{location}}</span>
                         <mat-icon class="s-16 ml-4">location_on</mat-icon>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="info-line">
-                    <div class="title">About Me</div>
-                    <div class="info">{{about.general.about}}</div>
-                </div>
             </div>
 
         </div>
 
-        <div class="profile-box info-box work" fxLayout="column">
+        <div class="profile-box info-box work" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
+            fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
 
             <header class="accent">
+                <div class="title">Career Objective</div>
+            </header>
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">About Me</div>
+                    <div class="info">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus accumsan, quam sed eleifend
+                        imperdiet.
+                    </div>
+                </div>
+            </div>
+
+            <!-- <header class="accent">
                 <div class="title">Work</div>
             </header>
 
             <div class="content">
                 <div class="info-line">
                     <div class="title">Occupation</div>
-                    <div class="info">{{about.work.occupation}}</div>
+                    <div class="info">Lorem ipsum</div>
                 </div>
 
                 <div class="info-line">
                     <div class="title">Skills</div>
-                    <div class="info">{{about.work.skills}}</div>
+                    <div class="info">Lorem ipsum</div>
                 </div>
 
                 <div class="info-line">
                     <div class="title">Jobs</div>
                     <table class="info jobs">
-                        <tr class="job" *ngFor="let job of about.work.jobs">
-                            <td class="company">{{job.company}}</td>
-                            <td class="date">{{job.date}}</td>
+                        <tr class="job">
+                            <td class="company">Lorem</td>
+                            <td class="date">Ipsum</td>
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div> -->
         </div>
 
-        <div class="profile-box info-box contact" fxLayout="column">
+        <div class="profile-box info-box contact" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
+            fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
 
             <header class="accent">
-                <div class="title">Contact</div>
+                <div class="title">Work Experience</div>
             </header>
 
             <div class="content">
                 <div class="info-line">
-                    <div class="title">Address</div>
-                    <div class="info">{{about.contact.address}}</div>
+                    <div class="title">Jobs</div>
+                    <table class="info jobs">
+                        <tr class="job">
+                            <td class="company">Designation</td>
+                            <td class="company">Company</td>
+                            <td class="date">Location</td>
+                            <td class="date">Joining</td>
+                            <td class="date">Leaving</td>
+                        </tr>
+                        <tr class="job">
+                            <td class="company">Designation</td>
+                            <td class="company">Company</td>
+                            <td class="date">Location</td>
+                            <td class="date">Joining</td>
+                            <td class="date">Leaving</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-box info-box contact" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
+            fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
+
+            <header class="accent">
+                <div class="title">Education details</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Educations</div>
+                    <table class="info jobs">
+                        <tr class="job">
+                            <td class="company">College</td>
+                            <td class="company">Institute</td>
+                            <td class="date">Course</td>
+                            <td class="date">Year</td>
+                        </tr>
+                        <tr class="job">
+                            <td class="company">College</td>
+                            <td class="company">Institute</td>
+                            <td class="date">Course</td>
+                            <td class="date">Year</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-box info-box contact" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
+            fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
+
+            <header class="accent">
+                <div class="title">Expertise</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Lorem ipsum</div>
+                    <div class="title">Lorem ipsum</div>
+                    <div class="title">Lorem ipsum</div>
+                    <div class="title">Lorem ipsum</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-box info-box contact" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
+            fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
+
+            <header class="accent">
+                <div class="title">Additional Information</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Language</div>
+                    <div class="info">Lorem ipsum</div>
                 </div>
                 <div class="info-line">
-                    <div class="title">Tel.</div>
-                    <div class="info" *ngFor="let tel of about.contact.tel">
-                        <span>{{tel}}</span>
-                    </div>
-                </div>
-                <div class="info-line">
-                    <div class="title">Website</div>
-                    <div class="info" *ngFor="let website of about.contact.websites">
-                        <span>{{website}}</span>
-                    </div>
-                </div>
-                <div class="info-line">
-                    <div class="title">Emails</div>
-                    <div class="info" *ngFor="let email of about.contact.emails">
-                        <span>{{email}}</span>
-                    </div>
+                    <div class="title">Certificates</div>
+                    <div class="info">Lorem ipsum</div>
                 </div>
             </div>
 
@@ -100,7 +195,7 @@
 
     </div>
 
-    <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
+    <!-- <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
 
         <div class="profile-box friends" fxLayout="column">
 
@@ -152,6 +247,6 @@
 
         </div>
 
-    </div>
+    </div> -->
 
 </div>
