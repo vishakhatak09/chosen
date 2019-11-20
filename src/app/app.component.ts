@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
@@ -17,6 +17,7 @@ import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'environments/environment';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
     baseUrl = environment.baseUrl;
+    public isLandingPage = true;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -41,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {FuseSplashScreenService} _fuseSplashScreenService
      * @param {FuseTranslationLoaderService} _fuseTranslationLoaderService
      * @param {Platform} _platform
-     * @param {TranslateService} _translateService
+     * @param {TranslateService} _translateService,
      */
     constructor(
         @Inject(DOCUMENT) private document: any,
@@ -53,7 +55,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _platform: Platform,
         private iconRegistry: MatIconRegistry,
-        private sanitizer: DomSanitizer
+        private sanitizer: DomSanitizer,
+        private router: Router
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -178,6 +181,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.document.body.classList.add(this.fuseConfig.colorTheme);
             });
+
+        this.router.events
+            .pipe(filter(e => e instanceof NavigationEnd))
+            .subscribe(
+                (event: NavigationEnd) => {
+                    if (event.url === '/') {
+                        this.isLandingPage = true;
+                    } else {
+                        this.isLandingPage = false;
+                    }
+                }
+            );
     }
 
     /**

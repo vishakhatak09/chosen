@@ -10,6 +10,7 @@ import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppConstant } from 'core/constants/app.constant';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'login-2',
@@ -76,23 +77,23 @@ export class Login2Component implements OnInit, OnDestroy {
     login(): void {
         if (this.loginForm.valid) {
             const formValue = this.loginForm.value;
-            if (formValue.email === 'admin@chosen.com' && formValue.password === 'admin123') {
-                localStorage.setItem('isLogin', 'true');
-                this._router.navigate(['/apps/templates']);
-            } else {
-                this._toastrService.displaySnackBar('Invalid email or password', 'error');
-            }
-            // this.authService.login(this.loginUrl, formValue)
-            //     .pipe(takeUntil(this._unSubscribeAll))
-            //     .subscribe(
-            //         (response) => {
-            //             this._toastrService.displaySnackBar('Login successfull', 'success');
-            //             this._router.navigate(['/apps/templates']);
-            //         },
-            //         error => {
-            //             this._toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error');
-            //         }
-            //     );
+            const params = {
+                'params': {
+                    'email': formValue.email,
+                    'password': formValue.password
+                }
+            };
+            this.authService.login(this.loginUrl, params)
+                .pipe(takeUntil(this._unSubscribeAll))
+                .subscribe(
+                    (response) => {
+                        this._toastrService.displaySnackBar('Login successfull', 'success');
+                        this._router.navigate(['/apps/templates']);
+                    },
+                    (error: HttpErrorResponse) => {
+                        this._toastrService.displaySnackBar(error.message, 'error');
+                    }
+                );
         }
 
     }

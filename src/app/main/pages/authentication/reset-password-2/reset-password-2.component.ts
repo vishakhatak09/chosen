@@ -5,36 +5,46 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'environments/environment';
+import { AuthenticationService } from 'core/services/authentication.service';
+import { ToastrService } from 'core/services/toastr.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { confirmPasswordValidator } from 'core/validators/confirm-password.validator';
 
 @Component({
-    selector     : 'reset-password-2',
-    templateUrl  : './reset-password-2.component.html',
-    styleUrls    : ['./reset-password-2.component.scss'],
+    selector: 'reset-password-2',
+    templateUrl: './reset-password-2.component.html',
+    styleUrls: ['./reset-password-2.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class ResetPassword2Component implements OnInit, OnDestroy
-{
+export class ResetPassword2Component implements OnInit, OnDestroy {
     resetPasswordForm: FormGroup;
+    resetToken: string;
+    resetPswdApi = environment.serverBaseUrl + 'api/resetPassword';
 
     // Private
     private _unsubscribeAll: Subject<any>;
 
     constructor(
         private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder
-    )
-    {
+        private _formBuilder: FormBuilder,
+        private activatedRoute: ActivatedRoute,
+        private _authService: AuthenticationService,
+        private _router: Router,
+        private _toastrService: ToastrService,
+    ) {
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
-                navbar   : {
+                navbar: {
                     hidden: true
                 },
-                toolbar  : {
+                toolbar: {
                     hidden: true
                 },
-                footer   : {
+                footer: {
                     hidden: true
                 },
                 sidepanel: {
@@ -45,6 +55,8 @@ export class ResetPassword2Component implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.resetToken = this.activatedRoute.snapshot.paramMap.get('token');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,12 +66,11 @@ export class ResetPassword2Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this.resetPasswordForm = this._formBuilder.group({
-            name           : ['', Validators.required],
-            email          : ['', [Validators.required, Validators.email]],
-            password       : ['', Validators.required],
+            // name: ['', Validators.required],
+            // email: ['', [Validators.required, Validators.email]],
+            password: ['', Validators.required],
             passwordConfirm: ['', [Validators.required, confirmPasswordValidator]]
         });
 
@@ -72,47 +83,34 @@ export class ResetPassword2Component implements OnInit, OnDestroy
             });
     }
 
+    onResetPassword(): void {
+
+        const params = {
+            'params': {
+                'emailVerificationToken': this.resetToken,
+                'password': this.resetPasswordForm.value.password,
+            }
+        };
+        this._authService.resetPassword(this.resetPswdApi, params)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(
+                (response) => {
+                    this._toastrService.displaySnackBar('Your password has been reset successfully.', 'success');
+                    this._router.navigate(['/pages/auth/login']);
+                },
+                (error: HttpErrorResponse) => {
+                    this._toastrService.displaySnackBar(error.message, 'error');
+                }
+            );
+
+    }
+
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
 }
-
-/**
- * Confirm password validator
- *
- * @param {AbstractControl} control
- * @returns {ValidationErrors | null}
- */
-export const confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-
-    if ( !control.parent || !control )
-    {
-        return null;
-    }
-
-    const password = control.parent.get('password');
-    const passwordConfirm = control.parent.get('passwordConfirm');
-
-    if ( !password || !passwordConfirm )
-    {
-        return null;
-    }
-
-    if ( passwordConfirm.value === '' )
-    {
-        return null;
-    }
-
-    if ( password.value === passwordConfirm.value )
-    {
-        return null;
-    }
-
-    return {passwordsNotMatching: true};
-};

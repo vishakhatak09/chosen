@@ -27,7 +27,7 @@
 
             <div class="title">CREATE AN ACCOUNT</div>
 
-            <form name="registerForm" [formGroup]="registerForm" novalidate>
+            <form name="registerForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()">
 
                 <!-- <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
@@ -73,14 +73,15 @@
                 </mat-form-field>
 
                 <div class="terms" fxLayout="row" fxLayoutAlign="center center">
-                    <mat-checkbox name="terms" aria-label="Accept" required>
+                    <mat-checkbox name="terms" formControlName="agreeTerms" aria-label="Accept" required>
                         <span>Accept</span>
                     </mat-checkbox>
-                    <a href="#">terms and conditions</a>
+                    <a href="javascript:void(0)">terms and conditions</a>
                 </div>
 
                 <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
-                        [disabled]="registerForm.invalid">
+                        [disabled]="registerForm.invalid || 
+                            (registerForm.get('agreeTerms').value == null || registerForm.get('agreeTerms').value == false ) ">
                     CREATE AN ACCOUNT
                 </button>
 
@@ -88,7 +89,7 @@
 
             <div class="register" fxLayout="column" fxLayoutAlign="center center">
                 <span class="text">Already have an account?</span>
-                <a class="link" [routerLink]="'/pages/auth/login'">Login</a>
+                <a class="link" [routerLink]="['/pages/auth/login']">Login</a>
             </div>
         </div>
     </div>

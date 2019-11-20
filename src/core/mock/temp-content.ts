@@ -1,4 +1,4 @@
-export const mockTemplate = `
+export const templateMock = `
 <div class="template-container" id="main2">
     <div class="template-header">
 

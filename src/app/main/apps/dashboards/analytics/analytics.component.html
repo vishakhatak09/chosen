@@ -9,20 +9,17 @@
                 <span class="h5 secondary-text">Unique visitors by month</span>
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
-                <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                     (click)="widget1SelectedYear = '2016'"
-                     [ngClass]="{'blue-700': widget1SelectedYear === '2016'}">
+                <!-- <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
+                    (click)="widget1SelectedYear = '2016'" [ngClass]="{'blue-700': widget1SelectedYear === '2016'}">
                     2016
                 </div>
                 <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                     (click)="widget1SelectedYear = '2017'"
-                     [ngClass]="{'blue-700': widget1SelectedYear === '2017'}">
+                    (click)="widget1SelectedYear = '2017'" [ngClass]="{'blue-700': widget1SelectedYear === '2017'}">
                     2017
-                </div>
+                </div> -->
                 <div class="py-8 px-12 border-radius-2 line-height-1 cursor-pointer"
-                     (click)="widget1SelectedYear = '2018'"
-                     [ngClass]="{'blue-700': widget1SelectedYear === '2018'}">
-                    2018
+                    (click)="widget1SelectedYear = '2019'" [ngClass]="{'blue-700': widget1SelectedYear === '2019'}">
+                    2019
                 </div>
             </div>
         </div>
@@ -47,8 +44,7 @@
                 How are your active users trending over time?
             </div>
 
-            <div fxLayout="column" fxLayoutAlign="start"
-                 fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start start">
+            <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start start">
 
                 <!-- Widget 2 -->
                 <div class="widget" fxFlex="100" fxFlex.gt-sm="33">
@@ -66,12 +62,12 @@
 
                             <div class="py-4 font-size-16" fxLayout="row" fxLayoutAlign="start center">
                                 <div fxFlex="row" fxLayoutAlign="start center" class="green-fg"
-                                     *ngIf="widgets.widget2.conversion.ofTarget > 0">
+                                    *ngIf="widgets.widget2.conversion.ofTarget > 0">
                                     <mat-icon class="green-fg mr-4">trending_up</mat-icon>
                                     <span>{{widgets.widget2.conversion.ofTarget}}%</span>
                                 </div>
                                 <div fxFlex="row" fxLayoutAlign="start center" class="red-fg"
-                                     *ngIf="widgets.widget2.conversion.ofTarget < 0">
+                                    *ngIf="widgets.widget2.conversion.ofTarget < 0">
                                     <mat-icon class="red-fg mr-4">trending_down</mat-icon>
                                     <span>{{widgets.widget2.conversion.ofTarget}}%</span>
                                 </div>
@@ -81,12 +77,9 @@
                         </div>
 
                         <div class="h-96 w-100-p">
-                            <canvas baseChart
-                                    [datasets]="widgets.widget2.datasets"
-                                    [labels]="widgets.widget2.labels"
-                                    [colors]="widgets.widget2.colors"
-                                    [options]="widgets.widget2.options"
-                                    [chartType]="widgets.widget2.chartType">
+                            <canvas baseChart [datasets]="widgets.widget2.datasets" [labels]="widgets.widget2.labels"
+                                [colors]="widgets.widget2.colors" [options]="widgets.widget2.options"
+                                [chartType]="widgets.widget2.chartType">
                             </canvas>
                         </div>
 
@@ -111,12 +104,12 @@
 
                             <div class="py-4 font-size-16" fxLayout="row" fxLayoutAlign="start center">
                                 <div fxFlex="row" fxLayoutAlign="start center" class="green-fg"
-                                     *ngIf="widgets.widget3.impressions.ofTarget > 0">
+                                    *ngIf="widgets.widget3.impressions.ofTarget > 0">
                                     <mat-icon class="green-fg mr-4">trending_up</mat-icon>
                                     <span>{{widgets.widget3.impressions.ofTarget}}%</span>
                                 </div>
                                 <div fxFlex="row" fxLayoutAlign="start center" class="red-fg"
-                                     *ngIf="widgets.widget3.impressions.ofTarget < 0">
+                                    *ngIf="widgets.widget3.impressions.ofTarget < 0">
                                     <mat-icon class="red-fg mr-4">trending_down</mat-icon>
                                     <span>{{widgets.widget3.impressions.ofTarget}}%</span>
                                 </div>
@@ -126,12 +119,9 @@
                         </div>
 
                         <div class="h-96 w-100-p">
-                            <canvas baseChart
-                                    [datasets]="widgets.widget3.datasets"
-                                    [labels]="widgets.widget3.labels"
-                                    [colors]="widgets.widget3.colors"
-                                    [options]="widgets.widget3.options"
-                                    [chartType]="widgets.widget3.chartType">
+                            <canvas baseChart [datasets]="widgets.widget3.datasets" [labels]="widgets.widget3.labels"
+                                [colors]="widgets.widget3.colors" [options]="widgets.widget3.options"
+                                [chartType]="widgets.widget3.chartType">
                             </canvas>
                         </div>
 
@@ -156,12 +146,12 @@
 
                             <div class="py-4 font-size-16" fxLayout="row" fxLayoutAlign="start center">
                                 <div fxFlex="row" fxLayoutAlign="start center" class="green-fg"
-                                     *ngIf="widgets.widget4.visits.ofTarget > 0">
+                                    *ngIf="widgets.widget4.visits.ofTarget > 0">
                                     <mat-icon class="green-fg mr-4">trending_up</mat-icon>
                                     <span>{{widgets.widget4.visits.ofTarget}}%</span>
                                 </div>
                                 <div fxFlex="row" fxLayoutAlign="start center" class="red-fg"
-                                     *ngIf="widgets.widget4.visits.ofTarget < 0">
+                                    *ngIf="widgets.widget4.visits.ofTarget < 0">
                                     <mat-icon class="red-fg mr-4">trending_down</mat-icon>
                                     <span>{{widgets.widget4.visits.ofTarget}}%</span>
                                 </div>
@@ -171,12 +161,9 @@
                         </div>
 
                         <div class="h-96 w-100-p">
-                            <canvas baseChart
-                                    [datasets]="widgets.widget4.datasets"
-                                    [labels]="widgets.widget4.labels"
-                                    [colors]="widgets.widget4.colors"
-                                    [options]="widgets.widget4.options"
-                                    [chartType]="widgets.widget4.chartType">
+                            <canvas baseChart [datasets]="widgets.widget4.datasets" [labels]="widgets.widget4.labels"
+                                [colors]="widgets.widget4.colors" [options]="widgets.widget4.options"
+                                [chartType]="widgets.widget4.chartType">
                             </canvas>
                         </div>
 
@@ -194,32 +181,28 @@
 
             <div class="fuse-card auto-width">
 
-                <div class="position-relative p-24"
-                     fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="position-relative p-24 w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
                     <div fxLayout="column" fxLayoutAlign="start start">
                         <span class="h2">Visitors & Page views</span>
                     </div>
                     <div fxLayout="row" fxLayoutAlign="start center">
                         <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                             (click)="widget5SelectedDay = 'yesterday'"
-                             [ngClass]="{'accent': widget5SelectedDay === 'yesterday'}">
+                            (click)="widget5SelectedDay = 'yesterday'"
+                            [ngClass]="{'accent': widget5SelectedDay === 'yesterday'}">
                             Yesterday
                         </div>
                         <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                             (click)="widget5SelectedDay = 'today'"
-                             [ngClass]="{'accent': widget5SelectedDay === 'today'}">
+                            (click)="widget5SelectedDay = 'today'"
+                            [ngClass]="{'accent': widget5SelectedDay === 'today'}">
                             Today
                         </div>
                     </div>
                 </div>
 
-                <div class="position-relative h-368 pb-16">
-                    <canvas baseChart
-                            [datasets]="widgets.widget5.datasets[widget5SelectedDay]"
-                            [labels]="widgets.widget5.labels"
-                            [colors]="widgets.widget5.colors"
-                            [options]="widgets.widget5.options"
-                            [chartType]="widgets.widget5.chartType">
+                <div class="position-relative h-368 pb-16 w-100-p">
+                    <canvas baseChart [datasets]="widgets.widget5.datasets[widget5SelectedDay]"
+                        [labels]="widgets.widget5.labels" [colors]="widgets.widget5.colors"
+                        [options]="widgets.widget5.options" [chartType]="widgets.widget5.chartType">
                     </canvas>
                 </div>
 
@@ -227,25 +210,16 @@
             <!-- / Widget 5 -->
 
             <!-- Widget 6 -->
-            <div class="pt-48 pb-24 font-size-18 font-weight-300">
+            <!-- <div class="pt-48 pb-24 font-size-18 font-weight-300">
                 Where are your users?
             </div>
 
             <div class="fuse-card auto-width p-16">
 
-                <agm-map class="h-640 w-100-p"
-                         [minZoom]="2"
-                         [maxZoom]="2"
-                         [fullscreenControl]="false"
-                         [rotateControl]="false"
-                         [zoomControl]="false"
-                         [scaleControl]="false"
-                         [streetViewControl]="false"
-                         [scrollwheel]="false"
-                         [styles]="widgets.widget6.styles">
-                    <agm-marker
-                        *ngFor="let marker of widgets.widget6.markers"
-                        [latitude]="marker.lat"
+                <agm-map class="h-640 w-100-p" [minZoom]="2" [maxZoom]="2" [fullscreenControl]="false"
+                    [rotateControl]="false" [zoomControl]="false" [scaleControl]="false" [streetViewControl]="false"
+                    [scrollwheel]="false" [styles]="widgets.widget6.styles">
+                    <agm-marker *ngFor="let marker of widgets.widget6.markers" [latitude]="marker.lat"
                         [longitude]="marker.lng">
 
                         <agm-info-window>
@@ -255,17 +229,17 @@
                     </agm-marker>
                 </agm-map>
 
-            </div>
+            </div> -->
             <!-- / Widget 6 -->
 
         </div>
 
-        <div class="right">
+        <!-- <div class="right">
 
-            <div fxLayout="row wrap" fxLayout.gt-md="column">
+            <div fxLayout="row wrap" fxLayout.gt-md="column"> -->
 
                 <!-- Widget 7 -->
-                <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+                <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
 
                     <div class="pb-24 font-size-18 font-weight-300">
                         What are your top devices?
@@ -278,35 +252,30 @@
                         </div>
 
                         <div class="h-200">
-                            <ngx-charts-pie-chart
-                                *fuseIfOnDom
-                                [scheme]="widgets.widget7.scheme"
-                                [results]="widgets.widget7.devices"
-                                [doughnut]="true">
+                            <ngx-charts-pie-chart *fuseIfOnDom [scheme]="widgets.widget7.scheme"
+                                [results]="widgets.widget7.devices" [doughnut]="true">
                             </ngx-charts-pie-chart>
                         </div>
 
                         <div class="p-16" fxLayout="row" fxLayoutAlign="center center">
 
                             <div class="px-16" fxLayout="column" fxLayoutAlign="start center"
-                                 *ngFor="let device of widgets.widget7.devices">
+                                *ngFor="let device of widgets.widget7.devices">
 
                                 <div class="h4 secondary-text">{{device.name}}</div>
                                 <div class="h2 font-weight-300 py-8">{{device.value}}%</div>
 
                                 <div fxLayout="row" fxLayoutAlign="center center">
-                                    <mat-icon class="s-18 pr-4 red-fg"
-                                              *ngIf="device.change < 0">
+                                    <mat-icon class="s-18 pr-4 red-fg" *ngIf="device.change < 0">
                                         arrow_downward
                                     </mat-icon>
 
-                                    <mat-icon class="s-18 pr-4 green-fg"
-                                              *ngIf="device.change > 0">
+                                    <mat-icon class="s-18 pr-4 green-fg" *ngIf="device.change > 0">
                                         arrow_upward
                                     </mat-icon>
 
                                     <div class="h5 red-fg"
-                                         [ngClass]="{'red-fg': device.change < 0, 'green-fg': device.change > 0}">
+                                        [ngClass]="{'red-fg': device.change < 0, 'green-fg': device.change > 0}">
                                         {{device.change}}%
                                     </div>
                                 </div>
@@ -333,11 +302,11 @@
 
                     </div>
 
-                </div>
+                </div> -->
                 <!-- / Widget 7 -->
 
                 <!-- Widget 8 -->
-                <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+                <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
 
                     <div class="pb-24 font-size-18 font-weight-300">
                         How are your sales?
@@ -391,42 +360,27 @@
                         <mat-tab-group backgroundColor="accent">
                             <mat-tab label="1DAY">
                                 <div class="h-200 my-16">
-                                    <ngx-charts-line-chart
-                                        *fuseIfOnDom
-                                        [scheme]="widgets.widget8.scheme"
-                                        [results]="widgets.widget8.data"
-                                        [xAxis]="false"
-                                        [yAxis]="true"
-                                        [yScaleMin]="widgets.widget8.dataMin"
-                                        [yScaleMax]="widgets.widget8.dataMax">
+                                    <ngx-charts-line-chart *fuseIfOnDom [scheme]="widgets.widget8.scheme"
+                                        [results]="widgets.widget8.data" [xAxis]="false" [yAxis]="true"
+                                        [yScaleMin]="widgets.widget8.dataMin" [yScaleMax]="widgets.widget8.dataMax">
                                     </ngx-charts-line-chart>
                                 </div>
                             </mat-tab>
 
                             <mat-tab label="1WEEK">
                                 <div class="h-200 my-16">
-                                    <ngx-charts-line-chart
-                                        *fuseIfOnDom
-                                        [scheme]="widgets.widget8.scheme"
-                                        [results]="widgets.widget8.data"
-                                        [xAxis]="false"
-                                        [yAxis]="true"
-                                        [yScaleMin]="widgets.widget8.dataMin"
-                                        [yScaleMax]="widgets.widget8.dataMax">
+                                    <ngx-charts-line-chart *fuseIfOnDom [scheme]="widgets.widget8.scheme"
+                                        [results]="widgets.widget8.data" [xAxis]="false" [yAxis]="true"
+                                        [yScaleMin]="widgets.widget8.dataMin" [yScaleMax]="widgets.widget8.dataMax">
                                     </ngx-charts-line-chart>
                                 </div>
                             </mat-tab>
 
                             <mat-tab label="1MONTH">
                                 <div class="h-200 my-16">
-                                    <ngx-charts-line-chart
-                                        *fuseIfOnDom
-                                        [scheme]="widgets.widget8.scheme"
-                                        [results]="widgets.widget8.data"
-                                        [xAxis]="false"
-                                        [yAxis]="true"
-                                        [yScaleMin]="widgets.widget8.dataMin"
-                                        [yScaleMax]="widgets.widget8.dataMax">
+                                    <ngx-charts-line-chart *fuseIfOnDom [scheme]="widgets.widget8.scheme"
+                                        [results]="widgets.widget8.data" [xAxis]="false" [yAxis]="true"
+                                        [yScaleMin]="widgets.widget8.dataMin" [yScaleMax]="widgets.widget8.dataMax">
                                     </ngx-charts-line-chart>
                                 </div>
                             </mat-tab>
@@ -434,12 +388,12 @@
 
                     </div>
 
-                </div>
+                </div> -->
 
                 <!-- / Widget 8 -->
 
                 <!-- Widget 9 -->
-                <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+                <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
 
                     <div class="pb-24 font-size-18 font-weight-300" [ngClass.lt-lg]="'pt-0'">
                         What are your top campaigns?
@@ -497,12 +451,12 @@
 
                     </div>
 
-                </div>
+                </div> -->
                 <!-- / widget 9 -->
 
-            </div>
+            <!-- </div>
 
-        </div>
+        </div> -->
 
     </div>
 

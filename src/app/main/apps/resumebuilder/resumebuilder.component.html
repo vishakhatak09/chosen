@@ -218,7 +218,7 @@
                         <mat-step [stepControl]="careerObjForm">
                             <!-- <mat-tab label="Career Objective"> -->
 
-                            <div class="tab-content">
+                            <div class="tab-content" *ngIf="selectedIndex == 1">
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
                                     [formGroup]="careerObjForm">
                                     <ng-template matStepLabel>Career Objective</ng-template>

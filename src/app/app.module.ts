@@ -16,7 +16,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppComponent } from 'app/app.component';
 import { fuseConfig } from 'app/fuse-config';
 import { LayoutModule } from 'app/layout/layout.module';
-import { AppStoreModule } from 'app/store/store.module';
 import { CoreModule } from 'core/core.module';
 import { AuthGuardService } from 'core/services/auth-guard.service';
 import { LandingComponent } from './main/landing/landing.component';
@@ -40,7 +39,12 @@ const appRoutes: Routes = [
         loadChildren: './main/documentation/documentation.module#DocumentationModule'
     },
     {
+        path: 'app',
+        loadChildren: './main/admin-auth/admin-login.module#AdminLoginModule'
+    },
+    {
         path: '**',
+        // redirectTo: '',
         redirectTo: 'pages/auth/login',
         pathMatch: 'full'
     }
@@ -74,7 +78,6 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        AppStoreModule,
         CoreModule
     ],
     providers: [

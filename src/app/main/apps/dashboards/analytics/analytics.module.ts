@@ -18,11 +18,11 @@ import { AnalyticsDashboardService } from 'app/main/apps/dashboards/analytics/an
 
 const routes: Routes = [
     {
-        path     : '**',
+        path: '',
         component: AnalyticsDashboardComponent,
-        resolve  : {
-            data: AnalyticsDashboardService
-        }
+        // resolve  : {
+        //     data: AnalyticsDashboardService
+        // }
     }
 ];
 
@@ -30,7 +30,7 @@ const routes: Routes = [
     declarations: [
         AnalyticsDashboardComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -49,11 +49,10 @@ const routes: Routes = [
         FuseSharedModule,
         FuseWidgetModule
     ],
-    providers   : [
+    providers: [
         AnalyticsDashboardService
     ]
 })
-export class AnalyticsDashboardModule
-{
+export class AnalyticsDashboardModule {
 }
 

@@ -36,7 +36,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import 'tinymce';
 import { ToastrService } from 'core/services/toastr.service';
 // import { Template1Component } from 'core/components/template1/template1.component';
-import { mockTemplate } from 'core/mock/temp-content';
+import { templateMock } from 'core/mock/temp-content';
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 declare var tinymce: any;
 
@@ -89,7 +89,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   @ViewChild('templateRef', { static: false }) templateContent: ElementRef;
   separatorKeysCodes: number[] = [ENTER];
   selectedIndex = 0;
-  public MockTemplate;
+  public MockTemplate: string;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -173,7 +173,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       }
     };
     tinymce.init(this.tinyEditorConfig);
-    this.MockTemplate = mockTemplate;
+    this.MockTemplate = templateMock;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -638,7 +638,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     // };
     this.resumeBuilderService.templateData.next(
       {
-        templateContent: mockTemplate,
+        templateContent: templateMock,
       }
     );
     this.basicDetailForm.valueChanges

@@ -3,7 +3,7 @@ export const locale = {
     data: {
         'NAV': {
             'APPLICATIONS': 'Applications',
-            'DASHBOARDS'  : 'Dashboards',
+            'DASHBOARDS'  : 'Dashboard',
             'RESUME'      : 'Create Resume',
             'CALENDAR'    : 'Calendar',
             'ECOMMERCE'   : 'E-Commerce',
@@ -28,6 +28,8 @@ export const locale = {
             'MY_RESUMES'  : 'My Resumes',
             'PROFILE'     : 'Profile',
             'MENU'        : 'Menu',
+            'ADMIN'       : 'Admin',
+            'USERS'       : 'Users',
         },
     }
 };

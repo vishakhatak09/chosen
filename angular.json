@@ -31,11 +31,16 @@
                             { "glob": "**/*", "input": "node_modules/tinymce/plugins", "output": "/tinymce/plugins/" }
                         ],
                         "styles": [
-                            "src/styles.scss"
+                            "src/styles.scss",
+                            "src/assets/external/css/owl.carousel.min.css",
+                            "node_modules/aos/dist/aos.js"
                         ],
                         "scripts": [
                             "node_modules/html2canvas/dist/html2canvas.js",
-                            "node_modules/tinymce/tinymce.min.js"
+                            "node_modules/tinymce/tinymce.min.js",
+                            "node_modules/aos/dist/aos.js",
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "src/assets/external/js/owl.carousel.min.js"
                         ],
                         "showCircularDependencies": false
                     },

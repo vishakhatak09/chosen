@@ -9,6 +9,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'core/services/authentication.service';
 
 @Component({
     selector: 'toolbar',
@@ -41,7 +42,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
-        private _router: Router
+        private _router: Router,
+        private authService: AuthenticationService
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -105,9 +107,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, { id: this._translateService.currentLang });
-        if (localStorage.getItem('isLogin')) {
-            this.isLoggedIn = true;
-        }
+
+        this.authService.currentUser.subscribe((response) => {
+            if (response) {
+                this.isLoggedIn = true;
+                this.authService.setAdminNavigation();
+            }
+        });
     }
 
     /**
@@ -159,8 +165,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * Logout
      */
     logout(): void {
-        localStorage.removeItem('isLogin');
-        this.isLoggedIn = false;
+        this.authService.logout();
         this._router.navigate(['/pages/auth/login']);
     }
 }
