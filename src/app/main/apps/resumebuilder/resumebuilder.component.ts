@@ -6,6 +6,13 @@ import {
   OnDestroy,
   ElementRef,
   ChangeDetectorRef,
+  Compiler,
+  ComponentFactory,
+  NgModule,
+  ModuleWithComponentFactories,
+  ViewContainerRef,
+  ComponentRef,
+  AfterContentInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -16,7 +23,6 @@ import { LanguageList } from 'core/constants/locale';
 import { environment } from 'environments/environment';
 import { Observable, Subject } from 'rxjs';
 import {
-  SkillWithBox,
   SkillRating,
   WorkModel,
   EducationModel,
@@ -33,11 +39,15 @@ import { ConfirmationDialogComponent } from '../../pages/common-components/confi
 import { ENTER } from '@angular/cdk/keycodes';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import 'tinymce';
 import { ToastrService } from 'core/services/toastr.service';
-// import { Template1Component } from 'core/components/template1/template1.component';
 import { templateMock } from 'core/mock/temp-content';
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
+import { ResumebuilderModule } from './resumebuilder.module';
+import { CommonModule } from '@angular/common';
+import { ResumeMock } from 'core/mock/resume.mock';
+import 'tinymce';
+import { MatDatepicker } from '@angular/material/datepicker';
+import * as moment from 'moment';
 declare var tinymce: any;
 
 @Component({
@@ -47,9 +57,9 @@ declare var tinymce: any;
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class ResumebuilderComponent implements OnInit, OnDestroy {
+export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit {
 
-  public defaultProfile = environment.baseUrl + 'assets/images/avatars/profile.jpg';
+  public defaultProfile = environment.baseUrl + 'assets/images/logos/profile.jpg';
   public profileSrc: string | ArrayBuffer;
   public profileFileName: string;
   public basicDetailForm: FormGroup;
@@ -67,7 +77,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   ratingStyle = 'square';
   skillOptions: OptionType[] = AppConstant.SkillCustomOptions;
   basicSkill = '';
-  skillListBox: SkillWithBox[] = [];
   skillRatingList: SkillRating[] = [];
   ratingThemeList: OptionType[] = AppConstant.RatingThemes;
 
@@ -95,6 +104,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<any> = new Subject();
   skillForm: FormGroup;
 
+  @ViewChild('container', { read: ViewContainerRef, static: false })
+  container: ViewContainerRef;
+
+  private componentRef: ComponentRef<{}>;
 
   /**
    * Constructor
@@ -106,8 +119,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     private resumeBuilderService: ResumeBuilderService,
     private cdRef: ChangeDetectorRef,
-    private toastrService: ToastrService
-  ) { }
+    private toastrService: ToastrService,
+    private compiler: Compiler,
+  ) {
+    // this.MockTemplate = templateMock;
+    // this.generateRunTimeComponent();
+  }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -124,7 +141,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       contactNumber: ['', [Validators.required, Validators.pattern(AppConstant.ValidPhonePattern)]],
       email: ['', [Validators.required, Validators.email]],
       fullAddress: ['', [Validators.required]],
-      dateOfBirth: [{ value: '', disabled: true }],
+      designation: ['', [Validators.required]],
+      dateOfBirth: [{ value: '', disabled: false }],
       placeOfBirth: [''],
       maritalStatus: [''],
       gender: [''],
@@ -153,6 +171,15 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     this.sendTemplateValues();
   }
 
+  ngAfterContentInit(): void {
+    this.MockTemplate = templateMock;
+    setTimeout(() => {
+      // console.log(this.container);
+      this.generateRunTimeComponent();
+      this.cdRef.detectChanges();
+    }, 1000);
+  }
+
   private setupTinyMce(): void {
     tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
@@ -173,7 +200,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       }
     };
     tinymce.init(this.tinyEditorConfig);
-    this.MockTemplate = templateMock;
+    // this.MockTemplate = templateMock;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -185,7 +212,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
    */
   formSubmit(): void {
     console.log(this.basicDetailForm.getRawValue());
-    console.log('skillListBox', this.skillListBox);
     console.log('skillRatingList', this.skillRatingList);
   }
 
@@ -245,75 +271,18 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Adding skills
-   * @param skillInput Skill data
-   * @param type Skill type
-   */
-  addSkill(skillInput: HTMLInputElement, type: 'box' | 'box-rating' = 'box') {
-    if (skillInput && skillInput.value) {
-      const value = skillInput.value.trim().toLowerCase();
-      if (type === 'box') {
-        const element = {
-          skillName: value,
-        };
-        const duplicate = this.skillListBox.find((s: SkillWithBox) => s.skillName === value);
-        if (duplicate === undefined) {
-          this.skillListBox.push(element);
-          skillInput.value = '';
-        }
-      } else {
-        const element = {
-          skillName: value,
-          ratings: 0,
-        };
-        const duplicate = this.skillRatingList.find((s: SkillRating) => s.skillName === value);
-        if (duplicate === undefined) {
-          this.skillRatingList.push(element);
-          skillInput.value = '';
-        }
-
-      }
-    }
-  }
-
-  /**
-   * On removing skill
-   * @param index Skill index
-   * @param type Skill type
-   */
-  removeSkill(index: number, type: 'box' | 'box-rating' = 'box') {
-    if (index) {
-      if (type === 'box') {
-        this.skillListBox.splice(index, 1);
-      } else {
-        this.skillRatingList.splice(index, 1);
-      }
-    }
-  }
-
-  /**
    * On change of skill type
    * @param seletedSkill 'basic' | 'withBox' | 'withRating'
    */
   skillTypeSelecttion(seletedSkill: 'basic' | 'withBox' | 'withRating'): void {
-    this.skillListBox = [];
     this.skillRatingList = [];
     this.basicSkill = '';
   }
 
   templatePreview(): void {
-    // const data = {
-    //   templateForm: this.basicDetailForm.getRawValue(),
-    //   careerObjective: this.careerObjForm.get('careerObjective').value,
-    //   experienceData: this.workExperienceData,
-    //   additionalInfo: this.additionalInfoData,
-    //   socialData: this.socialLinkArray,
-    //   profileSrc: this.profileSrc,
-    //   templateContent: mockTemplate,
-    // };
-    console.log(this.templateContent);
-    if (this.templateContent) {
-      const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
+    if (this.container) {
+      // const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
+      const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
       const dialogRef = this.matDialog.open(
         // ResumeTemplateComponent,
         // Template1Component,
@@ -323,13 +292,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
           data: data,
         },
       );
-      dialogRef.afterOpened().subscribe(() => {
-        // this.resumeBuilderService.templateData.next(null);
-        // this.resumeBuilderService.templateData.next(data);
-      });
-      dialogRef.afterClosed().subscribe(() => {
-        // this.resumeBuilderService.templateData.next(null);
-      });
     }
 
   }
@@ -375,6 +337,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((data: WorkModel) => {
       if (data) {
         this.workExperienceData.push(data);
+        this.generateRunTimeComponent();
       }
     });
   }
@@ -392,6 +355,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((data: EducationModel) => {
       if (data) {
         this.educationData.push(data);
+        this.generateRunTimeComponent();
       }
     });
   }
@@ -415,6 +379,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
         } else {
           this.educationData[index] = data;
         }
+        this.generateRunTimeComponent();
       }
     });
   }
@@ -429,7 +394,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
           disableClose: true,
           data: {
             msg: 'Do you want to remove this detail ?',
-          }
+          },
+          id: 'confirmation-dialog'
         }
       );
       dialogRef.afterClosed().subscribe((data: boolean) => {
@@ -439,6 +405,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
           } else {
             this.educationData.splice(index, 1);
           }
+          this.generateRunTimeComponent();
         }
       });
     }
@@ -517,19 +484,22 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     if (checked) {
       let dialogData = {
         type: type,
-        value: '',
+        value: undefined,
       };
       let isExist: number;
-      if (this.additionalInfoData.length > 0) {
-        isExist = this.additionalInfoData.findIndex((info: AdditionalModel) => {
+      const data = this.additionalInfoData.map(item => ({
+        ...item,
+      }));
+      if (data.length > 0) {
+        isExist = data.findIndex((info: AdditionalModel) => {
           return info.type.toLowerCase() === type.toLowerCase();
         });
         if (isExist !== -1) {
-          dialogData = this.additionalInfoData[isExist];
+          dialogData = data[isExist];
         }
       }
       const dialogRef = this.matDialog.open(AdditionalInfoComponent, {
-        width: '500px',
+        width: '800px',
         height: 'auto',
         disableClose: true,
         data: dialogData,
@@ -541,6 +511,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
           } else {
             this.additionalInfoData.push(response);
           }
+          this.generateRunTimeComponent();
         }
       });
     } else {
@@ -549,6 +520,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
       });
       if (index !== -1) {
         this.additionalInfoData.splice(index, 1);
+        this.generateRunTimeComponent();
       }
     }
   }
@@ -566,41 +538,36 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   }
 
   editAdditional(value): void {
-
+    const data = Array.from(this.additionalInfoData);
+    const isExist = data.findIndex((info: AdditionalModel) => {
+      return info.type.toLowerCase() === value.type.toLowerCase();
+    });
     const dialogRef = this.matDialog.open(AdditionalInfoComponent, {
-      width: '500px',
+      width: '800px',
       height: 'auto',
       disableClose: true,
       data: value,
     });
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
-        const isExist = this.additionalInfoData.findIndex((info: AdditionalModel) => {
-          return info.type.toLowerCase() === value.type.toLowerCase();
-        });
         if (isExist !== -1) {
           this.additionalInfoData[isExist] = response;
         } else {
           this.additionalInfoData.push(response);
         }
+        this.generateRunTimeComponent();
+      } else {
+        this.additionalInfoData = data;
       }
     });
   }
 
   stepChange(event: StepperSelectionEvent): void {
     this.selectedIndex = event.selectedIndex;
-    if (this.selectedIndex === 1) {
-      if (tinymce) {
-        tinymce.activeEditor.focus();
-        // setTimeout(() => {
-        // alert(document.getElementsByTagName('editor')[0]);
-        // document.getElementsByTagName('editor')[0].scrollIntoView({behavior: 'smooth', block: 'start'});
-        // }, 10);
-      }
-    }
   }
 
   finishStep(): void {
+    this.generateRunTimeComponent(true);
     if (this.selectedIndex === 4) {
       const dialogRef = this.matDialog.open(
         ConfirmationDialogComponent,
@@ -610,7 +577,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
           disableClose: true,
           data: {
             msg: 'Do you want to add Additional Information ?',
-          }
+          },
+          id: 'confirmation-dialog',
+          panelClass: 'custom-confirmation'
         }
       );
       dialogRef.afterClosed().subscribe((resp: boolean) => {
@@ -627,15 +596,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
   }
 
   sendTemplateValues(): void {
-    // const data: any = {
-    //   templateForm: this.basicDetailForm.getRawValue(),
-    //   careerObjective: this.careerObjForm.get('careerObjective').value,
-    //   experienceData: this.workExperienceData,
-    //   additionalInfo: this.additionalInfoData,
-    //   socialData: this.socialLinkArray,
-    //   profileSrc: this.profileSrc,
-    //   // templateContent: mockTemplate,
-    // };
     this.resumeBuilderService.templateData.next(
       {
         templateContent: templateMock,
@@ -643,26 +603,119 @@ export class ResumebuilderComponent implements OnInit, OnDestroy {
     );
     this.basicDetailForm.valueChanges
       .subscribe((_val) => {
-        const data: any = {
-          templateForm: this.basicDetailForm.getRawValue(),
-        };
-        this.resumeBuilderService.templateData.next(data);
+        this.generateRunTimeComponent();
       });
 
     this.careerObjForm.valueChanges
       .subscribe((value) => {
-        const data: any = {
-          careerObjective: value.careerObjective,
-        };
-        this.resumeBuilderService.templateData.next(data);
+        this.generateRunTimeComponent();
       });
 
     this.skillForm.valueChanges
       .subscribe((_val) => {
-        const data: any = {
-          skillData: this.skillRatingList,
-        };
+        this.generateRunTimeComponent();
       });
+  }
+
+  private createComponentFactorySync(
+    compiler: Compiler, metadata: Component, componentClass: any, componentData: any
+  ): ComponentFactory<any> {
+    const cmpClass = componentClass || class RuntimeComponent {
+      templateForm = componentData.templateForm;
+      experienceData = componentData.experienceData;
+      careerObjective = componentData.careerObjective;
+      educationData = componentData.educationData;
+      skillData = componentData.skillData;
+      additionalInfo = componentData.additionalInfo;
+      socialData = componentData.socialData;
+      profileSrc = componentData.profileSrc;
+      content = componentData.content;
+      skillMockData = [];
+      Arr = componentData.Arr;
+    };
+    const decoratedCmp = Component(metadata)(cmpClass);
+
+    @NgModule({ imports: [ResumebuilderModule, CommonModule], declarations: [decoratedCmp] })
+    class RuntimeComponentModule { }
+
+    const module: ModuleWithComponentFactories<any> = compiler.compileModuleAndAllComponentsSync(RuntimeComponentModule);
+    return module.componentFactories.find(f => f.componentType === decoratedCmp);
+  }
+
+  async compileTemplate(data: any) {
+
+    const metadata = {
+      selector: `template-sample`,
+      template: this.MockTemplate,
+    };
+
+    const factory = this.createComponentFactorySync(this.compiler, metadata, null, data);
+
+    if (this.componentRef) {
+      this.componentRef.destroy();
+      this.componentRef = null;
+    }
+    this.componentRef = this.container.createComponent(factory);
+    this.cdRef.detectChanges();
+  }
+
+  generateRunTimeComponent(isLastSteps = false): void {
+
+    let data = {};
+    if (!isLastSteps) {
+
+      data = {
+        templateForm: this.basicDetailForm ? this.basicDetailForm.getRawValue() : ResumeMock.templateForm,
+        experienceData: this.workExperienceData.length > 0 ? this.workExperienceData : ResumeMock.experienceData,
+        careerObjective: this.careerObjForm ? this.careerObjForm.get('careerObjective').value : ResumeMock.data.careerObjective,
+        educationData: this.educationData.length > 0 ? this.educationData : ResumeMock.educationData,
+        skillData: this.skillRatingList.length > 0 ? this.skillRatingList : ResumeMock.skillData,
+        additionalInfo: this.additionalInfoData,
+        socialData: this.socialLinkArray,
+        profileSrc: this.profileSrc || this.defaultProfile,
+        content: this.MockTemplate,
+        Arr: Array
+      };
+
+    } else {
+
+      data = {
+        templateForm: this.basicDetailForm.getRawValue(),
+        experienceData: this.workExperienceData,
+        careerObjective: this.careerObjForm.get('careerObjective').value,
+        educationData: this.educationData,
+        skillData: this.skillRatingList,
+        additionalInfo: this.additionalInfoData,
+        socialData: this.socialLinkArray,
+        profileSrc: this.profileSrc,
+        content: this.MockTemplate,
+        Arr: Array
+      };
+
+    }
+
+
+    this.compileTemplate(data);
+
+  }
+
+  /**
+   * Handle datepicker input
+   */
+  handlePicker(event: MouseEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
+    if (isTyping) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+    if (picker && picker.opened) {
+      picker.close();
+    } else {
+      picker.open();
+    }
+    event.stopPropagation();
+    event.preventDefault();
+    return;
   }
 
   /**

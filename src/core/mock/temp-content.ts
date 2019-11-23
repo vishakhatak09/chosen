@@ -1,155 +1,214 @@
 export const templateMock = `
-<div class="template-container" id="main2">
-    <div class="template-header">
-
-        <div class="full-name">
-            <span class="first-name" id="firstName" [ngStyle]="{'color': templateForm.firstName ? 'red' : ''}"  #firstnm>John</span>
-            <span class="last-name" id="lastName" *ngIf="templateForm.lastName == ''">Doe</span>
-            <img id="profileSrc" [src]="profileSrc" style="float: right;border-radius: 100%;">
-        </div>
-        <div class="contact-info">
-            <span class="email">Email: </span>
-            <span class="email-val" id="email">john.doe@gmail.com</span>
-            <span class="separator"></span>
-            <span class="phone">Phone: </span>
-            <span class="phone-val" id="contactNumber">1112223333</span>
-        </div>
-
-        <div class="address">
-            <span class="email">Address: </span>
-            <span class="desc" id="fullAddress">
-                KlowdBox, San Fr, CA
-            </span>
-        </div>
-
-        <div class="contact-info" *ngFor="let social of socialData">
-            <span class="email" [innerHTML]="social.website"></span>
-            <span class="email-val" [innerHTML]="social.link"></span>
-        </div>
-
-    </div>
-    <div class="details">
-        <div class="template-section">
-            <div class="section__list" id="careerObjective">
-                I am a front-end developer with more than 3 years of experience writing html, css, and js. I'm
-                motivated, result-focused and seeking a successful team-oriented company with opportunity to grow.
-            </div>
-        </div>
-        <div class="template-section">
-            <div class="section__title">Experience</div>
-            <div class="section__list" *ngIf="experienceData && experienceData.length > 0">
-                <div class="section__list-item" *ngFor="let work of experienceData">
-                    <div class="left">
-                        <div class="name" [innerHTML]="work.designation"></div>
-                        <div class="addr" [innerHTML]="work.companyName"></div>
-                        <div class="addr" [innerHTML]="work.location"></div>
-                        <div class="duration" [innerHTML]=" work.joiningDate | date: 'LLLL yyyy' -  work.leavingDate | date: 'LLLL yyyy'">
-                            <!-- {{ work.joiningDate | date: 'LLLL yyyy' }} -
-                            {{ work.leavingDate | date: 'LLLL yyyy' }} -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section__list" *ngIf="!experienceData || experienceData.length == 0">
-                <div class="section__list-item">
-                    <div class="left">
-                        <div class="name">Fr developer</div>
-                        <div class="addr">KlowdBox</div>
-                        <div class="addr">San Fr, CA</div>
-                        <div class="duration">
-                            Jan 2011 - Feb 2015
-                        </div>
-                    </div>
-                </div>
-                <div class="section__list-item">
-                    <div class="left">
-                        <div class="name">Fr developer</div>
-                        <div class="addr">KlowdBox</div>
-                        <div class="addr">San Fr, CA</div>
-                        <div class="duration">
-                            Jan 2011 - Feb 2015
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="template-section">
-            <div class="section__title">Education</div>
-            <div class="section__list" *ngIf="!educationData || educationData.length == 0">
-                <div class="section__list-item">
-                    <div class="left">
-                        <div class="name">Bachelor of Engineering</div>
-                        <div class="addr">Sample Institute of technology</div>
-                        <div class="addr">Univerisity of SA</div>
-                        <div class="duration">2011</div>
-                    </div>
-                </div>
-                <div class="section__list-item">
-                    <div class="left">
-                        <div class="name">Bachelor of Engineering</div>
-                        <div class="addr">Sample Institute of technology</div>
-                        <div class="addr">Univerisity of SA</div>
-                        <div class="duration">2011</div>
-                    </div>
-                </div>
-            </div>
-            <div class="section__list" *ngIf="educationData && educationData.length > 0">
-                <div class="section__list-item" *ngFor="let item of educationData">
-                    <div class="left">
-                        <div class="name" [innerHTML]="item.courseName"></div>
-                        <div class="addr" [innerHTML]="item.collegeName"></div>
-                        <div class="addr" [innerHTML]="item.universityName"></div>
-                        <div class="duration" [innerHTML]="item.yearOfPassing | date: 'yyyy'"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="template-section">
-            <div class="section__title">Skills</div>
-            <ng-container *ngIf="skillData && skillData.length > 0; else mockTemplate">
-                <div class="skills" *ngFor="let skill of skillData">
-                    <div class="skills__item">
-                        <div class="left">
-                            <div class="name" [innerHTML]="skill.skillName">
+<div style="margin-top: 20px;">
+    <table cellspacing="0" cellpadding="0" style="font-family: sans-serif; width: 800px; margin: auto;color: #444444;">
+        <tr>
+            <td style="padding: 0 20px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td>
+                            <h1 style="margin: 0 0 5px; font-size: 24px;font-weight: 500;color: #444444;">
+                                <span *ngIf="templateForm.firstName">{{templateForm.firstName}} </span>
+                                <span *ngIf="!templateForm.firstName">John </span>
+                                <span *ngIf="templateForm.lastName ">{{templateForm.lastName}}</span>
+                                <span *ngIf="!templateForm.lastName">Doe</span>
+                            </h1>
+                            <h4 style="margin: 0 0 5px; font-size: 16px;font-weight: 500;color: #8c8c8cdd;">
+                                {{ templateForm.designation }}
+                            </h4>
+                            <p style="margin: 0; font-size: 13px;color: #444444;" [innerHTML]="careerObjective">
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 15px;"></td>
+        </tr>
+        <tr>
+            <td style="background: #eaeaea;padding: 0 30px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/envelope.svg" alt="">
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    *ngIf="templateForm.email" [innerHTML]="templateForm.email">
+                                </span>
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    *ngIf="!templateForm.email">john.doe@gmail.com
+                                </span>
                             </div>
-                        </div>
-                        <div class="right">
-                            <ng-container *ngFor="let i of Arr(ratingMax); let ind = index">
-                                <input [id]="skill.skillName + ind" type="checkbox" [disabled]="true"
-                                    [checked]="(ind + 1) <= skill.ratings" />
-                                <label [for]="skill.skillName + ind"></label>
-                            </ng-container>
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
-            <ng-template #mockTemplate>
-                <div class="skills" *ngFor="let skill of skillMockData.skills">
-                    <div class="skills__item">
-                        <div class="left">
-                            <div class="name" [innerHTML]="skill.skillName">
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/mobile.svg" alt="mobile">
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    *ngIf="templateForm.contactNumber" [innerHTML]="templateForm.contactNumber">
+                                </span>
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    *ngIf="!templateForm.contactNumber">1234567890
+                                </span>
                             </div>
-                        </div>
-                        <div class="right">
-                            <ng-container *ngFor="let i of Arr(ratingMax); let ind = index">
-                                <input [id]="skill.skillName + ind" type="checkbox"
-                                    [disabled]="true" [checked]="(ind + 1) <= skill.ratings" />
-                                <label [for]="skill.skillName + ind"></label>
-                            </ng-container>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-        </div>
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/location.svg" alt="location">
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    *ngIf="templateForm.fullAddress" [innerHTML]="templateForm.fullAddress">
+                                </span>
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    *ngIf="!templateForm.fullAddress"> Lorem ipsum dolor met
+                                </span>
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/linkedin.svg" alt="">
+                                <span
+                                    style="margin-left: 3px;display: inline-block;vertical-align: middle;">linkedin.com/in/john.doe</span>
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/skype.svg" alt="">
+                                <span
+                                    style="margin-left: 3px;display: inline-block;vertical-align: middle;">john.doe</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 15px;"></td>
+        </tr>
+        <tr *ngIf="skillData.length > 0">
+            <td style="padding: 0 20px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td style="font-size: 0;">
+                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Skills &
+                                Competences</h2>
+                            <p style="margin: 2px 0;font-size: 12px; width: 25%;"
+                                *ngFor="let item of skillData">
+                                {{ item.skillName }}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 25px;"></td>
+        </tr>
+        <tr *ngIf="experienceData.length > 0">
+            <td style="padding: 0 20px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td>
+                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Work experience
+                            </h2>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let item of experienceData">
+                        <td style="font-size: 0; padding: 10px;">
+                            <h3 style="margin:0; font-size: 14px;" [innerHTML]="item.designation"></h3>
+                            <h4 style="margin:2px 0 0; font-size: 13px; color: #909090;"
+                                [innerHTML]="item.companyName">
+                            </h4>
+                            <div style="margin: 7px 0 5px;">
+                                <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
+                                            font-size: 10px;color: #909090;">
+                                    {{ item.joiningDate | date: 'LLLL yyyy' }} -
+                                    {{  item.leavingDate | date: 'LLLL yyyy' }}
+                                </p>
+                                <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
+                                            font-size: 10px;color: #909090;text-align: right;"
+                                    [innerHTML]="item.location">
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 25px;"></td>
+        </tr>
+        <tr *ngIf="educationData.length > 0">
+            <td style="padding: 0 20px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td>
+                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Education History
+                            </h2>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let item of educationData">
+                        <td style="font-size: 0; padding: 10px;">
+                            <h3 style="margin:0; font-size: 14px;" [innerHTML]="item.courseName"></h3>
+                            <h4 style="margin:2px 0 0; font-size: 13px; color: #909090;"
+                                [innerHTML]="item.collegeName">
+                            </h4>
+                            <div style="margin: 7px 0 5px;">
+                                <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
+                                            font-size: 10px;color: #909090;">
+                                    {{ item.yearOfPassing | date: 'yyyy' }}
+                                </p>
+                                <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
+                                            font-size: 10px;color: #909090;text-align: right;"
+                                    [innerHTML]="item.universityName">
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
         <ng-container *ngIf="additionalInfo.length > 0">
-            <div class="template-section" *ngFor="let item of additionalInfo">
-                <div class="section__title" [innerHTML]="item.type">
-                </div>
-                <div class="section__list">
-                    <div class="section__list-item" [innerHTML]="item.value">
-                    </div>
-                </div>
-            </div>
+            <tr>
+                <td style="height: 25px;"></td>
+            </tr>
+            <tr>
+                <td style="padding: 0 20px">
+                    <table cellspacing="0" cellpadding="0" style="width: 100%">
+                        <tr>
+                            <td>
+                                <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Other Details
+                                </h2>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of additionalInfo">
+                            <td style="font-size: 0; padding: 10px;">
+                                <h3 style="margin:0; font-size: 14px;" [innerHTML]="item.type"></h3>
+                                <ng-container [ngSwitch]="item.type">
+                                    <ng-container *ngSwitchCase="'Accomplishments'">
+                                       <p [innerHTML]="item.value"></p>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'Affiliations'">
+                                       <p [innerHTML]="item.value"></p>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'Certifications'">
+                                       <div [innerHTML]="item.value"></div>
+                                    </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        <h4 style="margin:2px 0 0; font-size: 13px; color: #909090;" *ngFor="let data of item.value">
+                                            {{data}}
+                                        </h4>
+                                    </ng-container>
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
         </ng-container>
-    </div>
-</div>`;
+    </table>
+</div>
+`;

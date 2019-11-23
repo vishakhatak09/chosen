@@ -22,6 +22,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class Login2Component implements OnInit, OnDestroy {
     loginForm: FormGroup;
     loginUrl = environment.serverBaseUrl + 'api/login';
+    public isLoading = false;
 
     private _unSubscribeAll: Subject<any> = new Subject();
 
@@ -76,6 +77,7 @@ export class Login2Component implements OnInit, OnDestroy {
      */
     login(): void {
         if (this.loginForm.valid) {
+            this.isLoading = true;
             const formValue = this.loginForm.value;
             const params = {
                 'params': {
@@ -88,9 +90,11 @@ export class Login2Component implements OnInit, OnDestroy {
                 .subscribe(
                     (response) => {
                         this._toastrService.displaySnackBar('Login successfull', 'success');
+                        this.isLoading = false;
                         this._router.navigate(['/apps/templates']);
                     },
                     (error: HttpErrorResponse) => {
+                        this.isLoading = false;
                         this._toastrService.displaySnackBar(error.message, 'error');
                     }
                 );

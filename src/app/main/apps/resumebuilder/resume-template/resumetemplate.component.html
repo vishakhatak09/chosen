@@ -1,6 +1,6 @@
 <div class="main" *ngIf="content" [innerHTML]="safeInnerHtml">
 </div>
- <!-- <div class="template-container" *ngIf="templateForm && !content">
+<!-- <div class="template-container" *ngIf="templateForm && !content">
     <div class="template-header">
 
         <div class="full-name">
@@ -166,3 +166,127 @@
         </ng-container>
     </div>
 </div>  -->
+
+
+<div style="margin: 0">
+    <table cellspacing="0" cellpadding="0" style="font-family: sans-serif; width: 800px; margin: auto;color: #444444;">
+        <tr>
+            <td style="padding: 0 20px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td>
+                            <h1 style="margin: 0 0 5px; font-size: 24px;font-weight: 500;color: #444444;"
+                                [innerHTML]="templateForm.firstName + ' ' + templateForm.lastName"></h1>
+                            <p style="margin: 0; font-size: 13px;color: #444444;" [innerHTML]="careerObjective">
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 15px;"></td>
+        </tr>
+        <tr>
+            <td style="background: #eaeaea;padding: 0 30px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/envelope.svg" alt="">
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    [innerHTML]="templateForm.email">
+                                </span>
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/mobile.svg" alt="mobile">
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    [innerHTML]="templateForm.contactNumber">
+                                </span>
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/location.svg" alt="location">
+                                <span style="margin-left: 3px;display: inline-block;vertical-align: middle;"
+                                    [innerHTML]="templateForm.fullAddress">
+                                </span>
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/linkedin.svg" alt="">
+                                <span
+                                    style="margin-left: 3px;display: inline-block;vertical-align: middle;">linkedin.com/in/john.doe</span>
+                            </div>
+                        </td>
+                        <td style="font-size: 12px; padding: 10px 10px;">
+                            <div style="white-space: nowrap;">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    src="assets/icons/template-icons/skype.svg" alt="">
+                                <span
+                                    style="margin-left: 3px;display: inline-block;vertical-align: middle;">john.doe</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 15px;"></td>
+        </tr>
+        <tr>
+            <td style="padding: 0 20px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td style="font-size: 0;">
+                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Skills &
+                                Competences</h2>
+                            <p style="margin: 5px 0;font-size: 12px; display: inline-block; width: 25%;"
+                                *ngFor="let item of skillData">
+                                {{ item.skillName }}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 25px;"></td>
+        </tr>
+        <tr>
+            <td style="padding: 0 20px">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <tr>
+                        <td>
+                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Work experience
+                            </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 0;" *ngFor="let item of experienceData">
+                            <h3 style="margin:0; font-size: 14px;" [innerHTML]="item.designation"></h3>
+                            <h4 style="margin:2px 0 0; font-size: 13px; color: #909090;" [innerHTML]="item.companyName">
+                            </h4>
+                            <div style="margin: 7px 0 5px;">
+                                <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
+                                    font-size: 10px;color: #909090;">
+                                    {{ item.joiningDate | date: 'LLLL yyyy' }} - {{  item.leavingDate | date: 'LLLL yyyy' }}
+                                </p>
+                                <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
+                                    font-size: 10px;color: #909090;text-align: right;" [innerHTML]="item.location">
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -35,10 +35,6 @@ const appRoutes: Routes = [
         loadChildren: './main/pages/pages.module#PagesModule'
     },
     {
-        path: 'documentation',
-        loadChildren: './main/documentation/documentation.module#DocumentationModule'
-    },
-    {
         path: 'app',
         loadChildren: './main/admin-auth/admin-login.module#AdminLoginModule'
     },

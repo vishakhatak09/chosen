@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>
     Add {{ additionalInfo.type }}
-    <button mat-icon-button matTooltip="Close" type="button" [matTooltipPosition]="'above'" 
-        (click)="dialogRef.close()"  class="dialog-close-btn">
+    <button mat-icon-button matTooltip="Close" type="button" [matTooltipPosition]="'above'" (click)="dialogRef.close()"
+        class="dialog-close-btn">
         <mat-icon>close</mat-icon>
     </button>
 </h1>
@@ -9,12 +9,48 @@
 
     <form fxLayout="row wrap" fxLayoutGap="25px" #addForm="ngForm" name="AddForm" (ngSubmit)="submitForm()">
 
-        <mat-form-field floatLabel="always" fxFlex.xs="100" fxFlex="100">
-            <mat-label hidden>{{ additionalInfo.type }}</mat-label>
-            <textarea matInput [placeholder]="additionalInfo.type" name="additionalData" autocomplete="off" #data
-                [(value)]="additionalInfo.value" (change)="additionalInfo.value = data.value">
-            </textarea>
-        </mat-form-field>
+        <ng-container [ngSwitch]="additionalInfo.type">
+            <ng-container *ngSwitchCase="'Accomplishments'">
+                <ng-container *ngTemplateOutlet="editor"></ng-container>
+                <ng-template matTabContent #editor>
+                    <editor [id]="'accomplishments'" autofocus [init]="tinyEditorConfig"
+                        [(ngModel)]="editorText" name="accomplishments" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
+                    </editor>
+                </ng-template>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Affiliations'">
+                <ng-container *ngTemplateOutlet="editor"></ng-container>
+                <ng-template matTabContent #editor>
+                    <editor [id]="'affiliations'" autofocus [init]="tinyEditorConfig"
+                        [(ngModel)]="editorText" name="affiliations" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
+                    </editor>
+                </ng-template>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Certifications'">
+                Certifications
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+
+                <div fxFlex="100">
+                    <mat-form-field class="w-100-p">
+                        <input matInput [matChipInputFor]="skillList" placeholder="Add {{ additionalInfo.type }}.."
+                            [matChipInputAddOnBlur]="true" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="addValues($event)" [(ngModel)]="additionalText"
+                            name="AdditionalText" />
+                    </mat-form-field>
+                    <mat-chip-list #skillList name="Skills" class="w-100-p">
+
+                        <mat-chip tabindex="-1" *ngFor="let data of savedAdditionalData; let index=index;"
+                            [removable]="true" (removed)="removeValues(index)">
+                            {{data}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+
+                    </mat-chip-list>
+                </div>
+
+            </ng-container>
+        </ng-container>
 
         <div mat-dialog-actions>
             <button type="submit" class="accent" mat-raised-button>Save</button>

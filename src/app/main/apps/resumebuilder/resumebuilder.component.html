@@ -57,12 +57,10 @@
 
                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
 
-                    <!-- <mat-tab-group (selectedIndexChange)="tabChangeEvent($event)"> -->
                     <mat-vertical-stepper [linear]="true" #stepper fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100"
                         fusePerfectScrollbar [selectedIndex]="selectedIndex" (selectionChange)="stepChange($event)">
 
                         <mat-step [stepControl]="basicDetailForm">
-                            <!-- <mat-tab label="Personal Info"> -->
 
                             <div class="tab-content pl-12">
                                 <form name="resume" [formGroup]="basicDetailForm">
@@ -74,7 +72,8 @@
                                         <button class="upload-btn" type="button" mat-icon-button (click)="file.click()">
                                             <mat-icon>cloud_upload</mat-icon> Upload Profile Image
                                         </button>
-                                        <p class="accent upload-span" *ngIf="profileFileName">{{profileFileName}}</p>
+                                        <p class="accent upload-span border-radius-8 p-4" *ngIf="profileFileName">
+                                            {{profileFileName}}</p>
                                     </div>
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
@@ -131,9 +130,19 @@
                                     </mat-form-field>
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Designation</mat-label>
+                                        <input matInput placeholder="Designation" type="text" name="designation"
+                                            formControlName="designation" autocomplete="off" required>
+                                        <mat-error *ngIf="basicDetailForm.get('designation').hasError('required')">
+                                            Designation is required
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>D.O.B</mat-label>
-                                        <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate"
-                                            formControlName="dateOfBirth" autocomplete="off" (click)="picker.open()">
+                                        <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate" 
+                                            formControlName="dateOfBirth" autocomplete="off" (click)="handlePicker($event, picker)" 
+                                            (keydown)="handlePicker($event, picker, true)">
                                         <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker disabled="false"></mat-datepicker>
                                         <!-- <mat-error *ngIf="basicDetailForm.get('dateOfBirth').hasError('required')">
@@ -197,7 +206,7 @@
                                                 (change)="social.link = linkUrl.value" [(value)]="social.link"
                                                 type="text" name="socialLink" [pattern]="urlPattern" autocomplete="off">
                                         </mat-form-field>
-                                        <button mat-button type="button" class="red-300-fg social-del"
+                                        <button mat-button type="button" class="red-400-fg social-del"
                                             (click)="removeSocialLink(i)" *ngIf="socialLinkArray.length > 1">
                                             <mat-icon>delete</mat-icon>
                                         </button>
@@ -212,16 +221,14 @@
                                 </form>
                             </div>
 
-                            <!-- </mat-tab> -->
                         </mat-step>
 
                         <mat-step [stepControl]="careerObjForm">
-                            <!-- <mat-tab label="Career Objective"> -->
+                            <ng-template matStepLabel>Career Objective</ng-template>
 
                             <div class="tab-content" *ngIf="selectedIndex == 1">
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
                                     [formGroup]="careerObjForm">
-                                    <ng-template matStepLabel>Career Objective</ng-template>
 
                                     <div class="w-100-p">
                                         <ng-container *ngTemplateOutlet="editor"></ng-container>
@@ -243,11 +250,9 @@
                                 </form>
                             </div>
 
-                            <!-- </mat-tab> -->
                         </mat-step>
 
                         <mat-step [stepControl]="workForm">
-                            <!-- <mat-tab label="Work Experience"> -->
 
                             <div class="tab-content">
                                 <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start"
@@ -261,7 +266,7 @@
                                                 *ngFor="let data of workExperienceData; let index = index;">
                                                 <div class="w-100-p">
                                                     <button mat-icon-button matTooltip="Delete"
-                                                        [matTooltipPosition]="'above'" class="action-buttons red-300-fg"
+                                                        [matTooltipPosition]="'above'" class="action-buttons red-400-fg"
                                                         (click)="deleteWorkExperience(index, 'work')">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
@@ -304,11 +309,9 @@
                                 </form>
                             </div>
 
-                            <!-- </mat-tab> -->
                         </mat-step>
 
                         <mat-step>
-                            <!-- <mat-tab label="Education Summary"> -->
 
                             <div class="tab-content">
 
@@ -321,7 +324,7 @@
                                             <div class="work-content mat-elevation-z2">
                                                 <div class="w-100-p">
                                                     <button mat-icon-button matTooltip="Delete"
-                                                        [matTooltipPosition]="'above'" class="action-buttons red-300-fg"
+                                                        [matTooltipPosition]="'above'" class="action-buttons red-400-fg"
                                                         (click)="deleteWorkExperience(index, 'education')">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
@@ -361,13 +364,11 @@
 
                             </div>
 
-                            <!-- </mat-tab> -->
                         </mat-step>
 
                         <mat-step [stepControl]="skillForm">
-                            <!-- <mat-tab label="Areas of Expertise"> -->
 
-                            <form class="tab-content pt-4" [formGroup]="skillForm" fxLayout="row wrap"
+                            <form class="tab-content pt-8 pl-12" [formGroup]="skillForm" fxLayout="row wrap"
                                 fxLayoutGap="25px">
                                 <ng-template matStepLabel>Areas of Expertise</ng-template>
 
@@ -455,12 +456,6 @@
                                     </mat-chip-list>
                                 </div>
 
-                                <!-- <div floatLabel="always" fxFlex="100">
-                                    <mat-checkbox [(ngModel)]="haveAdditionalInfo"
-                                        [ngModelOptions]="{standalone: true}">Do you want to add Additional Information
-                                        ?</mat-checkbox>
-                                </div> -->
-
                                 <div class="pt-12 pl-8 pb-4">
                                     <button type="button" class="stepper-back" mat-raised-button
                                         matStepperPrevious>Back</button>
@@ -471,11 +466,9 @@
                                 </div>
                             </form>
 
-                            <!-- </mat-tab> -->
                         </mat-step>
 
                         <mat-step *ngIf="haveAdditionalInfo == true">
-                            <!-- <mat-tab label="Other details" *ngIf="haveAdditionalInfo == true"> -->
                             <ng-template matStepLabel>Other details</ng-template>
                             <div class="tab-content">
 
@@ -494,7 +487,26 @@
                                     <div class="w-100-p additional" *ngFor="let add of additionalInfoData">
                                         <h3>{{ add.type }} <mat-icon (click)="editAdditional(add);">edit</mat-icon>
                                         </h3>
-                                        <p>{{ add.value }}</p>
+                                        <ng-container [ngSwitch]="add.type">
+                                            <ng-container *ngSwitchCase="'Accomplishments'">
+                                                <p [innerHTML]="add.value"></p>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'Affiliations'">
+                                                <p [innerHTML]="add.value"></p>
+                                            </ng-container>
+                                            <ng-container *ngSwitchCase="'Certifications'">
+                                                <p [innerHTML]="add.value"></p>
+                                            </ng-container>
+                                            <ng-container *ngSwitchDefault>
+                                                <mat-chip-list #skillList name="Skills" class="w-100-p">
+                                                    <mat-chip tabindex="-1"
+                                                        *ngFor="let data of add.value; let index=index;"
+                                                        [removable]="false">
+                                                        {{data}}
+                                                    </mat-chip>
+                                                </mat-chip-list>
+                                            </ng-container>
+                                        </ng-container>
                                     </div>
                                 </div>
 
@@ -505,21 +517,20 @@
                                 <button type="button" class="ml-12" color="accent" mat-raised-button
                                     (click)="finishStep()">Finish</button>
                             </div>
-                            <!-- </mat-tab> -->
                         </mat-step>
 
-                        <!-- </mat-tab-group> -->
                     </mat-vertical-stepper>
 
                 </div>
 
                 <div class="template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
-                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()"
+                    <!-- <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()"
                         [experienceData]="workExperienceData"
                         [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData"
                         [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
                         [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate">
-                    </app-resume-template>
+                    </app-resume-template> -->
+                    <div #container></div>
                 </div>
 
             </div>

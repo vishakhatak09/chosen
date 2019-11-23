@@ -86,11 +86,46 @@ export class AuthenticationService {
           type: 'item',
           icon: 'people',
           url: '/apps/userlist'
+        },
+        {
+          id: 'content_mgmt',
+          title: 'Content Management',
+          translate: 'NAV.CONTENT_MGMT',
+          type: 'collapsable',
+          icon: 'ballot',
+          children: [
+            {
+              id: 'upload_resume',
+              title: 'Upload Resume',
+              translate: 'NAV.UPLOAD_RESUME',
+              type: 'item',
+              icon: 'unarchive',
+              url: '/apps/test'
+            },
+            {
+              id: 'job_data_mgmt',
+              title: 'Job Data Management',
+              translate: 'NAV.JOB_DATA_MGMT',
+              type: 'item',
+              icon: 'file_copy',
+              url: '/apps/test'
+            },
+            {
+              id: 'landing_page_mgmt',
+              title: 'Landing Page Management',
+              translate: 'NAV.LANDING_MGMT',
+              type: 'item',
+              icon: 'inbox',
+              url: '/apps/test'
+            },
+          ]
         }
       ]
 
     };
-    this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
+    if (!this._fuseNavigationService.getNavigationItem('admin')) {
+      this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
+    }
   }
 
   setUserData(user): void {

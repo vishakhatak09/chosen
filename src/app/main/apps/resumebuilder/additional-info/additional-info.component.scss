@@ -7,6 +7,7 @@
     }
     .mat-dialog-content{
         overflow: visible;
+        padding: 0;
 
         form {
             padding-left: 20px;
@@ -16,10 +17,15 @@
                 color: mat-color($mat-green, 600); 
                 width: 100%;
                 flex-direction: row-reverse;
+                margin-right: 22px;
             }
         }
     } 
     .w-49 {
         width: 49% !important;
+    }
+    .dialog-close-btn{
+        float: right;
+        color: black !important;
     }
 }

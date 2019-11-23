@@ -10,6 +10,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { navigation } from 'app/navigation/navigation';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'core/services/authentication.service';
+import { ToastrService } from 'core/services/toastr.service';
 
 @Component({
     selector: 'toolbar',
@@ -43,7 +44,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
         private _router: Router,
-        private authService: AuthenticationService
+        private authService: AuthenticationService,
+        private _toatrService: ToastrService
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -111,7 +113,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.authService.currentUser.subscribe((response) => {
             if (response) {
                 this.isLoggedIn = true;
-                this.authService.setAdminNavigation();
+                // if (response.type && response.type === 'admin') {
+                    this.authService.setAdminNavigation();
+                // }
             }
         });
     }
@@ -166,6 +170,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     logout(): void {
         this.authService.logout();
+        this._toatrService.displaySnackBar('Logged out successfully.', 'success');
         this._router.navigate(['/pages/auth/login']);
     }
 }

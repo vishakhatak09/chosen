@@ -10,7 +10,6 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { UserlistComponent } from './userlist.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserListService } from './userlist.service';
 
@@ -24,9 +23,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     UserlistComponent,
-    ConfirmationDialogComponent
   ],
-  entryComponents: [ConfirmationDialogComponent],
+  entryComponents: [],
   imports: [
     RouterModule.forChild(routes),
 

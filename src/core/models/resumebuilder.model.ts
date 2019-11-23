@@ -16,6 +16,7 @@ export interface TemplateModel {
     contactNumber: string;
     email:  string;
     fullAddress:  string;
+    designation: string;
     dateOfBirth:  Moment;
     placeOfBirth: string;
     gender: string;
@@ -39,7 +40,7 @@ export class WorkModel {
     designation: string;
     joiningDate: Moment;
     leavingDate: Moment;
-    isTillDate: boolean;
+    isTillDate?: boolean;
 }
 
 export class EducationModel {
@@ -47,7 +48,7 @@ export class EducationModel {
     universityName: string;
     courseName: string;
     yearOfPassing: Moment;
-    isCurrentlyPursuing: boolean;
+    isCurrentlyPursuing?: boolean;
 }
 
 export interface SocialModel {

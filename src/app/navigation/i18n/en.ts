@@ -30,6 +30,10 @@ export const locale = {
             'MENU'        : 'Menu',
             'ADMIN'       : 'Admin',
             'USERS'       : 'Users',
+            'CONTENT_MGMT': 'Content Management',
+            'UPLOAD_RESUME': 'Upload Resume',
+            'JOB_DATA_MGMT': 'Job Data Management',
+            'LANDING_MGMT': 'Landing Page Management',
         },
     }
 };

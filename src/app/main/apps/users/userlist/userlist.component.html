@@ -98,7 +98,7 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Action</mat-header-cell>
                     <mat-cell *matCellDef="let order" >
                         <button mat-button type="button" matTooltip="Delete" [matTooltipPosition]="'above'"
-                            class="save-product-button" (click)="onDelete(order)">
+                            class="red-400-fg" (click)="onDelete(order)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </mat-cell>

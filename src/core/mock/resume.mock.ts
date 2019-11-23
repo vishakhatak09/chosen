@@ -1,4 +1,5 @@
 import { TemplateModel } from 'core/models/resumebuilder.model';
+import * as moment from 'moment';
 
 export class ResumeMock {
     public static data: TemplateModel = {
@@ -7,6 +8,7 @@ export class ResumeMock {
         contactNumber: '111-222-3333',
         email: 'john.doe@gmail.com',
         fullAddress: 'Lorem ipsum dolor met ',
+        designation: 'developer',
         dateOfBirth: null,
         placeOfBirth: '',
         gender: '',
@@ -78,4 +80,55 @@ export class ResumeMock {
         ],
         profileSrc: 'assets/images/logos/profile.jpg',
     };
+    public static templateForm = {
+        firstName: 'John',
+        lastName: 'Doe',
+        contactNumber: '111-222-3333',
+        email: 'john.doe@gmail.com',
+        fullAddress: 'Lorem ipsum dolor met ',
+    };
+    public static experienceData = [
+        {
+            companyName: 'Sample Company',
+            location: 'San Fransisco',
+            designation: 'Frontend developer',
+            joiningDate: moment(),
+            leavingDate: moment().year(moment().year() + 1),
+            isTillDate: false,
+        },
+        {
+            companyName: 'Sample Company',
+            location: 'San Fransisco',
+            designation: 'Frontend developer',
+            joiningDate: moment(),
+            leavingDate: moment().year(moment().year() + 1),
+            isTillDate: false,
+        },
+    ];
+    public static educationData = [
+        {
+            collegeName: 'Sample College',
+            universityName: 'Sample university',
+            courseName: 'Course',
+            yearOfPassing: moment(),
+            isCurrentlyPursuing: false,
+        },
+        {
+            collegeName: 'Sample College',
+            universityName: 'Sample university',
+            courseName: 'Course',
+            yearOfPassing: moment(),
+            isCurrentlyPursuing: false,
+        },
+    ];
+    public static skillData = [
+        {
+            skillName: 'HTML5',
+            ratings: 5,
+        },
+        {
+            skillName: 'CSS3',
+            ratings: 4,
+        }
+    ];
 }

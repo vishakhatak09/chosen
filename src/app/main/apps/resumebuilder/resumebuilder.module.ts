@@ -23,7 +23,6 @@ import { ResumeBuilderService } from './resumebuilder.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AddEducationComponent } from './add-education/add-education.component';
-import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { FuseMaterialColorPickerModule } from '@fuse/components';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 // import { Template1Component } from 'core/components/template1/template1.component';
@@ -43,7 +42,6 @@ const routes: Routes = [
     ResumeTemplateComponent,
     AddWorkComponent,
     AddEducationComponent,
-    ConfirmationDialogComponent,
     AdditionalInfoComponent,
     // Template1Component,
     ResumePreviewComponent
@@ -52,7 +50,6 @@ const routes: Routes = [
     ResumeTemplateComponent,
     AddWorkComponent,
     AddEducationComponent,
-    ConfirmationDialogComponent,
     AdditionalInfoComponent,
     // Template1Component
     ResumePreviewComponent

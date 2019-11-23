@@ -4,6 +4,7 @@ import {
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ export class ToastrService {
         message: string,
         type: 'info' | 'error' | 'warning' | 'success',
     ) {
-        this.matToaster.open(message, 'X', {
+        this.matToaster.open(message || AppConstant.ConstantMsgs.somethingWentWrong, 'X', {
             duration: this.duration,
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,

@@ -70,9 +70,8 @@ export const MY_FORMATS = {
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
             <mat-label hidden>Year of passing</mat-label>
             <input matInput [matDatepicker]="picker"
-                formControlName="yearOfPassing"
-                placeholder="Year of passing" name="YearOfPassing"
-                [max]="maxDate"
+                formControlName="yearOfPassing" placeholder="Year of passing" name="YearOfPassing"
+                [max]="maxDate" (click)="handlePicker($event, picker)" (keydown)="handlePicker($event, picker, true)"
                 autocomplete="off" >
             <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"
@@ -139,7 +138,7 @@ export class AddEducationComponent implements OnInit, OnDestroy {
         universityName: this.educationDetail.universityName,
         courseName: this.educationDetail.courseName,
         yearOfPassing: this.educationDetail.yearOfPassing,
-        isCurrentlyPursuing: moment(this.educationDetail.yearOfPassing).year() ===  moment().year() ? true : false,
+        isCurrentlyPursuing: moment(this.educationDetail.yearOfPassing).year() === moment().year() ? true : false,
       });
     }
 
@@ -163,7 +162,7 @@ export class AddEducationComponent implements OnInit, OnDestroy {
     this.educationDetail.yearOfPassing = ctrlValue;
     this.userEduForm.get('yearOfPassing').setValue(ctrlValue);
     datepicker.close();
-    if ( normalizedYear.year() === moment().year() ) {
+    if (normalizedYear.year() === moment().year()) {
       this.userEduForm.get('isCurrentlyPursuing').setValue(true);
     } else {
       this.userEduForm.get('isCurrentlyPursuing').setValue(false);
@@ -199,6 +198,25 @@ export class AddEducationComponent implements OnInit, OnDestroy {
       this.educationDetail.yearOfPassing = null;
       this.userEduForm.get('yearOfPassing').setValue(null);
     }
+  }
+
+  /**
+   * Handle datepicker input
+   */
+  handlePicker(event: MouseEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
+    if (isTyping) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+    if (picker && picker.opened) {
+      picker.close();
+    } else {
+      picker.open();
+    }
+    event.stopPropagation();
+    event.preventDefault();
+    return;
   }
 
   /**

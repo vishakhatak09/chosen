@@ -10,9 +10,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
+import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
 
 @NgModule({
-    imports  : [
+    entryComponents: [ConfirmationDialogComponent],
+    declarations: [ConfirmationDialogComponent],
+    imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
@@ -28,7 +31,7 @@ import { MatRippleModule } from '@angular/material/core';
         MatIconModule,
         MatRippleModule,
     ],
-    exports  : [
+    exports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
@@ -44,6 +47,5 @@ import { MatRippleModule } from '@angular/material/core';
         MatRippleModule,
     ]
 })
-export class FuseSharedModule
-{
+export class FuseSharedModule {
 }

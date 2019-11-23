@@ -69,8 +69,8 @@ export const MY_FORMATS = {
             <input matInput [matDatepicker]="picker"
                 formControlName="joiningDate"
                 placeholder="Joining Date" name="joiningDate"
-                [max]="userWork.leavingDate || maxDate"
-                name="JoiningDate"
+                [max]="userWork.leavingDate || maxDate" name="JoiningDate"
+                (click)="handlePicker($event, picker)" (keydown)="handlePicker($event, picker, true)"
                 autocomplete="off" >
             <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"
@@ -93,7 +93,8 @@ export const MY_FORMATS = {
             <input matInput [matDatepicker]="picker2"
                 formControlName="leavingDate"
                 placeholder="Leaving Date" name="LeavingDate" [max]="maxDate"
-                autocomplete="off" >
+                autocomplete="off"
+                (click)="handlePicker($event, picker2)" (keydown)="handlePicker($event, picker2, true)">
             <mat-datepicker-toggle matPrefix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2 disabled="false"
               startView="multi-year"
@@ -163,7 +164,7 @@ export class AddWorkComponent implements OnInit, OnDestroy {
         joiningDate: this.userWork.joiningDate,
         leavingDate: this.userWork.leavingDate,
         isTillDate: moment(this.userWork.leavingDate).year() === moment().year() &&
-                    moment(this.userWork.leavingDate).month() === moment().month() ? true : false,
+          moment(this.userWork.leavingDate).month() === moment().month() ? true : false,
       });
     }
   }
@@ -216,8 +217,8 @@ export class AddWorkComponent implements OnInit, OnDestroy {
     this.userWork[type] = ctrlValue;
     this.userWorkForm.get(type).setValue(ctrlValue);
     datepicker.close();
-    if ( type === 'leavingDate' ) {
-      if ( ctrlValue.year() === moment().year() && ctrlValue.month() === moment().month() ) {
+    if (type === 'leavingDate') {
+      if (ctrlValue.year() === moment().year() && ctrlValue.month() === moment().month()) {
         this.userWorkForm.get('isTillDate').setValue(true);
       } else {
         this.userWorkForm.get('isTillDate').setValue(false);
@@ -254,6 +255,25 @@ export class AddWorkComponent implements OnInit, OnDestroy {
       this.userWork.leavingDate = null;
       this.userWorkForm.get('leavingDate').setValue(null);
     }
+  }
+
+  /**
+   * Handle datepicker input
+   */
+  handlePicker(event: MouseEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
+    if (isTyping) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+    if (picker && picker.opened) {
+      picker.close();
+    } else {
+      picker.open();
+    }
+    event.stopPropagation();
+    event.preventDefault();
+    return;
   }
 
   /**
