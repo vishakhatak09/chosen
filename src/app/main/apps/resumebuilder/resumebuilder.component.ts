@@ -99,7 +99,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   separatorKeysCodes: number[] = [ENTER];
   selectedIndex = 0;
   public MockTemplate: string;
-  isLinear = false;
+  isLinear = true;
   userEmail: string;
 
   // Private
