@@ -26,7 +26,7 @@ export const MY_FORMATS = {
     Add work details
     <button mat-icon-button matTooltip="Close"
         [matTooltipPosition]="'above'"
-        mat-dialog-close class="dialog-close-btn">
+        (click)="dialogRef.close()" class="dialog-close-btn">
         <mat-icon>close</mat-icon>
     </button>
   </h1>
@@ -142,7 +142,7 @@ export class AddWorkComponent implements OnInit, OnDestroy {
    */
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private dialogRef: MatDialogRef<AddWorkComponent>,
+    public dialogRef: MatDialogRef<AddWorkComponent>,
     private formbuilder: FormBuilder
   ) {
 
@@ -156,7 +156,10 @@ export class AddWorkComponent implements OnInit, OnDestroy {
     });
 
     if (this.dialogData) {
-      this.userWork = this.dialogData;
+      // const data = Array.from([this.dialogData]);
+      const data = [this.dialogData];
+      const workData = data.slice();
+      this.userWork = workData[0];
       this.userWorkForm.setValue({
         companyName: this.userWork.companyName,
         location: this.userWork.location,

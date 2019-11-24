@@ -2,37 +2,38 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfigService } from '@fuse/services/config.service';
+import { confirmPasswordValidator } from 'core/validators/confirm-password.validator';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators';
-import { confirmPasswordValidator } from './confirm-password.validator';
+import { takeUntil } from 'rxjs/operators';
+import { environment } from 'environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'core/services/authentication.service';
 import { ToastrService } from 'core/services/toastr.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { environment } from 'environments/environment';
-
 
 @Component({
-    selector: 'ad-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss'],
+    selector: 'ad-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AdRegisterComponent implements OnInit, OnDestroy {
-    registerForm: FormGroup;
-    signUpUrl = environment.serverBaseUrl + 'api/admin/signUp';
-    isLoading = false;
+export class AdResetPasswordComponent implements OnInit, OnDestroy {
+    resetPasswordForm: FormGroup;
+    resetToken: string;
+    resetPswdApi = environment.serverBaseUrl + 'api/admin/resetPassword';
+    isLogin = false;
 
     // Private
-    private _unsubscribeAll: Subject<any> = new Subject();
+    private _unsubscribeAll: Subject<any>;
 
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
+        private activatedRoute: ActivatedRoute,
         private _authService: AuthenticationService,
+        private _router: Router,
         private _toastrService: ToastrService,
-        private _router: Router
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -54,6 +55,7 @@ export class AdRegisterComponent implements OnInit, OnDestroy {
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+        this.resetToken = this.activatedRoute.snapshot.paramMap.get('token');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -64,48 +66,42 @@ export class AdRegisterComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.registerForm = this._formBuilder.group({
-            // name: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
+        this.resetPasswordForm = this._formBuilder.group({
             password: ['', Validators.required],
-            passwordConfirm: ['', [Validators.required, confirmPasswordValidator]],
-            agreeTerms: [null, [Validators.required]]
+            passwordConfirm: ['', [Validators.required, confirmPasswordValidator]]
         });
 
         // Update the validity of the 'passwordConfirm' field
         // when the 'password' field changes
-        this.registerForm.get('password').valueChanges
+        this.resetPasswordForm.get('password').valueChanges
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-                this.registerForm.get('passwordConfirm').updateValueAndValidity();
+                this.resetPasswordForm.get('passwordConfirm').updateValueAndValidity();
             });
     }
 
-    onRegister(): void {
+    onResetPassword(): void {
 
-        if (this.registerForm.valid) {
-            this.isLoading = true;
-            const formValue = this.registerForm.value;
-            const params = {
-                'params': {
-                    'email': formValue.email,
-                    'password': formValue.password
+        this.isLogin = true;
+
+        const params = {
+            'params': {
+                'emailVerificationToken': this.resetToken,
+                'password': this.resetPasswordForm.value.password,
+            }
+        };
+        this._authService.resetPassword(this.resetPswdApi, params)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(
+                (response) => {
+                    this._toastrService.displaySnackBar('Your password has been reset successfully.', 'success');
+                    this._router.navigate(['/app/ad/login']);
+                },
+                (error: HttpErrorResponse) => {
+                    this.isLogin = false;
+                    this._toastrService.displaySnackBar(error.message, 'error');
                 }
-            };
-            this._authService.register(this.signUpUrl, params)
-                .pipe(takeUntil(this._unsubscribeAll))
-                .subscribe(
-                    (response) => {
-                        this._toastrService.displaySnackBar('Registration was successfull', 'success');
-                        this._router.navigate(['/app/ad/login']);
-                    },
-                    (error: HttpErrorResponse) => {
-                        this.isLoading = false;
-                        this._toastrService.displaySnackBar(error.message, 'error');
-                    }
-                );
-        }
-
+            );
     }
 
     /**

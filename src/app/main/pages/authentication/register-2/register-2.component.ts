@@ -22,6 +22,7 @@ import { confirmPasswordValidator } from 'core/validators/confirm-password.valid
 export class Register2Component implements OnInit, OnDestroy {
     registerForm: FormGroup;
     signUpUrl = environment.serverBaseUrl + 'api/signUp';
+    isLoading = false;
 
     // Private
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -83,6 +84,7 @@ export class Register2Component implements OnInit, OnDestroy {
     onSubmit(): void {
 
         if (this.registerForm.valid) {
+            this.isLoading = true;
             const formValue = this.registerForm.value;
             const params = {
                 'params': {
@@ -98,6 +100,7 @@ export class Register2Component implements OnInit, OnDestroy {
                         this._router.navigate(['/pages/auth/login']);
                     },
                     (error: HttpErrorResponse) => {
+                        this.isLoading = false;
                         this._toastrService.displaySnackBar(error.message, 'error');
                     }
                 );

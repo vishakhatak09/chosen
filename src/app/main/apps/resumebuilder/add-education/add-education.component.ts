@@ -28,7 +28,7 @@ export const MY_FORMATS = {
   Add education details
     <button mat-icon-button matTooltip="Close"
         [matTooltipPosition]="'above'"
-        mat-dialog-close class="dialog-close-btn">
+        (click)="dialogRef.close()" class="dialog-close-btn">
         <mat-icon>close</mat-icon>
     </button>
   </h1>
@@ -119,7 +119,7 @@ export class AddEducationComponent implements OnInit, OnDestroy {
    */
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private dialogRef: MatDialogRef<AddEducationComponent>,
+    public dialogRef: MatDialogRef<AddEducationComponent>,
     private formbuilder: FormBuilder
   ) {
 
@@ -132,7 +132,10 @@ export class AddEducationComponent implements OnInit, OnDestroy {
     });
 
     if (this.dialogData) {
-      this.educationDetail = this.dialogData;
+      const dialogdata = Array.from([this.dialogData]);
+      const data = dialogdata;
+      const eduData = data.slice();
+      this.educationDetail = eduData[0];
       this.userEduForm.setValue({
         collegeName: this.educationDetail.collegeName,
         universityName: this.educationDetail.universityName,

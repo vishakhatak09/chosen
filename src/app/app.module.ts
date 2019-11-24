@@ -28,7 +28,8 @@ const appRoutes: Routes = [
     // },
     {
         path: 'apps',
-        loadChildren: './main/apps/apps.module#AppsModule'
+        loadChildren: './main/apps/apps.module#AppsModule',
+        canLoad: [AuthGuardService]
     },
     {
         path: 'pages',
@@ -36,7 +37,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'app',
-        loadChildren: './main/admin-auth/admin-login.module#AdminLoginModule'
+        loadChildren: './main/admin-auth/admin-login.module#AdminLoginModule',
     },
     {
         path: '**',

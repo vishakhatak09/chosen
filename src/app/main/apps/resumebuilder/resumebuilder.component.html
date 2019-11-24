@@ -13,13 +13,6 @@
             <!-- APP TITLE -->
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <div class="profile-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}"
-                    hidden>
-                    <!-- <img [src]="profileSrc" (click)="fileInput.click()"> -->
-                    <!-- <input type="file" #fileInput accept="image/*" (change)="getFileData($event.target.files)"
-                        style="display: none;"> -->
-                </div>
-
                 <div fxLayout="column" fxLayoutAlign="start start"
                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" hidden>
 
@@ -57,7 +50,7 @@
 
                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
 
-                    <mat-vertical-stepper [linear]="true" #stepper fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100"
+                    <mat-vertical-stepper [linear]="isLinear" #stepper fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100"
                         fusePerfectScrollbar [selectedIndex]="selectedIndex" (selectionChange)="stepChange($event)">
 
                         <mat-step [stepControl]="basicDetailForm">
@@ -107,7 +100,7 @@
                                         </mat-error>
                                     </mat-form-field>
 
-                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                    <!-- <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Email</mat-label>
                                         <input matInput placeholder="Email" type="email" name="Email"
                                             formControlName="email" autocomplete="off" required>
@@ -117,7 +110,7 @@
                                         <mat-error *ngIf="basicDetailForm.get('email').hasError('email')">
                                             Enter valid email
                                         </mat-error>
-                                    </mat-form-field>
+                                    </mat-form-field> -->
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Full Address</mat-label>
@@ -140,23 +133,18 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>D.O.B</mat-label>
-                                        <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate" 
-                                            formControlName="dateOfBirth" autocomplete="off" (click)="handlePicker($event, picker)" 
+                                        <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate"
+                                            formControlName="dateOfBirth" autocomplete="off"
+                                            (click)="handlePicker($event, picker)"
                                             (keydown)="handlePicker($event, picker, true)">
                                         <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker disabled="false"></mat-datepicker>
-                                        <!-- <mat-error *ngIf="basicDetailForm.get('dateOfBirth').hasError('required')">
-                                            Date of birth is required
-                                        </mat-error> -->
                                     </mat-form-field>
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Place Of Birth</mat-label>
                                         <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth"
                                             formControlName="placeOfBirth" autocomplete="off">
-                                        <!-- <mat-error *ngIf="basicDetailForm.get('placeOfBirth').hasError('required')">
-                                            Place of birth is required
-                                        </mat-error> -->
                                     </mat-form-field>
 
                                     <div class="w-100-p">
@@ -237,6 +225,10 @@
                                                 [init]="tinyEditorConfig" placeholder="Career objective"
                                                 [formControlName]="'careerObjective'" tagName="textarea">
                                             </editor>
+                                            <mat-error *ngIf="careerObjForm.get('careerObjective').touched && 
+                                                careerObjForm.get('careerObjective').value == '' ">
+                                                Please fill in career objective
+                                            </mat-error>
                                         </ng-template>
 
                                         <div class="pt-12 pl-8 pb-4">
@@ -495,7 +487,10 @@
                                                 <p [innerHTML]="add.value"></p>
                                             </ng-container>
                                             <ng-container *ngSwitchCase="'Certifications'">
-                                                <p [innerHTML]="add.value"></p>
+                                                <ng-container *ngFor="let item of add.value">
+                                                    <p>{{ item.date | date: 'yyyy' }}</p>
+                                                    <p [innerHTML]="item.certificate"></p>
+                                                </ng-container>
                                             </ng-container>
                                             <ng-container *ngSwitchDefault>
                                                 <mat-chip-list #skillList name="Skills" class="w-100-p">
@@ -523,7 +518,7 @@
 
                 </div>
 
-                <div class="template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
+                <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
                     <!-- <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()"
                         [experienceData]="workExperienceData"
                         [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData"

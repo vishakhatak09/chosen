@@ -7,21 +7,24 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { AuthenticationService } from 'core/services/authentication.service';
 
 @Component({
-    selector     : 'navbar-vertical-style-1',
-    templateUrl  : './style-1.component.html',
-    styleUrls    : ['./style-1.component.scss'],
+    selector: 'navbar-vertical-style-1',
+    templateUrl: './style-1.component.html',
+    styleUrls: ['./style-1.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
-{
+export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
     private _unsubscribeAll: Subject<any>;
+    userEmail: string;
+    userName: string;
+    userData: any;
 
     /**
      * Constructor
@@ -35,9 +38,9 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
-        private _router: Router
-    )
-    {
+        private _router: Router,
+        private _authService: AuthenticationService
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -47,11 +50,9 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     // Directive
-    @ViewChild(FusePerfectScrollbarDirective, {static: true})
-    set directive(theDirective: FusePerfectScrollbarDirective)
-    {
-        if ( !theDirective )
-        {
+    @ViewChild(FusePerfectScrollbarDirective, { static: true })
+    set directive(theDirective: FusePerfectScrollbarDirective) {
+        if (!theDirective) {
             return;
         }
 
@@ -74,11 +75,17 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
                 take(1)
             )
             .subscribe(() => {
-                    setTimeout(() => {
-                        this._fusePerfectScrollbar.scrollToElement('navbar .nav-link.active', -120);
-                    });
-                }
+                setTimeout(() => {
+                    this._fusePerfectScrollbar.scrollToElement('navbar .nav-link.active', -120);
+                });
+            }
             );
+
+        this.userData = this._authService.currentUserValue;
+        if (this.userData) {
+            this.userEmail = this.userData.email || '';
+            this.userName = this.userData.name || '';
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -88,19 +95,17 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this._router.events
             .pipe(
                 filter((event) => event instanceof NavigationEnd),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {
-                    if ( this._fuseSidebarService.getSidebar('navbar') )
-                    {
-                        this._fuseSidebarService.getSidebar('navbar').close();
-                    }
+                if (this._fuseSidebarService.getSidebar('navbar')) {
+                    this._fuseSidebarService.getSidebar('navbar').close();
                 }
+            }
             );
 
         // Subscribe to the config changes
@@ -124,8 +129,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -138,16 +142,14 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     /**
      * Toggle sidebar opened status
      */
-    toggleSidebarOpened(): void
-    {
+    toggleSidebarOpened(): void {
         this._fuseSidebarService.getSidebar('navbar').toggleOpen();
     }
 
     /**
      * Toggle sidebar folded status
      */
-    toggleSidebarFolded(): void
-    {
+    toggleSidebarFolded(): void {
         this._fuseSidebarService.getSidebar('navbar').toggleFold();
     }
 }

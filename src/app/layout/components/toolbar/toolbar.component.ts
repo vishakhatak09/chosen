@@ -28,6 +28,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     selectedLanguage: any;
     userStatusOptions: any[];
     isLoggedIn = false;
+    userEmail: string;
+    userData: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -110,14 +112,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, { id: this._translateService.currentLang });
 
-        this.authService.currentUser.subscribe((response) => {
-            if (response) {
-                this.isLoggedIn = true;
-                // if (response.type && response.type === 'admin') {
-                    this.authService.setAdminNavigation();
-                // }
-            }
-        });
+        this.userData = this.authService.currentUserValue;
+        if (this.userData) {
+            this.isLoggedIn = true;
+            this.userEmail = this.userData.email || '';
+            // if (this.userData.type && this.userData.type === 'admin') {
+            this.authService.setAdminNavigation();
+            // }
+        }
     }
 
     /**
@@ -170,7 +172,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     logout(): void {
         this.authService.logout();
-        this._toatrService.displaySnackBar('Logged out successfully.', 'success');
+        // this._toatrService.displaySnackBar('Logged out successfully.', 'success');
         this._router.navigate(['/pages/auth/login']);
     }
 }

@@ -76,10 +76,10 @@ export class AppConstant {
             value: 'square',
             viewValue: 'Square',
         },
-        {
-            value: 'movie',
-            viewValue: 'Movie',
-        },
+        // { // not proper in view while in mobile screen
+        //     value: 'movie',
+        //     viewValue: 'Movie',
+        // },
         {
             value: 'stars',
             viewValue: 'Stars',
@@ -132,6 +132,32 @@ export class AppConstant {
     };
 
     public static AuthStorageKey = 'user';
+
+    public static MY_YEAR_FORMATS = {
+        parse: {
+            dateInput: 'YYYY',
+        },
+        display: {
+            dateInput: 'YYYY',
+            // monthYearLabel: 'MMM YYYY',
+            // dateA11yLabel: 'LL',
+            // monthYearA11yLabel: 'MMMM YYYY',
+            yearLabel: 'YYYY',
+            yearA11yLabel: 'YYYY',
+        },
+    };
+
+    public static DEFAULT_FORMATS = {
+        parse: {
+            dateInput: 'DD-MMM-YYYY',
+        },
+        display: {
+            dateInput: 'DD-MMM-YYYY',
+            monthYearLabel: 'MMM YYYY',
+            // dateA11yLabel: 'LL',
+            monthYearA11yLabel: 'MMMM YYYY',
+        },
+    };
 }
 
 export interface OptionType {

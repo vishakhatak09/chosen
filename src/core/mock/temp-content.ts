@@ -195,7 +195,14 @@ export const templateMock = `
                                        <p [innerHTML]="item.value"></p>
                                     </ng-container>
                                     <ng-container *ngSwitchCase="'Certifications'">
-                                       <div [innerHTML]="item.value"></div>
+                                       <div style="width: 50%;padding-right: 15px;vertical-align: top;" *ngFor="let data of item.value">
+                                            <h3 style="margin:0; font-size: 12px;">
+                                            {{ data.certificate }}
+                                            </h3>
+                                            <p style="display:inline-block;margin:0;font-style: italic;font-size: 10px;color: #909090;">
+                                                {{ data.date | date: 'yyyy' }}
+                                            </p>
+                                        </div>
                                     </ng-container>
                                     <ng-container *ngSwitchDefault>
                                         <h4 style="margin:2px 0 0; font-size: 13px; color: #909090;" *ngFor="let data of item.value">

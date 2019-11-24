@@ -80,7 +80,7 @@
                 </div>
 
                 <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
-                        [disabled]="registerForm.invalid || 
+                        [disabled]="registerForm.invalid ||  isLoading ||
                             (registerForm.get('agreeTerms').value == null || registerForm.get('agreeTerms').value == false ) ">
                     CREATE AN ACCOUNT
                 </button>

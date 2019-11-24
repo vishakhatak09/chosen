@@ -1,3 +1,6 @@
+import { ENTER } from '@angular/cdk/keycodes';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -15,45 +18,48 @@ import {
   AfterContentInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { AppConstant, OptionType } from 'core/constants/app.constant';
-import { LanguageList } from 'core/constants/locale';
-import { environment } from 'environments/environment';
-import { Observable, Subject } from 'rxjs';
-import {
-  SkillRating,
-  WorkModel,
-  EducationModel,
-  SocialModel,
-  AdditionalModel
-} from 'core/models/resumebuilder.model';
-import { MatDialog } from '@angular/material/dialog';
-// import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
-import { ResumeBuilderService } from './resumebuilder.service';
-// import jsPDF from 'jspdf';
-import { AddWorkComponent } from './add-work/add-work.component';
-import { AddEducationComponent } from './add-education/add-education.component';
-import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
-import { ENTER } from '@angular/cdk/keycodes';
-import { AdditionalInfoComponent } from './additional-info/additional-info.component';
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { ToastrService } from 'core/services/toastr.service';
+import { ResumeMock } from 'core/mock/resume.mock';
 import { templateMock } from 'core/mock/temp-content';
+import {
+  AdditionalModel,
+  EducationModel,
+  SkillRating,
+  SocialModel,
+  WorkModel
+} from 'core/models/resumebuilder.model';
+import { ToastrService } from 'core/services/toastr.service';
+import { environment } from 'environments/environment';
+import * as moment from 'moment';
+import { Subject } from 'rxjs';
+import 'tinymce';
+import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
+import { AddEducationComponent } from './add-education/add-education.component';
+import { AddWorkComponent } from './add-work/add-work.component';
+import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 import { ResumebuilderModule } from './resumebuilder.module';
-import { CommonModule } from '@angular/common';
-import { ResumeMock } from 'core/mock/resume.mock';
-import 'tinymce';
-import { MatDatepicker } from '@angular/material/datepicker';
-import * as moment from 'moment';
+import { ResumeBuilderService } from './resumebuilder.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AuthenticationService } from 'core/services/authentication.service';
 declare var tinymce: any;
+import * as jsPDF from 'jspdf';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-resumebuilder',
   templateUrl: './resumebuilder.component.html',
   styleUrls: ['./resumebuilder.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: AppConstant.DEFAULT_FORMATS },
+  ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
@@ -64,19 +70,14 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   public profileFileName: string;
   public basicDetailForm: FormGroup;
   public careerObjForm: FormGroup;
-  // public eduForm: FormGroup;
   maxDate = new Date();
   maritalStatuOpts: OptionType[] = AppConstant.MaritalStatusOptions;
   genderOptions: OptionType[] = AppConstant.GenderOptions;
   baseUrl = environment.baseUrl;
-  languagesList: string[] = LanguageList.list;
-  filteredLanguages: Observable<string[]>;
-  selectedLanguages: string[] = [];
   maxRate = 5;
   currentRate = 0;
   ratingStyle = 'square';
   skillOptions: OptionType[] = AppConstant.SkillCustomOptions;
-  basicSkill = '';
   skillRatingList: SkillRating[] = [];
   ratingThemeList: OptionType[] = AppConstant.RatingThemes;
 
@@ -94,11 +95,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   additionalInfoData: AdditionalModel[] = [];
   allowDownload = false;
 
-  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('templateRef', { static: false }) templateContent: ElementRef;
   separatorKeysCodes: number[] = [ENTER];
   selectedIndex = 0;
   public MockTemplate: string;
+  isLinear = false;
+  userEmail: string;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -121,10 +123,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     private cdRef: ChangeDetectorRef,
     private toastrService: ToastrService,
     private compiler: Compiler,
-  ) {
-    // this.MockTemplate = templateMock;
-    // this.generateRunTimeComponent();
-  }
+    private domSanitizer: DomSanitizer,
+    private authService: AuthenticationService
+  ) { }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -139,7 +140,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       contactNumber: ['', [Validators.required, Validators.pattern(AppConstant.ValidPhonePattern)]],
-      email: ['', [Validators.required, Validators.email]],
+      // email: ['', [Validators.required, Validators.email]],
       fullAddress: ['', [Validators.required]],
       designation: ['', [Validators.required]],
       dateOfBirth: [{ value: '', disabled: false }],
@@ -169,12 +170,15 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     });
     this.setupTinyMce();
     this.sendTemplateValues();
+
+    const userData = this.authService.currentUserValue;
+    this.userEmail = userData ? userData.email : '';
   }
 
   ngAfterContentInit(): void {
     this.MockTemplate = templateMock;
+    // Generate dynamic component with html
     setTimeout(() => {
-      // console.log(this.container);
       this.generateRunTimeComponent();
       this.cdRef.detectChanges();
     }, 1000);
@@ -193,14 +197,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       height: 300,
       menubar: false,
       header: false,
-      setup: (editor) => {
-        editor.on('init', (e) => {
-          // console.log('editor initialized', e);
-        });
-      }
     };
     tinymce.init(this.tinyEditorConfig);
-    // this.MockTemplate = templateMock;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -215,84 +213,23 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     console.log('skillRatingList', this.skillRatingList);
   }
 
-  /**
-   * Add langugage event on mat chip selection
-   * @param event Mat chip add event
-   */
-  addLang(event: MatChipInputEvent): void {
-    // Add langugage only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
-    if (!this.matAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
-
-      // Add our value
-      if ((value || '').trim()) {
-        const index = this.languagesList.indexOf(value);
-        const selected = this.selectedLanguages.indexOf(value);
-        if (index !== -1 && selected === -1) {
-          this.selectedLanguages.push(value.trim());
-        }
-      }
-
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
-
-      this.basicDetailForm.get('languages').setValue(null);
-    }
-  }
-
-  /**
-   * On remove language event
-   * @param lang Selected langugage
-   */
-  removeLang(lang: string): void {
-    const index = this.selectedLanguages.indexOf(lang);
-
-    if (index >= 0) {
-      this.selectedLanguages.splice(index, 1);
-    }
-  }
-
-  /**
-   * On language select event
-   * @param event Autocomplete select
-   */
-  selected(event: MatAutocompleteSelectedEvent): void {
-    const value = event.option.value;
-    const index = this.languagesList.indexOf(value);
-    const selected = this.selectedLanguages.indexOf(value);
-    if (index !== -1 && selected === -1) {
-      this.selectedLanguages.push(value.trim());
-    }
-    this.basicDetailForm.get('languages').setValue(null);
-  }
-
-  /**
-   * On change of skill type
-   * @param seletedSkill 'basic' | 'withBox' | 'withRating'
-   */
-  skillTypeSelecttion(seletedSkill: 'basic' | 'withBox' | 'withRating'): void {
-    this.skillRatingList = [];
-    this.basicSkill = '';
-  }
-
   templatePreview(): void {
-    if (this.container) {
-      // const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
-      const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
-      const dialogRef = this.matDialog.open(
-        // ResumeTemplateComponent,
-        // Template1Component,
-        ResumePreviewComponent,
-        {
-          width: 'auto',
-          data: data,
-        },
-      );
+    if (this.selectedIndex === 4 || this.selectedIndex === 5) {
+      this.generateRunTimeComponent(true);
     }
+    setTimeout(() => {
+      if (this.container) {
+        // const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
+        const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
+        this.matDialog.open(
+          ResumePreviewComponent,
+          {
+            width: 'auto',
+            data: data,
+          },
+        );
+      }
+    }, 100);
 
   }
 
@@ -316,6 +253,16 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveAsPdf(): void {
+
+    html2canvas(document.querySelector('#save-template')).then(canvas => {
+
+      const pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);
+
+      const imgData = canvas.toDataURL('image/jpg', 1.0);
+      pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
+      pdf.save('resume_' + moment().toDate().getTime() + '.pdf');
+
+    });
     // const doc = new jsPDF();
     // doc.addHTML(this.templateContent.nativeElement , () => {
     //   const timestamp = Date.now();
@@ -362,7 +309,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   editWorkExperience(index: number, type: 'work' | 'education'): void {
     const component: any = type === 'work' ? AddWorkComponent : AddEducationComponent;
-    const dialogData = type === 'work' ? this.workExperienceData[index] : this.educationData[index];
+    const workData = this.workExperienceData.slice();
+    const educationData = this.educationData.slice();
+    const dialogData = type === 'work' ? workData[index] : educationData[index];
     const dialogRef = this.matDialog.open(
       component,
       {
@@ -511,7 +460,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           } else {
             this.additionalInfoData.push(response);
           }
-          this.generateRunTimeComponent();
+          this.generateRunTimeComponent(true);
         }
       });
     } else {
@@ -520,20 +469,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       });
       if (index !== -1) {
         this.additionalInfoData.splice(index, 1);
-        this.generateRunTimeComponent();
+        this.generateRunTimeComponent(true);
       }
-    }
-  }
-
-  /**
-   * Mat tab index change event
-   * @param tabIndex Current tab index
-   */
-  tabChangeEvent(tabIndex: number): void {
-    if (tabIndex >= 4) {
-      this.allowDownload = true;
-    } else {
-      this.allowDownload = false;
     }
   }
 
@@ -547,15 +484,17 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       height: 'auto',
       disableClose: true,
       data: value,
+      restoreFocus: true,
     });
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
         if (isExist !== -1) {
-          this.additionalInfoData[isExist] = response;
+          data[isExist] = response;
         } else {
-          this.additionalInfoData.push(response);
+          data.push(response);
         }
-        this.generateRunTimeComponent();
+        this.additionalInfoData = data;
+        this.generateRunTimeComponent(true);
       } else {
         this.additionalInfoData = data;
       }
@@ -564,9 +503,18 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   stepChange(event: StepperSelectionEvent): void {
     this.selectedIndex = event.selectedIndex;
+    if (this.selectedIndex >= 4) {
+      this.allowDownload = true;
+    } else {
+      this.allowDownload = false;
+    }
   }
 
   finishStep(): void {
+    if (this.skillForm.invalid || this.skillRatingList.length === 0) {
+      this.skillForm.get('skillType').markAsTouched();
+      return;
+    }
     this.generateRunTimeComponent(true);
     if (this.selectedIndex === 4) {
       const dialogRef = this.matDialog.open(
@@ -662,10 +610,24 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   generateRunTimeComponent(isLastSteps = false): void {
 
     let data = {};
+
+    this.additionalInfoData.filter((info) => {
+      if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
+        info.value = this.domSanitizer.bypassSecurityTrustHtml(info.value);
+      }
+      return info;
+    });
+
     if (!isLastSteps) {
 
+      let basicDetail;
+      if (this.basicDetailForm) {
+        basicDetail = this.basicDetailForm.getRawValue();
+        basicDetail.email = this.userEmail;
+      }
+
       data = {
-        templateForm: this.basicDetailForm ? this.basicDetailForm.getRawValue() : ResumeMock.templateForm,
+        templateForm: basicDetail || ResumeMock.templateForm,
         experienceData: this.workExperienceData.length > 0 ? this.workExperienceData : ResumeMock.experienceData,
         careerObjective: this.careerObjForm ? this.careerObjForm.get('careerObjective').value : ResumeMock.data.careerObjective,
         educationData: this.educationData.length > 0 ? this.educationData : ResumeMock.educationData,
@@ -679,8 +641,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
     } else {
 
+      const basicDetail = this.basicDetailForm.getRawValue();
+      basicDetail.email = this.userEmail;
+
       data = {
-        templateForm: this.basicDetailForm.getRawValue(),
+        templateForm: basicDetail,
         experienceData: this.workExperienceData,
         careerObjective: this.careerObjForm.get('careerObjective').value,
         educationData: this.educationData,

@@ -89,7 +89,7 @@ export class Login2Component implements OnInit, OnDestroy {
                 .pipe(takeUntil(this._unSubscribeAll))
                 .subscribe(
                     (response) => {
-                        this._toastrService.displaySnackBar('Login successfull', 'success');
+                        // this._toastrService.displaySnackBar('Login successfull', 'success');
                         this.isLoading = false;
                         this._router.navigate(['/apps/templates']);
                     },

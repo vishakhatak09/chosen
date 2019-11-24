@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
+import { AdminGuardService } from 'core/services/auth-guard.service';
 
-const routes = [
+const routes: Routes = [
     {
         path        : 'admin-dashboard',
-        loadChildren: './dashboards/analytics/analytics.module#AnalyticsDashboardModule'
+        loadChildren: './dashboards/analytics/analytics.module#AnalyticsDashboardModule',
+        canLoad: [AdminGuardService]
     },
     // {
     //     path        : 'dashboards/project',
@@ -38,14 +40,17 @@ const routes = [
     {
         path: 'userlist',
         loadChildren: './users/userlist/userlist.module#UserlistModule',
+        canLoad: [AdminGuardService]
     },
     {
         path: 'user',
         loadChildren: './users/user/user.module#UserModule',
+        canLoad: [AdminGuardService]
     },
     {
         path: ':userId/user',
         loadChildren: './users/user/user.module#UserModule',
+        canLoad: [AdminGuardService]
     },
 ];
 

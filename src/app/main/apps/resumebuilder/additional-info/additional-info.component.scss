@@ -20,6 +20,17 @@
                 margin-right: 22px;
             }
         }
+        .add-certificate {
+            width: 90%;
+            button{
+                float: right;
+            }
+        }
+        .mat-form-field{
+            input[type='text'] {
+                width: 100% !important;
+            }
+        }
     } 
     .w-49 {
         width: 49% !important;

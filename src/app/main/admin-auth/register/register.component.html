@@ -10,16 +10,16 @@
 
             <div class="title">CREATE AN ACCOUNT</div>
 
-            <form name="registerForm" [formGroup]="registerForm" novalidate>
+            <form name="registerForm" [formGroup]="registerForm" (ngSubmit)="onRegister()" novalidate>
 
-                <mat-form-field appearance="outline">
+                <!-- <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
                     <input matInput formControlName="name">
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                     <mat-error>
                         Name is required
                     </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
@@ -56,14 +56,16 @@
                 </mat-form-field>
 
                 <div class="terms" fxLayout="row" fxLayoutAlign="center center">
-                    <mat-checkbox name="terms" aria-label="I read and accept" required>
+                    <mat-checkbox formControlName="agreeTerms" name="terms" aria-label="I read and accept" required>
                         <span>I read and accept</span>
                     </mat-checkbox>
                     <a href="javascript:void(0)">terms and conditions</a>
                 </div>
 
                 <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
-                    [disabled]="registerForm.invalid">
+                    [disabled]="registerForm.invalid || isLoading || 
+                    (registerForm.get('agreeTerms').value == null || registerForm.get('agreeTerms').value == false )
+                    ">
                     CREATE AN ACCOUNT
                 </button>
 
@@ -71,7 +73,7 @@
 
             <div class="register" fxLayout="column" fxLayoutAlign="center center">
                 <span class="text">Already have an account?</span>
-                <a class="link" [routerLink]="['/app/ad-login']">Login</a>
+                <a class="link" [routerLink]="['/app/ad/login']">Login</a>
             </div>
 
         </div>

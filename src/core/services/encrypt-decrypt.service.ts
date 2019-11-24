@@ -55,7 +55,8 @@ export class EncryptDecryptService {
   getDecryptedLocalStorage(key: string): any {
     if (key) {
       const keyName = this.sessionInitial + '-' + key.trim();
-      const storageData = this.localStorageService.get(keyName);
+      let storageData = this.localStorageService.get(keyName);
+      storageData = this.decryptData(storageData);
       return storageData;
     }
   }

@@ -13,21 +13,49 @@
             <ng-container *ngSwitchCase="'Accomplishments'">
                 <ng-container *ngTemplateOutlet="editor"></ng-container>
                 <ng-template matTabContent #editor>
-                    <editor [id]="'accomplishments'" autofocus [init]="tinyEditorConfig"
-                        [(ngModel)]="editorText" name="accomplishments" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
+                    <editor [id]="'accomplishments'" autofocus [init]="tinyEditorConfig" [(ngModel)]="editorText"
+                        name="accomplishments" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
                     </editor>
                 </ng-template>
             </ng-container>
             <ng-container *ngSwitchCase="'Affiliations'">
                 <ng-container *ngTemplateOutlet="editor"></ng-container>
                 <ng-template matTabContent #editor>
-                    <editor [id]="'affiliations'" autofocus [init]="tinyEditorConfig"
-                        [(ngModel)]="editorText" name="affiliations" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
+                    <editor [id]="'affiliations'" autofocus [init]="tinyEditorConfig" [(ngModel)]="editorText"
+                        name="affiliations" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
                     </editor>
                 </ng-template>
             </ng-container>
             <ng-container *ngSwitchCase="'Certifications'">
-                Certifications
+
+                <div fxFlex="100" *ngFor="let certi of certifications; let index=index">
+                    <mat-form-field fxFlex="35">
+                        <input matInput [matDatepicker]="picker" [(value)]="certi.date" placeholder="Date"
+                            name="certificationDate" [max]="maxDate" (click)="handlePicker($event, picker)"
+                            (keydown)="handlePicker($event, picker, true)" autocomplete="off">
+                        <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled="false" startView="multi-year"
+                            (yearSelected)="chosenYearHandler($event, picker, index)">
+                        </mat-datepicker>
+                    </mat-form-field>
+                    &nbsp;
+                    <mat-form-field fxFlex="55">
+                        <input matInput type="text" [(value)]="certi.certificate" #certificateVal
+                            (change)="certi.certificate = certificateVal.value" placeholder="Certification Name"
+                            name="certificationName" autocomplete="off">
+                    </mat-form-field>
+                    &nbsp;
+                    <button mat-button type="button" class="add-button" (click)="addDeleteCertificate('delete', index)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+                <div class="add-certificate">
+                    <button mat-button type="button" class="add-button" (click)="addDeleteCertificate('add')">
+                        <mat-icon>add_box</mat-icon> 
+                        Add <span *ngIf="certifications.length > 0">More</span>
+                    </button>
+                </div>
+
             </ng-container>
             <ng-container *ngSwitchDefault>
 

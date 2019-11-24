@@ -32,10 +32,10 @@ export class AuthenticationService {
     return this.http.post<any>(loginAPI, userDetail).pipe(
       map(user => {
         // login successful if there's a jwt token in the response
-        if (user) {
+        if (user && user.data) {
           // console.log('userrrrrrrrrr', user);
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          this.setUserData(user);
+          this.setUserData(user.data);
         }
         return user;
       }),
@@ -88,38 +88,29 @@ export class AuthenticationService {
           url: '/apps/userlist'
         },
         {
-          id: 'content_mgmt',
-          title: 'Content Management',
-          translate: 'NAV.CONTENT_MGMT',
-          type: 'collapsable',
-          icon: 'ballot',
-          children: [
-            {
-              id: 'upload_resume',
-              title: 'Upload Resume',
-              translate: 'NAV.UPLOAD_RESUME',
-              type: 'item',
-              icon: 'unarchive',
-              url: '/apps/test'
-            },
-            {
-              id: 'job_data_mgmt',
-              title: 'Job Data Management',
-              translate: 'NAV.JOB_DATA_MGMT',
-              type: 'item',
-              icon: 'file_copy',
-              url: '/apps/test'
-            },
-            {
-              id: 'landing_page_mgmt',
-              title: 'Landing Page Management',
-              translate: 'NAV.LANDING_MGMT',
-              type: 'item',
-              icon: 'inbox',
-              url: '/apps/test'
-            },
-          ]
-        }
+          id: 'upload_resume',
+          title: 'Upload Resume',
+          translate: 'NAV.UPLOAD_RESUME',
+          type: 'item',
+          icon: 'unarchive',
+          url: '/apps/test'
+        },
+        {
+          id: 'job_data_mgmt',
+          title: 'Job Data Management',
+          translate: 'NAV.JOB_DATA_MGMT',
+          type: 'item',
+          icon: 'file_copy',
+          url: '/apps/test'
+        },
+        {
+          id: 'landing_page_mgmt',
+          title: 'Landing Page Management',
+          translate: 'NAV.LANDING_MGMT',
+          type: 'item',
+          icon: 'inbox',
+          url: '/apps/test'
+        },
       ]
 
     };

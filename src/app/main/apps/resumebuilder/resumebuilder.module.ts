@@ -12,7 +12,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { HttpClientModule } from '@angular/common/http';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BarRatingModule } from 'ngx-bar-rating';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
@@ -65,7 +64,6 @@ const routes: Routes = [
     MatRadioModule,
     HttpClientModule,
     MatChipsModule,
-    MatAutocompleteModule,
     BarRatingModule,
     MatTooltipModule,
     MatStepperModule,

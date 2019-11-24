@@ -23,6 +23,7 @@ export class ResetPassword2Component implements OnInit, OnDestroy {
     resetPasswordForm: FormGroup;
     resetToken: string;
     resetPswdApi = environment.serverBaseUrl + 'api/resetPassword';
+    isLogin = false;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -85,6 +86,8 @@ export class ResetPassword2Component implements OnInit, OnDestroy {
 
     onResetPassword(): void {
 
+        this.isLogin = true;
+
         const params = {
             'params': {
                 'emailVerificationToken': this.resetToken,
@@ -99,6 +102,7 @@ export class ResetPassword2Component implements OnInit, OnDestroy {
                     this._router.navigate(['/pages/auth/login']);
                 },
                 (error: HttpErrorResponse) => {
+                    this.isLogin = false;
                     this._toastrService.displaySnackBar(error.message, 'error');
                 }
             );

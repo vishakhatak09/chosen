@@ -21,6 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ForgotPassword2Component implements OnInit, OnDestroy {
     forgotPasswordForm: FormGroup;
     forgotPswdApiUrl = environment.serverBaseUrl + 'api/forgotPassword';
+    isLogin = false;
 
     // Private
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -71,6 +72,7 @@ export class ForgotPassword2Component implements OnInit, OnDestroy {
     }
 
     onForgotPassword(): void {
+        this.isLogin = true;
 
         const params = {
             'params': {
@@ -85,11 +87,12 @@ export class ForgotPassword2Component implements OnInit, OnDestroy {
                     this._router.navigate(['/pages/auth/login']);
                 },
                 (error: HttpErrorResponse) => {
+                    this.isLogin = false;
                     this._toastrService.displaySnackBar(error.message, 'error');
                 }
             );
 
-    }
+    } 
 
     ngOnDestroy(): void {
         this._unsubscribeAll.next();

@@ -6,12 +6,23 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { ENTER } from '@angular/cdk/keycodes';
 import 'tinymce';
 import { Moment } from 'moment';
+import * as moment from 'moment';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { AppConstant } from 'core/constants/app.constant';
+import { DomSanitizer } from '@angular/platform-browser';
+
 declare var tinymce: any;
 
 @Component({
   selector: 'app-additional-info',
   templateUrl: './additional-info.component.html',
   styleUrls: ['./additional-info.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: AppConstant.MY_YEAR_FORMATS },
+  ],
   animations: fuseAnimations
 })
 export class AdditionalInfoComponent implements OnInit {
@@ -26,6 +37,11 @@ export class AdditionalInfoComponent implements OnInit {
     date: Moment,
     certificate: string;
   }[] = [];
+  public maxDate = moment();
+  blankCertificateData = {
+    date: null,
+    certificate: '',
+  };
 
   /**
    * Constructor
@@ -35,6 +51,7 @@ export class AdditionalInfoComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     public dialogRef: MatDialogRef<AdditionalInfoComponent>,
+    private domsanitizer: DomSanitizer,
   ) {
     if (this.dialogData) {
       this.additionalInfo = this.dialogData;
@@ -47,11 +64,20 @@ export class AdditionalInfoComponent implements OnInit {
   ngOnInit() {
 
     const type = this.additionalInfo.type.toLowerCase();
-    if (type === 'accomplishments' || type === 'affiliations' || type === 'certifications') {
+    if (type === 'accomplishments' || type === 'affiliations') {
       this.editorText = this.additionalInfo.value;
       this.setupTinyMce();
+    } else if (type === 'certifications') {
+      if (this.additionalInfo.value && this.additionalInfo.value.length > 0) {
+        const certiData: any[] = Array.from(this.additionalInfo.value);
+        this.certifications = certiData;
+      }
+      this.certifications.push(
+        this.blankCertificateData
+      );
     } else {
-      this.savedAdditionalData = this.additionalInfo.value;
+      const data: string[] = typeof this.additionalInfo.value === 'object' ? Array.from(this.additionalInfo.value) : [];
+      this.savedAdditionalData = data;
     }
 
   }
@@ -61,8 +87,10 @@ export class AdditionalInfoComponent implements OnInit {
    */
   submitForm(): void {
     const type = this.additionalInfo.type.toLowerCase();
-    if (type === 'accomplishments' || type === 'affiliations' || type === 'certifications') {
+    if (type === 'accomplishments' || type === 'affiliations') {
       this.additionalInfo.value = this.editorText;
+    } else if (type === 'certifications') {
+      this.additionalInfo.value = this.certifications;
     } else {
       this.additionalInfo.value = this.savedAdditionalData;
     }
@@ -119,6 +147,59 @@ export class AdditionalInfoComponent implements OnInit {
       header: false,
     };
     tinymce.init(this.tinyEditorConfig);
+  }
+
+  /**
+   * On Year Selection
+   * @param normalizedYear Selected year
+   */
+  chosenYearHandler(
+    normalizedYear: moment.Moment,
+    datepicker: MatDatepicker<moment.Moment>,
+    index: number
+  ) {
+    const ctrlValue = normalizedYear;
+    ctrlValue.year(normalizedYear.year());
+    this.certifications[index].date = ctrlValue;
+    datepicker.close();
+  }
+
+  /**
+   * Handle datepicker input
+   */
+  handlePicker(event: MouseEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
+    if (isTyping) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+    if (picker && picker.opened) {
+      picker.close();
+    } else {
+      picker.open();
+    }
+    event.stopPropagation();
+    event.preventDefault();
+    return;
+  }
+
+  addDeleteCertificate(type: 'add' | 'delete', index = -1): void {
+    if (type === 'add') {
+      if (this.certifications.length >= 1) {
+        const value = this.certifications[this.certifications.length - 1];
+        if (value !== undefined && value.certificate !== undefined && value.certificate.trim() === '') {
+          return;
+        }
+      }
+      this.certifications.push({
+        date: null,
+        certificate: '',
+      });
+    } else {
+      if (index !== -1) {
+        this.certifications.splice(index, 1);
+      }
+    }
   }
 
 }
