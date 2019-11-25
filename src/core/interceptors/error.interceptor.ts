@@ -21,7 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     private authenticationService: AuthenticationService,
     private toastrService: ToastrService,
     private router: Router,
-  ) {}
+  ) { }
 
   intercept(
     request: HttpRequest<any>,
@@ -31,10 +31,12 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError(err => {
         // console.log('intercept err', err);
         if (err.status === 401) {
-          // auto logout if 401 response returned from api
-          this.authenticationService.logout();
-          this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.notAuthorized, 'error');
-          this.router.navigate(['/login']);
+          if (!request.url.includes('/login')) {
+            // auto logout if 401 response returned from api
+            this.authenticationService.logout();
+            this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.notAuthorized, 'error');
+            this.router.navigate(['/login']);
+          }
         } else if (err.status === 402) {
           this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.inactiveUser, 'error');
           // this.router.navigate(['/pagenotfound']);

@@ -11,7 +11,7 @@ import { AdResetPasswordComponent } from './reset-password.component';
 
 const routes = [
     {
-        path: 'ad/reset-password/:token',
+        path: 'reset-password/:token',
         component: AdResetPasswordComponent
     }
 ];

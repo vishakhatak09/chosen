@@ -21,7 +21,7 @@ import { environment } from 'environments/environment';
 })
 export class AdRegisterComponent implements OnInit, OnDestroy {
     registerForm: FormGroup;
-    signUpUrl = environment.serverBaseUrl + 'api/admin/signUp';
+    signUpUrl = environment.serverBaseUrl + 'admin/signUp';
     isLoading = false;
 
     // Private

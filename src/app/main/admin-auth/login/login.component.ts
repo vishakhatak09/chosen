@@ -22,7 +22,7 @@ export class AdLoginComponent implements OnInit, OnDestroy {
     loginForm: FormGroup;
     isLoading = false;
 
-    adminLoginUrl = environment.serverBaseUrl + 'api/admin/login';
+    adminLoginUrl = environment.serverBaseUrl + 'admin/login';
 
     private _unSubscribeAll: Subject<any> = new Subject();
 

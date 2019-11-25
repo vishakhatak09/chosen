@@ -38,7 +38,7 @@ import { ToastrService } from 'core/services/toastr.service';
 import { environment } from 'environments/environment';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import 'tinymce';
+import 'tinymce/tinymce.min.js';
 import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { AddEducationComponent } from './add-education/add-education.component';
 import { AddWorkComponent } from './add-work/add-work.component';
@@ -579,7 +579,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       profileSrc = componentData.profileSrc;
       content = componentData.content;
       skillMockData = [];
-      Arr = componentData.Arr;
+      fontColor = componentData.fontColor;
+      backColor = componentData.backColor;
     };
     const decoratedCmp = Component(metadata)(cmpClass);
 
@@ -620,7 +621,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
     if (!isLastSteps) {
 
-      let basicDetail;
+      let basicDetail: any;
       if (this.basicDetailForm) {
         basicDetail = this.basicDetailForm.getRawValue();
         basicDetail.email = this.userEmail;
@@ -636,7 +637,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         socialData: this.socialLinkArray,
         profileSrc: this.profileSrc || this.defaultProfile,
         content: this.MockTemplate,
-        Arr: Array
+        fontColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.fontColor : 'rgba(0, 0, 0, 0.87)',
+        backColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.backColor : '#e0e0e0',
       };
 
     } else {
@@ -654,11 +656,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         socialData: this.socialLinkArray,
         profileSrc: this.profileSrc,
         content: this.MockTemplate,
-        Arr: Array
+        fontColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.fontColor : 'rgba(0, 0, 0, 0.87)',
+        backColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.backColor : '#e0e0e0',
       };
 
     }
-
 
     this.compileTemplate(data);
 

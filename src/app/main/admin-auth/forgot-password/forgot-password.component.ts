@@ -20,7 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AdForgotPasswordComponent implements OnInit, OnDestroy {
     forgotPasswordForm: FormGroup;
-    forgotPswdApiUrl = environment.serverBaseUrl + 'api/admin/forgotPassword';
+    forgotPswdApiUrl = environment.serverBaseUrl + 'admin/forgotPassword';
     isLogin = false;
 
     // Private

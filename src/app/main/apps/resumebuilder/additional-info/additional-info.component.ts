@@ -4,7 +4,7 @@ import { AdditionalModel } from 'core/models/resumebuilder.model';
 import { fuseAnimations } from '@fuse/animations';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ENTER } from '@angular/cdk/keycodes';
-import 'tinymce';
+import 'tinymce/tinymce.min.js';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';

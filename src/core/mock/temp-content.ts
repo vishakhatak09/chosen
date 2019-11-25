@@ -93,10 +93,11 @@ export const templateMock = `
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td style="font-size: 0;">
-                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Skills &
-                                Competences</h2>
-                            <p style="margin: 2px 0;font-size: 12px; width: 25%;"
-                                *ngFor="let item of skillData">
+                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Areas of expertise</h2>
+                            <p style="margin: 2px 0;font-size: 12px; width: 25%; transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+                                display: inline-flex; padding: 7px 12px; border-radius: 16px; min-height: 32px;
+                                height: 1px;"  *ngFor="let item of skillData" [ngStyle]="{'color': fontColor ,
+                                'background-color' : backColor}">
                                 {{ item.skillName }}
                             </p>
                         </td>
@@ -146,7 +147,7 @@ export const templateMock = `
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td>
-                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Education History
+                            <h2 style="margin:0 0 5px; font-size: 16px; text-transform: uppercase">Education Summary
                             </h2>
                         </td>
                     </tr>

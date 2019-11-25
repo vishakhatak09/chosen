@@ -27,6 +27,9 @@ export class EncryptDecryptService {
    * @returns Decrypted parsed data
    */
   decryptData(data: any): any {
+    if (!data) {
+      return null;
+    }
     const bytes = AES.decrypt(data.toString(), this.cryptoSecretKey);
     if (bytes.toString()) {
       return JSON.parse(bytes.toString(enc.Utf8));

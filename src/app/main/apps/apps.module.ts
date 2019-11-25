@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path        : 'admin-dashboard',
         loadChildren: './dashboards/analytics/analytics.module#AnalyticsDashboardModule',
-        canLoad: [AdminGuardService]
+        canActivate: [AdminGuardService]
     },
     // {
     //     path        : 'dashboards/project',
@@ -40,17 +40,17 @@ const routes: Routes = [
     {
         path: 'userlist',
         loadChildren: './users/userlist/userlist.module#UserlistModule',
-        canLoad: [AdminGuardService]
+        canActivate: [AdminGuardService]
     },
     {
         path: 'user',
         loadChildren: './users/user/user.module#UserModule',
-        canLoad: [AdminGuardService]
+        canActivate: [AdminGuardService]
     },
     {
         path: ':userId/user',
         loadChildren: './users/user/user.module#UserModule',
-        canLoad: [AdminGuardService]
+        canActivate: [AdminGuardService]
     },
 ];
 

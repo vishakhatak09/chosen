@@ -21,7 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AdResetPasswordComponent implements OnInit, OnDestroy {
     resetPasswordForm: FormGroup;
     resetToken: string;
-    resetPswdApi = environment.serverBaseUrl + 'api/admin/resetPassword';
+    resetPswdApi = environment.serverBaseUrl + 'admin/resetPassword';
     isLogin = false;
 
     // Private

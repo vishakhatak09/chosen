@@ -17,7 +17,7 @@ import { AppComponent } from 'app/app.component';
 import { fuseConfig } from 'app/fuse-config';
 import { LayoutModule } from 'app/layout/layout.module';
 import { CoreModule } from 'core/core.module';
-import { AuthGuardService } from 'core/services/auth-guard.service';
+import { AuthGuardService, AdminGuardService } from 'core/services/auth-guard.service';
 import { LandingComponent } from './main/landing/landing.component';
 import 'hammerjs';
 
@@ -36,7 +36,7 @@ const appRoutes: Routes = [
         loadChildren: './main/pages/pages.module#PagesModule'
     },
     {
-        path: 'app',
+        path: 'app/ad',
         loadChildren: './main/admin-auth/admin-login.module#AdminLoginModule',
     },
     {
@@ -79,6 +79,7 @@ const appRoutes: Routes = [
     ],
     providers: [
         AuthGuardService,
+        AdminGuardService,
         { provide: 'LOCALSTORAGE', useFactory: getLocalStorage },
         { provide: 'WINDOW', useFactory: getWindow },
     ],

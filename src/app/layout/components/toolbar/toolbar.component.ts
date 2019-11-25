@@ -116,9 +116,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         if (this.userData) {
             this.isLoggedIn = true;
             this.userEmail = this.userData.email || '';
-            // if (this.userData.type && this.userData.type === 'admin') {
-            this.authService.setAdminNavigation();
-            // }
+            if (this.userData.type && this.userData.type === 'admin') {
+                this.authService.setAdminNavigation();
+            }
         }
     }
 
@@ -171,8 +171,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * Logout
      */
     logout(): void {
+        let redirection = '/pages/auth/login';
+        if (this.userData && this.userData.type && this.userData.type === 'admin') {
+            redirection = '/app/ad/login';
+        }
         this.authService.logout();
         // this._toatrService.displaySnackBar('Logged out successfully.', 'success');
-        this._router.navigate(['/pages/auth/login']);
+        this._router.navigate([redirection]);
     }
 }

@@ -39,6 +39,12 @@ export class Login2Component implements OnInit, OnDestroy {
         private _toastrService: ToastrService,
         private authService: AuthenticationService,
     ) {
+
+        const alreadyLoggedIn = this.authService.currentUserValue;
+        if (alreadyLoggedIn) {
+            this._router.navigate(['/apps/templates']);
+        }
+
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
@@ -68,7 +74,7 @@ export class Login2Component implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.loginForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required]
+            password: ['', [Validators.required, Validators.minLength(6)]]
         });
     }
 
@@ -90,7 +96,7 @@ export class Login2Component implements OnInit, OnDestroy {
                 .subscribe(
                     (response) => {
                         // this._toastrService.displaySnackBar('Login successfull', 'success');
-                        this.isLoading = false;
+                        // this.isLoading = false;
                         this._router.navigate(['/apps/templates']);
                     },
                     (error: HttpErrorResponse) => {

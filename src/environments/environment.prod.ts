@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     hmr       : false,
-    baseUrl: 'http://localhost:4200/',
-    imageBaseUrl: 'http://localhost:4200/',
-    serverBaseUrl: 'http://localhost:3000/',
+    baseUrl: 'https://staging.chosenyou.com/app/',
+    imageBaseUrl: 'https://staging.chosenyou.com/app/',
+    serverBaseUrl: 'https://staging-api.chosenyou.com:3000/',
 };
