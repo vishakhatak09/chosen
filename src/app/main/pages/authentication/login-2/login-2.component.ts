@@ -40,11 +40,6 @@ export class Login2Component implements OnInit, OnDestroy {
         private authService: AuthenticationService,
     ) {
 
-        const alreadyLoggedIn = this.authService.currentUserValue;
-        if (alreadyLoggedIn) {
-            this._router.navigate(['/apps/templates']);
-        }
-
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {

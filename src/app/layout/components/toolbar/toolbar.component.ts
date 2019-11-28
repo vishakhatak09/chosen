@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
@@ -47,7 +47,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _router: Router,
         private authService: AuthenticationService,
-        private _toatrService: ToastrService
+        private _toatrService: ToastrService,
+        private cdRef: ChangeDetectorRef
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -116,6 +117,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         if (this.userData) {
             this.isLoggedIn = true;
             this.userEmail = this.userData.email || '';
+            this.cdRef.detectChanges();
             if (this.userData.type && this.userData.type === 'admin') {
                 this.authService.setAdminNavigation();
             }

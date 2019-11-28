@@ -31,7 +31,7 @@ export const locale = {
             'ADMIN'       : 'Admin',
             'USERS'       : 'Users',
             'CONTENT_MGMT': 'Content Management',
-            'UPLOAD_RESUME': 'Upload Resume',
+            'UPLOAD_TEMPLATES': 'Upload Templates',
             'JOB_DATA_MGMT': 'Job Data Management',
             'LANDING_MGMT': 'Landing Page Management',
         },

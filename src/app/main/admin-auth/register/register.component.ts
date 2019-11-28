@@ -65,7 +65,7 @@ export class AdRegisterComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.registerForm = this._formBuilder.group({
-            // name: ['', Validators.required],
+            name: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
             passwordConfirm: ['', [Validators.required, confirmPasswordValidator]],
@@ -88,6 +88,7 @@ export class AdRegisterComponent implements OnInit, OnDestroy {
             const formValue = this.registerForm.value;
             const params = {
                 'params': {
+                    'name': formValue.name,
                     'email': formValue.email,
                     'password': formValue.password
                 }

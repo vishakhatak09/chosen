@@ -38,20 +38,35 @@ const routes: Routes = [
         loadChildren: './profile/profile.module#ProfileModule'
     },
     {
-        path: 'userlist',
+        path: 'admin/userlist',
         loadChildren: './users/userlist/userlist.module#UserlistModule',
         canActivate: [AdminGuardService]
     },
     {
-        path: 'user',
+        path: 'admin/user',
         loadChildren: './users/user/user.module#UserModule',
         canActivate: [AdminGuardService]
     },
     {
-        path: ':userId/user',
+        path: 'admin/:userId/user',
         loadChildren: './users/user/user.module#UserModule',
         canActivate: [AdminGuardService]
     },
+    {
+        path: 'admin/template-list',
+        loadChildren: './upload-templates/template-list/template-list.module#TemplateListModule',
+        canActivate: [AdminGuardService]
+    },
+    {
+        path: 'admin/upload-template',
+        loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
+        canActivate: [AdminGuardService]
+    },
+    {
+        path: 'admin/:id/upload-template',
+        loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
+        canActivate: [AdminGuardService]
+    }
 ];
 
 @NgModule({

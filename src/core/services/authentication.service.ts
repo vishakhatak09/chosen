@@ -85,15 +85,15 @@ export class AuthenticationService {
           translate: 'NAV.USERS',
           type: 'item',
           icon: 'people',
-          url: '/apps/userlist'
+          url: '/apps/admin/userlist'
         },
         {
-          id: 'upload_resume',
-          title: 'Upload Resume',
-          translate: 'NAV.UPLOAD_RESUME',
+          id: 'upload_templates',
+          title: 'Upload Templates',
+          translate: 'NAV.UPLOAD_TEMPLATES',
           type: 'item',
           icon: 'unarchive',
-          url: '/apps/test'
+          url: '/apps/admin/template-list'
         },
         {
           id: 'job_data_mgmt',
