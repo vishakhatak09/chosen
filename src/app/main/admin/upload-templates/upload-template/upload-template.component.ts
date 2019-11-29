@@ -120,7 +120,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
   }
 
   goToListing(): void {
-    this._router.navigate(['/apps/admin/template-list']);
+    this._router.navigate(['/user/admin/template-list']);
   }
 
   onSubmit(): void {

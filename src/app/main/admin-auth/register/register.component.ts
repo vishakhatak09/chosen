@@ -98,7 +98,7 @@ export class AdRegisterComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (response) => {
                         this._toastrService.displaySnackBar('Registration was successfull', 'success');
-                        this._router.navigate(['/app/ad/login']);
+                        this._router.navigate(['/ad/login']);
                     },
                     (error: HttpErrorResponse) => {
                         this.isLoading = false;

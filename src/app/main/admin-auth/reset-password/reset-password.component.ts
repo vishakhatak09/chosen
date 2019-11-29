@@ -95,7 +95,7 @@ export class AdResetPasswordComponent implements OnInit, OnDestroy {
             .subscribe(
                 (response) => {
                     this._toastrService.displaySnackBar('Your password has been reset successfully.', 'success');
-                    this._router.navigate(['/app/ad/login']);
+                    this._router.navigate(['/ad/login']);
                 },
                 (error: HttpErrorResponse) => {
                     this.isLogin = false;

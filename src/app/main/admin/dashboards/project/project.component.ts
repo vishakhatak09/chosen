@@ -5,18 +5,17 @@ import * as shape from 'd3-shape';
 
 import { fuseAnimations } from '@fuse/animations';
 
-import { ProjectDashboardService } from 'app/main/apps/dashboards/project/project.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { ProjectDashboardService } from './project.service';
 
 @Component({
-    selector     : 'project-dashboard',
-    templateUrl  : './project.component.html',
-    styleUrls    : ['./project.component.scss'],
+    selector: 'project-dashboard',
+    templateUrl: './project.component.html',
+    styleUrls: ['./project.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class ProjectDashboardComponent implements OnInit
-{
+export class ProjectDashboardComponent implements OnInit {
     projects: any[];
     selectedProject: any;
 
@@ -39,41 +38,40 @@ export class ProjectDashboardComponent implements OnInit
     constructor(
         private _fuseSidebarService: FuseSidebarService,
         private _projectDashboardService: ProjectDashboardService
-    )
-    {
+    ) {
         /**
          * Widget 5
          */
         this.widget5 = {
-            currentRange  : 'TW',
-            xAxis         : true,
-            yAxis         : true,
-            gradient      : false,
-            legend        : false,
+            currentRange: 'TW',
+            xAxis: true,
+            yAxis: true,
+            gradient: false,
+            legend: false,
             showXAxisLabel: false,
-            xAxisLabel    : 'Days',
+            xAxisLabel: 'Days',
             showYAxisLabel: false,
-            yAxisLabel    : 'Isues',
-            scheme        : {
+            yAxisLabel: 'Isues',
+            scheme: {
                 domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
             },
-            onSelect      : (ev) => {
+            onSelect: (ev) => {
                 console.log(ev);
             },
-            supporting    : {
-                currentRange  : '',
-                xAxis         : false,
-                yAxis         : false,
-                gradient      : false,
-                legend        : false,
+            supporting: {
+                currentRange: '',
+                xAxis: false,
+                yAxis: false,
+                gradient: false,
+                legend: false,
                 showXAxisLabel: false,
-                xAxisLabel    : 'Days',
+                xAxisLabel: 'Days',
                 showYAxisLabel: false,
-                yAxisLabel    : 'Isues',
-                scheme        : {
+                yAxisLabel: 'Isues',
+                scheme: {
                     domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
                 },
-                curve         : shape.curveBasis
+                curve: shape.curveBasis
             }
         };
 
@@ -81,16 +79,16 @@ export class ProjectDashboardComponent implements OnInit
          * Widget 6
          */
         this.widget6 = {
-            currentRange : 'TW',
-            legend       : false,
+            currentRange: 'TW',
+            legend: false,
             explodeSlices: false,
-            labels       : true,
-            doughnut     : true,
-            gradient     : false,
-            scheme       : {
+            labels: true,
+            doughnut: true,
+            gradient: false,
+            scheme: {
                 domain: ['#f44336', '#9c27b0', '#03a9f4', '#e91e63']
             },
-            onSelect     : (ev) => {
+            onSelect: (ev) => {
                 console.log(ev);
             }
         };
@@ -106,15 +104,15 @@ export class ProjectDashboardComponent implements OnInit
          * Widget 8
          */
         this.widget8 = {
-            legend       : false,
+            legend: false,
             explodeSlices: false,
-            labels       : true,
-            doughnut     : false,
-            gradient     : false,
-            scheme       : {
+            labels: true,
+            doughnut: false,
+            gradient: false,
+            scheme: {
                 domain: ['#f44336', '#9c27b0', '#03a9f4', '#e91e63', '#ffc107']
             },
-            onSelect     : (ev) => {
+            onSelect: (ev) => {
                 console.log(ev);
             }
         };
@@ -123,19 +121,19 @@ export class ProjectDashboardComponent implements OnInit
          * Widget 9
          */
         this.widget9 = {
-            currentRange  : 'TW',
-            xAxis         : false,
-            yAxis         : false,
-            gradient      : false,
-            legend        : false,
+            currentRange: 'TW',
+            xAxis: false,
+            yAxis: false,
+            gradient: false,
+            legend: false,
             showXAxisLabel: false,
-            xAxisLabel    : 'Days',
+            xAxisLabel: 'Days',
             showYAxisLabel: false,
-            yAxisLabel    : 'Isues',
-            scheme        : {
+            yAxisLabel: 'Isues',
+            scheme: {
                 domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
             },
-            curve         : shape.curveBasis
+            curve: shape.curveBasis
         };
 
         setInterval(() => {
@@ -151,8 +149,7 @@ export class ProjectDashboardComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this.projects = this._projectDashboardService.projects;
         this.selectedProject = this.projects[0];
         this.widgets = this._projectDashboardService.widgets;
@@ -174,8 +171,7 @@ export class ProjectDashboardComponent implements OnInit
      *
      * @param name
      */
-    toggleSidebar(name): void
-    {
+    toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 }
@@ -187,8 +183,7 @@ export class FilesDataSource extends DataSource<any>
      *
      * @param _widget11
      */
-    constructor(private _widget11)
-    {
+    constructor(private _widget11) {
         super();
     }
 
@@ -197,16 +192,14 @@ export class FilesDataSource extends DataSource<any>
      *
      * @returns {Observable<any[]>}
      */
-    connect(): Observable<any[]>
-    {
+    connect(): Observable<any[]> {
         return this._widget11.onContactsChanged;
     }
 
     /**
      * Disconnect
      */
-    disconnect(): void
-    {
+    disconnect(): void {
     }
 }
 

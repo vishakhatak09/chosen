@@ -12,7 +12,7 @@
 
         <!-- BOARD -->
         <!-- <div class="board-list-item" *ngFor="let board of boards"
-            [routerLink]="'/apps/scrumboard/boards/'+board.id+'/'+board.uri" fxLayout="column"
+            [routerLink]="'/user/scrumboard/boards/'+board.id+'/'+board.uri" fxLayout="column"
             fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%'}}">
             <mat-icon class="s-56">assessment</mat-icon>
             <div class="board-name">{{board.name}}</div>
@@ -21,7 +21,7 @@
 
         <!-- NEW BOARD BUTTON -->
         <div class="board-list-item add-new-board"
-            [routerLink]="['/apps/resumebuilder']"
+            [routerLink]="['/user/resumebuilder']"
             fxLayout="column" fxLayoutAlign="center center"
             [@animate]="{value:'*',params:{y:'100%'}}">
             <mat-icon class="s-56">add_circle</mat-icon>

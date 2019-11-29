@@ -4,11 +4,6 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { AdminGuardService } from 'core/services/auth-guard.service';
 
 const routes: Routes = [
-    {
-        path        : 'admin-dashboard',
-        loadChildren: './dashboards/analytics/analytics.module#AnalyticsDashboardModule',
-        canActivate: [AdminGuardService]
-    },
     // {
     //     path        : 'dashboards/project',
     //     loadChildren: './dashboards/project/project.module#ProjectDashboardModule'
@@ -37,36 +32,6 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: './profile/profile.module#ProfileModule'
     },
-    {
-        path: 'admin/userlist',
-        loadChildren: './users/userlist/userlist.module#UserlistModule',
-        canActivate: [AdminGuardService]
-    },
-    {
-        path: 'admin/user',
-        loadChildren: './users/user/user.module#UserModule',
-        canActivate: [AdminGuardService]
-    },
-    {
-        path: 'admin/:userId/user',
-        loadChildren: './users/user/user.module#UserModule',
-        canActivate: [AdminGuardService]
-    },
-    {
-        path: 'admin/template-list',
-        loadChildren: './upload-templates/template-list/template-list.module#TemplateListModule',
-        canActivate: [AdminGuardService]
-    },
-    {
-        path: 'admin/upload-template',
-        loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
-        canActivate: [AdminGuardService]
-    },
-    {
-        path: 'admin/:id/upload-template',
-        loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
-        canActivate: [AdminGuardService]
-    }
 ];
 
 @NgModule({

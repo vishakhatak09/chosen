@@ -98,7 +98,7 @@ export class Register2Component implements OnInit, OnDestroy {
                 .subscribe(
                     (response) => {
                         this._toastrService.displaySnackBar('Registration was successfull', 'success');
-                        this._router.navigate(['/pages/auth/login']);
+                        this._router.navigate(['/auth/login']);
                     },
                     (error: HttpErrorResponse) => {
                         this.isLoading = false;

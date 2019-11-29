@@ -14,7 +14,7 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.TEMPLATES',
                 type: 'item',
                 icon: 'folder_open',
-                url: '/apps/templates'
+                url: '/user/templates'
             },
             {
                 id: 'my_resumes',
@@ -22,7 +22,7 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.MY_RESUMES',
                 type: 'item',
                 icon: 'folder_shared',
-                url: '/apps/my-resumes'
+                url: '/user/my-resumes'
             },
             {
                 id: 'mrofile',
@@ -30,7 +30,7 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.PROFILE',
                 type: 'item',
                 icon: 'person',
-                url: '/apps/profile'
+                url: '/user/profile'
             },
         ]
     },

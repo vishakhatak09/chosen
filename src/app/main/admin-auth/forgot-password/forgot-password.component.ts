@@ -86,7 +86,7 @@ export class AdForgotPasswordComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (response) => {
                         this._toastrService.displaySnackBar('Mail has been sent to your registered email', 'success');
-                        this._router.navigate(['/app/ad/login']);
+                        this._router.navigate(['/ad/login']);
                     },
                     (error: HttpErrorResponse) => {
                         this.isLogin = false;

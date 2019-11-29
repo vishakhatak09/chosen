@@ -27,22 +27,26 @@ const appRoutes: Routes = [
     //     component: LandingComponent
     // },
     {
-        path: 'apps',
+        path: 'user',
         loadChildren: './main/apps/apps.module#AppsModule',
         canLoad: [AuthGuardService]
     },
     {
-        path: 'pages',
+        path: 'auth',
         loadChildren: './main/pages/pages.module#PagesModule'
     },
     {
-        path: 'app/ad',
+        path: 'ad',
         loadChildren: './main/admin-auth/admin-login.module#AdminLoginModule',
+    },
+    {
+        path: 'admin',
+        loadChildren: './main/admin/admin.module#AdminModule',
     },
     {
         path: '**',
         // redirectTo: '',
-        redirectTo: 'pages/auth/login',
+        redirectTo: 'auth/login',
         pathMatch: 'full'
     }
 ];

@@ -84,7 +84,7 @@ export class ForgotPassword2Component implements OnInit, OnDestroy {
             .subscribe(
                 (response) => {
                     this._toastrService.displaySnackBar('Mail has been sent to your registered email', 'success');
-                    this._router.navigate(['/pages/auth/login']);
+                    this._router.navigate(['/auth/login']);
                 },
                 (error: HttpErrorResponse) => {
                     this.isLogin = false;

@@ -77,7 +77,7 @@ export class AuthenticationService {
           translate: 'NAV.DASHBOARDS',
           type: 'item',
           icon: 'dashboard',
-          url: '/apps/admin-dashboard'
+          url: '/admin/dashboard'
         },
         {
           id: 'users',
@@ -85,7 +85,7 @@ export class AuthenticationService {
           translate: 'NAV.USERS',
           type: 'item',
           icon: 'people',
-          url: '/apps/admin/userlist'
+          url: '/admin/userlist'
         },
         {
           id: 'upload_templates',
@@ -93,7 +93,7 @@ export class AuthenticationService {
           translate: 'NAV.UPLOAD_TEMPLATES',
           type: 'item',
           icon: 'unarchive',
-          url: '/apps/admin/template-list'
+          url: '/admin/template-list'
         },
         {
           id: 'job_data_mgmt',
@@ -101,7 +101,7 @@ export class AuthenticationService {
           translate: 'NAV.JOB_DATA_MGMT',
           type: 'item',
           icon: 'file_copy',
-          url: '/apps/test'
+          url: '/admin/test'
         },
         {
           id: 'landing_page_mgmt',
@@ -109,7 +109,7 @@ export class AuthenticationService {
           translate: 'NAV.LANDING_MGMT',
           type: 'item',
           icon: 'inbox',
-          url: '/apps/test'
+          url: '/admin/test'
         },
       ]
 

@@ -12,7 +12,7 @@ import { Register2Component } from 'app/main/pages/authentication/register-2/reg
 
 const routes = [
     {
-        path     : 'auth/register',
+        path     : 'register',
         component: Register2Component
     }
 ];

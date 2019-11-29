@@ -25,12 +25,12 @@
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-button class="user-button" *ngIf="!isLoggedIn">
+            <!-- <button mat-button class="user-button" *ngIf="!isLoggedIn">
                 <div fxLayout="row" fxLayoutAlign="center center">
                     <span class="username mr-12" fxHide.xs fxShow.gt-sm
-                        [routerLink]="['/pages/auth/login']">Login</span>
+                        [routerLink]="['/auth/login']">Login</span>
                 </div>
-            </button>
+            </button> -->
 
             <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn">
                 <div fxLayout="row" fxLayoutAlign="center center">
@@ -45,7 +45,7 @@
 
             <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
 
-                <button mat-menu-item [routerLink]="['/apps/profile']">
+                <button mat-menu-item [routerLink]="['/user/profile']">
                     <mat-icon>account_circle</mat-icon>
                     <span>My Profile</span>
                 </button>

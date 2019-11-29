@@ -92,7 +92,7 @@ export class AdLoginComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (response) => {
                         // this.isLoading = false;
-                        this._router.navigate(['/apps/admin-dashboard']);
+                        this._router.navigate(['/admin/dashboard']);
                     },
                     (error: HttpErrorResponse) => {
                         this.isLoading = false;
