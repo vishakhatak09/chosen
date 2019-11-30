@@ -1,8 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import * as shape from 'd3-shape';
-
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { Router } from '@angular/router';
+import { environment } from 'environments/environment';
+import { TemplatesService } from './templates.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-templates',
@@ -11,9 +13,13 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class TemplatesComponent {
+export class TemplatesComponent implements OnInit, OnDestroy {
 
+  templateUrl = environment.serverBaseUrl + 'api/template/templateList';
   view: string;
+
+  // private
+  private _unsubscribeAll: Subject<any> = new Subject();
 
   templateData = [
     'assets/images/templates/tp-1.png',
@@ -27,7 +33,8 @@ export class TemplatesComponent {
   ];
 
   constructor(
-    private router: Router
+    private router: Router,
+    private templatesService: TemplatesService
   ) {
     // Set the defaults
     this.view = 'preview';
@@ -37,6 +44,10 @@ export class TemplatesComponent {
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------
+
+  ngOnInit(): void {
+    this.getTemplateList();
+  }
 
   /**
    * Toggle the view
@@ -50,7 +61,27 @@ export class TemplatesComponent {
   }
 
   selectTemplate(): void {
-    this.router.navigate(['/apps/resumebuilder']);
+    this.router.navigate(['/user/resumebuilder']);
+  }
+
+  getTemplateList(): void {
+
+    this.templatesService.getTemplates(this.templateUrl)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 
 }

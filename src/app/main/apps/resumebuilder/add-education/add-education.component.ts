@@ -206,7 +206,7 @@ export class AddEducationComponent implements OnInit, OnDestroy {
   /**
    * Handle datepicker input
    */
-  handlePicker(event: MouseEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
+  handlePicker(event: KeyboardEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
     if (isTyping) {
       event.stopPropagation();
       event.preventDefault();

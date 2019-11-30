@@ -129,6 +129,7 @@ export class AppConstant {
         'notAuthorized': 'Not a valid authorization, please login again with valid credentials',
         'internalServerError': 'Internal server error occurred, please try again',
         'serverDown': 'The server is temporary unavailable. Please try again later',
+        'noInternet': 'No internet connection detected.',
     };
 
     public static AuthStorageKey = 'user';

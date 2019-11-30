@@ -8,9 +8,7 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
-import { Router } from '@angular/router';
 import { AuthenticationService } from 'core/services/authentication.service';
-import { ToastrService } from 'core/services/toastr.service';
 
 @Component({
     selector: 'toolbar',
@@ -45,9 +43,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
-        private _router: Router,
         private authService: AuthenticationService,
-        private _toatrService: ToastrService,
         private cdRef: ChangeDetectorRef
     ) {
         // Set the defaults
@@ -173,12 +169,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * Logout
      */
     logout(): void {
-        let redirection = '/auth/login';
-        if (this.userData && this.userData.type && this.userData.type === 'admin') {
-            redirection = '/ad/login';
-        }
         this.authService.logout();
-        // this._toatrService.displaySnackBar('Logged out successfully.', 'success');
-        this._router.navigate([redirection]);
     }
 }

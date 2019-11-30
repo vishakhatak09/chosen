@@ -19,9 +19,9 @@ import { ProjectDashboardService } from './project.service';
 
 const routes: Routes = [
     {
-        path     : '**',
+        path: '**',
         component: ProjectDashboardComponent,
-        resolve  : {
+        resolve: {
             data: ProjectDashboardService
         }
     }
@@ -31,7 +31,7 @@ const routes: Routes = [
     declarations: [
         ProjectDashboardComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -49,11 +49,10 @@ const routes: Routes = [
         FuseSidebarModule,
         FuseWidgetModule
     ],
-    providers   : [
+    providers: [
         ProjectDashboardService
     ]
 })
-export class ProjectDashboardModule
-{
+export class ProjectDashboardModule {
 }
 

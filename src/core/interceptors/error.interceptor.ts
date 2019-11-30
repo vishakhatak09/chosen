@@ -35,7 +35,6 @@ export class ErrorInterceptor implements HttpInterceptor {
             // auto logout if 401 response returned from api
             this.authenticationService.logout();
             this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.notAuthorized, 'error');
-            this.router.navigate(['/login']);
           }
         } else if (err.status === 402) {
           this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.inactiveUser, 'error');
@@ -49,6 +48,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         } else if (err.status === 504) {
           this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.serverDown, 'error');
           // this.router.navigate(['/pagenotfound']);
+        } else if (err.status === 0) {
+          this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.noInternet, 'error');
         } else {
           this.toastrService.displaySnackBar(err.statusText, 'error');
         }

@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FuseDemoModule, FuseHighlightModule } from '@fuse/components';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { TemplatesService } from './templates.service';
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
 
     FuseDemoModule,
     FuseHighlightModule,
-  ]
+  ],
+  providers: [TemplatesService]
 })
 export class TemplatesModule { }

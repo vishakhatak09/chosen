@@ -11,7 +11,10 @@ export class AuthGuardService implements CanLoad {
     private _encryptDecryptService: EncryptDecryptService,
   ) { }
   canLoad(): any {
-    if (this._encryptDecryptService.getDecryptedLocalStorage(AppConstant.AuthStorageKey)) {
+    const authData = this._encryptDecryptService.getDecryptedLocalStorage(AppConstant.AuthStorageKey);
+    if (
+      authData !== undefined && authData !== null &&
+      authData.type !== undefined && authData.type.toLowerCase() === 'user') {
       return true;
     } else {
       this.router.navigate(['/auth/login']);
@@ -20,19 +23,19 @@ export class AuthGuardService implements CanLoad {
 }
 
 @Injectable()
-export class AdminGuardService implements CanActivate {
+export class AdminGuardService implements CanLoad {
   constructor(
     private router: Router,
     private _encryptDecryptService: EncryptDecryptService,
   ) { }
-  canActivate(): any {
+  canLoad(): any {
     const authData = this._encryptDecryptService.getDecryptedLocalStorage(AppConstant.AuthStorageKey);
     if (
       authData !== undefined && authData !== null &&
       authData.type !== undefined && authData.type.toLowerCase() === 'admin') {
       return true;
     } else {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/ad/login']);
     }
   }
 }

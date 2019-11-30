@@ -213,7 +213,8 @@ export const templateMock = `
                             </td>
                         </tr>
                         <tr *ngFor="let item of additionalInfo">
-                            <td style="font-size: 0; padding: 10px;">
+                            <td style="padding: 10px;"
+                                [ngStyle]="{'font-size': item.type == 'Accomplishments' ? '12px' : '0' }">
                                 <h3 style="margin:0; font-size: 14px;" [innerHTML]="item.type"></h3>
                                 <ng-container [ngSwitch]="item.type">
                                     <ng-container *ngSwitchCase="'Accomplishments'">

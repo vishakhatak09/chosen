@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AdditionalModel } from 'core/models/resumebuilder.model';
 import { fuseAnimations } from '@fuse/animations';
@@ -11,7 +11,8 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { AppConstant } from 'core/constants/app.constant';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { FormControl } from '@angular/forms';
 
 declare var tinymce: any;
 
@@ -32,7 +33,7 @@ export class AdditionalInfoComponent implements OnInit {
   additionalText: string;
   separatorKeysCodes: number[] = [ENTER];
   tinyEditorConfig = {};
-  editorText;
+  editorText = new FormControl('');
   certifications: {
     date: Moment,
     certificate: string;
@@ -52,6 +53,7 @@ export class AdditionalInfoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     public dialogRef: MatDialogRef<AdditionalInfoComponent>,
     private domsanitizer: DomSanitizer,
+    private cdRef: ChangeDetectorRef
   ) {
     if (this.dialogData) {
       this.additionalInfo = this.dialogData;
@@ -65,8 +67,12 @@ export class AdditionalInfoComponent implements OnInit {
 
     const type = this.additionalInfo.type.toLowerCase();
     if (type === 'accomplishments' || type === 'affiliations') {
-      this.editorText = this.additionalInfo.value;
-      this.setupTinyMce();
+      if (this.additionalInfo.value) {
+        const safeHtmlData = this.domsanitizer.bypassSecurityTrustHtml(this.additionalInfo.value);
+        this.setupTinyMce(safeHtmlData);
+      } else {
+        this.setupTinyMce();
+      }
     } else if (type === 'certifications') {
       if (this.additionalInfo.value && this.additionalInfo.value.length > 0) {
         const certiData: any[] = Array.from(this.additionalInfo.value);
@@ -88,7 +94,7 @@ export class AdditionalInfoComponent implements OnInit {
   submitForm(): void {
     const type = this.additionalInfo.type.toLowerCase();
     if (type === 'accomplishments' || type === 'affiliations') {
-      this.additionalInfo.value = this.editorText;
+      this.additionalInfo.value = this.editorText.value;
     } else if (type === 'certifications') {
       this.additionalInfo.value = this.certifications;
     } else {
@@ -132,7 +138,7 @@ export class AdditionalInfoComponent implements OnInit {
   /**
    * Setup tinymce editor
    */
-  private setupTinyMce(): void {
+  private setupTinyMce(value?: SafeHtml): void {
     tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
       // selector: 'textarea#editorId',
@@ -145,8 +151,18 @@ export class AdditionalInfoComponent implements OnInit {
       height: 300,
       menubar: false,
       header: false,
+      // forced_root_block: ''
     };
     tinymce.init(this.tinyEditorConfig);
+    if (value) {
+      setTimeout(() => {
+        // c4onsole.log(tinymce.activeEditor);
+        this.editorText.setValue(value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity']);
+        // if (tinymce.activeEditor) {
+        //   tinymce.activeEditor.setContent(this.editorText);
+        // }
+      }, 10);
+    }
   }
 
   /**
@@ -167,7 +183,7 @@ export class AdditionalInfoComponent implements OnInit {
   /**
    * Handle datepicker input
    */
-  handlePicker(event: MouseEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
+  handlePicker(event: KeyboardEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
     if (isTyping) {
       event.stopPropagation();
       event.preventDefault();

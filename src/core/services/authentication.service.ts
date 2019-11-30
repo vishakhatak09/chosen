@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { EncryptDecryptService } from './encrypt-decrypt.service';
 import { AppConstant } from 'core/constants/app.constant';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -17,6 +18,7 @@ export class AuthenticationService {
     private http: HttpClient,
     private _encryptDecryptService: EncryptDecryptService,
     private _fuseNavigationService: FuseNavigationService,
+    private _router: Router
   ) {
     this.currentUserSubject = new BehaviorSubject<any>(
       this._encryptDecryptService.getDecryptedLocalStorage(AppConstant.AuthStorageKey),
@@ -56,8 +58,13 @@ export class AuthenticationService {
 
   logout() {
     // remove user from local storage to log user out
+    let redirection = '/auth/login';
+    if (this.currentUserValue && this.currentUserValue.type && this.currentUserValue.type === 'admin') {
+      redirection = '/ad/login';
+    }
     this._encryptDecryptService.removeEncryptedLocalStorage(AppConstant.AuthStorageKey);
     this.currentUserSubject.next(null);
+    this._router.navigate([redirection]);
   }
 
   /**
@@ -101,7 +108,7 @@ export class AuthenticationService {
           translate: 'NAV.JOB_DATA_MGMT',
           type: 'item',
           icon: 'file_copy',
-          url: '/admin/test'
+          url: '/admin/job-mgmt'
         },
         {
           id: 'landing_page_mgmt',
@@ -109,12 +116,15 @@ export class AuthenticationService {
           translate: 'NAV.LANDING_MGMT',
           type: 'item',
           icon: 'inbox',
-          url: '/admin/test'
+          url: '/admin/content-mgmt'
         },
       ]
 
     };
     if (!this._fuseNavigationService.getNavigationItem('admin')) {
+      // Remove user menu & add admin menu
+      this._fuseNavigationService.removeNavigationItem('menu');
+      this._fuseNavigationService.removeNavigationItem('customize');
       this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
     }
   }

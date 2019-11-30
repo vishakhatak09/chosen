@@ -141,7 +141,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(template: AdminTemplateModel): void {
-    this.router.navigate(['/user/admin/' + template._id + '/upload-template']);
+    this.router.navigate(['/admin/' + template._id + '/upload-template']);
   }
 
   ngOnDestroy(): void {

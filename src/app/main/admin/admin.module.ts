@@ -1,43 +1,51 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdminGuardService } from 'core/services/auth-guard.service';
 import { FuseSharedModule } from '@fuse/shared.module';
 
 const routes: Routes = [
     {
         path        : 'dashboard',
         loadChildren: './dashboards/analytics/analytics.module#AnalyticsDashboardModule',
-        canActivate: [AdminGuardService]
     },
     {
         path: 'userlist',
         loadChildren: './users/userlist/userlist.module#UserlistModule',
-        canActivate: [AdminGuardService]
     },
     {
         path: 'user',
         loadChildren: './users/user/user.module#UserModule',
-        canActivate: [AdminGuardService]
     },
     {
         path: ':userId/user',
         loadChildren: './users/user/user.module#UserModule',
-        canActivate: [AdminGuardService]
     },
     {
         path: 'template-list',
         loadChildren: './upload-templates/template-list/template-list.module#TemplateListModule',
-        canActivate: [AdminGuardService]
     },
     {
-        path: 'admin/upload-template',
+        path: 'upload-template',
         loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
-        canActivate: [AdminGuardService]
     },
     {
-        path: 'admin/:id/upload-template',
+        path: ':id/upload-template',
         loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
-        canActivate: [AdminGuardService]
+    },
+    {
+        path: 'job-mgmt',
+        loadChildren: './job-mgmt/job-mgmt.module#JobMgmtModule',
+    },
+    {
+        path: 'add-job',
+        loadChildren: './add-job/add-job.module#AddJobModule'
+    },
+    {
+        path: 'content-mgmt',
+        loadChildren: './cms/content-mgmt/content-mgmt.module#ContentMgmtModule'
+    },
+    {
+        path: 'add-content',
+        loadChildren: './cms/add-content/add-content.module#AddContentModule'
     },
     {
         path: '**',

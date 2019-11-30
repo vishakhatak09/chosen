@@ -1,4 +1,4 @@
-<div id="templates" class="page-layout carded fullwidth inner-scroll">
+<div id="content-mgmt" class="page-layout carded fullwidth inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -13,11 +13,11 @@
 
             <!-- APP TITLE -->
             <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
-                <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                <mat-icon class="logo-icon s-30 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     folder_open
                 </mat-icon>
-                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Upload Template
+                <span class="logo-text h3" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Landing Page Content Management
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -34,7 +34,7 @@
 
                     <div class="tab-content pl-12">
 
-                        <form class="template-form" fxLayout="row wrap" [formGroup]="uploadTemplateForm"
+                        <!-- <form class="template-form" fxLayout="row wrap" [formGroup]="uploadTemplateForm"
                             fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
 
                             <div floatLabel="always" class="mb-16 pl-4" fxFlex="100">
@@ -92,7 +92,7 @@
                                     (click)="goToListing()">Back</button>
                             </div>
 
-                        </form>
+                        </form> -->
 
                     </div>
 

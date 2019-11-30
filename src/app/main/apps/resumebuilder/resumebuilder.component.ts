@@ -51,6 +51,7 @@ import { AuthenticationService } from 'core/services/authentication.service';
 declare var tinymce: any;
 import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -154,7 +155,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     });
 
     this.skillForm = this._formBuilder.group({
-      skillType: ['', [Validators.required]],
+      skillType: ['basic', [Validators.required]],
       ratingType: [this.ratingStyle, []],
       skillInput: [''],
     });
@@ -204,14 +205,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   // -----------------------------------------------------------------------------------------------------
   // @ Methods
   // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On form submit
-   */
-  formSubmit(): void {
-    console.log(this.basicDetailForm.getRawValue());
-    console.log('skillRatingList', this.skillRatingList);
-  }
 
   templatePreview(): void {
     if (this.selectedIndex === 4 || this.selectedIndex === 5) {
@@ -436,9 +429,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         value: undefined,
       };
       let isExist: number;
-      const data = this.additionalInfoData.map(item => ({
-        ...item,
-      }));
+      const data = _.clone(this.additionalInfoData);
       if (data.length > 0) {
         isExist = data.findIndex((info: AdditionalModel) => {
           return info.type.toLowerCase() === type.toLowerCase();
@@ -460,6 +451,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           } else {
             this.additionalInfoData.push(response);
           }
+          this.additionalInfoData.filter((info) => {
+            if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
+              info.value = this.domSanitizer.bypassSecurityTrustHtml(info.value);
+            }
+            return info;
+          });
           this.generateRunTimeComponent(true);
         }
       });
@@ -544,11 +541,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   sendTemplateValues(): void {
-    this.resumeBuilderService.templateData.next(
-      {
-        templateContent: templateMock,
-      }
-    );
+    // this.resumeBuilderService.templateData.next(
+    //   {
+    //     templateContent: templateMock,
+    //   }
+    // );
     this.basicDetailForm.valueChanges
       .subscribe((_val) => {
         this.generateRunTimeComponent();
@@ -612,12 +609,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
     let data = {};
 
-    this.additionalInfoData.filter((info) => {
-      if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
-        info.value = this.domSanitizer.bypassSecurityTrustHtml(info.value);
-      }
-      return info;
-    });
+    // this.additionalInfoData.filter((info) => {
+    //   if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
+    //     info.value = this.domSanitizer.bypassSecurityTrustHtml(info.value);
+    //   }
+    //   return info;
+    // });
 
     if (!isLastSteps) {
 
@@ -669,7 +666,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   /**
    * Handle datepicker input
    */
-  handlePicker(event: MouseEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
+  handlePicker(event: KeyboardEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
     if (isTyping) {
       event.stopPropagation();
       event.preventDefault();
@@ -683,6 +680,21 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     event.stopPropagation();
     event.preventDefault();
     return;
+  }
+
+  /**
+   * On form submit
+   */
+  formSubmit(): void {
+    if (this.selectedIndex === 0) {
+      this.savePersonalInfo();
+    }
+    // console.log(this.basicDetailForm.getRawValue());
+    // console.log('skillRatingList', this.skillRatingList);
+  }
+
+  savePersonalInfo(): void {
+
   }
 
   /**

@@ -408,7 +408,7 @@
                                 <div fxFlex="100" *ngIf="skillForm.get('skillType').value ">
                                     <mat-form-field class="w-50-p">
                                         <input matInput [matChipInputFor]="skillList" placeholder="Add Skill.."
-                                            [matChipInputAddOnBlur]="true"
+                                            [matChipInputAddOnBlur]="true" autocomplete="off"
                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                             (matChipInputTokenEnd)="addSkills($event)" formControlName="skillInput" />
                                     </mat-form-field>
