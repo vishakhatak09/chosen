@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     MatIconModule,
     MatInputModule,
     MatTooltipModule,
+    EditorModule
   ]
 })
 export class ContentMgmtModule { }

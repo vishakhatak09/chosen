@@ -242,4 +242,15 @@ button.upload-btn{
 form{
     margin-top: 15px;
     padding: 10px;
+    .upload-div{
+        border: 1px solid #d5d0d0;
+        padding: 10px;
+        border-radius: 15px;
+    }
+    .loading{
+        height: 20px !important;
+    }
+    .remove-btn{
+        color: #8b8787 !important;
+    }
 }

@@ -32,67 +32,52 @@
 
                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar>
 
-                    <div class="tab-content pl-12">
+                    <div class="tab-content pl-12 h-100-p">
 
-                        <!-- <form class="template-form" fxLayout="row wrap" [formGroup]="uploadTemplateForm"
-                            fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
+                        <form class="template-form ml-12 mt-16" fxLayout="row wrap" fxLayoutGap="25px"
+                            (ngSubmit)="onSubmit()" novalidate>
 
-                            <div floatLabel="always" class="mb-16 pl-4" fxFlex="100">
+                            <div floatLabel="always" class="mb-16 pl-4 upload-div" fxFlex="100">
                                 <input type="file" #file hidden accept="image/*"
-                                    (change)="getFileData($event.target.files)" formControlName="templateImage">
-                                <button class="upload-btn" type="button" mat-icon-button (click)="file.click()">
-                                    <mat-icon>cloud_upload</mat-icon> &nbsp;Upload Template
+                                    (change)="getFileData($event.target.files)" multiple>
+                                <button class="upload-btn ml-4" type="button" mat-icon-button (click)="file.click()">
+                                    <mat-icon>cloud_upload</mat-icon> &nbsp;Upload Landing Images
                                 </button>
-                                <p class="accent upload-span border-radius-16 p-8" *ngIf="templateFileName">
-                                    {{templateFileName}}</p>
-                                <mat-error
-                                    *ngIf="uploadTemplateForm.touched && !templateFileName && uploadTemplateForm.get('templateImage').hasError('required')">
-                                    Please select template image
-                                </mat-error>
                             </div>
 
-                            <mat-form-field floatLabel="always" fxFlex="100" appearance="outline">
-                                <mat-label>Title</mat-label>
-                                <input matInput placeholder="Enter Template Title" type="text" name="templateTitle"
-                                    formControlName="title" autocomplete="off" required>
-                                <mat-error *ngIf="uploadTemplateForm.get('title').hasError('required')">
-                                    Please enter template title
-                                </mat-error>
-                            </mat-form-field>
-
-                            <mat-form-field floatLabel="always" fxFlex="100" appearance="outline">
-                                <mat-label>Description</mat-label>
-                                <textarea matInput placeholder="Enter Template Description" name="templateDescription"
-                                    formControlName="description" autocomplete="off" required></textarea>
-                                <mat-error *ngIf="uploadTemplateForm.get('description').hasError('required')">
-                                    Please enter template description
-                                </mat-error>
-                            </mat-form-field>
+                            <div floatLabel="always" class="mb-16 pl-4" fxFlex="100" *ngFor="let img of imageArray; let index=index;">
+                                <span class="accent upload-span border-radius-16 p-8 w-50-p">
+                                    {{img.name}}
+                                </span>
+                                <button type="button" class="remove-btn" mat-icon-button (click)="removeImage(index)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
 
                             <div fxFlex="100">
-                                <mat-label class="ml-12"><strong>Template html</strong></mat-label>
+                                <mat-label class="ml-12"><strong>About Us Content</strong></mat-label>
                                 <ng-container *ngTemplateOutlet="editor"></ng-container>
                                 <ng-template #editor>
-                                    <editor [id]="'careerTextArea'" autofocus class="tiny-editor"
-                                        formControlName="templateHtml" [init]="tinyEditorConfig"
+                                    <editor autofocus class="tiny-editor"
+                                        [formControl]="aboutUsEditor" [init]="tinyEditorConfig"
                                         placeholder="Template html" tagName="textarea">
                                     </editor>
                                 </ng-template>
                                 <mat-error
-                                    *ngIf="uploadTemplateForm.touched && uploadTemplateForm.get('templateHtml').hasError('required')">
-                                    Please fill in template html content
+                                    *ngIf="aboutUsEditor.touched && aboutUsEditor.hasError('required')">
+                                    Please enter About Us content
                                 </mat-error>
                             </div>
 
                             <div class="pt-12 pl-8 pb-4">
-                                <button type="submit" class="stepper-back" mat-raised-button
-                                    [disabled]="uploadTemplateForm.invalid || isLoading">Submit
-                                </button> &nbsp;
-                                <button type="button" class="stepper-next ml-12" color="primary" mat-raised-button
-                                    (click)="goToListing()">Back</button>
+                                <button type="submit" class="stepper-back" color="primary" mat-raised-button
+                                    [disabled]="isLoading || aboutUsEditor.invalid">
+                                    <img class="loading" *ngIf="isLoading" src="assets/images/background/loader.gif">
+                                    Submit
+                                </button>
                             </div>
 
-                        </form> -->
+                        </form>
 
                     </div>
 

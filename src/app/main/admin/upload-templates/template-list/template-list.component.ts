@@ -22,13 +22,13 @@ import { AdminTemplateModel } from 'core/models/admin-template.model';
 })
 export class TemplateListComponent implements OnInit, OnDestroy {
 
-  public baseUrl = environment.serverBaseUrl;
+  public baseUrl = environment.serverImagePath + 'template/';
   public getTemplateUrl = environment.serverBaseUrl + 'admin/template/templateList';
   public deleteTemplateUrl = environment.serverBaseUrl + 'admin/template/delete';
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   templateList: AdminTemplateModel[] = [];
-  displayedColumns = ['sr', 'image', 'title', 'description', 'action'];
+  displayedColumns = [ 'image', 'title', 'description', 'action'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
