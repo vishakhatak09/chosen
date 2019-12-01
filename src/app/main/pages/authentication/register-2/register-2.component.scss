@@ -10,7 +10,7 @@ register-2 {
 
         #register-intro {
             padding: 128px;
-            background: url('/assets/images/background/login-background.svg') no-repeat;
+            background: url('assets/images/background/login-background.svg') no-repeat;
 
             @include media-breakpoint('sm') {
                 padding: 128px 64px;

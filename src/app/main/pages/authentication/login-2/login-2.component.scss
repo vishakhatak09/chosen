@@ -1,6 +1,11 @@
 @import "src/@fuse/scss/fuse";
 
 login-2 {
+    flex: 1 1 0% !important;
+    display: flex;
+    flex: 1 0 auto;
+    width: 100%;
+    min-width: 100%;
 
     #login {
         width: 100%;
@@ -10,7 +15,7 @@ login-2 {
 
         #login-intro {
             padding: 128px;
-            background: url('/assets/images/background/login-background.svg') no-repeat;
+            background: url('assets/images/background/login-background.svg') no-repeat;
 
             @include media-breakpoint('sm') {
                 padding: 128px 64px;
