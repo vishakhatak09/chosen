@@ -44,10 +44,6 @@ const routes: Routes = [
         loadChildren: './cms/content-mgmt/content-mgmt.module#ContentMgmtModule'
     },
     {
-        path: 'add-content',
-        loadChildren: './cms/add-content/add-content.module#AddContentModule'
-    },
-    {
         path: '**',
         redirectTo: 'dashboard',
         pathMatch: 'full'

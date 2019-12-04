@@ -4,16 +4,42 @@
 
         <label for="fuse-search-bar-input">
             <button mat-icon-button class="fuse-search-bar-expander" aria-label="Expand Search Bar" (click)="expand()"
-                    *ngIf="collapsed">
+                *ngIf="collapsed">
                 <mat-icon class="s-24 secondary-text">search</mat-icon>
             </button>
         </label>
 
-        <input id="fuse-search-bar-input" class="ml-24" type="text" placeholder="Search" (input)="search($event)"
-               fxFlex>
+        <input id="fuse-search-bar-input" class="ml-24" type="text" placeholder="Search" [formControl]="searchBox"
+            (input)="search($event)" fxFlex [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                <div>
+                    <img [src]="option.logo" style="height: 100px;">
+                </div>
+                <div style="padding: 30px;">
+                    <div>
+                        <span class="font-weight-800">{{option.title}}</span>
+                    </div>
+                    <div>
+                        <span>{{option.company}}</span>
+                        <span>{{option.location}}</span>
+                        <span>{{option.description}}</span>
+                    </div>
+                    <div>
+                        <span><mat-icon>watch_later</mat-icon> {{ option.time }} </span>
+                        <span><mat-icon>work</mat-icon> {{ option.jobType }}</span>
+                    </div>
+                </div>
+                <div>
+                    <button mat-icon-button class="fuse-search-bar-expander" aria-label="Apply">
+                        <mat-icon class="s-24 secondary-text">add_box
+                            </mat-icon>
+                    </button>
+                </div>
+            </mat-option>
+        </mat-autocomplete>
 
-        <button mat-icon-button class="fuse-search-bar-collapser" (click)="collapse()"
-                aria-label="Collapse Search Bar">
+        <button mat-icon-button class="fuse-search-bar-collapser" (click)="collapse()" aria-label="Collapse Search Bar">
             <mat-icon class="s-24 secondary-text">close</mat-icon>
         </button>
 

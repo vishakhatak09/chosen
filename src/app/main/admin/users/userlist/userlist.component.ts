@@ -8,6 +8,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { USERS, User } from './list';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
+import { UserListService } from './userlist.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'userlist',
@@ -18,9 +20,13 @@ import { ConfirmationDialogComponent } from 'app/main/pages/common-components/co
 })
 export class UserlistComponent implements OnInit {
 
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<User> = new MatTableDataSource([]);
   userList: User[] = USERS;
-  displayedColumns = ['id', 'name', 'email', 'resumes', 'payment', 'status', 'action'];
+
+  public getUserApiUrl = environment.serverBaseUrl + 'admin/user/get';
+  public deleteUserApiUrl = environment.serverBaseUrl + 'admin/user/delete';
+
+  displayedColumns = ['_id', 'name', 'email', 'resumes', 'payment', 'status', 'action'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -37,10 +43,10 @@ export class UserlistComponent implements OnInit {
   /**
    * Constructor
    *
-   * @param {EcommerceOrdersService} _ecommerceOrdersService
    */
   constructor(
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private userService: UserListService
   ) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -48,6 +54,12 @@ export class UserlistComponent implements OnInit {
 
   ngOnInit() {
 
+    this.initSearch();
+    this.getUsers();
+
+  }
+
+  initSearch(): void {
     fromEvent(this.filter.nativeElement, 'keyup')
       .pipe(
         takeUntil(this._unsubscribeAll),
@@ -60,15 +72,28 @@ export class UserlistComponent implements OnInit {
         }
         this.dataSource.filter = this.filter.nativeElement.value;
       });
-
-    this.initDataTable(this.userList);
-
   }
 
-  initDataTable(data): void {
+  initDataTable(data: User[]): void {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  getUsers(): void {
+
+    this.userService.getUsersList(this.getUserApiUrl)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        data => {
+          console.log('userdata', data);
+          this.initDataTable(this.userList);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
   }
 
   onDelete(user: User): void {
@@ -87,7 +112,24 @@ export class UserlistComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (confirmation) => {
         if (confirmation === true) {
-          // delete
+
+          const param = {
+            params: {
+              id: user._id
+            }
+          };
+
+          this.userService.deleteUser(this.deleteUserApiUrl, param)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(
+              data => {
+                this.getUsers();
+              },
+              error => {
+                console.log(error);
+              }
+            );
+
         }
       }
     );

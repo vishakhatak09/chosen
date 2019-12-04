@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Compiler } from '@angular/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { CoreModule } from 'core/core.module';
 import { AuthGuardService, AdminGuardService } from 'core/services/auth-guard.service';
 import { LandingComponent } from './main/landing/landing.component';
 import 'hammerjs';
+import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 
 const appRoutes: Routes = [
     // {
@@ -87,6 +88,7 @@ const appRoutes: Routes = [
         AdminGuardService,
         { provide: 'LOCALSTORAGE', useFactory: getLocalStorage },
         { provide: 'WINDOW', useFactory: getWindow },
+        // {provide: Compiler, useFactory: createJitCompiler}
     ],
     bootstrap: [
         AppComponent
@@ -102,3 +104,10 @@ export function getLocalStorage(): Storage {
 export function getWindow(): Window {
     return typeof window !== 'undefined' ? window : null;
 }
+
+
+// export function createJitCompiler() {
+//     return new JitCompilerFactory().createCompiler([{
+//         useJit: true
+//     }]);
+// }

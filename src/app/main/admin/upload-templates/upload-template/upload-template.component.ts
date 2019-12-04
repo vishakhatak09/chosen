@@ -20,11 +20,13 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
 
   public templateSrc: string | ArrayBuffer;
   public templateFileName: string;
+  public selectedFile: File;
   tinyEditorConfig = {};
   uploadTemplateForm: FormGroup;
   public createTemplateApi = environment.serverBaseUrl + 'admin/template/create';
-  public updateTemplateApi = environment.serverBaseUrl + 'admin/template/create';
+  public updateTemplateApi = environment.serverBaseUrl + 'admin/template/update';
   public singleTemplateApi = environment.serverBaseUrl + 'admin/template/singleTemplate';
+  public baseUrl = environment.serverImagePath + 'template/';
   public isLoading = false;
   editTemplateId: string;
   editTemplateData: AdminTemplateModel;
@@ -41,9 +43,8 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.uploadTemplateForm = this._formBuilder.group({
-      templateImage: ['', [Validators.required]],
+      templateImage: [undefined, []],
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       templateHtml: ['', [Validators.required]],
@@ -70,11 +71,14 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
             if (response.data) {
               this.editTemplateData = response.data;
               this.uploadTemplateForm.setValue({
-                templateImage: this.editTemplateData.image,
+                templateImage: null,
                 title: this.editTemplateData.title,
                 description: this.editTemplateData.description,
                 templateHtml: this.editTemplateData.html,
               });
+              this.templateSrc = this.baseUrl + this.editTemplateData.image;
+              this.templateFileName = this.editTemplateData.image;
+              this.uploadTemplateForm.get('templateImage').setValidators(null);
             }
           }
         },
@@ -90,6 +94,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
   getFileData(files: FileList): void {
     if (files.length > 0) {
       const fileData: File = files[0];
+      this.selectedFile = fileData;
       const reader = new FileReader();
       reader.readAsDataURL(fileData);
       reader.onload = (() => {
@@ -97,6 +102,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
         this.templateFileName = fileData.name;
       });
     } else {
+      this.selectedFile = null;
       this.templateSrc = null;
       this.templateFileName = null;
     }
@@ -120,7 +126,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
   }
 
   goToListing(): void {
-    this._router.navigate(['/user/admin/template-list']);
+    this._router.navigate(['/admin/template-list']);
   }
 
   onSubmit(): void {
@@ -138,10 +144,10 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
         templatePhoto = this.editTemplateData.image;
       }
 
-      const params = {
+      const params: any = {
         'params': {
-          'imageName': imageName,
-          'photo': templatePhoto,
+          // 'imageName': imageName,
+          // 'photo': templatePhoto,
           'title': formValue.title,
           'description': formValue.description,
           'html': formValue.templateHtml
@@ -150,17 +156,26 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
 
       let currentApi = this.createTemplateApi;
       if (this.editTemplateId) {
+        params.params.id = this.editTemplateId;
         currentApi = this.updateTemplateApi;
+        if (this.selectedFile) {
+          params.params.photo = templatePhoto;
+          params.params.imageName = imageName;
+        }
+      } else {
+        params.params.photo = templatePhoto;
+        params.params.imageName = imageName;
       }
 
       this.subscriptions = this._uploadTemplateService.createUpdateTemplate(currentApi, params)
         .subscribe(
           (response) => {
-            console.log(response);
+            if (response.code === 200) {
+              this.goToListing();
+            }
             this.isLoading = false;
           },
           (error) => {
-            console.log(error);
             this.isLoading = false;
           }
         );

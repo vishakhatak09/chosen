@@ -39,10 +39,10 @@
                 [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
 
                 <!-- ID Column -->
-                <ng-container matColumnDef="id">
+                <ng-container matColumnDef="_id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                     <mat-cell *matCellDef="let user">
-                        <p class="text-truncate">{{user.id}}</p>
+                        <p class="text-truncate">{{user._id}}</p>
                     </mat-cell>
                 </ng-container>
 

@@ -9,7 +9,7 @@
 
         <!-- HEADER -->
         <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center">
+            fxLayoutAlign.gt-xs="space-between center" >
 
             <!-- APP TITLE -->
             <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
@@ -59,7 +59,7 @@
                 <ng-container matColumnDef="image">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Image</mat-header-cell>
                     <mat-cell *matCellDef="let template">
-                        <img [src]="baseUrl + template.image">
+                        <img [src]="baseUrl + template.image" (click)="previewImage(template)">
                     </mat-cell>
                 </ng-container>
 
@@ -67,7 +67,7 @@
                 <ng-container matColumnDef="title">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
                     <mat-cell *matCellDef="let template">
-                        <p class="text-truncate">{{template.title}}</p>
+                        <p>{{template.title}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -75,7 +75,7 @@
                 <ng-container matColumnDef="description">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
                     <mat-cell *matCellDef="let template">
-                        <p class="text-truncate">
+                        <p>
                             {{template.description}}
                         </p>
                     </mat-cell>

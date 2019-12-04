@@ -1,6 +1,54 @@
-<div style="display: flex;flex: 1 1 0; align-items: center; justify-content: center;">
+<!-- <div style="display: flex;flex: 1 1 0; align-items: center; justify-content: center;">
     <div style="text-align: center;">
         <img style="width: 50%;" src="/assets/images/background/no-data.svg">
         <h3>No Resumes Available</h3>
+    </div>
+</div> -->
+<div id="cards" class="page-layout simple fullwidth">
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="cards">
+
+            <!-- CARD 1 -->
+            <div class="card">
+
+                <!-- PREVIEW -->
+                <div class="card-preview">
+
+                    <div class="fuse-card m-12">
+
+                        <img class="resume-img" [src]="'assets/images/templates/tp-1.png'">
+
+                        <div class="px-16 py-4 w-100-p" fxLayout="row" fxLayoutAlign="end center">
+                            <button mat-icon-button aria-label="view" matTooltip="View"
+                                [matTooltipPosition]="'above'">
+                                <mat-icon>remove_red_eye</mat-icon>
+                            </button>
+
+                            <button mat-icon-button aria-label="edit" matTooltip="Edit"
+                            [matTooltipPosition]="'above'">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                            <button mat-icon-button aria-label="delete" matTooltip="Delete"
+                            [matTooltipPosition]="'above'">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- / PREVIEW -->
+
+
+
+            </div>
+            <!-- / CARD 1 -->
+
+        </div>
+
     </div>
 </div>

@@ -18,6 +18,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
+import { LoadingScreenService } from '@fuse/services/loading.service';
 
 @Component({
     selector: 'app',
@@ -41,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {FuseNavigationService} _fuseNavigationService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {FuseSplashScreenService} _fuseSplashScreenService
+     * @param {LoadingScreenService} _loadingScreenService
      * @param {FuseTranslationLoaderService} _fuseTranslationLoaderService
      * @param {Platform} _platform
      * @param {TranslateService} _translateService,
@@ -51,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
         private _fuseSplashScreenService: FuseSplashScreenService,
+        private _loadingScreenService: LoadingScreenService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private _platform: Platform,

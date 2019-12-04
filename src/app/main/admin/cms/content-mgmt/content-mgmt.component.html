@@ -34,18 +34,28 @@
 
                     <div class="tab-content pl-12 h-100-p">
 
-                        <form class="template-form ml-12 mt-16" fxLayout="row wrap" fxLayoutGap="25px"
-                            (ngSubmit)="onSubmit()" novalidate>
+                        <form class="template-form ml-12 mt-16" fxLayout="row wrap" [formGroup]="contentForm"
+                            fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
 
-                            <div floatLabel="always" class="mb-16 pl-4 upload-div" fxFlex="100">
-                                <input type="file" #file hidden accept="image/*"
-                                    (change)="getFileData($event.target.files)" multiple>
+                            <!-- <div floatLabel="always" class="mb-12 pl-4 upload-div ml-4" fxFlex="97">
+                                <input type="file" #file hidden accept="image/*" formControlName="image"
+                                    (change)="getFileData($event.target.files)">
                                 <button class="upload-btn ml-4" type="button" mat-icon-button (click)="file.click()">
-                                    <mat-icon>cloud_upload</mat-icon> &nbsp;Upload Landing Images
+                                    <mat-icon>cloud_upload</mat-icon> &nbsp;Upload Landing Page Image
                                 </button>
+                            </div> -->
+
+                            <div floatLabel="always" class="mb-12 pl-4 ml-4" fxFlex="97">
+                                <app-drag-drop-uploader (selectFile)="getFileData($event)"></app-drag-drop-uploader>
+                                <input type="text" hidden formControlName="image">
                             </div>
 
-                            <div floatLabel="always" class="mb-16 pl-4" fxFlex="100" *ngFor="let img of imageArray; let index=index;">
+                            <mat-error *ngIf=" contentForm.touched && contentForm.get('image').hasError('required')">
+                                Please select landing page image
+                            </mat-error>
+
+                            <div floatLabel="always" class="pl-4" fxFlex="100"
+                                *ngFor="let img of imageArray; let index=index;">
                                 <span class="accent upload-span border-radius-16 p-8 w-50-p">
                                     {{img.name}}
                                 </span>
@@ -54,26 +64,30 @@
                                 </button>
                             </div>
 
-                            <div fxFlex="100">
-                                <mat-label class="ml-12"><strong>About Us Content</strong></mat-label>
-                                <ng-container *ngTemplateOutlet="editor"></ng-container>
-                                <ng-template #editor>
-                                    <editor autofocus class="tiny-editor"
-                                        [formControl]="aboutUsEditor" [init]="tinyEditorConfig"
-                                        placeholder="Template html" tagName="textarea">
-                                    </editor>
-                                </ng-template>
-                                <mat-error
-                                    *ngIf="aboutUsEditor.touched && aboutUsEditor.hasError('required')">
-                                    Please enter About Us content
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
+                                <textarea matInput placeholder="Enter Landing Page Text" name="mainTextInput"
+                                    formControlName="mainText" autocomplete="off" required>
+                                        </textarea>
+                                <mat-error *ngIf="contentForm.get('mainText').hasError('required')">
+                                    Please enter landing page text content
                                 </mat-error>
-                            </div>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <textarea matInput placeholder="Enter Landing Page Phrase" name="marqueeTextInput"
+                                    formControlName="phraseText" autocomplete="off" required>
+                                        </textarea>
+                                <mat-error *ngIf="contentForm.get('phraseText').hasError('required')">
+                                    Please enter landing page phrase content
+                                </mat-error>
+                            </mat-form-field>
 
                             <div class="pt-12 pl-8 pb-4">
                                 <button type="submit" class="stepper-back" color="primary" mat-raised-button
-                                    [disabled]="isLoading || aboutUsEditor.invalid">
+                                    [disabled]="isLoading || contentForm.invalid">
                                     <img class="loading" *ngIf="isLoading" src="assets/images/background/loader.gif">
-                                    Submit
+                                    <span *ngIf="contentData">Update</span>
+                                    <span *ngIf="!contentData">Save</span>
                                 </button>
                             </div>
 

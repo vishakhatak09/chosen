@@ -204,7 +204,7 @@
                                     </div>
                                     <div class="pt-12">
                                         <button type="button" class="stepper-next ml-12" color="accent"
-                                            mat-raised-button matStepperNext>Next</button>
+                                            mat-raised-button (click)="formSubmit()">Next</button>
                                     </div>
 
                                 </form>
@@ -271,7 +271,7 @@
                                                     &nbsp;
                                                     <button mat-icon-button matTooltip="Edit"
                                                         [matTooltipPosition]="'above'"
-                                                        class="action-buttons blue-300-fg"
+                                                        class="action-buttons grey-500-fg"
                                                         (click)="editWorkExperience(index, 'work')">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
@@ -329,7 +329,7 @@
                                                     &nbsp;
                                                     <button mat-icon-button matTooltip="Edit"
                                                         [matTooltipPosition]="'above'"
-                                                        class="action-buttons blue-300-fg"
+                                                        class="action-buttons grey-500-fg"
                                                         (click)="editWorkExperience(index, 'education')">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>

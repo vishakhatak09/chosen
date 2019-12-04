@@ -26,6 +26,7 @@ import { FuseMaterialColorPickerModule } from '@fuse/components';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 // import { Template1Component } from 'core/components/template1/template1.component';
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
+import { CommonService } from 'core/services/common.service';
 
 const routes: Routes = [
   {
@@ -73,6 +74,7 @@ const routes: Routes = [
 
     EditorModule
   ],
-  providers: [ResumeBuilderService]
+  providers: [ResumeBuilderService, CommonService],
+  schemas: []
 })
 export class ResumebuilderModule { }

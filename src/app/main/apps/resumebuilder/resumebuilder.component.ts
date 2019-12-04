@@ -16,6 +16,8 @@ import {
   ViewContainerRef,
   ComponentRef,
   AfterContentInit,
+  AfterViewInit,
+  ComponentFactoryResolver
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -52,6 +54,8 @@ declare var tinymce: any;
 import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
 import * as _ from 'lodash';
+import { CommonService } from 'core/services/common.service';
+import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -64,9 +68,10 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit {
+export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   public defaultProfile = environment.baseUrl + 'assets/images/logos/profile.jpg';
+  saveFirstStepApi = environment.serverBaseUrl + 'api/resume/resumeFirstStep';
   public profileSrc: string | ArrayBuffer;
   public profileFileName: string;
   public basicDetailForm: FormGroup;
@@ -125,7 +130,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     private toastrService: ToastrService,
     private compiler: Compiler,
     private domSanitizer: DomSanitizer,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private commonService: CommonService,
+    private componentFactoryResolver: ComponentFactoryResolver,
   ) { }
 
   // -----------------------------------------------------------------------------------------------------
@@ -178,11 +185,19 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   ngAfterContentInit(): void {
     this.MockTemplate = templateMock;
+    // // Generate dynamic component with html
+    // setTimeout(() => {
+    //   this.generateRunTimeComponent();
+    //   this.cdRef.detectChanges();
+    // }, 0);
+  }
+
+  ngAfterViewInit(): void {
     // Generate dynamic component with html
     setTimeout(() => {
       this.generateRunTimeComponent();
       this.cdRef.detectChanges();
-    }, 1000);
+    }, 0);
   }
 
   private setupTinyMce(): void {
@@ -563,8 +578,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   private createComponentFactorySync(
-    compiler: Compiler, metadata: Component, componentClass: any, componentData: any
-  ): ComponentFactory<any> {
+    metadata: Component, componentClass: any, componentData: any, compiler?: Compiler,
+  ): any {
     const cmpClass = componentClass || class RuntimeComponent {
       templateForm = componentData.templateForm;
       experienceData = componentData.experienceData;
@@ -580,6 +595,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       backColor = componentData.backColor;
     };
     const decoratedCmp = Component(metadata)(cmpClass);
+    // return decoratedCmp;
 
     @NgModule({ imports: [ResumebuilderModule, CommonModule], declarations: [decoratedCmp] })
     class RuntimeComponentModule { }
@@ -595,14 +611,38 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       template: this.MockTemplate,
     };
 
-    const factory = this.createComponentFactorySync(this.compiler, metadata, null, data);
-
+    // console.log('compiler', this.compiler);
+    const factory = this.createComponentFactorySync(metadata, null, data, this.compiler);
+    // console.log('factory', factory);
+    // console.log('this.container', this.container);
+    // const factory = this.componentFactoryResolver.resolveComponentFactory(this.createComponentFactorySync(metadata, null, data));
+    // console.log(factory)
     if (this.componentRef) {
       this.componentRef.destroy();
       this.componentRef = null;
     }
     this.componentRef = this.container.createComponent(factory);
     this.cdRef.detectChanges();
+
+    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeTemplateComponent);
+    // const viewContainerRef = this.container;
+    // viewContainerRef.clear();
+
+    // const componentRef = viewContainerRef.createComponent(componentFactory);
+    // // componentRef.hostView
+    // (<any>componentRef.instance).templateForm = data.templateForm;
+    // (<any>componentRef.instance).experienceData = data.experienceData;
+    // (<any>componentRef.instance).careerObjective = data.careerObjective;
+    // (<any>componentRef.instance).educationData = data.educationData;
+    // (<any>componentRef.instance).skillData = data.skillData;
+    // (<any>componentRef.instance).additionalInfo = data.additionalInfo;
+    // (<any>componentRef.instance).socialData = data.socialData;
+    // (<any>componentRef.instance).profileSrc = data.profileSrc;
+    // (<any>componentRef.instance).content = data.content;
+    // (<any>componentRef.instance).skillMockData = data.skillMockData;
+    // (<any>componentRef.instance).fontColor = data.fontColor;
+    // (<any>componentRef.instance).backColor = data.backColor;
+
   }
 
   generateRunTimeComponent(isLastSteps = false): void {
@@ -694,6 +734,39 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   savePersonalInfo(): void {
+
+    if (this.basicDetailForm.valid) {
+      this.selectedIndex = this.selectedIndex + 1;
+      // const formValue = this.basicDetailForm.value;
+      // const params = {
+      //   'params': {
+      //     'personalInfo': {
+      //       'firstName': formValue.firstName,
+      //       'lastName': formValue.lastName,
+      //       'contactNumber': formValue.contactNumber,
+      //       'email': formValue.email,
+      //       'fullAddress': formValue.fullAddress,
+      //       'dateOfBirth': formValue.dateOfBirth ?
+      //         this.commonService.getMomentFormattedDate(formValue.dateOfBirth) : '',
+      //       'placeOfBirth': formValue.placeOfBirth,
+      //       'maritalStatus': formValue.maritalStatus,
+      //       'gender': formValue.gender,
+      //       'profileImage': this.profileSrc,
+      //       'socialLinks': this.socialLinkArray,
+      //     }
+      //   }
+      // };
+
+      // this.resumeBuilderService.addUpdateResume(this.saveFirstStepApi, params)
+      //   .pipe(takeUntil(this._unsubscribeAll))
+      //   .subscribe(
+      //     (response) => {
+      //       this.stepper.next();
+      //     },
+      //     error => { }
+      //   );
+
+    }
 
   }
 

@@ -12,6 +12,7 @@ import { User } from '../../users/userlist/list';
 import { TemplateListService } from './template-list.service';
 import { Router } from '@angular/router';
 import { AdminTemplateModel } from 'core/models/admin-template.model';
+import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
 
 @Component({
   selector: 'template-list',
@@ -28,7 +29,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   templateList: AdminTemplateModel[] = [];
-  displayedColumns = [ 'image', 'title', 'description', 'action'];
+  displayedColumns = ['image', 'title', 'description', 'action'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -142,6 +143,16 @@ export class TemplateListComponent implements OnInit, OnDestroy {
 
   onEdit(template: AdminTemplateModel): void {
     this.router.navigate(['/admin/' + template._id + '/upload-template']);
+  }
+
+  previewImage(template: AdminTemplateModel): void {
+    this.matDialog.open(PreviewComponent, {
+      data: {
+        image: this.baseUrl + template.image
+      },
+      width: 'auto',
+      height: 'auto',
+    });
   }
 
   ngOnDestroy(): void {

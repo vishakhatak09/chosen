@@ -31,6 +31,11 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: './profile/profile.module#ProfileModule'
     },
+    {
+        path: '**',
+        redirectTo: 'templates',
+        pathMatch: 'full',
+    }
 ];
 
 @NgModule({
