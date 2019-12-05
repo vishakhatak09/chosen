@@ -1,10 +1,10 @@
 <div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
 
-    <div id="login-intro" class="pl-192 pt-220" fxFlex fxHide fxShow.gt-xs>
+    <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
 
-        <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
+        <!-- <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
             <img src="assets/icons/chosen-logo.svg">
-        </div>
+        </div> -->
 
         <!-- <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}" hidden>
             Welcome to the Chosen you!
@@ -16,15 +16,15 @@
 
     </div>
 
-    <div id="login-form-wrapper" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+    <div id="login-form-wrapper" fxLayout="culumn" fxLayoutAlign=" center" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
 
         <div id="login-form">
 
-            <div class="logo" fxHide.gt-xs>
+            <div class="logo ml-auto mr-auto mb-20">
                 <img src="assets/icons/chosen-logo.svg">
             </div>
 
-            <div class="title">LOGIN TO YOUR ACCOUNT</div>
+            <div class="title text-center">LOGIN TO YOUR ACCOUNT</div>
 
             <form name="loginForm" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
 
@@ -54,8 +54,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
-                    fxLayoutAlign="space-between center">
+                <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
                     <mat-checkbox class="remember-me" aria-label="Remember Me">
                         Remember Me
                     </mat-checkbox>
@@ -65,8 +64,7 @@
                     </a>
                 </div>
 
-                <button mat-raised-button color="accent" type="submit" class="submit-button" aria-label="LOGIN"
-                    [disabled]="loginForm.invalid || isLoading">
+                <button mat-raised-button color="accent" type="submit" class="submit-button" aria-label="LOGIN" [disabled]="loginForm.invalid || isLoading">
                     LOGIN
                 </button>
 

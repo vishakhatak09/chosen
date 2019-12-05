@@ -8,7 +8,7 @@
                 <img src="assets/icons/chosen-logo.svg">
             </div>
 
-            <div class="title">CREATE AN ACCOUNT</div>
+            <div class="title">CREATE AN ACCOUNT2</div>
 
             <form name="registerForm" [formGroup]="registerForm" (ngSubmit)="onRegister()" novalidate>
 
@@ -62,8 +62,7 @@
                     <a href="javascript:void(0)">terms and conditions</a>
                 </div>
 
-                <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
-                    [disabled]="registerForm.invalid || isLoading || 
+                <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT" [disabled]="registerForm.invalid || isLoading || 
                     (registerForm.get('agreeTerms').value == null || registerForm.get('agreeTerms').value == false )
                     ">
                     CREATE AN ACCOUNT

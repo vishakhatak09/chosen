@@ -21,38 +21,25 @@
     <!-- CONTENT -->
     <div class="content" [ngClass]="this.view">
 
-        <div class="cards">
+        <div class="card-preview p-12" fxLayout="row wrap">
 
-            <!-- CARD 1 -->
-            <div class="card">
+            <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%" *ngFor="let item of templateData">
+                <div class="fuse-card">
 
-                <!-- PREVIEW -->
-                <div class="card-preview">
+                    <img [src]="item" (click)="selectTemplate()">
+                    <!-- <span class="use-template">Use this template</span> -->
 
-                    <div class="fuse-card m-12" *ngFor="let item of templateData">
+                    <div class="pl-16" style="align-self: flex-start;">
+                        <div class="h3"><strong>Basic</strong></div>
+                        <!-- <div class="h4 secondary-text">Free on Thursdays</div> -->
+                    </div>
 
-                        <img [src]="item" (click)="selectTemplate()">
-                        <!-- <span class="use-template">Use this template</span> -->
-
-                        <div class="pl-16" style="align-self: flex-start;">
-                            <div class="h3"><strong>Basic</strong></div>
-                            <!-- <div class="h4 secondary-text">Free on Thursdays</div> -->
-                        </div>
-
-                        <div class="p-16 pt-4 line-height-1.75 font-size-12">
-                            Easily personalize this basic resume layout that can be completed in under ten minutes
-                            through our intuitive process.
-                        </div>
-
+                    <div class="p-16 pt-4 line-height-1.75 font-size-12">
+                        Easily personalize this basic resume layout that can be completed in under ten minutes through our intuitive process.
                     </div>
 
                 </div>
-                <!-- / PREVIEW -->
-
-
-
             </div>
-            <!-- / CARD 1 -->
 
         </div>
 
