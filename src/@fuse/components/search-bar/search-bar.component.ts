@@ -1,21 +1,36 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil, startWith, map } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
+import { JobModel } from './search-bar';
+import { FormControl } from '@angular/forms';
 
 @Component({
-    selector   : 'fuse-search-bar',
+    selector: 'fuse-search-bar',
     templateUrl: './search-bar.component.html',
-    styleUrls  : ['./search-bar.component.scss']
+    styleUrls: ['./search-bar.component.scss']
 })
-export class FuseSearchBarComponent implements OnInit, OnDestroy
-{
+export class FuseSearchBarComponent implements OnInit, OnDestroy {
     collapsed: boolean;
     fuseConfig: any;
+    searchBox = new FormControl();
 
     @Output()
     input: EventEmitter<any>;
+
+    options: JobModel[] = [
+        {
+            title: 'API Developer Jobs in Pune, India',
+            description: 'via Wisdom Jobs India',
+            company: 'FORRET INDIA PRIVATE LIMITED',
+            location: 'Ahmedabad, Gujarat',
+            time: '11 hours ago',
+            jobType: 'Full-Time',
+            logo: 'assets/icons/template-icons/envelope.svg'
+        }
+    ];
+    filteredOptions: Observable<JobModel[]>;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -27,8 +42,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy
      */
     constructor(
         private _fuseConfigService: FuseConfigService
-    )
-    {
+    ) {
         // Set the defaults
         this.input = new EventEmitter();
         this.collapsed = true;
@@ -44,8 +58,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Subscribe to config changes
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
@@ -54,13 +67,24 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy
                     this.fuseConfig = config;
                 }
             );
+
+        this.filteredOptions = this.searchBox.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value))
+        );
+        // this.filteredOptions.subscribe(val => console.log(val));
+    }
+
+    private _filter(value: string): JobModel[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter(option => option.title.toLowerCase().includes(filterValue));
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -73,16 +97,15 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy
     /**
      * Collapse
      */
-    collapse(): void
-    {
+    collapse(): void {
+        this.searchBox.reset();
         this.collapsed = true;
     }
 
     /**
      * Expand
      */
-    expand(): void
-    {
+    expand(): void {
         this.collapsed = false;
     }
 
@@ -91,8 +114,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy
      *
      * @param event
      */
-    search(event): void
-    {
+    search(event): void {
         this.input.emit(event.target.value);
     }
 

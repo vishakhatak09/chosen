@@ -179,7 +179,7 @@
 
                                     </div>
                                     <div class="pt-12">
-                                        <button type="button" class="stepper-next ml-12" color="accent" mat-raised-button matStepperNext>Next</button>
+                                        <button type="button" class="stepper-next ml-12" color="accent" mat-raised-button (click)="formSubmit()">Next</button>
                                     </div>
 
                                 </form>
@@ -237,7 +237,7 @@
                                                         <button mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'work')">
                                                         <mat-icon>delete</mat-icon>
                                                     </button> &nbsp;
-                                                        <button mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons blue-300-fg" (click)="editWorkExperience(index, 'work')">
+                                                        <button mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons grey-500-fg" (click)="editWorkExperience(index, 'work')">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
                                                     </div>
@@ -280,6 +280,7 @@
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume">
                                     <ng-template matStepLabel>Education Summary</ng-template>
                                     <div class="w-100-p">
+
                                         <div class="skill-content p-8" fxLayout="row" fxLayoutAlign="start end">
                                             <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%" *ngFor="let data of educationData; let index = index;">
                                                 <div class="work-content mat-elevation-z2 border">
@@ -287,7 +288,7 @@
                                                         <button mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'education')">
                                                             <mat-icon>delete</mat-icon>
                                                         </button> &nbsp;
-                                                        <button mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons blue-300-fg" (click)="editWorkExperience(index, 'education')">
+                                                        <button mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons grey-500-fg" (click)="editWorkExperience(index, 'education')">
                                                             <mat-icon>edit</mat-icon>
                                                         </button>
                                                     </div>
@@ -302,6 +303,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
 
                                         <div class="skill-content px-16">

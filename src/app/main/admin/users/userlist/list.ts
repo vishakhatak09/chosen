@@ -1,6 +1,6 @@
 export const USERS = [
     {
-        id: '1',
+        _id: '1',
         name: 'John Smith',
         email: 'john.smith@yahoo.com',
         resumes: 2,
@@ -8,7 +8,7 @@ export const USERS = [
         status: 'Active',
     },
     {
-        id: '2',
+        _id: '2',
         name: 'Sarah gratified',
         email: 'sarah.gratified@gmail.com',
         resumes: 4,
@@ -16,7 +16,7 @@ export const USERS = [
         status: 'Active',
     },
     {
-        id: '3',
+        _id: '3',
         name: 'Martis',
         email: 'martis20@gmail.com',
         resumes: 0,
@@ -26,7 +26,7 @@ export const USERS = [
 ];
 
 export interface User {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     resumes: number;

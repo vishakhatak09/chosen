@@ -17,32 +17,49 @@ import { ResumeBuilderService } from '../resumebuilder.service';
 
 @Component({
     selector: 'app-resume-template',
-    templateUrl: './resumetemplate.component.html',
-    styleUrls: ['./resumetemplate.component.scss'],
+    // templateUrl: './resumetemplate.component.html',
+    template: `
+    <div  [innerHTML]="content">
+    </div>
+    `,
+    // styleUrls: ['./resumetemplate.component.scss'],
+    styles: [],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
 
 export class ResumeTemplateComponent implements OnInit, OnChanges {
 
-    public str = String;
-    public Arr = Array;
-    public ratingMax = 5;
-    public MockData = ResumeMock.data;
+    // public str = String;
+    // public Arr = Array;
+    // public ratingMax = 5;
+    // public MockData = ResumeMock.data;
 
-    @Input() templateForm: TemplateModel;
-    @Input() skillData: SkillRating[];
-    @Input() experienceData: WorkModel[] = [];
-    @Input() careerObjective: string;
-    @Input() educationData: EducationModel[] = [];
-    @Input() additionalInfo: AdditionalModel[] = [];
-    @Input() public profileSrc: string | ArrayBuffer;
-    @Input() socialData: SocialModel[] = [];
-    // Template content
-    @Input() content: string;
+    // @Input() templateForm: TemplateModel;
+    // @Input() skillData: SkillRating[];
+    // @Input() experienceData: WorkModel[] = [];
+    // @Input() careerObjective: string;
+    // @Input() educationData: EducationModel[] = [];
+    // @Input() additionalInfo: AdditionalModel[] = [];
+    // @Input() public profileSrc: string | ArrayBuffer;
+    // @Input() socialData: SocialModel[] = [];
+    // // Template content
+    // @Input() content: string;
 
-    public safeInnerHtml: SafeHtml;
-    public safeInnerCareerHtml: SafeHtml;
+    // public safeInnerHtml: SafeHtml;
+    // public safeInnerCareerHtml: SafeHtml;
+    templateForm: any;
+    experienceData = [];
+    careerObjective: any;
+    educationData = [];
+    skillData = [];
+    additionalInfo = [];
+    socialData = [];
+    profileSrc: any;
+    content: any;
+    skillMockData = [];
+    fontColor: string;
+    backColor: string;
 
 
     /**
@@ -55,21 +72,25 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         private resumeBuilderService: ResumeBuilderService,
         private cdRef: ChangeDetectorRef,
         public hostElement: ElementRef
-    ) { }
-
-    // Disable ctrl + p, ctrl + c,  ctrl + v,  ctrl + x
-    @HostListener('document:keydown', ['$event'])
-    handleKeyboardEvent(event: KeyboardEvent) {
-        if (event.ctrlKey &&
-            // tslint:disable-next-line: deprecation
-            (event.key === 'p' || event.charCode === 16 || event.charCode === 112 || event.keyCode === 80 ||
-                event.key === 'c' || event.key === 'x')
-        ) {
-            event.cancelBubble = true;
-            event.preventDefault();
-            event.stopImmediatePropagation();
+    ) {
+        if (this.content) {
+            this.content = this.domsanitizer.bypassSecurityTrustHtml(this.content);
         }
     }
+
+    // Disable ctrl + p, ctrl + c,  ctrl + v,  ctrl + x
+    // @HostListener('document:keydown', ['$event'])
+    // handleKeyboardEvent(event: KeyboardEvent) {
+    //     if (event.ctrlKey &&
+    //         // tslint:disable-next-line: deprecation
+    //         (event.key === 'p' || event.charCode === 16 || event.charCode === 112 || event.keyCode === 80 ||
+    //             event.key === 'c' || event.key === 'x')
+    //     ) {
+    //         event.cancelBubble = true;
+    //         event.preventDefault();
+    //         event.stopImmediatePropagation();
+    //     }
+    // }
 
     // Disable right click menu open
     @HostListener('contextmenu', ['$event'])
@@ -86,37 +107,37 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
      */
     ngOnInit() {
 
-        this.resumeBuilderService.templateData
-            .subscribe((matData: any) => {
-                if (matData) {
+        // this.resumeBuilderService.templateData
+        //     .subscribe((matData: any) => {
+        //         if (matData) {
 
-                    if (matData.templateContent) {
-                        this.content = matData.templateContent;
-                        this.safeInnerHtml = this.getInnerHTMLValue();
-                    }
-                    if (matData.templateForm) {
-                        this.templateForm = matData.templateForm;
-                    }
-                    if (matData.careerObjective) {
-                        this.careerObjective = matData.careerObjective;
-                    }
-                    if (matData.experienceData) {
-                        this.experienceData = matData.experienceData;
-                    }
-                    if (matData.additionalInfo) {
-                        this.additionalInfo = matData.additionalInfo;
-                    }
-                    if (matData.socialData) {
-                        this.socialData = matData.socialData;
-                    }
-                    if (matData.profileSrc) {
-                        this.profileSrc = matData.profileSrc;
-                    }
-                    if (matData.skillData) {
-                        this.skillData = matData.skillData;
-                    }
-                }
-            });
+        //             if (matData.templateContent) {
+        //                 this.content = matData.templateContent;
+        //                 this.safeInnerHtml = this.getInnerHTMLValue();
+        //             }
+        //             if (matData.templateForm) {
+        //                 this.templateForm = matData.templateForm;
+        //             }
+        //             if (matData.careerObjective) {
+        //                 this.careerObjective = matData.careerObjective;
+        //             }
+        //             if (matData.experienceData) {
+        //                 this.experienceData = matData.experienceData;
+        //             }
+        //             if (matData.additionalInfo) {
+        //                 this.additionalInfo = matData.additionalInfo;
+        //             }
+        //             if (matData.socialData) {
+        //                 this.socialData = matData.socialData;
+        //             }
+        //             if (matData.profileSrc) {
+        //                 this.profileSrc = matData.profileSrc;
+        //             }
+        //             if (matData.skillData) {
+        //                 this.skillData = matData.skillData;
+        //             }
+        //         }
+        //     });
 
     }
 
@@ -130,48 +151,48 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         //         String(changes.careerObjective.currentValue)
         //     );
         // }
-        this.setElementValues();
+        // this.setElementValues();
     }
 
-    getInnerHTMLValue() {
-        return this.domsanitizer.bypassSecurityTrustHtml(
-            String(this.content)
-        );
-    }
+    // getInnerHTMLValue() {
+    //     return this.domsanitizer.bypassSecurityTrustHtml(
+    //         String(this.content)
+    //     );
+    // }
 
-    setElementValues(): void {
-        if (this.templateForm) {
-            const firstName = document.getElementById('firstName') as HTMLElement;
-            const lastName = document.getElementById('lastName') as HTMLElement;
-            const profileSrc: any = document.getElementById('profileSrc');
-            const email = document.getElementById('email') as HTMLElement;
-            const contactNumber = document.getElementById('contactNumber') as HTMLElement;
-            const fullAddress = document.getElementById('fullAddress') as HTMLElement;
-            const careerObjective: any = document.getElementById('careerObjective') as HTMLElement;
-            if (firstName) {
-                firstName.innerHTML = this.templateForm.firstName || this.MockData.firstName;
-            }
-            if (lastName) {
-                lastName.innerHTML = this.templateForm.lastName || this.MockData.lastName;
-            }
-            if (profileSrc) {
-                profileSrc.src = this.profileSrc || this.MockData.profileSrc;
-            }
-            if (email) {
-                email.innerHTML = this.templateForm.email || this.MockData.email;
-            }
-            if (contactNumber) {
-                contactNumber.innerHTML = this.templateForm.contactNumber || this.MockData.contactNumber;
-            }
-            if (fullAddress) {
-                fullAddress.innerHTML = this.templateForm.fullAddress || this.MockData.fullAddress;
-            }
-            if (careerObjective) {
-                // this.safeInnerCareerHtml = this.domsanitizer.bypassSecurityTrustHtml(
-                //     String(this.careerObjective || this.MockData.careerObjective)
-                // );
-                careerObjective.innerHTML = this.careerObjective || this.MockData.careerObjective;
-            }
-        }
-    }
+    // setElementValues(): void {
+    //     if (this.templateForm) {
+    //         const firstName = document.getElementById('firstName') as HTMLElement;
+    //         const lastName = document.getElementById('lastName') as HTMLElement;
+    //         const profileSrc: any = document.getElementById('profileSrc');
+    //         const email = document.getElementById('email') as HTMLElement;
+    //         const contactNumber = document.getElementById('contactNumber') as HTMLElement;
+    //         const fullAddress = document.getElementById('fullAddress') as HTMLElement;
+    //         const careerObjective: any = document.getElementById('careerObjective') as HTMLElement;
+    //         if (firstName) {
+    //             firstName.innerHTML = this.templateForm.firstName || this.MockData.firstName;
+    //         }
+    //         if (lastName) {
+    //             lastName.innerHTML = this.templateForm.lastName || this.MockData.lastName;
+    //         }
+    //         if (profileSrc) {
+    //             profileSrc.src = this.profileSrc || this.MockData.profileSrc;
+    //         }
+    //         if (email) {
+    //             email.innerHTML = this.templateForm.email || this.MockData.email;
+    //         }
+    //         if (contactNumber) {
+    //             contactNumber.innerHTML = this.templateForm.contactNumber || this.MockData.contactNumber;
+    //         }
+    //         if (fullAddress) {
+    //             fullAddress.innerHTML = this.templateForm.fullAddress || this.MockData.fullAddress;
+    //         }
+    //         if (careerObjective) {
+    //             // this.safeInnerCareerHtml = this.domsanitizer.bypassSecurityTrustHtml(
+    //             //     String(this.careerObjective || this.MockData.careerObjective)
+    //             // );
+    //             careerObjective.innerHTML = this.careerObjective || this.MockData.careerObjective;
+    //         }
+    //     }
+    // }
 }

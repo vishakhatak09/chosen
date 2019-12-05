@@ -1,183 +1,183 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+// * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+//   }
   
-  .template-container {
-    max-width: 612px;
-    background: #fff;
-    margin: 0px auto 0px;
-    // box-shadow: 1px 1px 2px #545151;
-    border-radius: 5px;
-    padding: 20px 40px 16px 30px;
-    margin-top: 0px;
-    border: 1px solid #a4a0a06e;
-    margin-top: 15px;
-  }
+//   .template-container {
+//     max-width: 612px;
+//     background: #fff;
+//     margin: 0px auto 0px;
+//     // box-shadow: 1px 1px 2px #545151;
+//     border-radius: 5px;
+//     padding: 20px 40px 16px 30px;
+//     margin-top: 0px;
+//     border: 1px solid #a4a0a06e;
+//     margin-top: 15px;
+//   }
   
-  .template-header {
-    margin-bottom: 30px;
+//   .template-header {
+//     margin-bottom: 30px;
 
-    .profile-image {
-      overflow: hidden;
-      width: 56px;
-      min-width: 56px;
-      max-width: 56px;
-      height: 56px;
-      min-height: 56px;
-      max-height: 56px;
-      border-radius: 4px;
+//     .profile-image {
+//       overflow: hidden;
+//       width: 56px;
+//       min-width: 56px;
+//       max-width: 56px;
+//       height: 56px;
+//       min-height: 56px;
+//       max-height: 56px;
+//       border-radius: 4px;
 
-      img {
-          height: 50px;
-          width: 50px;
-          // width: auto;
-          max-width: none;                
-          border-radius: 25px;
-      }
-  }
+//       img {
+//           height: 50px;
+//           width: 50px;
+//           // width: auto;
+//           max-width: none;                
+//           border-radius: 25px;
+//       }
+//   }
     
-    .full-name {
-      font-size: 40px;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
+//     .full-name {
+//       font-size: 40px;
+//       text-transform: uppercase;
+//       margin-bottom: 5px;
+//     }
     
-    .first-name {
-      font-weight: 700;
-    }
+//     .first-name {
+//       font-weight: 700;
+//     }
     
-    .last-name {
-      font-weight: 300;
-    }
+//     .last-name {
+//       font-weight: 300;
+//     }
     
-    .contact-info {
-      margin-bottom: 20px;
-    }
+//     .contact-info {
+//       margin-bottom: 20px;
+//     }
     
-    .email ,
-    .phone {
-      color: #999;
-      font-weight: 300;
-    } 
+//     .email ,
+//     .phone {
+//       color: #999;
+//       font-weight: 300;
+//     } 
 
-    .address {
-      margin-bottom: 10px;
-    }
+//     .address {
+//       margin-bottom: 10px;
+//     }
     
-    .separator {
-      height: 10px;
-      display: inline-block;
-      border-left: 2px solid #999;
-      margin: 0px 10px;
-    }
+//     .separator {
+//       height: 10px;
+//       display: inline-block;
+//       border-left: 2px solid #999;
+//       margin: 0px 10px;
+//     }
     
-    .position {
-      font-weight: bold;
-      display: inline-block;
-      margin-right: 10px;
-      text-decoration: underline;
-    }
-  }
+//     .position {
+//       font-weight: bold;
+//       display: inline-block;
+//       margin-right: 10px;
+//       text-decoration: underline;
+//     }
+//   }
   
   
-  .details {
-    line-height: 20px;
+//   .details {
+//     line-height: 20px;
     
-    .template-section {
-      margin-bottom: 40px;  
-    }
+//     .template-section {
+//       margin-bottom: 40px;  
+//     }
     
-    .template-section:last-of-type {
-      margin-bottom: 0px;  
-    }
+//     .template-section:last-of-type {
+//       margin-bottom: 0px;  
+//     }
     
-    .section__title {
-      letter-spacing: 2px;
-      color: #54AFE4;
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
+//     .section__title {
+//       letter-spacing: 2px;
+//       color: #54AFE4;
+//       font-weight: bold;
+//       margin-bottom: 10px;
+//       text-transform: uppercase;
+//     }
 
-    .section__list{
-      display: flex;
-      flex-wrap: wrap;
-    }
+//     .section__list{
+//       display: flex;
+//       flex-wrap: wrap;
+//     }
     
-    .section__list-item {
-      margin-bottom: 20px;
-      width: 50%;
-    }
+//     .section__list-item {
+//       margin-bottom: 20px;
+//       width: 50%;
+//     }
     
-    .section__list-item:last-of-type {
-      margin-bottom: 0;
-    }
+//     .section__list-item:last-of-type {
+//       margin-bottom: 0;
+//     }
     
-    .left ,
-    .right {
-      vertical-align: top;
-      display: inline-block;
-    }
+//     .left ,
+//     .right {
+//       vertical-align: top;
+//       display: inline-block;
+//     }
     
-    .left {
-      width: 60%;    
-    }
+//     .left {
+//       width: 60%;    
+//     }
     
-    .right {
-      text-align: right;
-      width: 39%;    
-    }
+//     .right {
+//       text-align: right;
+//       width: 39%;    
+//     }
     
-    .name {
-      font-weight: bold;
-    }
+//     .name {
+//       font-weight: bold;
+//     }
     
-    a {
-      text-decoration: none;
-      color: #000;
-      font-style: italic;
-    }
+//     a {
+//       text-decoration: none;
+//       color: #000;
+//       font-style: italic;
+//     }
     
-    a:hover {
-      text-decoration: underline;
-      color: #000;
-    }
+//     a:hover {
+//       text-decoration: underline;
+//       color: #000;
+//     }
     
-    // .skills {
+//     // .skills {
       
-    // }
+//     // }
       
-    .skills__item {
-      margin-bottom: 10px;  
-    }
+//     .skills__item {
+//       margin-bottom: 10px;  
+//     }
     
-    .skills__item .right {
-      input {
-        display: none;
-      }
+//     .skills__item .right {
+//       input {
+//         display: none;
+//       }
       
-      label {
-        display: inline-block;  
-        width: 20px;
-        height: 20px;
-        background: #C3DEF3;
-        border-radius: 20px;
-        margin-right: 3px;
-      }
+//       label {
+//         display: inline-block;  
+//         width: 20px;
+//         height: 20px;
+//         background: #C3DEF3;
+//         border-radius: 20px;
+//         margin-right: 3px;
+//       }
       
-      input:checked + label {
-        background: #79A9CE;
-      }
-    }
-  }
+//       input:checked + label {
+//         background: #79A9CE;
+//       }
+//     }
+//   }
   
-  mat-dialog-container{
-    height: auto !important;
-  }
+//   mat-dialog-container{
+//     height: auto !important;
+//   }
   
-  .dialog-close-btn{
-    float: right;
-    color: black !important;
-}
+//   .dialog-close-btn{
+//     float: right;
+//     color: black !important;
+// }

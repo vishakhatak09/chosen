@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { ToastrService } from 'core/services/toastr.service';
-import 'tinymce/tinymce.min.js';
-import { FormControl, Validators } from '@angular/forms';
-declare var tinymce: any;
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { CmsService } from '../cms.service';
+import { environment } from 'environments/environment';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-content-mgmt',
@@ -21,36 +23,97 @@ export class ContentMgmtComponent implements OnInit {
   }[] = [];
   public isLoading = false;
   tinyEditorConfig = {};
-  public aboutUsEditor = new FormControl('', [Validators.required]);
+  contentForm: FormGroup;
+  maxFileLength = 1;
+  contentData: any;
+
+  // private
+  private _unSubscriber: Subject<any> = new Subject();
+
+  // Apis
+  public baseUrl = environment.serverImagePath + 'template/';
+  public getContentUrl = environment.serverBaseUrl + 'admin/content/getContent';
+  public addContentUrl = environment.serverBaseUrl + 'admin/content/addContent';
+  public updateContentUrl = environment.serverBaseUrl + 'admin/content/updateContent';
 
   constructor(
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private _fb: FormBuilder,
+    private _cmsService: CmsService
   ) { }
 
+  // Prevent drag-drop of files in whole page
+  @HostListener('drag', ['$event'])
+  @HostListener('dragstart', ['$event'])
+  @HostListener('dragenter', ['$event'])
+  @HostListener('dragover', ['$event'])
+  @HostListener('dragleave', ['$event'])
+  @HostListener('dragend', ['$event'])
+  @HostListener('drop', ['$event'])
+  public handleDrop(event: DragEvent) {
+    event.preventDefault();
+  }
+  // Prevent drag-drop of files in whole page
+
   ngOnInit() {
-    this.setupTinyMce();
+
+    this.contentForm = this._fb.group({
+      image: [{ value: '', disabled: true }, Validators.required],
+      mainText: ['', Validators.required],
+      phraseText: ['', Validators.required]
+    });
+
+    this.getContent();
   }
 
-  private setupTinyMce(): void {
-    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
-    this.tinyEditorConfig = {
-      // selector: 'textarea#editorId',
-      // skin_url: '/skins', // Or loaded from your environments config
-      id: 'aboutUs',
-      suffix: '.min',       // Suffix to use when loading resources
-      plugins: 'lists advlist',
-      statusbar: false,
-      browser_spellcheck: true,
-      toolbar: 'bold italic underline | bullist numlist |  undo redo',
-      height: 300,
-      menubar: false,
-      header: false,
-    };
-    tinymce.init(this.tinyEditorConfig);
+  getContent(): void {
+
+    this._cmsService.getContentMgmtData(this.getContentUrl)
+      .pipe(takeUntil(this._unSubscriber))
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
   }
 
   onSubmit() {
-    console.log('submitted');
+    console.log('submitted', this.contentForm.value);
+    if (this.contentForm.valid) {
+      this.showLoading();
+
+      const formValue = this.contentForm.getRawValue();
+
+      const params: any = {
+        'params': {
+          image: this.imageArray[0].base64Url,
+          mainText: formValue.mainText,
+          phraseText: formValue.phraseText,
+        }
+      };
+
+      let api = this.addContentUrl;
+      if (this.contentData) {
+        params.params.id = this.contentData._id;
+        api = this.updateContentUrl;
+      }
+
+      this._cmsService.addUpdateContentMgmtData(api, params)
+        .pipe(takeUntil(this._unSubscriber))
+        .subscribe(
+          (response) => {
+            console.log('add/update response', response);
+            this.hideLoading();
+          },
+          error => {
+            this.hideLoading();
+            console.log(error);
+          });
+    }
   }
 
   /**
@@ -59,7 +122,7 @@ export class ContentMgmtComponent implements OnInit {
    */
   getFileData(files: FileList): void {
     // console.log('files', files);
-    if (files.length > 0 && this.imageFiles.length <= 7) {
+    if (files.length > 0 && this.imageFiles.length <= this.maxFileLength) {
       // this.imageFiles = files;
       for (let i = 0; i < files.length; i++) {
         const fileData: File = files[i];
@@ -67,7 +130,7 @@ export class ContentMgmtComponent implements OnInit {
           this._toastrService.displaySnackBar('Please select only image files', 'error');
           return;
         } else {
-          if (this.imageFiles.length < 7) {
+          if (this.imageFiles.length < this.maxFileLength) {
             this.imageFiles.push(files[i]);
             this.showLoading();
             const reader = new FileReader();
@@ -78,9 +141,10 @@ export class ContentMgmtComponent implements OnInit {
                 name: fileData.name,
               };
               this.imageArray.push(obj);
+              this.contentForm.get('image').setValue(fileData.name);
             });
           } else {
-            this._toastrService.displaySnackBar('Only 7 images are allowed to upload', 'error');
+            this._toastrService.displaySnackBar('Only 1 image is allowed to upload', 'error');
             this.hideLoading();
             return;
           }
@@ -89,7 +153,7 @@ export class ContentMgmtComponent implements OnInit {
       this.hideLoading();
       // console.log(this.imageFiles);
     } else if (this.imageFiles.length > 7) {
-      this._toastrService.displaySnackBar('You must upload upto 7 images', 'error');
+      this._toastrService.displaySnackBar('You must upload only 1 image', 'error');
     }
   }
 
@@ -100,6 +164,7 @@ export class ContentMgmtComponent implements OnInit {
   removeImage(index: number): void {
     this.imageArray.splice(index, 1);
     this.imageFiles.splice(index, 1);
+    this.contentForm.get('image').setValue(null);
   }
 
   showLoading(): void {

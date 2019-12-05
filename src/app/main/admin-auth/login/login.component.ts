@@ -56,6 +56,14 @@ export class AdLoginComponent implements OnInit, OnDestroy {
                 }
             }
         };
+
+        // Redirect if already login
+        // const currentUserValue = this._authService.currentUserValue;
+        // if (currentUserValue && currentUserValue.type && currentUserValue.type === 'admin') {
+        //     this._router.navigate(['/admin/dashboard']);
+        // } else {
+        //     this._router.navigate(['/user/templates']);
+        // }
     }
 
     // -----------------------------------------------------------------------------------------------------

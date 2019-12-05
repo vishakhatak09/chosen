@@ -4,24 +4,28 @@ import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { FuseSearchBarComponent } from './search-bar.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
         FuseSearchBarComponent
     ],
-    imports     : [
+    imports: [
         CommonModule,
         RouterModule,
 
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        FormsModule
     ],
-    exports     : [
+    exports: [
         FuseSearchBarComponent
     ]
 })
-export class FuseSearchBarModule
-{
+export class FuseSearchBarModule {
 }

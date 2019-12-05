@@ -9,7 +9,6 @@ import { AuthenticationService } from 'core/services/authentication.service';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AppConstant } from 'core/constants/app.constant';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -57,6 +56,14 @@ export class Login2Component implements OnInit, OnDestroy {
                 }
             }
         };
+
+        // // Redirect if already login
+        // const currentUserValue = this.authService.currentUserValue;
+        // if (currentUserValue && currentUserValue.type && currentUserValue.type === 'admin') {
+        //     this._router.navigate(['/user/dashboard']);
+        // } else {
+        //     this._router.navigate(['/user/templates']);
+        // }
     }
 
     // -----------------------------------------------------------------------------------------------------

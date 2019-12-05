@@ -11,10 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
+import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-    entryComponents: [ConfirmationDialogComponent],
-    declarations: [ConfirmationDialogComponent],
+    entryComponents: [ConfirmationDialogComponent, PreviewComponent],
+    declarations: [ConfirmationDialogComponent, PreviewComponent],
     imports: [
         CommonModule,
         FormsModule,
@@ -30,6 +32,7 @@ import { ConfirmationDialogComponent } from 'app/main/pages/common-components/co
         MatButtonModule,
         MatIconModule,
         MatRippleModule,
+        MatTooltipModule
     ],
     exports: [
         CommonModule,
@@ -45,6 +48,7 @@ import { ConfirmationDialogComponent } from 'app/main/pages/common-components/co
         MatButtonModule,
         MatIconModule,
         MatRippleModule,
+        MatTooltipModule
     ]
 })
 export class FuseSharedModule {
