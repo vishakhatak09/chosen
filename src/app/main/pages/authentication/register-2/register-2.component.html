@@ -2,30 +2,30 @@
 
     <div id="register-intro" class="pl-192 pt-220" fxFlex fxHide fxShow.gt-xs>
 
-        <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
-            <img src="assets/icons/chosen-logo.svg">
-        </div>
+        <!-- <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
+                <img src="assets/icons/chosen-logo.svg">
+            </div> -->
 
         <!-- <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
             Welcome to the Chosen you!
         </div>
-
+    
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
             Chosen is a site where you can build your resume with the best designs and help you to take first step with highly professional resume templates to get perfect job according to your profile. Chosen believes that resume is the first impression of job seekers / first step for getting the right job.
         </div> -->
 
     </div>
 
-    <div id="register-form-wrapper" fusePerfectScrollbar
-         [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+    <div id="register-form-wrapper" fxLayout="culumn" fxLayoutAlign=" center" fusePerfectScrollbar
+        [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
 
         <div id="register-form">
 
-            <div class="logo" fxHide.gt-xs>
+            <div class="logo ml-auto mr-auto mb-20">
                 <img src="assets/icons/chosen-logo.svg">
             </div>
 
-            <div class="title">CREATE AN ACCOUNT</div>
+            <div class="title text-center">CREATE AN ACCOUNT</div>
 
             <form name="registerForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()">
 
@@ -67,7 +67,7 @@
                         Password confirmation is required
                     </mat-error>
                     <mat-error *ngIf="!registerForm.get('passwordConfirm').hasError('required') &&
-                                       registerForm.get('passwordConfirm').hasError('passwordsNotMatching')">
+                                           registerForm.get('passwordConfirm').hasError('passwordsNotMatching')">
                         Passwords must match
                     </mat-error>
                 </mat-form-field>
@@ -80,8 +80,8 @@
                 </div>
 
                 <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT"
-                        [disabled]="registerForm.invalid ||  isLoading ||
-                            (registerForm.get('agreeTerms').value == null || registerForm.get('agreeTerms').value == false ) ">
+                    [disabled]="registerForm.invalid ||  isLoading ||
+                                (registerForm.get('agreeTerms').value == null || registerForm.get('agreeTerms').value == false ) ">
                     CREATE AN ACCOUNT
                 </button>
 

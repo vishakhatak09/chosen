@@ -76,9 +76,11 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
     }
 
     private _filter(value: string): JobModel[] {
-        const filterValue = value.toLowerCase();
+        if (typeof value === 'string') {
+            const filterValue = value.toLowerCase();
 
-        return this.options.filter(option => option.title.toLowerCase().includes(filterValue));
+            return this.options.filter(option => option.title.toLowerCase().includes(filterValue));
+        }
     }
 
     /**

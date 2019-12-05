@@ -14,52 +14,59 @@ import { fuseAnimations } from '@fuse/animations';
 import { ResumeMock } from 'core/mock/resume.mock';
 import { AdditionalModel, EducationModel, SkillRating, TemplateModel, WorkModel, SocialModel } from 'core/models/resumebuilder.model';
 import { ResumeBuilderService } from '../resumebuilder.service';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-resume-template',
-    // templateUrl: './resumetemplate.component.html',
-    template: `
-    <div  [innerHTML]="content">
-    </div>
-    `,
-    // styleUrls: ['./resumetemplate.component.scss'],
-    styles: [],
+    templateUrl: './resumetemplate.component.html',
+    // template: `
+    // <div  [innerHTML]="content">
+    // </div>
+    // `,
+    styleUrls: ['./resumetemplate.component.scss'],
+    // styles: [],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
 
 export class ResumeTemplateComponent implements OnInit, OnChanges {
 
-    // public str = String;
-    // public Arr = Array;
-    // public ratingMax = 5;
-    // public MockData = ResumeMock.data;
+    public str = String;
+    public Arr = Array;
+    public ratingMax = 5;
+    public MockData = ResumeMock.data;
 
-    // @Input() templateForm: TemplateModel;
-    // @Input() skillData: SkillRating[];
-    // @Input() experienceData: WorkModel[] = [];
-    // @Input() careerObjective: string;
-    // @Input() educationData: EducationModel[] = [];
-    // @Input() additionalInfo: AdditionalModel[] = [];
-    // @Input() public profileSrc: string | ArrayBuffer;
-    // @Input() socialData: SocialModel[] = [];
-    // // Template content
-    // @Input() content: string;
+    @Input() templateForm: TemplateModel;
+    @Input() skillData: SkillRating[] = [];
+    @Input() experienceData: WorkModel[] = [];
+    @Input() careerObjective: string | SafeHtml;
+    @Input() educationData: EducationModel[] = [];
+    @Input() additionalInfo: AdditionalModel[] = [];
+    @Input() public profileSrc: string | ArrayBuffer;
+    @Input() socialData: SocialModel[] = [];
+    // Template content
+    @Input() content: string;
 
-    // public safeInnerHtml: SafeHtml;
-    // public safeInnerCareerHtml: SafeHtml;
-    templateForm: any;
-    experienceData = [];
-    careerObjective: any;
-    educationData = [];
-    skillData = [];
-    additionalInfo = [];
-    socialData = [];
-    profileSrc: any;
-    content: any;
-    skillMockData = [];
-    fontColor: string;
-    backColor: string;
+    public safeInnerHtml: SafeHtml;
+    public safeInnerCareerHtml: SafeHtml;
+    public ResumeMockData = ResumeMock;
+    public experienceList: WorkModel[] = [];
+    public careerObj: string | SafeHtml;
+    public educationList: EducationModel[] = [];
+    public skillList: SkillRating[] = [];
+    public additionalList: AdditionalModel[] = [];
+    // templateForm: any;
+    // experienceData = [];
+    // careerObjective: any;
+    // educationData = [];
+    // skillData = [];
+    // additionalInfo = [];
+    // socialData = [];
+    // profileSrc: any;
+    // content: any;
+    // skillMockData = [];
+    @Input() fontColor: string;
+    @Input() backColor: string;
 
 
     /**
@@ -73,9 +80,9 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         private cdRef: ChangeDetectorRef,
         public hostElement: ElementRef
     ) {
-        if (this.content) {
-            this.content = this.domsanitizer.bypassSecurityTrustHtml(this.content);
-        }
+        // if (this.content) {
+        //     this.content = this.domsanitizer.bypassSecurityTrustHtml(this.content);
+        // }
     }
 
     // Disable ctrl + p, ctrl + c,  ctrl + v,  ctrl + x
@@ -106,7 +113,6 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
      * On init
      */
     ngOnInit() {
-
         // this.resumeBuilderService.templateData
         //     .subscribe((matData: any) => {
         //         if (matData) {
@@ -152,6 +158,41 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         //     );
         // }
         // this.setElementValues();
+        if (this.experienceData.length === 0) {
+            this.experienceList = ResumeMock.experienceData;
+        } else {
+            this.experienceList = this.experienceData;
+        }
+        if (this.careerObjective === undefined || this.careerObjective === '') {
+            this.careerObj = ResumeMock.data.careerObjective;
+        } else {
+            this.careerObj = this.careerObjective;
+        }
+        if (this.educationData.length === 0) {
+            this.educationList = ResumeMock.educationData;
+        } else {
+            this.educationList = this.educationData;
+        }
+        if (this.skillData.length === 0) {
+            this.skillList = ResumeMock.skillData;
+        } else {
+            this.skillList = this.skillData;
+        }
+        if (!this.fontColor) {
+            this.fontColor = 'rgba(0, 0, 0, 0.87)';
+        }
+        if (!this.backColor) {
+            this.backColor = '#e0e0e0';
+        }
+        const additionalDataList = _.clone(this.additionalInfo);
+        this.additionalList = additionalDataList.filter((info) => {
+            if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
+                if (info.value && info.value['changingThisBreaksApplicationSecurity']) {
+                    info.value = info.value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity'];
+                }
+            }
+            return info;
+        });
     }
 
     // getInnerHTMLValue() {
@@ -160,39 +201,4 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     //     );
     // }
 
-    // setElementValues(): void {
-    //     if (this.templateForm) {
-    //         const firstName = document.getElementById('firstName') as HTMLElement;
-    //         const lastName = document.getElementById('lastName') as HTMLElement;
-    //         const profileSrc: any = document.getElementById('profileSrc');
-    //         const email = document.getElementById('email') as HTMLElement;
-    //         const contactNumber = document.getElementById('contactNumber') as HTMLElement;
-    //         const fullAddress = document.getElementById('fullAddress') as HTMLElement;
-    //         const careerObjective: any = document.getElementById('careerObjective') as HTMLElement;
-    //         if (firstName) {
-    //             firstName.innerHTML = this.templateForm.firstName || this.MockData.firstName;
-    //         }
-    //         if (lastName) {
-    //             lastName.innerHTML = this.templateForm.lastName || this.MockData.lastName;
-    //         }
-    //         if (profileSrc) {
-    //             profileSrc.src = this.profileSrc || this.MockData.profileSrc;
-    //         }
-    //         if (email) {
-    //             email.innerHTML = this.templateForm.email || this.MockData.email;
-    //         }
-    //         if (contactNumber) {
-    //             contactNumber.innerHTML = this.templateForm.contactNumber || this.MockData.contactNumber;
-    //         }
-    //         if (fullAddress) {
-    //             fullAddress.innerHTML = this.templateForm.fullAddress || this.MockData.fullAddress;
-    //         }
-    //         if (careerObjective) {
-    //             // this.safeInnerCareerHtml = this.domsanitizer.bypassSecurityTrustHtml(
-    //             //     String(this.careerObjective || this.MockData.careerObjective)
-    //             // );
-    //             careerObjective.innerHTML = this.careerObjective || this.MockData.careerObjective;
-    //         }
-    //     }
-    // }
 }

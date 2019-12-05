@@ -1,30 +1,31 @@
 <div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
 
-    <div id="login-intro" class="pl-192 pt-220" fxFlex fxHide fxShow.gt-xs>
+    <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
 
-        <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
-            <img src="assets/icons/chosen-logo.svg">
-        </div>
+        <!-- <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
+                <img src="assets/icons/chosen-logo.svg">
+        </div> -->
 
         <!-- <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}" hidden>
             Welcome to the Chosen you!
         </div>
-
+    
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}" hidden>
             Chosen is a site where you can build your resume with the best designs and help you to take first step with highly professional resume templates to get perfect job according to your profile. Chosen believes that resume is the first impression of job seekers / first step for getting the right job.
         </div> -->
 
     </div>
 
-    <div id="login-form-wrapper" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+    <div id="login-form-wrapper" fxLayout="culumn" fxLayoutAlign=" center" fusePerfectScrollbar
+        [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
 
         <div id="login-form">
 
-            <div class="logo" fxHide.gt-xs>
+            <div class="logo ml-auto mr-auto mb-20">
                 <img src="assets/icons/chosen-logo.svg">
             </div>
 
-            <div class="title">LOGIN TO YOUR ACCOUNT</div>
+            <div class="title text-center">LOGIN TO YOUR ACCOUNT</div>
 
             <form name="loginForm" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
 
@@ -36,7 +37,7 @@
                         Email is required
                     </mat-error>
                     <mat-error *ngIf="!loginForm.get('email').hasError('required') &&
-                            loginForm.get('email').hasError('email')">
+                                loginForm.get('email').hasError('email')">
                         Please enter a valid email address
                     </mat-error>
                 </mat-form-field>
@@ -49,7 +50,7 @@
                         Password is required
                     </mat-error>
                     <mat-error *ngIf="!loginForm.get('password').hasError('required') &&
-                        loginForm.get('password').hasError('minlength')">
+                            loginForm.get('password').hasError('minlength')">
                         Please enter a valid password
                     </mat-error>
                 </mat-form-field>
@@ -77,16 +78,16 @@
             </div>
 
             <!-- <div fxLayout="column" fxLayoutAlign="start center">
-
-                <button mat-raised-button class="google">
-                    Log in with Google
-                </button>
-
-                <button mat-raised-button class="facebook">
-                    Log in with Facebook
-                </button>
-
-            </div> -->
+    
+                    <button mat-raised-button class="google">
+                        Log in with Google
+                    </button>
+    
+                    <button mat-raised-button class="facebook">
+                        Log in with Facebook
+                    </button>
+    
+                </div> -->
 
             <div class="register" fxLayout="column" fxLayoutAlign="center center">
                 <span class="text">Don't have an account?</span>

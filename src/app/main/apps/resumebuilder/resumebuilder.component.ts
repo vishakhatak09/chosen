@@ -56,6 +56,7 @@ import * as html2canvas from 'html2canvas';
 import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -187,7 +188,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     this.MockTemplate = templateMock;
     // // Generate dynamic component with html
     // setTimeout(() => {
-    //   this.generateRunTimeComponent();
+    //   // this.generateRunTimeComponent();
     //   this.cdRef.detectChanges();
     // }, 0);
   }
@@ -195,7 +196,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   ngAfterViewInit(): void {
     // Generate dynamic component with html
     setTimeout(() => {
-      this.generateRunTimeComponent();
+      // // this.generateRunTimeComponent();
       this.cdRef.detectChanges();
     }, 0);
   }
@@ -223,12 +224,13 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   templatePreview(): void {
     if (this.selectedIndex === 4 || this.selectedIndex === 5) {
-      this.generateRunTimeComponent(true);
+      // this.generateRunTimeComponent(true);
     }
     setTimeout(() => {
-      if (this.container) {
-        // const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
-        const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
+      if (this.templateContent) {
+        // if (this.container) {
+        const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
+        // const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
         this.matDialog.open(
           ResumePreviewComponent,
           {
@@ -292,7 +294,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     dialogRef.afterClosed().subscribe((data: WorkModel) => {
       if (data) {
         this.workExperienceData.push(data);
-        this.generateRunTimeComponent();
+        // // this.generateRunTimeComponent();
       }
     });
   }
@@ -310,7 +312,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     dialogRef.afterClosed().subscribe((data: EducationModel) => {
       if (data) {
         this.educationData.push(data);
-        this.generateRunTimeComponent();
+        // this.generateRunTimeComponent();
       }
     });
   }
@@ -336,7 +338,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         } else {
           this.educationData[index] = data;
         }
-        this.generateRunTimeComponent();
+        // this.generateRunTimeComponent();
       }
     });
   }
@@ -362,7 +364,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           } else {
             this.educationData.splice(index, 1);
           }
-          this.generateRunTimeComponent();
+          // this.generateRunTimeComponent();
         }
       });
     }
@@ -472,7 +474,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             }
             return info;
           });
-          this.generateRunTimeComponent(true);
+          // this.generateRunTimeComponent(true);
         }
       });
     } else {
@@ -481,7 +483,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       });
       if (index !== -1) {
         this.additionalInfoData.splice(index, 1);
-        this.generateRunTimeComponent(true);
+        // this.generateRunTimeComponent(true);
       }
     }
   }
@@ -506,7 +508,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           data.push(response);
         }
         this.additionalInfoData = data;
-        this.generateRunTimeComponent(true);
+        // this.generateRunTimeComponent(true);
       } else {
         this.additionalInfoData = data;
       }
@@ -527,7 +529,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       this.skillForm.get('skillType').markAsTouched();
       return;
     }
-    this.generateRunTimeComponent(true);
+    // this.generateRunTimeComponent(true);
     if (this.selectedIndex === 4) {
       const dialogRef = this.matDialog.open(
         ConfirmationDialogComponent,
@@ -563,17 +565,17 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     // );
     this.basicDetailForm.valueChanges
       .subscribe((_val) => {
-        this.generateRunTimeComponent();
+        // this.generateRunTimeComponent();
       });
 
     this.careerObjForm.valueChanges
       .subscribe((value) => {
-        this.generateRunTimeComponent();
+        // this.generateRunTimeComponent();
       });
 
     this.skillForm.valueChanges
       .subscribe((_val) => {
-        this.generateRunTimeComponent();
+        // this.generateRunTimeComponent();
       });
   }
 
@@ -666,7 +668,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
       data = {
         templateForm: basicDetail || ResumeMock.templateForm,
-        experienceData: this.workExperienceData.length > 0 ? this.workExperienceData : ResumeMock.experienceData,
+        experienceData: this.workExperienceData.length > 0 ? this.workExperienceData : ResumeMock.experienceData ,
         careerObjective: this.careerObjForm ? this.careerObjForm.get('careerObjective').value : ResumeMock.data.careerObjective,
         educationData: this.educationData.length > 0 ? this.educationData : ResumeMock.educationData,
         skillData: this.skillRatingList.length > 0 ? this.skillRatingList : ResumeMock.skillData,
@@ -740,6 +742,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       // const formValue = this.basicDetailForm.value;
       // const params = {
       //   'params': {
+      //     'id': '5ddab414f3f1c83f98392d8c',
       //     'personalInfo': {
       //       'firstName': formValue.firstName,
       //       'lastName': formValue.lastName,
@@ -761,7 +764,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       //   .pipe(takeUntil(this._unsubscribeAll))
       //   .subscribe(
       //     (response) => {
-      //       this.stepper.next();
+      //       // this.selectedIndex = this.selectedIndex + 1;
       //     },
       //     error => { }
       //   );

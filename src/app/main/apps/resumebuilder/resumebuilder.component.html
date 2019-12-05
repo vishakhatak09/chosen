@@ -56,7 +56,7 @@
 
                         <mat-step [stepControl]="basicDetailForm">
 
-                            <div class="tab-content pl-12">
+                            <div class="tab-content px-12">
                                 <form name="resume" [formGroup]="basicDetailForm">
                                     <ng-template matStepLabel>Personal Info</ng-template>
 
@@ -219,7 +219,7 @@
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
                                     [formGroup]="careerObjForm">
 
-                                    <div class="w-100-p">
+                                    <div class="w-100-p p-8">
                                         <ng-container *ngTemplateOutlet="editor"></ng-container>
                                         <ng-template matTabContent #editor>
                                             <editor [id]="'careerTextArea'" autofocus class="tiny-editor"
@@ -232,7 +232,7 @@
                                             </mat-error>
                                         </ng-template>
 
-                                        <div class="pt-12 pl-8 pb-4">
+                                        <div class="p-8">
                                             <button type="button" class="stepper-back" mat-raised-button
                                                 matStepperPrevious>Back</button>
                                             <button type="button" class="stepper-next ml-12" color="accent"
@@ -259,37 +259,40 @@
 
                                     <div class="w-100-p">
 
-                                        <div class="skill-content" fxLayout="row" fxLayoutAlign="start end">
-                                            <div class="work-content mat-elevation-z2"
+                                        <div class="skill-content p-8" fxLayout="row" fxLayoutAlign="start end">
+                                            <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%"
                                                 *ngFor="let data of workExperienceData; let index = index;">
-                                                <div class="w-100-p">
-                                                    <button mat-icon-button matTooltip="Delete"
-                                                        [matTooltipPosition]="'above'" class="action-buttons red-400-fg"
-                                                        (click)="deleteWorkExperience(index, 'work')">
-                                                        <mat-icon>delete</mat-icon>
-                                                    </button>
-                                                    &nbsp;
-                                                    <button mat-icon-button matTooltip="Edit"
-                                                        [matTooltipPosition]="'above'"
-                                                        class="action-buttons grey-500-fg"
-                                                        (click)="editWorkExperience(index, 'work')">
-                                                        <mat-icon>edit</mat-icon>
-                                                    </button>
-                                                </div>
-                                                <div class="w-100-p description">
-                                                    <span class="work-index">{{index+1}}</span>
-                                                    <span class="work-desc">
-                                                        <p>{{ data.designation }}</p>
-                                                        <p>{{ data.companyName }}</p>
-                                                        <p>{{ data.location }}</p>
-                                                        <p>{{data.joiningDate | date: 'LLLL yyyy'}} -
-                                                            {{data.leavingDate | date: 'LLLL yyyy'}}</p>
-                                                    </span>
+                                                <div class="work-content mat-elevation-z2 border">
+                                                    <div class="w-100-p">
+                                                        <button mat-icon-button matTooltip="Delete"
+                                                            [matTooltipPosition]="'above'"
+                                                            class="action-buttons red-400-fg"
+                                                            (click)="deleteWorkExperience(index, 'work')">
+                                                            <mat-icon>delete</mat-icon>
+                                                        </button>
+                                                        &nbsp;
+                                                        <button mat-icon-button matTooltip="Edit"
+                                                            [matTooltipPosition]="'above'"
+                                                            class="action-buttons grey-500-fg"
+                                                            (click)="editWorkExperience(index, 'work')">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                    <div class="w-100-p description">
+                                                        <span class="work-index">{{index+1}}</span>
+                                                        <span class="work-desc">
+                                                            <p>{{ data.designation }}</p>
+                                                            <p>{{ data.companyName }}</p>
+                                                            <p>{{ data.location }}</p>
+                                                            <p>{{data.joiningDate | date: 'LLLL yyyy'}} -
+                                                                {{data.leavingDate | date: 'LLLL yyyy'}}</p>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="skill-content" style='margin-top: 10px;'>
+                                        <div class="skill-content px-16">
                                             <button mat-button class="add-button" (click)="openWorkDialog()">
                                                 <mat-icon>add_to_photos</mat-icon> Add Position
                                             </button>
@@ -297,7 +300,7 @@
 
                                     </div>
 
-                                    <div class="pt-12 pl-8 pb-4">
+                                    <div class="p-16">
                                         <button type="button" class="stepper-back" mat-raised-button
                                             matStepperPrevious>Back</button>
                                         <button type="button" class="stepper-next ml-12" color="accent"
@@ -317,9 +320,9 @@
                                     <ng-template matStepLabel>Education Summary</ng-template>
                                     <div class="w-100-p">
 
-                                        <div class="skill-content" fxLayout="row" fxLayoutAlign="start end"
-                                            *ngFor="let data of educationData; let index = index;">
-                                            <div class="work-content mat-elevation-z2">
+                                        <div class="skill-content p-8" fxLayout="row" fxLayoutAlign="start end">
+                                            <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%" *ngFor="let data of educationData; let index = index;">
+                                                <div class="work-content mat-elevation-z2 border">
                                                 <div class="w-100-p">
                                                     <button mat-icon-button matTooltip="Delete"
                                                         [matTooltipPosition]="'above'" class="action-buttons red-400-fg"
@@ -343,16 +346,17 @@
                                                             {{ data.yearOfPassing | date: 'yyyy' }}</p>
                                                     </span>
                                                 </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="skill-content" style='margin-top: 10px;'>
+                                        <div class="skill-content px-16">
                                             <button mat-button class="add-button" (click)="openAddEducationModal()">
                                                 <mat-icon>add_to_photos</mat-icon> Add Degree
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="pt-12 pl-8 pb-4">
+                                    <div class="p-16">
                                         <button type="button" class="stepper-back" mat-raised-button
                                             matStepperPrevious>Back</button>
                                         <button type="button" class="stepper-next ml-12" color="accent"
@@ -526,13 +530,14 @@
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
                     fusePerfectScrollbar>
-                    <!-- <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()"
+                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()"
                         [experienceData]="workExperienceData"
                         [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData"
                         [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                        [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate">
-                    </app-resume-template> -->
-                    <div #container></div>
+                        [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate"
+                        [fontColor]="fontColor" [backColor]="backColor">
+                    </app-resume-template>
+                    <!-- <div #container></div> -->
                 </div>
 
             </div>

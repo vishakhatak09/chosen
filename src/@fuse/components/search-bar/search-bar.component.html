@@ -13,9 +13,9 @@
             (input)="search($event)" fxFlex [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                <div>
+                <!-- <div>
                     <img [src]="option.logo" style="height: 100px;">
-                </div>
+                </div> -->
                 <div style="padding: 30px;">
                     <div>
                         <span class="font-weight-800">{{option.title}}</span>
