@@ -5,6 +5,7 @@ import { environment } from 'environments/environment';
 import { TemplatesService } from './templates.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AdminTemplateModel } from 'core/models/admin-template.model';
 
 @Component({
   selector: 'app-templates',
@@ -15,22 +16,14 @@ import { Subject } from 'rxjs';
 })
 export class TemplatesComponent implements OnInit, OnDestroy {
 
+  public baseUrl = environment.serverImagePath + 'template/';
   templateUrl = environment.serverBaseUrl + 'api/template/templateList';
   view: string;
 
   // private
   private _unsubscribeAll: Subject<any> = new Subject();
 
-  templateData = [
-    'assets/images/templates/tp-1.png',
-    'assets/images/templates/tp-2.png',
-    'assets/images/templates/tp-3.png',
-    'assets/images/templates/tp-4.png',
-    'assets/images/templates/tp-4.png',
-    'assets/images/templates/tp-4.png',
-    'assets/images/templates/tp-4.png',
-    'assets/images/templates/tp-4.png',
-  ];
+  templateData: AdminTemplateModel[] = [];
 
   constructor(
     private router: Router,
@@ -60,8 +53,10 @@ export class TemplatesComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectTemplate(): void {
-    this.router.navigate(['/user/resumebuilder']);
+  selectTemplate(item: AdminTemplateModel): void {
+    if (item) {
+      this.router.navigate(['/user/' + item._id + '/resumebuilder']);
+    }
   }
 
   getTemplateList(): void {
@@ -70,10 +65,12 @@ export class TemplatesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (response) => {
-          console.log(response);
+          if (response.data) {
+            this.templateData = response.data;
+          }
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
         }
       );
 

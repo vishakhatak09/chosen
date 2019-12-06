@@ -8,8 +8,8 @@ export class CommonService {
 
   constructor() { }
 
-  getMomentFormattedDate(date: moment.Moment): string {
-    const dateString = date.format('DD/MM/YYYY');
+  getMomentFormattedDate(date: moment.Moment, format = 'MM/DD/YYYY'): string {
+    const dateString = date.format(format);
     return dateString;
   }
 

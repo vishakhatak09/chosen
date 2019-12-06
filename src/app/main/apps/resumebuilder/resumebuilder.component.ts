@@ -57,6 +57,7 @@ import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -72,7 +73,6 @@ import { takeUntil } from 'rxjs/operators';
 export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   public defaultProfile = environment.baseUrl + 'assets/images/logos/profile.jpg';
-  saveFirstStepApi = environment.serverBaseUrl + 'api/resume/resumeFirstStep';
   public profileSrc: string | ArrayBuffer;
   public profileFileName: string;
   public basicDetailForm: FormGroup;
@@ -117,6 +117,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   container: ViewContainerRef;
 
   private componentRef: ComponentRef<{}>;
+  public templateId: string;
+  public resumeId: string;
 
   /**
    * Constructor
@@ -134,7 +136,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     private authService: AuthenticationService,
     private commonService: CommonService,
     private componentFactoryResolver: ComponentFactoryResolver,
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
+    this.templateId = this.activatedRoute.snapshot.paramMap.get('id');
+    console.log('templateId', this.templateId);
+  }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -668,7 +675,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
       data = {
         templateForm: basicDetail || ResumeMock.templateForm,
-        experienceData: this.workExperienceData.length > 0 ? this.workExperienceData : ResumeMock.experienceData ,
+        experienceData: this.workExperienceData.length > 0 ? this.workExperienceData : ResumeMock.experienceData,
         careerObjective: this.careerObjForm ? this.careerObjForm.get('careerObjective').value : ResumeMock.data.careerObjective,
         educationData: this.educationData.length > 0 ? this.educationData : ResumeMock.educationData,
         skillData: this.skillRatingList.length > 0 ? this.skillRatingList : ResumeMock.skillData,
@@ -730,46 +737,153 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   formSubmit(): void {
     if (this.selectedIndex === 0) {
       this.savePersonalInfo();
+    } else if (this.selectedIndex === 1) {
+      this.saveCareerObjective();
+    } else if (this.selectedIndex === 2) {
+      this.saveWorkData();
+    } else if (this.selectedIndex === 3) {
+      this.saveEducation();
+    } else if (this.selectedIndex === 4) {
+      this.saveSkills();
     }
-    // console.log(this.basicDetailForm.getRawValue());
-    // console.log('skillRatingList', this.skillRatingList);
   }
 
   savePersonalInfo(): void {
 
     if (this.basicDetailForm.valid) {
-      this.selectedIndex = this.selectedIndex + 1;
-      // const formValue = this.basicDetailForm.value;
-      // const params = {
-      //   'params': {
-      //     'id': '5ddab414f3f1c83f98392d8c',
-      //     'personalInfo': {
-      //       'firstName': formValue.firstName,
-      //       'lastName': formValue.lastName,
-      //       'contactNumber': formValue.contactNumber,
-      //       'email': formValue.email,
-      //       'fullAddress': formValue.fullAddress,
-      //       'dateOfBirth': formValue.dateOfBirth ?
-      //         this.commonService.getMomentFormattedDate(formValue.dateOfBirth) : '',
-      //       'placeOfBirth': formValue.placeOfBirth,
-      //       'maritalStatus': formValue.maritalStatus,
-      //       'gender': formValue.gender,
-      //       'profileImage': this.profileSrc,
-      //       'socialLinks': this.socialLinkArray,
-      //     }
-      //   }
-      // };
+      // this.selectedIndex = this.selectedIndex + 1;
+      const formValue = this.basicDetailForm.value;
+      const params: any = {
+        'params': {
+          'personalInfo': {
+            'firstName': formValue.firstName,
+            'lastName': formValue.lastName,
+            'contactNumber': formValue.contactNumber,
+            'email': formValue.email,
+            'fullAddress': formValue.fullAddress,
+            'dateOfBirth': formValue.dateOfBirth ?
+              this.commonService.getMomentFormattedDate(formValue.dateOfBirth) : '',
+            'placeOfBirth': formValue.placeOfBirth,
+            'maritalStatus': formValue.maritalStatus,
+            'gender': formValue.gender,
+            'profileImage': this.profileSrc,
+            'socialLinks': this.socialLinkArray,
+          }
+        }
+      };
+      if (this.resumeId) {
+        params.params.id = this.resumeId;
+      } else {
+        params.params.templateId = this.templateId;
+      }
 
-      // this.resumeBuilderService.addUpdateResume(this.saveFirstStepApi, params)
-      //   .pipe(takeUntil(this._unsubscribeAll))
-      //   .subscribe(
-      //     (response) => {
-      //       // this.selectedIndex = this.selectedIndex + 1;
-      //     },
-      //     error => { }
-      //   );
+      this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveFirstStepApi, params)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe(
+          (response) => {
+            this.selectedIndex = this.selectedIndex + 1;
+            if (response.data._id) {
+              this.resumeId = response.data._id;
+            }
+          },
+          error => { }
+        );
 
     }
+
+  }
+
+  saveCareerObjective(): void {
+    const params = {
+      'params': {
+        'id': this.resumeId,
+        'careerObjective': this.careerObjForm.value.careerObjective
+      }
+    };
+    this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveSecondStepApi, params)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response) => {
+          this.selectedIndex = this.selectedIndex + 1;
+        },
+        error => { }
+      );
+
+  }
+
+  saveWorkData(): void {
+    const data = [];
+    if (this.workExperienceData) {
+      this.workExperienceData.forEach((record) => {
+        data.push({
+          'companyName': record.companyName,
+          'location': record.location,
+          'designation': record.designation,
+          'joiningDate': this.commonService.getMomentFormattedDate(record.joiningDate),
+          'leavingDate': this.commonService.getMomentFormattedDate(record.leavingDate),
+        });
+      });
+    }
+    const params = {
+      'params': {
+        'id': this.resumeId,
+        'workExperience': data
+      }
+    };
+    this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveThirdStepApi, params)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response) => {
+          this.selectedIndex = this.selectedIndex + 1;
+        },
+        error => { }
+      );
+  }
+
+  saveEducation(): void {
+    const data = [];
+    if (this.educationData) {
+      this.educationData.forEach((record) => {
+        data.push({
+          'collegeName': record.collegeName,
+          'universityName': record.universityName,
+          'courseName': record.courseName,
+          'yearOfPassing': this.commonService.getMomentFormattedDate(record.yearOfPassing),
+        });
+      });
+    }
+    const params = {
+      'params': {
+        'id': this.resumeId,
+        'educationHistory': data
+      }
+    };
+    this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveFourthStepApi, params)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response) => {
+          this.selectedIndex = this.selectedIndex + 1;
+        },
+        error => { }
+      );
+  }
+
+  saveSkills(): void {
+
+    const params = {
+      'params': {
+        'id': this.resumeId,
+        'skills': this.skillRatingList
+      }
+    };
+    this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveFifthStepApi, params)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response) => {
+          this.selectedIndex = this.selectedIndex + 1;
+        },
+        error => { }
+      );
 
   }
 

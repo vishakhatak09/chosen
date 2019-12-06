@@ -28,17 +28,16 @@
 
                 <div class="fuse-card">
 
-                    <img [src]="item" (click)="selectTemplate()">
+                    <img [src]="baseUrl + item.image" (click)="selectTemplate(item)">
                     <!-- <span class="use-template">Use this template</span> -->
 
                     <div class="pl-16" style="align-self: flex-start;">
-                        <div class="h3"><strong>Basic</strong></div>
+                        <div class="h3"><strong>{{ item.title }}</strong></div>
                         <!-- <div class="h4 secondary-text">Free on Thursdays</div> -->
                     </div>
 
                     <div class="p-16 pt-4 line-height-1.75 font-size-12">
-                        Easily personalize this basic resume layout that can be completed in under ten minutes
-                        through our intuitive process.
+                        {{ item.description }}
                     </div>
 
                 </div>

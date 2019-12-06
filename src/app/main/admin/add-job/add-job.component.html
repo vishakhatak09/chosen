@@ -1,1 +1,75 @@
-<p>add-job works!</p>
+<div id="add-job" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+            fxLayoutAlign.gt-xs="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon s-30 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    folder_open
+                </mat-icon>
+                <span class="logo-text h3" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Add Job Data
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <div class="content">
+
+                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar>
+
+                    <div class="tab-content pl-12 h-100-p">
+
+                        <form class="template-form ml-12 mt-16" fxLayout="row wrap" [formGroup]="addJobForm"
+                            fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
+                                <input matInput type="text" placeholder="Enter Job Title" name="jobTitle"
+                                    formControlName="title" autocomplete="off" required>
+                                <mat-error *ngIf="addJobForm.get('title').hasError('required')">
+                                    Please enter job title
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <input matInput type="text" placeholder="Enter Job Description" name="jobDescription"
+                                    formControlName="description" autocomplete="off" required>
+                                <mat-error *ngIf="addJobForm.get('description').hasError('required')">
+                                    Please enter job description
+                                </mat-error>
+                            </mat-form-field>
+
+                            <div class="pt-12 pl-8 pb-4">
+                                <button type="submit" class="stepper-back" color="primary" mat-raised-button
+                                    [disabled]="isLoading || addJobForm.invalid">
+                                    <span *ngIf="!contentData">Save</span>
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

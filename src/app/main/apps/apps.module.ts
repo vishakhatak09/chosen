@@ -16,7 +16,7 @@ const routes: Routes = [
         loadChildren: './resume/resume.module#ResumeModule'
     },
     {
-        path: 'resumebuilder',
+        path: ':id/resumebuilder',
         loadChildren: './resumebuilder/resumebuilder.module#ResumebuilderModule'
     },
     {

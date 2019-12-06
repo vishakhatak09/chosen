@@ -1,3 +1,5 @@
+import { environment } from 'environments/environment';
+
 export class AppConstant {
 
     public static MaritalStatusOptions: OptionType[] = [
@@ -158,6 +160,14 @@ export class AppConstant {
             // dateA11yLabel: 'LL',
             monthYearA11yLabel: 'MMMM YYYY',
         },
+    };
+
+    public static ResumeFormApi = {
+        saveFirstStepApi: environment.serverBaseUrl + 'api/resume/resumeFirstStep',
+        saveSecondStepApi: environment.serverBaseUrl + 'api/resume/resumeSecondStep',
+        saveThirdStepApi: environment.serverBaseUrl + 'api/resume/resumeThirdStep',
+        saveFourthStepApi: environment.serverBaseUrl + 'api/resume/resumeForthStep',
+        saveFifthStepApi: environment.serverBaseUrl + 'api/resume/resumeFifthStep',
     };
 }
 

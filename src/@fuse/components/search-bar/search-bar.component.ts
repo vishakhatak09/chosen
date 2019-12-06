@@ -3,8 +3,8 @@ import { Subject, Observable } from 'rxjs';
 import { takeUntil, startWith, map } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
-import { JobModel } from './search-bar';
 import { FormControl } from '@angular/forms';
+import { JobModel } from 'core/models/job.model';
 
 @Component({
     selector: 'fuse-search-bar',

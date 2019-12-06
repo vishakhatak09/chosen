@@ -5,8 +5,26 @@
 @import "app/app.theme";
 
 // Rating bar theme
-@import '~ngx-bar-rating/themes/br-default-theme';
-@import '~ngx-bar-rating/themes/br-square-theme';
-@import '~ngx-bar-rating/themes/br-movie-theme';
-@import '~ngx-bar-rating/themes/br-stars-theme';
+@import "~ngx-bar-rating/themes/br-default-theme";
+@import "~ngx-bar-rating/themes/br-square-theme";
+@import "~ngx-bar-rating/themes/br-movie-theme";
+@import "~ngx-bar-rating/themes/br-stars-theme";
 // Rating bar theme
+
+.cdk-overlay-pane {
+  .mat-autocomplete-panel.mat-autocomplete-visible {
+    .mat-option {
+      height: 120px !important;
+
+      .mat-option-text {
+        display: flex !important;
+        flex-grow: 1 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+      }
+    }
+  }
+}

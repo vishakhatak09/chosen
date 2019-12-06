@@ -10,6 +10,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JobMgmtComponent } from './job-mgmt.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { JobMgmtService } from './job-mgmt.service';
 
 const routes: Routes = [
   {
@@ -31,6 +33,10 @@ const routes: Routes = [
     MatPaginatorModule,
     MatInputModule,
     MatTooltipModule,
+    MatDialogModule
+  ],
+  providers: [
+    JobMgmtService
   ]
 })
 export class JobMgmtModule { }

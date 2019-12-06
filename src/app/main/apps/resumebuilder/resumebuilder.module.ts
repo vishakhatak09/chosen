@@ -27,12 +27,15 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 // import { Template1Component } from 'core/components/template1/template1.component';
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 import { CommonService } from 'core/services/common.service';
+import { ResumeBuilderResolver } from './resumebuilder.resolver';
 
 const routes: Routes = [
   {
     path: '',
     component: ResumebuilderComponent,
-    children: [],
+    resolve: {
+      data: ResumeBuilderResolver
+    }
   }
 ];
 
@@ -74,7 +77,7 @@ const routes: Routes = [
 
     EditorModule
   ],
-  providers: [ResumeBuilderService, CommonService],
+  providers: [ResumeBuilderService, CommonService, ResumeBuilderResolver],
   schemas: []
 })
 export class ResumebuilderModule { }

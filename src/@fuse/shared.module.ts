@@ -13,6 +13,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
 import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor, ErrorInterceptor } from 'core/interceptors';
 
 @NgModule({
     entryComponents: [ConfirmationDialogComponent, PreviewComponent],
@@ -49,6 +51,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatIconModule,
         MatRippleModule,
         MatTooltipModule
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ]
 })
 export class FuseSharedModule {
