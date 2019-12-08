@@ -9,45 +9,27 @@
     <!-- CONTENT -->
     <div class="content">
 
-        <div class="cards">
+        <div class="card-preview p-12" fxLayout="row wrap">
+            <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%">
+                <div class="fuse-card">
 
-            <!-- CARD 1 -->
-            <div class="card">
+                    <img class="resume-img" [src]="'assets/images/templates/tp-1.png'">
+                    <div class="hover-box">
+                        <button mat-mini-fab>
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
 
-                <!-- PREVIEW -->
-                <div class="card-preview">
+                        <button mat-mini-fab>
+                            <mat-icon>edit</mat-icon>
+                        </button>
 
-                    <div class="fuse-card m-12">
-
-                        <img class="resume-img" [src]="'assets/images/templates/tp-1.png'">
-
-                        <div class="px-16 py-4 w-100-p" fxLayout="row" fxLayoutAlign="end center">
-                            <button mat-icon-button aria-label="view" matTooltip="View"
-                                [matTooltipPosition]="'above'">
-                                <mat-icon>remove_red_eye</mat-icon>
-                            </button>
-
-                            <button mat-icon-button aria-label="edit" matTooltip="Edit"
-                            [matTooltipPosition]="'above'">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-
-                            <button mat-icon-button aria-label="delete" matTooltip="Delete"
-                            [matTooltipPosition]="'above'">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-
+                        <button mat-mini-fab>
+                            <mat-icon>delete</mat-icon>
+                        </button>
                     </div>
 
                 </div>
-                <!-- / PREVIEW -->
-
-
-
             </div>
-            <!-- / CARD 1 -->
-
         </div>
 
     </div>

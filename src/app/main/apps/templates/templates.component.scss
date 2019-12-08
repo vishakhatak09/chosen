@@ -1,8 +1,50 @@
 @import "src/@fuse/scss/fuse";
-
 app-templates {
-  .fuse-card {
-    max-width: initial;
-    min-width: auto;
-  }
+    .fuse-card {
+        max-width: initial;
+        min-width: auto;
+        position: relative;
+        .hover-box {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 500ms;
+            opacity: 0;
+            &:after,
+            &:before {
+                background: rgba(0, 0, 0, 0.5);
+                content: "";
+                position: absolute;
+                height: 0;
+                width: 100%;
+                transition: 300ms;
+            }
+            &:before {
+                top: 0;
+            }
+            &:after {
+                bottom: 0;
+            }
+            button {
+                color: #0e9472;
+                font-weight: 700;
+                position: relative;
+                z-index: 1;
+            }
+        }
+        &:hover {
+            .hover-box {
+                opacity: 1;
+                &:after,
+                &:before {
+                    height: 50%;
+                }
+            }
+        }
+    }
 }

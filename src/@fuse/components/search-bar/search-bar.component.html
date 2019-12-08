@@ -3,20 +3,58 @@
     <div class="fuse-search-bar-content">
 
         <label for="fuse-search-bar-input">
+                
             <button mat-icon-button class="fuse-search-bar-expander" aria-label="Expand Search Bar" (click)="expand()"
                 *ngIf="collapsed">
                 <mat-icon class="s-24 secondary-text">search</mat-icon>
             </button>
         </label>
-
-        <input id="fuse-search-bar-input" class="ml-24" type="text" placeholder="Search" [formControl]="searchBox"
-            (input)="search($event)" fxFlex [matAutocomplete]="auto">
+        <div class="border-left" *ngIf="collapsed">
+            <button mat-icon-button class="fuse-search-bar-expander">
+                    <mat-icon class="s-24 secondary-text">filter_list</mat-icon>
+                </button>
+        </div>
+        <input id="fuse-search-bar-input" class="ml-24" type="text" placeholder="Search" [formControl]="searchBox" (input)="search($event)" fxFlex [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            <mat-option class="search-list border-bottom p-16" *ngFor="let option of filteredOptions | async" [value]="option">
                 <!-- <div>
                     <img [src]="option.logo" style="height: 100px;">
                 </div> -->
-                <div class="w-80-p p-32">
+                <div class="img-box border mr-16">
+                    <img src="assets/images/logos/fuse.svg">
+                </div>
+                <div class="desc" fxLayout="row wrap" fxLayoutAlign=" start">
+                    <div class="l-n" fxLayout="column" fxFlex="100%" fxFlex.gt-xs="100%" fxFlex.gt-sm="100%">
+                        <span class="text-warp primary-900-fg font-weight-800">{{option.title}}</span>
+                        <span class="hint-text">Abc thecnho Pvt</span>
+                    </div>
+                    <div class="pr-16 mt-8 l-n" fxLayout="row">
+                        <div class="icon">
+                            <mat-icon class="mr-8">schedule</mat-icon>
+                        </div>
+                        <span class="text-warp secondary-text">5-8 yrs</span>
+                    </div>
+                    <div class="pr-16 mt-8 l-n" fxLayout="row">
+                        <div class="icon">
+                            <mat-icon class="mr-8">room</mat-icon>
+                        </div>
+                        <span class="text-warp secondary-text">Ahmedabad</span>
+                    </div>
+                    <div class="pr-16 mt-8 l-n" fxLayout="row">
+                        <div class="icon">
+                            <mat-icon class="mr-8">account_balance_wallet</mat-icon>
+                        </div>
+                        <span class="text-warp secondary-text">NRI  9,00,000 - 15,00,000 PA</span>
+                    </div>
+                    <div class="pr-16 mt-8 l-n" fxLayout="row" fxFlex="100%" fxFlex.gt-xs="100%" fxFlex.gt-sm="100%">
+                        <div class="icon">
+                            <mat-icon class="mr-8">layers</mat-icon>
+                        </div>
+                        <span class="secondary-text skill">jQuery, Unix, server, code, analytical, mca, analytics, spring, Core Java</span>
+                    </div>
+
+                </div>
+                <!-- <div class="w-80-p p-32">
                     <div>
                         <span class="font-weight-800">{{option.title}}</span>
                     </div>
@@ -35,7 +73,7 @@
                         <mat-icon class="s-24 secondary-text">add_box
                             </mat-icon>
                     </button>
-                </div>
+                </div> -->
             </mat-option>
         </mat-autocomplete>
 

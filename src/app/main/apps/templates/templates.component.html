@@ -23,12 +23,13 @@
 
         <div class="card-preview p-12" fxLayout="row wrap">
 
-            <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%"
-                *ngFor="let item of templateData">
+            <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%" *ngFor="let item of templateData">
 
                 <div class="fuse-card">
-
-                    <img [src]="baseUrl + item.image" (click)="selectTemplate(item)">
+                    <div class="hover-box">
+                        <button (click)="selectTemplate(item)" mat-raised-button>Choose Temmplate</button>
+                    </div>
+                    <img [src]="baseUrl + item.image">
                     <!-- <span class="use-template">Use this template</span> -->
 
                     <div class="pl-16" style="align-self: flex-start;">
