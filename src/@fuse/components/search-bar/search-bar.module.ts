@@ -8,6 +8,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { FuseSearchBarComponent } from './search-bar.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FuseSharedModule } from '@fuse/shared.module';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
         MatIconModule,
         MatAutocompleteModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        FuseSharedModule
     ],
     exports: [
         FuseSearchBarComponent

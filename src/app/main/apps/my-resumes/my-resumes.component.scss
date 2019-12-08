@@ -1,35 +1,57 @@
 @import "src/@fuse/scss/fuse";
-
 app-my-resumes {
-  .content {
-    .cards {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      align-items: flex-start;
-
-      .card {
-        display: flex;
-        align-items: flex-start;
-        padding: 24px 24px 48px 24px;
-        margin-bottom: 96px;
-
-        .card-preview {
-          display: flex;
-          min-width: 320px;
-          flex-wrap: wrap;
-          justify-content: space-evenly;
+    .fuse-card {
+        max-width: initial;
+        min-width: auto;
+        position: relative;
+        .hover-box {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 500ms;
+            opacity: 0;
+            &:after,
+            &:before {
+                background: rgba(0, 0, 0, 0.5);
+                content: "";
+                position: absolute;
+                height: 0;
+                width: 100%;
+                transition: 300ms;
+            }
+            &:before {
+                top: 0;
+            }
+            &:after {
+                bottom: 0;
+            }
+            button {
+                background-color: #fff !important;
+                position: relative;
+                z-index: 1;
+                margin: 0 5px;
+                .mat-button-wrapper {
+                    padding: 0;
+                    font-size: 18px;
+                }
+                mat-icon {
+                    color: #0e9472;
+                }
+            }
         }
-
-        .card-source {
-          display: none;
+        &:hover {
+            .hover-box {
+                opacity: 1;
+                &:after,
+                &:before {
+                    height: 50%;
+                }
+            }
         }
-      }
     }
-  }
 }
-
-.resume-img {
-    height: 350px;
-  }

@@ -13,8 +13,7 @@
             <!-- APP TITLE -->
             <div fxLayout="row" fxLayoutAlign="start center">
 
-                <div fxLayout="column" fxLayoutAlign="start start"
-                    [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" hidden>
+                <div fxLayout="column" fxLayoutAlign="start start" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" hidden>
 
                     <div class="subtitle secondary-text" hidden>
                         <span>
@@ -28,13 +27,11 @@
             <!-- <button mat-raised-button type="button" (click)="formSubmit()" class="save-product-button">
                 <span>SAVE</span>
             </button> -->
-            <div>
-                <button mat-button type="button" matTooltip="Preview" [matTooltipPosition]="'above'"
-                    (click)="templatePreview()" class="save-product-button">
+            <div class="top-button">
+                <button mat-mini-fab type="button" matTooltip="Preview" [matTooltipPosition]="'above'" (click)="templatePreview()" class="save-product-button">
                     <mat-icon>remove_red_eye</mat-icon>
                 </button>
-                <button *ngIf="allowDownload" mat-button type="button" matTooltip="Download"
-                    [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf()">
+                <button *ngIf="allowDownload" mat-mini-fab type="button" matTooltip="Download" [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf()">
                     <mat-icon>picture_as_pdf</mat-icon>
                 </button>
             </div>
@@ -50,9 +47,7 @@
 
                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
 
-                    <mat-vertical-stepper [linear]="isLinear" #stepper fxFlex="100" fxFlex.gt-xs="100"
-                        fxFlex.gt-md="100" fusePerfectScrollbar [selectedIndex]="selectedIndex"
-                        (selectionChange)="stepChange($event)">
+                    <mat-vertical-stepper [linear]="isLinear" #stepper fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar [selectedIndex]="selectedIndex" (selectionChange)="stepChange($event)">
 
                         <mat-step [stepControl]="basicDetailForm">
 
@@ -61,8 +56,7 @@
                                     <ng-template matStepLabel>Personal Info</ng-template>
 
                                     <div class="w-100-p upload-class">
-                                        <input type="file" #file hidden accept="image/*"
-                                            (change)="getFileData($event.target.files)">
+                                        <input type="file" #file hidden accept="image/*" (change)="getFileData($event.target.files)">
                                         <button class="upload-btn" type="button" mat-icon-button (click)="file.click()">
                                             <mat-icon>cloud_upload</mat-icon> Upload Profile Image
                                         </button>
@@ -72,8 +66,7 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>First Name</mat-label>
-                                        <input matInput placeholder="First Name" type="text" name="firstName"
-                                            formControlName="firstName" autocomplete="off" required>
+                                        <input matInput placeholder="First Name" type="text" name="firstName" formControlName="firstName" autocomplete="off" required>
                                         <mat-error *ngIf="basicDetailForm.get('firstName').hasError('required')">
                                             First name is required
                                         </mat-error>
@@ -81,8 +74,7 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Last Name</mat-label>
-                                        <input matInput placeholder="Last Name" type="text" name="lastName"
-                                            formControlName="lastName" autocomplete="off" required>
+                                        <input matInput placeholder="Last Name" type="text" name="lastName" formControlName="lastName" autocomplete="off" required>
                                         <mat-error *ngIf="basicDetailForm.get('lastName').hasError('required')">
                                             Last name is required
                                         </mat-error>
@@ -90,9 +82,7 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Contact Number</mat-label>
-                                        <input matInput placeholder="Contact Number" name="contactNumber"
-                                            formControlName="contactNumber" autocomplete="off" maxlength="10"
-                                            (keypress)=_keyPress($event) required>
+                                        <input matInput placeholder="Contact Number" name="contactNumber" formControlName="contactNumber" autocomplete="off" maxlength="10" (keypress)=_keyPress($event) required>
                                         <mat-error *ngIf="basicDetailForm.get('contactNumber').hasError('required')">
                                             Contact number is required
                                         </mat-error>
@@ -115,8 +105,7 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Full Address</mat-label>
-                                        <textarea matInput placeholder="Full Address" name="FullAddress"
-                                            formControlName="fullAddress" autocomplete="off" required>
+                                        <textarea matInput placeholder="Full Address" name="FullAddress" formControlName="fullAddress" autocomplete="off" required>
                                         </textarea>
                                         <mat-error *ngIf="basicDetailForm.get('fullAddress').hasError('required')">
                                             Full address is required
@@ -125,8 +114,7 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Designation</mat-label>
-                                        <input matInput placeholder="Designation" type="text" name="designation"
-                                            formControlName="designation" autocomplete="off" required>
+                                        <input matInput placeholder="Designation" type="text" name="designation" formControlName="designation" autocomplete="off" required>
                                         <mat-error *ngIf="basicDetailForm.get('designation').hasError('required')">
                                             Designation is required
                                         </mat-error>
@@ -134,18 +122,14 @@
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>D.O.B</mat-label>
-                                        <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate"
-                                            formControlName="dateOfBirth" autocomplete="off"
-                                            (click)="handlePicker($event, picker)"
-                                            (keydown)="handlePicker($event, picker, true)">
+                                        <input matInput [matDatepicker]="picker" name="DOB" [max]="maxDate" formControlName="dateOfBirth" autocomplete="off" (click)="handlePicker($event, picker)" (keydown)="handlePicker($event, picker, true)">
                                         <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker disabled="false"></mat-datepicker>
                                     </mat-form-field>
 
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Place Of Birth</mat-label>
-                                        <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth"
-                                            formControlName="placeOfBirth" autocomplete="off">
+                                        <input matInput placeholder="Place Of Birth" type="text" name="PlaceOfBirth" formControlName="placeOfBirth" autocomplete="off">
                                     </mat-form-field>
 
                                     <div class="w-100-p">
@@ -163,10 +147,8 @@
                                         <mat-label class="example-radio-group-label">
                                             Gender:
                                         </mat-label>
-                                        <mat-radio-group aria-labelledby="example-radio-group-label"
-                                            class="form-radio-group" formControlName="gender">
-                                            <mat-radio-button class="form-radio-button"
-                                                *ngFor="let status of genderOptions" [value]="status.value">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label" class="form-radio-group" formControlName="gender">
+                                            <mat-radio-button class="form-radio-button" *ngFor="let status of genderOptions" [value]="status.value">
                                                 {{status.viewValue}}&nbsp;
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -181,8 +163,7 @@
                                     <div class="w-100-p" *ngFor="let social of socialLinkArray; let i = index">
                                         <mat-form-field floatLabel="always" class="w-45-p" appearance="outline">
                                             <mat-label>Website</mat-label>
-                                            <mat-select placeholder="Select Website" [(value)]="social.website"
-                                                required>
+                                            <mat-select placeholder="Select Website" [(value)]="social.website" required>
                                                 <mat-option [value]="site" *ngFor="let site of socialSites">
                                                     {{ site }}
                                                 </mat-option>
@@ -191,12 +172,9 @@
                                         &nbsp;
                                         <mat-form-field floatLabel="always" class="w-45-p" appearance="outline">
                                             <mat-label>Link</mat-label>
-                                            <input matInput placeholder="Social Link" #linkUrl
-                                                (change)="social.link = linkUrl.value" [(value)]="social.link"
-                                                type="text" name="socialLink" [pattern]="urlPattern" autocomplete="off">
+                                            <input matInput placeholder="Social Link" #linkUrl (change)="social.link = linkUrl.value" [(value)]="social.link" type="text" name="socialLink" [pattern]="urlPattern" autocomplete="off">
                                         </mat-form-field>
-                                        <button mat-button type="button" class="red-400-fg social-del"
-                                            (click)="removeSocialLink(i)" *ngIf="socialLinkArray.length > 1">
+                                        <button mat-button type="button" class="red-400-fg social-del" (click)="removeSocialLink(i)" *ngIf="socialLinkArray.length > 1">
                                             <mat-icon>delete</mat-icon>
                                         </button>
 
@@ -215,15 +193,12 @@
                             <ng-template matStepLabel>Career Objective</ng-template>
 
                             <div class="tab-content" *ngIf="selectedIndex == 1">
-                                <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
-                                    [formGroup]="careerObjForm" (ngSubmit)="formSubmit()">
+                                <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume" [formGroup]="careerObjForm">
 
                                     <div class="w-100-p p-8">
                                         <ng-container *ngTemplateOutlet="editor"></ng-container>
                                         <ng-template matTabContent #editor>
-                                            <editor [id]="'careerTextArea'" autofocus class="tiny-editor"
-                                                [init]="tinyEditorConfig" placeholder="Career objective"
-                                                [formControlName]="'careerObjective'" tagName="textarea">
+                                            <editor [id]="'careerTextArea'" autofocus class="tiny-editor" [init]="tinyEditorConfig" placeholder="Career objective" [formControlName]="'careerObjective'" tagName="textarea">
                                             </editor>
                                             <mat-error *ngIf="careerObjForm.get('careerObjective').touched && 
                                                 careerObjForm.get('careerObjective').value == '' ">
@@ -259,8 +234,7 @@
                                     <div class="w-100-p">
 
                                         <div class="skill-content p-8" fxLayout="row" fxLayoutAlign="start end">
-                                            <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%"
-                                                *ngFor="let data of workExperienceData; let index = index;">
+                                            <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%" *ngFor="let data of workExperienceData; let index = index;">
                                                 <div class="work-content mat-elevation-z2 border">
                                                     <div class="w-100-p">
                                                         <button type="button" mat-icon-button matTooltip="Delete"
@@ -335,16 +309,16 @@
                                                         (click)="editWorkExperience(index, 'education')">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
-                                                </div>
-                                                <div class="w-100-p description">
-                                                    <span class="work-index">{{index+1}}</span>
-                                                    <span class="work-desc">
+                                                    </div>
+                                                    <div class="w-100-p description">
+                                                        <span class="work-index">{{index+1}}</span>
+                                                        <span class="work-desc">
                                                         <p>{{ data.courseName }}</p>
                                                         <p>{{ data.collegeName }}</p>
                                                         <p>{{ data.universityName }} ,
                                                             {{ data.yearOfPassing | date: 'yyyy' }}</p>
                                                     </span>
-                                                </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -385,11 +359,9 @@
                                     </mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)"
-                                    *ngIf=" skillForm.get('skillType').value == 'basicWithRating' ">
+                                <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" *ngIf=" skillForm.get('skillType').value == 'basicWithRating' ">
                                     <mat-label> Choose your selection for adding skills</mat-label>
-                                    <mat-select [(ngModel)]="ratingStyle" placeholder="Select"
-                                        [ngModelOptions]="{standalone: true}" required>
+                                    <mat-select [(ngModel)]="ratingStyle" placeholder="Select" [ngModelOptions]="{standalone: true}" required>
                                         <mat-option [value]="skills.value" *ngFor="let skills of ratingThemeList">
                                             {{ skills.viewValue }}
                                         </mat-option>
@@ -398,30 +370,22 @@
 
                                 <div fxFlex="50" *ngIf=" skillForm.get('skillType').value == 'basicStyled' ">
                                     <span class="mt-16 mb-8">Font Color: </span>
-                                    <fuse-material-color-picker class="mb-16" [color]="defaultColor"
-                                        (colorChanged)="fontColor =  $event.bg">
+                                    <fuse-material-color-picker class="mb-16" [color]="defaultColor" (colorChanged)="fontColor =  $event.bg">
                                     </fuse-material-color-picker>
                                     &nbsp;
                                     <span class="mt-16 mb-8">Back Color: </span>
-                                    <fuse-material-color-picker class="mb-16" [color]="defaultColor"
-                                        (colorChanged)="backColor =  $event.bg">
+                                    <fuse-material-color-picker class="mb-16" [color]="defaultColor" (colorChanged)="backColor =  $event.bg">
                                     </fuse-material-color-picker>
                                 </div>
 
                                 <div fxFlex="100" *ngIf="skillForm.get('skillType').value ">
                                     <mat-form-field class="w-50-p">
-                                        <input matInput [matChipInputFor]="skillList" placeholder="Add Skill.."
-                                            [matChipInputAddOnBlur]="true" autocomplete="off"
-                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                            (matChipInputTokenEnd)="addSkills($event)" formControlName="skillInput" />
+                                        <input matInput [matChipInputFor]="skillList" placeholder="Add Skill.." [matChipInputAddOnBlur]="true" autocomplete="off" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addSkills($event)" formControlName="skillInput" />
                                     </mat-form-field>
                                     <mat-chip-list #skillList name="Skills" class="w-100-p">
 
-                                        <ng-container
-                                            *ngIf="skillForm.get('skillType').value != 'basicWithRating' ; else elseTemplate">
-                                            <mat-chip tabindex="-1"
-                                                *ngFor="let skills of skillRatingList; let index=index;"
-                                                [removable]="true" (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
+                                        <ng-container *ngIf="skillForm.get('skillType').value != 'basicWithRating' ; else elseTemplate">
+                                            <mat-chip tabindex="-1" *ngFor="let skills of skillRatingList; let index=index;" [removable]="true" (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
                                                     'background-color' : backColor}">
                                                 {{skills.skillName}}
                                                 <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel
@@ -431,19 +395,15 @@
 
                                         <ng-template #elseTemplate>
 
-                                            <div class="w-100-p flex-display"
-                                                *ngFor="let skills of skillRatingList; let index=index;">
-                                                <mat-chip tabindex="-1" [removable]="true"
-                                                    (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
+                                            <div class="w-100-p flex-display" *ngFor="let skills of skillRatingList; let index=index;">
+                                                <mat-chip tabindex="-1" [removable]="true" (removed)="removeSkillItem(index)" [ngStyle]="{'color': fontColor , 
                                                     'background-color' : backColor}">
                                                     {{skills.skillName}}
                                                     <mat-icon matChipRemove [ngStyle]="{'color': fontColor }">cancel
                                                     </mat-icon>
                                                 </mat-chip>
 
-                                                <bar-rating [theme]="ratingStyle"
-                                                    (rateChange)="skills.ratings = rate.value" [(rate)]="skills.ratings"
-                                                    #rate [showText]="false" [max]="maxRate">
+                                                <bar-rating [theme]="ratingStyle" (rateChange)="skills.ratings = rate.value" [(rate)]="skills.ratings" #rate [showText]="false" [max]="maxRate">
                                                 </bar-rating>
                                                 <button type="button" mat-icon-button class="refresh-icon"
                                                     (click)="skills.ratings = 0">
@@ -486,7 +446,8 @@
 
                                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
                                     <div class="w-100-p additional" *ngFor="let add of additionalInfoData">
-                                        <h3>{{ add.type }} <mat-icon (click)="editAdditional(add);">edit</mat-icon>
+                                        <h3>{{ add.type }}
+                                            <mat-icon (click)="editAdditional(add);">edit</mat-icon>
                                         </h3>
                                         <ng-container [ngSwitch]="add.type">
                                             <ng-container *ngSwitchCase="'Accomplishments'">
@@ -503,9 +464,7 @@
                                             </ng-container>
                                             <ng-container *ngSwitchDefault>
                                                 <mat-chip-list #skillList name="Skills" class="w-100-p">
-                                                    <mat-chip tabindex="-1"
-                                                        *ngFor="let data of add.value; let index=index;"
-                                                        [removable]="false">
+                                                    <mat-chip tabindex="-1" *ngFor="let data of add.value; let index=index;" [removable]="false">
                                                         {{data}}
                                                     </mat-chip>
                                                 </mat-chip-list>
@@ -527,14 +486,9 @@
 
                 </div>
 
-                <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
-                    fusePerfectScrollbar>
-                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()"
-                        [experienceData]="workExperienceData"
-                        [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData"
-                        [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                        [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate"
-                        [fontColor]="fontColor" [backColor]="backColor">
+                <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
+                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
+                        [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
                     </app-resume-template>
                     <!-- <div #container></div> -->
                 </div>

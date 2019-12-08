@@ -1,5 +1,4 @@
 @import "src/@fuse/scss/fuse";
-
 fuse-sidebar {
     display: flex;
     flex-direction: column;
@@ -15,38 +14,32 @@ fuse-sidebar {
     max-width: 280px;
     z-index: 1000;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
-
     @include media-breakpoint('xs') {
         min-width: 0 !important;
         max-width: 80vw !important;
         width: 80vw !important;
     }
-
     &.left-positioned {
         left: 0;
         transform: translateX(-100%);
     }
-
     &.right-positioned {
         right: 0;
         transform: translateX(100%);
     }
-
     &.open {
         transform: translateX(0);
     }
-
     &.locked-open {
         position: relative !important;
         transform: translateX(0) !important;
     }
-
     &.folded {
         position: absolute !important;
         top: 0;
         bottom: 0;
+        z-index: 9999;
     }
-
     &.animations-enabled {
         transition-property: transform, width, min-width, max-width;
         transition-duration: 150ms;
