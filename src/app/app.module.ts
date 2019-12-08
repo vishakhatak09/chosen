@@ -38,10 +38,6 @@ const appRoutes: Routes = [
     },
     {
         path: 'ad',
-        loadChildren: './main/admin-auth/admin-login.module#AdminLoginModule',
-    },
-    {
-        path: 'admin',
         loadChildren: './main/admin/admin.module#AdminModule',
         canLoad: [AdminGuardService]
     },

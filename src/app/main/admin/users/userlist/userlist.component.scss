@@ -93,8 +93,16 @@ userlist {
             align-items: center;
         }
 
-        .mat-column-id {
-            flex: 0 1 84px;
+        .mat-column-_id {
+            flex: 0 1 10%;
+        }
+
+        .mat-column-name {
+            flex: 0 1 20%;
+        }
+
+        .mat-column-email {
+            flex: 0 1 30%;
         }
 
         .mat-column-image {

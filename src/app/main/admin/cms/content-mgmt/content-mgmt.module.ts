@@ -8,7 +8,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ContentMgmtComponent } from './content-mgmt.component';
 import { CmsService } from '../cms.service';
-import { DragDropUploaderComponent } from 'core/components/drag-drop-uploader/drag-drop-uploader.component';
 
 const routes: Routes = [
   {
@@ -18,8 +17,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ContentMgmtComponent, DragDropUploaderComponent],
-  entryComponents: [DragDropUploaderComponent],
+  declarations: [ContentMgmtComponent, ],
+  entryComponents: [],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,

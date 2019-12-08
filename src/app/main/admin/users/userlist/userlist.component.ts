@@ -21,12 +21,17 @@ import { environment } from 'environments/environment';
 export class UserlistComponent implements OnInit {
 
   dataSource: MatTableDataSource<User> = new MatTableDataSource([]);
-  userList: User[] = USERS;
+  // userList: User[] = USERS;
+  userList: User[] = [];
 
-  public getUserApiUrl = environment.serverBaseUrl + 'admin/user/get';
-  public deleteUserApiUrl = environment.serverBaseUrl + 'admin/user/delete';
+  public getUserApiUrl = environment.serverBaseUrl + 'admin/user/userList';
+  public deleteUserApiUrl = environment.serverBaseUrl + 'admin/user/deleteUser';
 
-  displayedColumns = ['_id', 'name', 'email', 'resumes', 'payment', 'status', 'action'];
+  displayedColumns = ['_id', 'name', 'email',
+    'type',
+    // 'resumes',
+    // 'payment',
+    'status', 'action'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -54,6 +59,7 @@ export class UserlistComponent implements OnInit {
 
   ngOnInit() {
 
+    // this.initDataTable(this.userList);
     this.initSearch();
     this.getUsers();
 
@@ -85,12 +91,15 @@ export class UserlistComponent implements OnInit {
     this.userService.getUsersList(this.getUserApiUrl)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
-        data => {
-          console.log('userdata', data);
+        response => {
+          // console.log('userdata', response);
+          if (response.code === 200 && response.data) {
+            this.userList = response.data;
+          }
           this.initDataTable(this.userList);
         },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
 
@@ -115,7 +124,7 @@ export class UserlistComponent implements OnInit {
 
           const param = {
             params: {
-              id: user._id
+              userId: user._id
             }
           };
 

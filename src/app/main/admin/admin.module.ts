@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
+import { AdLoginModule } from './login/login.module';
+import { AdRegisterModule } from './register/register.module';
+import { AdForgotPasswordModule } from './forgot-password/forgot-password.module';
+import { AdResetPasswordModule } from './reset-password/reset-password.module';
 
 const routes: Routes = [
     {
@@ -51,8 +55,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
+    imports: [
+        RouterModule.forChild(routes),
+        AdLoginModule,
+        AdRegisterModule,
+        AdForgotPasswordModule,
+        AdResetPasswordModule
+    ],
     exports: [FuseSharedModule],
     declarations: [],
+    entryComponents: []
 })
 export class AdminModule { }

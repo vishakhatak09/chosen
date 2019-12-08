@@ -26,7 +26,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
 
   public baseUrl = AppConstant.GeneralConst.TemplateBasePath;
   public getTemplateUrl = environment.serverBaseUrl + 'admin/template/templateList';
-  public deleteTemplateUrl = environment.serverBaseUrl + 'admin/template/delete';
+  public deleteTemplateUrl = environment.serverBaseUrl + 'admin/template/deleteTemplate';
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   templateList: AdminTemplateModel[] = [];
@@ -143,7 +143,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(template: AdminTemplateModel): void {
-    this.router.navigate(['/admin/' + template._id + '/upload-template']);
+    this.router.navigate(['/ad/' + template._id + '/upload-template']);
   }
 
   previewImage(template: AdminTemplateModel): void {

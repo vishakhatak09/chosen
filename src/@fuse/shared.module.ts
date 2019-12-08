@@ -15,10 +15,11 @@ import { PreviewComponent } from 'app/main/pages/common-components/preview/previ
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor, ErrorInterceptor } from 'core/interceptors';
+import { DragDropUploaderComponent } from 'app/main/pages/common-components/drag-drop-uploader/drag-drop-uploader.component';
 
 @NgModule({
-    entryComponents: [ConfirmationDialogComponent, PreviewComponent],
-    declarations: [ConfirmationDialogComponent, PreviewComponent],
+    entryComponents: [ConfirmationDialogComponent, PreviewComponent, DragDropUploaderComponent],
+    declarations: [ConfirmationDialogComponent, PreviewComponent, DragDropUploaderComponent],
     imports: [
         CommonModule,
         FormsModule,
@@ -50,7 +51,8 @@ import { JwtInterceptor, ErrorInterceptor } from 'core/interceptors';
         MatButtonModule,
         MatIconModule,
         MatRippleModule,
-        MatTooltipModule
+        MatTooltipModule,
+        DragDropUploaderComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -60,7 +60,7 @@ export class AdLoginComponent implements OnInit, OnDestroy {
         // Redirect if already login
         // const currentUserValue = this._authService.currentUserValue;
         // if (currentUserValue && currentUserValue.type && currentUserValue.type === 'admin') {
-        //     this._router.navigate(['/admin/dashboard']);
+        //     this._router.navigate(['/ad/dashboard']);
         // } else {
         //     this._router.navigate(['/user/templates']);
         // }
@@ -100,7 +100,7 @@ export class AdLoginComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (response) => {
                         // this.isLoading = false;
-                        this._router.navigate(['/admin/dashboard']);
+                        this._router.navigate(['/ad/dashboard']);
                     },
                     (error: HttpErrorResponse) => {
                         this.isLoading = false;
