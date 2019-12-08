@@ -55,6 +55,7 @@
         "lodash": "4.17.15",
         "moment": "2.24.0",
         "ng2-charts": "2.2.4",
+        "ng5-slider": "1.2.4",
         "ngrx-store-freeze": "0.2.4",
         "ngx-bar-rating": "1.1.0",
         "ngx-color-picker": "7.5.0",

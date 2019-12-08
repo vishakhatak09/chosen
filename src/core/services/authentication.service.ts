@@ -107,7 +107,7 @@ export class AuthenticationService {
           title: 'Job Data Management',
           translate: 'NAV.JOB_DATA_MGMT',
           type: 'item',
-          icon: 'file_copy',
+          icon: 'work_outline',
           url: '/admin/job-mgmt'
         },
         {

@@ -51,6 +51,7 @@ job-mgmt {
                 }
 
                 .search-wrapper {
+                    background: #fff;
                     width: 100%;
                     max-width: 480px;
                     border-radius: 28px;
@@ -66,6 +67,10 @@ job-mgmt {
                         height: 48px;
                         line-height: 48px;
                         padding: 0 18px;
+
+                        .mat-icon{
+                            color: rgba(0,0,0,.54);
+                        }
 
                         input {
                             width: 100%;
@@ -110,6 +115,11 @@ job-mgmt {
             position: relative;
             cursor: pointer;
             height: 84px;
+        }
+
+        .mat-header-cell{
+            color: rgba(22, 18, 18, 0.97);
+            font-weight: bold;
         }
 
         .mat-cell {

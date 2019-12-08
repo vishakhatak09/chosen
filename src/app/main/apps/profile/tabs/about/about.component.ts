@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -14,6 +14,8 @@ import { ProfileService } from '../../profile.service';
 })
 export class ProfileAboutComponent implements OnInit, OnDestroy {
     about: any;
+    @Input() userData: any;
+    @Input() loginData: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -24,7 +26,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
      * @param {ProfileService} _profileService
      */
     constructor(
-        private _profileService: ProfileService
+        private _profileService: ProfileService,
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();

@@ -4,6 +4,8 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { AnalyticsDashboardDb } from 'app/fake-db/dashboard-analytics';
 import { AnalyticsDashboardService } from './analytics.service';
+import * as shape from 'd3-shape';
+import { ProjectDashboardDb } from 'app/fake-db/dashboard-project';
 
 @Component({
     selector: 'analytics-dashboard',
@@ -16,6 +18,8 @@ export class AnalyticsDashboardComponent implements OnInit {
     widgets: any;
     widget1SelectedYear = '2019';
     widget5SelectedDay = 'today';
+    widget5: any = {};
+    widget5Data;
 
     /**
      * Constructor
@@ -39,6 +43,39 @@ export class AnalyticsDashboardComponent implements OnInit {
     ngOnInit(): void {
         // Get the widgets from the service
         this.widgets = AnalyticsDashboardDb.widgets;
+        this.widget5Data = ProjectDashboardDb.widgets.widget5;
+        this.widget5 = {
+            currentRange: 'TW',
+            xAxis: true,
+            yAxis: true,
+            gradient: false,
+            legend: false,
+            showXAxisLabel: false,
+            xAxisLabel: 'Days',
+            showYAxisLabel: false,
+            yAxisLabel: 'Isues',
+            scheme: {
+                domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
+            },
+            onSelect: (ev) => {
+                console.log(ev);
+            },
+            supporting: {
+                currentRange: '',
+                xAxis: false,
+                yAxis: false,
+                gradient: false,
+                legend: false,
+                showXAxisLabel: false,
+                xAxisLabel: 'Days',
+                showYAxisLabel: false,
+                yAxisLabel: 'Isues',
+                scheme: {
+                    domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
+                },
+                curve: shape.curveBasis
+            }
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------

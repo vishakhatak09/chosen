@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ProjectDashboardDb } from 'app/fake-db/dashboard-project';
 
 @Injectable()
 export class ProjectDashboardService implements Resolve<any>
 {
-    projects: any[];
-    widgets: any[];
+    projects: any[] = ProjectDashboardDb.projects;
+    widgets: any = ProjectDashboardDb.widgets;
 
     /**
      * Constructor
@@ -33,8 +34,8 @@ export class ProjectDashboardService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProjects(),
-                this.getWidgets()
+                // this.getProjects(),
+                // this.getWidgets()
             ]).then(
                 () => {
                     resolve();

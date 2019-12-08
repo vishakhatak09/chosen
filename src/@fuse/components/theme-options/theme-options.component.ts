@@ -145,7 +145,9 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy {
             // ]
         };
 
-        this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
+        if (!this._fuseNavigationService.getNavigationItem('customize')) {
+            this._fuseNavigationService.addNavigationItem(customFunctionNavItem, 'end');
+        }
     }
 
     /**
@@ -175,143 +177,143 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy {
         switch (value) {
             // Vertical Layout #1
             case 'vertical-layout-1': {
-                    this.form.patchValue({
-                        layout: {
-                            width: 'fullwidth',
-                            navbar: {
-                                primaryBackground: 'fuse-navy-700',
-                                secondaryBackground: 'fuse-navy-900',
-                                folded: false,
-                                hidden: false,
-                                position: 'left',
-                                variant: 'vertical-style-1'
-                            },
-                            toolbar: {
-                                background: 'fuse-white-500',
-                                customBackgroundColor: false,
-                                hidden: false,
-                                position: 'below-static'
-                            },
-                            footer: {
-                                background: 'fuse-navy-900',
-                                customBackgroundColor: true,
-                                hidden: false,
-                                position: 'below-static'
-                            },
-                            sidepanel: {
-                                hidden: false,
-                                position: 'right'
-                            }
+                this.form.patchValue({
+                    layout: {
+                        width: 'fullwidth',
+                        navbar: {
+                            primaryBackground: 'fuse-navy-700',
+                            secondaryBackground: 'fuse-navy-900',
+                            folded: false,
+                            hidden: false,
+                            position: 'left',
+                            variant: 'vertical-style-1'
+                        },
+                        toolbar: {
+                            background: 'fuse-white-500',
+                            customBackgroundColor: false,
+                            hidden: false,
+                            position: 'below-static'
+                        },
+                        footer: {
+                            background: 'fuse-navy-900',
+                            customBackgroundColor: true,
+                            hidden: false,
+                            position: 'below-static'
+                        },
+                        sidepanel: {
+                            hidden: false,
+                            position: 'right'
                         }
-                    });
+                    }
+                });
 
-                    break;
-                }
+                break;
+            }
 
             // Vertical Layout #2
             case 'vertical-layout-2': {
-                    this.form.patchValue({
-                        layout: {
-                            width: 'fullwidth',
-                            navbar: {
-                                primaryBackground: 'fuse-navy-700',
-                                secondaryBackground: 'fuse-navy-900',
-                                folded: false,
-                                hidden: false,
-                                position: 'left',
-                                variant: 'vertical-style-1'
-                            },
-                            toolbar: {
-                                background: 'fuse-white-500',
-                                customBackgroundColor: false,
-                                hidden: false,
-                                position: 'below'
-                            },
-                            footer: {
-                                background: 'fuse-navy-900',
-                                customBackgroundColor: true,
-                                hidden: false,
-                                position: 'below'
-                            },
-                            sidepanel: {
-                                hidden: false,
-                                position: 'right'
-                            }
+                this.form.patchValue({
+                    layout: {
+                        width: 'fullwidth',
+                        navbar: {
+                            primaryBackground: 'fuse-navy-700',
+                            secondaryBackground: 'fuse-navy-900',
+                            folded: false,
+                            hidden: false,
+                            position: 'left',
+                            variant: 'vertical-style-1'
+                        },
+                        toolbar: {
+                            background: 'fuse-white-500',
+                            customBackgroundColor: false,
+                            hidden: false,
+                            position: 'below'
+                        },
+                        footer: {
+                            background: 'fuse-navy-900',
+                            customBackgroundColor: true,
+                            hidden: false,
+                            position: 'below'
+                        },
+                        sidepanel: {
+                            hidden: false,
+                            position: 'right'
                         }
-                    });
+                    }
+                });
 
-                    break;
-                }
+                break;
+            }
 
             // Vertical Layout #3
             case 'vertical-layout-3': {
-                    this.form.patchValue({
-                        layout: {
-                            width: 'fullwidth',
-                            navbar: {
-                                primaryBackground: 'fuse-navy-700',
-                                secondaryBackground: 'fuse-navy-900',
-                                folded: false,
-                                hidden: false,
-                                position: 'left',
-                                layout: 'vertical-style-1'
-                            },
-                            toolbar: {
-                                background: 'fuse-white-500',
-                                customBackgroundColor: false,
-                                hidden: false,
-                                position: 'above-static'
-                            },
-                            footer: {
-                                background: 'fuse-navy-900',
-                                customBackgroundColor: true,
-                                hidden: false,
-                                position: 'above-static'
-                            },
-                            sidepanel: {
-                                hidden: false,
-                                position: 'right'
-                            }
+                this.form.patchValue({
+                    layout: {
+                        width: 'fullwidth',
+                        navbar: {
+                            primaryBackground: 'fuse-navy-700',
+                            secondaryBackground: 'fuse-navy-900',
+                            folded: false,
+                            hidden: false,
+                            position: 'left',
+                            layout: 'vertical-style-1'
+                        },
+                        toolbar: {
+                            background: 'fuse-white-500',
+                            customBackgroundColor: false,
+                            hidden: false,
+                            position: 'above-static'
+                        },
+                        footer: {
+                            background: 'fuse-navy-900',
+                            customBackgroundColor: true,
+                            hidden: false,
+                            position: 'above-static'
+                        },
+                        sidepanel: {
+                            hidden: false,
+                            position: 'right'
                         }
-                    });
+                    }
+                });
 
-                    break;
-                }
+                break;
+            }
 
             // Horizontal Layout #1
             case 'horizontal-layout-1': {
-                    this.form.patchValue({
-                        layout: {
-                            width: 'fullwidth',
-                            navbar: {
-                                primaryBackground: 'fuse-navy-700',
-                                secondaryBackground: 'fuse-navy-900',
-                                folded: false,
-                                hidden: false,
-                                position: 'top',
-                                variant: 'vertical-style-1'
-                            },
-                            toolbar: {
-                                background: 'fuse-white-500',
-                                customBackgroundColor: false,
-                                hidden: false,
-                                position: 'above'
-                            },
-                            footer: {
-                                background: 'fuse-navy-900',
-                                customBackgroundColor: true,
-                                hidden: false,
-                                position: 'above-fixed'
-                            },
-                            sidepanel: {
-                                hidden: false,
-                                position: 'right'
-                            }
+                this.form.patchValue({
+                    layout: {
+                        width: 'fullwidth',
+                        navbar: {
+                            primaryBackground: 'fuse-navy-700',
+                            secondaryBackground: 'fuse-navy-900',
+                            folded: false,
+                            hidden: false,
+                            position: 'top',
+                            variant: 'vertical-style-1'
+                        },
+                        toolbar: {
+                            background: 'fuse-white-500',
+                            customBackgroundColor: false,
+                            hidden: false,
+                            position: 'above'
+                        },
+                        footer: {
+                            background: 'fuse-navy-900',
+                            customBackgroundColor: true,
+                            hidden: false,
+                            position: 'above-fixed'
+                        },
+                        sidepanel: {
+                            hidden: false,
+                            position: 'right'
                         }
-                    });
+                    }
+                });
 
-                    break;
-                }
+                break;
+            }
         }
     }
 

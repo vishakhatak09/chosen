@@ -45,7 +45,7 @@
 
             <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
 
-                <button mat-menu-item [routerLink]="['/user/profile']">
+                <button mat-menu-item [routerLink]="['/user/profile']" *ngIf="userData?.type === 'user'">
                     <mat-icon>account_circle</mat-icon>
                     <span>My Profile</span>
                 </button>
@@ -64,7 +64,7 @@
 
             <div class="toolbar-separator"></div>
 
-            <fuse-search-bar ></fuse-search-bar>
+            <fuse-search-bar  *ngIf="userData?.type === 'user'"></fuse-search-bar>
 
             <!-- <div class="toolbar-separator"></div> -->
 

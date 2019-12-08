@@ -13,6 +13,9 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { UploadTemplateComponent } from './upload-template.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { UploadTemplateService } from './upload-template.service';
+import {
+  DragDropUploaderComponent
+} from 'core/components/drag-drop-uploader/drag-drop-uploader.component';
 
 const routes: Routes = [
   {
@@ -22,7 +25,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [UploadTemplateComponent],
+  declarations: [UploadTemplateComponent, DragDropUploaderComponent],
+  entryComponents: [DragDropUploaderComponent],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,

@@ -827,236 +827,236 @@ export class ProjectDashboardDb
                         ]
                     }
                 },
-                'needsTest': {
-                    'label': 'NEEDS TEST',
-                    'count': {
-                        '2W': 10,
-                        'LW': 7,
-                        'TW': 8
-                    },
-                    'chart': {
-                        '2W': [
-                            {
-                                'name'  : 'NEEDS TEST',
-                                'series': [
-                                    {
-                                        'name' : 'Mon',
-                                        'value': 6
-                                    },
-                                    {
-                                        'name' : 'Tue',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Wed',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Thu',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Fri',
-                                        'value': 7
-                                    },
-                                    {
-                                        'name' : 'Sat',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Sun',
-                                        'value': 7
-                                    }
-                                ]
-                            }
-                        ],
-                        'LW': [
-                            {
-                                'name'  : 'NEEDS TEST',
-                                'series': [
-                                    {
-                                        'name' : 'Mon',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Tue',
-                                        'value': 7
-                                    },
-                                    {
-                                        'name' : 'Wed',
-                                        'value': 8
-                                    },
-                                    {
-                                        'name' : 'Thu',
-                                        'value': 8
-                                    },
-                                    {
-                                        'name' : 'Fri',
-                                        'value': 6
-                                    },
-                                    {
-                                        'name' : 'Sat',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Sun',
-                                        'value': 1
-                                    }
-                                ]
-                            }
-                        ],
-                        'TW': [
-                            {
-                                'name'  : 'NEEDS TEST',
-                                'series': [
-                                    {
-                                        'name' : 'Mon',
-                                        'value': 6
-                                    },
-                                    {
-                                        'name' : 'Tue',
-                                        'value': 3
-                                    },
-                                    {
-                                        'name' : 'Wed',
-                                        'value': 7
-                                    },
-                                    {
-                                        'name' : 'Thu',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Fri',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Sat',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Sun',
-                                        'value': 7
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                },
-                'fixed'    : {
-                    'label': 'FIXED',
-                    'count': {
-                        '2W': 21,
-                        'LW': 17,
-                        'TW': 14
-                    },
-                    'chart': {
-                        '2W': [
-                            {
-                                'name'  : 'FIXED',
-                                'series': [
-                                    {
-                                        'name' : 'Mon',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Tue',
-                                        'value': 7
-                                    },
-                                    {
-                                        'name' : 'Wed',
-                                        'value': 8
-                                    },
-                                    {
-                                        'name' : 'Thu',
-                                        'value': 8
-                                    },
-                                    {
-                                        'name' : 'Fri',
-                                        'value': 6
-                                    },
-                                    {
-                                        'name' : 'Sat',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Sun',
-                                        'value': 1
-                                    }
-                                ]
-                            }
-                        ],
-                        'LW': [
-                            {
-                                'name'  : 'FIXED',
-                                'series': [
-                                    {
-                                        'name' : 'Mon',
-                                        'value': 6
-                                    },
-                                    {
-                                        'name' : 'Tue',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Wed',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Thu',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Fri',
-                                        'value': 7
-                                    },
-                                    {
-                                        'name' : 'Sat',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Sun',
-                                        'value': 7
-                                    }
-                                ]
-                            }
-                        ],
-                        'TW': [
-                            {
-                                'name'  : 'FIXED',
-                                'series': [
-                                    {
-                                        'name' : 'Mon',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Tue',
-                                        'value': 7
-                                    },
-                                    {
-                                        'name' : 'Wed',
-                                        'value': 4
-                                    },
-                                    {
-                                        'name' : 'Thu',
-                                        'value': 6
-                                    },
-                                    {
-                                        'name' : 'Fri',
-                                        'value': 5
-                                    },
-                                    {
-                                        'name' : 'Sat',
-                                        'value': 3
-                                    },
-                                    {
-                                        'name' : 'Sun',
-                                        'value': 2
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
+                // 'needsTest': {
+                //     'label': 'NEEDS TEST',
+                //     'count': {
+                //         '2W': 10,
+                //         'LW': 7,
+                //         'TW': 8
+                //     },
+                //     'chart': {
+                //         '2W': [
+                //             {
+                //                 'name'  : 'NEEDS TEST',
+                //                 'series': [
+                //                     {
+                //                         'name' : 'Mon',
+                //                         'value': 6
+                //                     },
+                //                     {
+                //                         'name' : 'Tue',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Wed',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Thu',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Fri',
+                //                         'value': 7
+                //                     },
+                //                     {
+                //                         'name' : 'Sat',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Sun',
+                //                         'value': 7
+                //                     }
+                //                 ]
+                //             }
+                //         ],
+                //         'LW': [
+                //             {
+                //                 'name'  : 'NEEDS TEST',
+                //                 'series': [
+                //                     {
+                //                         'name' : 'Mon',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Tue',
+                //                         'value': 7
+                //                     },
+                //                     {
+                //                         'name' : 'Wed',
+                //                         'value': 8
+                //                     },
+                //                     {
+                //                         'name' : 'Thu',
+                //                         'value': 8
+                //                     },
+                //                     {
+                //                         'name' : 'Fri',
+                //                         'value': 6
+                //                     },
+                //                     {
+                //                         'name' : 'Sat',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Sun',
+                //                         'value': 1
+                //                     }
+                //                 ]
+                //             }
+                //         ],
+                //         'TW': [
+                //             {
+                //                 'name'  : 'NEEDS TEST',
+                //                 'series': [
+                //                     {
+                //                         'name' : 'Mon',
+                //                         'value': 6
+                //                     },
+                //                     {
+                //                         'name' : 'Tue',
+                //                         'value': 3
+                //                     },
+                //                     {
+                //                         'name' : 'Wed',
+                //                         'value': 7
+                //                     },
+                //                     {
+                //                         'name' : 'Thu',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Fri',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Sat',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Sun',
+                //                         'value': 7
+                //                     }
+                //                 ]
+                //             }
+                //         ]
+                //     }
+                // },
+                // 'fixed'    : {
+                //     'label': 'FIXED',
+                //     'count': {
+                //         '2W': 21,
+                //         'LW': 17,
+                //         'TW': 14
+                //     },
+                //     'chart': {
+                //         '2W': [
+                //             {
+                //                 'name'  : 'FIXED',
+                //                 'series': [
+                //                     {
+                //                         'name' : 'Mon',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Tue',
+                //                         'value': 7
+                //                     },
+                //                     {
+                //                         'name' : 'Wed',
+                //                         'value': 8
+                //                     },
+                //                     {
+                //                         'name' : 'Thu',
+                //                         'value': 8
+                //                     },
+                //                     {
+                //                         'name' : 'Fri',
+                //                         'value': 6
+                //                     },
+                //                     {
+                //                         'name' : 'Sat',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Sun',
+                //                         'value': 1
+                //                     }
+                //                 ]
+                //             }
+                //         ],
+                //         'LW': [
+                //             {
+                //                 'name'  : 'FIXED',
+                //                 'series': [
+                //                     {
+                //                         'name' : 'Mon',
+                //                         'value': 6
+                //                     },
+                //                     {
+                //                         'name' : 'Tue',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Wed',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Thu',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Fri',
+                //                         'value': 7
+                //                     },
+                //                     {
+                //                         'name' : 'Sat',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Sun',
+                //                         'value': 7
+                //                     }
+                //                 ]
+                //             }
+                //         ],
+                //         'TW': [
+                //             {
+                //                 'name'  : 'FIXED',
+                //                 'series': [
+                //                     {
+                //                         'name' : 'Mon',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Tue',
+                //                         'value': 7
+                //                     },
+                //                     {
+                //                         'name' : 'Wed',
+                //                         'value': 4
+                //                     },
+                //                     {
+                //                         'name' : 'Thu',
+                //                         'value': 6
+                //                     },
+                //                     {
+                //                         'name' : 'Fri',
+                //                         'value': 5
+                //                     },
+                //                     {
+                //                         'name' : 'Sat',
+                //                         'value': 3
+                //                     },
+                //                     {
+                //                         'name' : 'Sun',
+                //                         'value': 2
+                //                     }
+                //                 ]
+                //             }
+                //         ]
+                //     }
+                // }
             }
         },
         'widget6'      : {

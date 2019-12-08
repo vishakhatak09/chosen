@@ -16,7 +16,7 @@ export class ResumeBuilderResolver implements Resolve<AdminTemplateModel> {
     resolve(
         route: ActivatedRouteSnapshot
     ): Observable<AdminTemplateModel> | Promise<AdminTemplateModel> | AdminTemplateModel {
-        const templateId = route.paramMap.get('id');
+        const templateId = route.paramMap.get('templateId');
         const params = {
             'params': {
                 'templateId': templateId,

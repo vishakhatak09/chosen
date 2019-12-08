@@ -14,10 +14,10 @@
             <!-- APP TITLE -->
             <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon s-30 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                    folder_open
+                    work_outline
                 </mat-icon>
                 <span class="logo-text h3" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Add Job Data
+                    Add Job Details
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -30,7 +30,7 @@
 
             <div class="content">
 
-                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar>
+                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
 
                     <div class="tab-content pl-12 h-100-p">
 
@@ -38,25 +38,141 @@
                             fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
 
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
-                                <input matInput type="text" placeholder="Enter Job Title" name="jobTitle"
-                                    formControlName="title" autocomplete="off" required>
-                                <mat-error *ngIf="addJobForm.get('title').hasError('required')">
-                                    Please enter job title
+                                <mat-label>Job Position</mat-label>
+                                <input matInput type="text" placeholder="Enter Job Position" name="JobPosition"
+                                    formControlName="jobPosition" autocomplete="off" required>
+                                <mat-error *ngIf="addJobForm.get('jobPosition').hasError('required')">
+                                    Please enter job position
                                 </mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
-                                <input matInput type="text" placeholder="Enter Job Description" name="jobDescription"
-                                    formControlName="description" autocomplete="off" required>
-                                <mat-error *ngIf="addJobForm.get('description').hasError('required')">
+                                <mat-label>Job Description</mat-label>
+                                <textarea matInput placeholder="Enter Job Description" name="JobDescription"
+                                    formControlName="jobDescription" autocomplete="off" required rows="3">
+                                </textarea>
+                                <mat-error *ngIf="addJobForm.get('jobDescription').hasError('required')">
                                     Please enter job description
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fxFlex.md="100"
+                                floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Job Location State</mat-label>
+                                <mat-select placeholder="Select Job Location State" name="State"
+                                    (selectionChange)="getCityFromState($event)" formControlName="state"
+                                    autocomplete="off" required>
+                                    <mat-option *ngFor="let option of StateList" [value]="option">
+                                        {{ option }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="addJobForm.get('state').hasError('required')">
+                                    Please select state for job location
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fxFlex.md="100"
+                                floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Job Location City</mat-label>
+                                <mat-select placeholder="Select Job Location" name="Location" formControlName="location"
+                                    autocomplete="off" required>
+                                    <mat-option *ngFor="let option of CityList" [value]="option.city">
+                                        {{ option.city }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="addJobForm.get('location').hasError('required')">
+                                    Please select job location
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Company Name</mat-label>
+                                <input matInput type="text" placeholder="Enter Job Company Name" name="CompanyName"
+                                    formControlName="companyName" autocomplete="off" required>
+                                <mat-error *ngIf="addJobForm.get('companyName').hasError('required')">
+                                    Please enter company name
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Job Search Keywords</mat-label>
+                                <input matInput type="text" placeholder="Enter Job Search Keywords" name="Keywords"
+                                    formControlName="keywords" autocomplete="off" required>
+                                <mat-error *ngIf="addJobForm.get('keywords').hasError('required')">
+                                    Please enter job search keywords
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- workExperience -->
+                            <div class="custom-slider pl-4 mb-8 ml-4" fxFlex="100">
+                                <mat-label>Experience</mat-label>
+                                <ng5-slider [(value)]="minExperience" formControlName="workExperience"
+                                    [(highValue)]="maxExperience" [options]="options"></ng5-slider>
+                            </div>
+
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Expected Salary (in Lakhs)</mat-label>
+                                <mat-select placeholder="Expected Salary (in Lakhs)" name="ExpectedSalary"
+                                    formControlName="expectedSalary" autocomplete="off" required>
+                                    <mat-option *ngFor="let option of SalaryOptions" [value]="option">
+                                        {{ option }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="addJobForm.get('expectedSalary').hasError('required')">
+                                    Please select expected salary option
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- industry -->
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Industry</mat-label>
+                                <mat-select placeholder="Select Industry" name="Industry" formControlName="industry"
+                                    autocomplete="off" required>
+                                    <mat-option *ngFor="let option of JobIndustryList" [value]="option">
+                                        {{ option }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="addJobForm.get('industry').hasError('required')">
+                                    Please select industry
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Job Category</mat-label>
+                                <mat-select placeholder="Select Job Category" name="JobCategory"
+                                    formControlName="jobCategory" autocomplete="off" required>
+                                    <mat-option *ngFor="let option of JobCategoryList" [value]="option">
+                                        {{ option }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="addJobForm.get('jobCategory').hasError('required')">
+                                    Please select job category
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
+                                <mat-label>Job Type</mat-label>
+                                <mat-select placeholder="Select Job Type" name="JobType" formControlName="jobType"
+                                    autocomplete="off" required>
+                                    <mat-option *ngFor="let job of jobTypeOptions" [value]="job.value">
+                                        {{ job.viewValue }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="addJobForm.get('jobType').hasError('required')">
+                                    Please select job type
                                 </mat-error>
                             </mat-form-field>
 
                             <div class="pt-12 pl-8 pb-4">
                                 <button type="submit" class="stepper-back" color="primary" mat-raised-button
                                     [disabled]="isLoading || addJobForm.invalid">
-                                Save
+                                    Save
+                                </button>
+                                &nbsp;
+                                <button type="submit" class="stepper-back" color="accent" mat-raised-button
+                                    [routerLink]="['/admin/job-mgmt']">
+                                    Cancel
                                 </button>
                             </div>
 

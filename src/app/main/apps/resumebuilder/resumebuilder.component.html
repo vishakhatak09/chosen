@@ -57,7 +57,7 @@
                         <mat-step [stepControl]="basicDetailForm">
 
                             <div class="tab-content px-12">
-                                <form name="resume" [formGroup]="basicDetailForm">
+                                <form name="resume" [formGroup]="basicDetailForm" (ngSubmit)="formSubmit()">
                                     <ng-template matStepLabel>Personal Info</ng-template>
 
                                     <div class="w-100-p upload-class">
@@ -153,7 +153,7 @@
                                         <mat-radio-group aria-labelledby="example-radio-group-label"
                                             class="form-radio-group" formControlName="maritalStatus">
                                             <mat-radio-button class="form-radio-button"
-                                                *ngFor="let status of maritalStatuOpts" [value]="status.value">
+                                                *ngFor="let status of maritalStatusOpts" [value]="status.value">
                                                 {{status.viewValue}}
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -172,7 +172,7 @@
                                         </mat-radio-group>
                                     </div>
 
-                                    <div style='margin-top: 10px; margin-bottom: 10px;'>
+                                    <div class="mb-12 mt-12" *ngIf="socialLinkArray.length < maxSocialLinks">
                                         <button mat-button type="button" (click)="addSocialLink()">
                                             <mat-icon>add_comment</mat-icon> Add Social Links
                                         </button>
@@ -200,11 +200,10 @@
                                             <mat-icon>delete</mat-icon>
                                         </button>
 
-
                                     </div>
                                     <div class="pt-12">
-                                        <button type="button" class="stepper-next ml-12" color="accent"
-                                            mat-raised-button matStepperNext>Next</button>
+                                        <button type="submit" class="stepper-next ml-12" color="accent"
+                                            mat-raised-button>Next</button>
                                     </div>
 
                                 </form>
@@ -217,7 +216,7 @@
 
                             <div class="tab-content" *ngIf="selectedIndex == 1">
                                 <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume"
-                                    [formGroup]="careerObjForm">
+                                    [formGroup]="careerObjForm" (ngSubmit)="formSubmit()">
 
                                     <div class="w-100-p p-8">
                                         <ng-container *ngTemplateOutlet="editor"></ng-container>
@@ -235,8 +234,8 @@
                                         <div class="p-8">
                                             <button type="button" class="stepper-back" mat-raised-button
                                                 matStepperPrevious>Back</button>
-                                            <button type="button" class="stepper-next ml-12" color="accent"
-                                                mat-raised-button matStepperNext>Next</button>
+                                            <button type="submit" class="stepper-next ml-12" color="accent"
+                                                mat-raised-button>Next</button>
                                         </div>
                                     </div>
 
@@ -249,7 +248,7 @@
 
                             <div class="tab-content">
                                 <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start"
-                                    name="WorkForm">
+                                    name="WorkForm" (ngSubmit)="formSubmit()">
                                     <ng-template matStepLabel>
                                         Work Experience
                                         <!-- <button mat-icon-button hidden>
@@ -264,14 +263,14 @@
                                                 *ngFor="let data of workExperienceData; let index = index;">
                                                 <div class="work-content mat-elevation-z2 border">
                                                     <div class="w-100-p">
-                                                        <button mat-icon-button matTooltip="Delete"
+                                                        <button type="button" mat-icon-button matTooltip="Delete"
                                                             [matTooltipPosition]="'above'"
                                                             class="action-buttons red-400-fg"
                                                             (click)="deleteWorkExperience(index, 'work')">
                                                             <mat-icon>delete</mat-icon>
                                                         </button>
                                                         &nbsp;
-                                                        <button mat-icon-button matTooltip="Edit"
+                                                        <button type="button" mat-icon-button matTooltip="Edit"
                                                             [matTooltipPosition]="'above'"
                                                             class="action-buttons grey-500-fg"
                                                             (click)="editWorkExperience(index, 'work')">
@@ -293,7 +292,7 @@
                                         </div>
 
                                         <div class="skill-content px-16">
-                                            <button mat-button class="add-button" (click)="openWorkDialog()">
+                                            <button mat-button type="button" class="add-button" (click)="openWorkDialog()">
                                                 <mat-icon>add_to_photos</mat-icon> Add Position
                                             </button>
                                         </div>
@@ -303,8 +302,8 @@
                                     <div class="p-16">
                                         <button type="button" class="stepper-back" mat-raised-button
                                             matStepperPrevious>Back</button>
-                                        <button type="button" class="stepper-next ml-12" color="accent"
-                                            mat-raised-button matStepperNext>Next</button>
+                                        <button type="submit" class="stepper-next ml-12" color="accent"
+                                            mat-raised-button>Next</button>
                                     </div>
 
                                 </form>
@@ -316,7 +315,7 @@
 
                             <div class="tab-content">
 
-                                <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume">
+                                <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume" (ngSubmit)="formSubmit()">
                                     <ng-template matStepLabel>Education Summary</ng-template>
                                     <div class="w-100-p">
 
@@ -324,13 +323,13 @@
                                             <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%" *ngFor="let data of educationData; let index = index;">
                                                 <div class="work-content mat-elevation-z2 border">
                                                 <div class="w-100-p">
-                                                    <button mat-icon-button matTooltip="Delete"
+                                                    <button type="button" mat-icon-button matTooltip="Delete"
                                                         [matTooltipPosition]="'above'" class="action-buttons red-400-fg"
                                                         (click)="deleteWorkExperience(index, 'education')">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
                                                     &nbsp;
-                                                    <button mat-icon-button matTooltip="Edit"
+                                                    <button type="button" mat-icon-button matTooltip="Edit"
                                                         [matTooltipPosition]="'above'"
                                                         class="action-buttons grey-500-fg"
                                                         (click)="editWorkExperience(index, 'education')">
@@ -351,7 +350,7 @@
                                         </div>
 
                                         <div class="skill-content px-16">
-                                            <button mat-button class="add-button" (click)="openAddEducationModal()">
+                                            <button type="button" mat-button class="add-button" (click)="openAddEducationModal()">
                                                 <mat-icon>add_to_photos</mat-icon> Add Degree
                                             </button>
                                         </div>
@@ -359,8 +358,8 @@
                                     <div class="p-16">
                                         <button type="button" class="stepper-back" mat-raised-button
                                             matStepperPrevious>Back</button>
-                                        <button type="button" class="stepper-next ml-12" color="accent"
-                                            mat-raised-button matStepperNext>Next</button>
+                                        <button type="submit" class="stepper-next ml-12" color="accent"
+                                            mat-raised-button>Next</button>
                                     </div>
                                 </form>
 
@@ -371,7 +370,7 @@
                         <mat-step [stepControl]="skillForm">
 
                             <form class="tab-content pt-8 pl-12" [formGroup]="skillForm" fxLayout="row wrap"
-                                fxLayoutGap="25px">
+                                fxLayoutGap="25px" (ngSubmit)="formSubmit()">
                                 <ng-template matStepLabel>Areas of Expertise</ng-template>
 
                                 <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
@@ -446,7 +445,7 @@
                                                     (rateChange)="skills.ratings = rate.value" [(rate)]="skills.ratings"
                                                     #rate [showText]="false" [max]="maxRate">
                                                 </bar-rating>
-                                                <button mat-icon-button class="refresh-icon"
+                                                <button type="button" mat-icon-button class="refresh-icon"
                                                     (click)="skills.ratings = 0">
                                                     <mat-icon>refresh</mat-icon>
                                                 </button>
@@ -461,10 +460,10 @@
                                 <div class="pt-12 pl-8 pb-4">
                                     <button type="button" class="stepper-back" mat-raised-button
                                         matStepperPrevious>Back</button>
-                                    <button type="button" *ngIf="haveAdditionalInfo == false" color="accent"
+                                    <button type="button" color="accent"
                                         mat-raised-button class="ml-12" (click)="finishStep()">Finish</button>
-                                    <button type="button" *ngIf="haveAdditionalInfo == true" class="stepper-next ml-12"
-                                        color="accent" mat-raised-button matStepperNext>Next</button>
+                                    <!-- <button type="button" *ngIf="haveAdditionalInfo == true" class="stepper-next ml-12"
+                                        color="accent" mat-raised-button matStepperNext>Next</button> -->
                                 </div>
                             </form>
 
@@ -520,7 +519,7 @@
                                 <button type="button" class="stepper-back" mat-raised-button
                                     matStepperPrevious>Back</button>
                                 <button type="button" class="ml-12" color="accent" mat-raised-button
-                                    (click)="finishStep()">Finish</button>
+                                    (click)="saveAdditionalInfo()">Finish</button>
                             </div>
                         </mat-step>
 

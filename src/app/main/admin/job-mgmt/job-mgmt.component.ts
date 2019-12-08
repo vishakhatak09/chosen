@@ -11,6 +11,7 @@ import { ConfirmationDialogComponent } from '../../pages/common-components/confi
 import { fuseAnimations } from '@fuse/animations';
 import { JobModel } from 'core/models/job.model';
 import { JobMgmtService } from './job-mgmt.service';
+import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
 
 @Component({
   selector: 'job-mgmt',
@@ -21,13 +22,19 @@ import { JobMgmtService } from './job-mgmt.service';
 })
 export class JobMgmtComponent implements OnInit {
 
-  dataSource: MatTableDataSource<JobModel> = new MatTableDataSource([]);
-  jobDataList: JobModel[] = [];
+  dataSource: MatTableDataSource<any[]> = new MatTableDataSource([]);
+  jobDataList: any[] = [
+    {
+      'jobPosition': 'Software Developer / Sr. Software Engineer',
+      'companyName': 'Sixth Energy Technologies Pvt Ltd',
+      'location': 'Ahmedabad'
+    }
+  ];
 
   public getJobDataApiUrl = environment.serverBaseUrl + 'admin/job/get';
   public deleteJobApiUrl = environment.serverBaseUrl + 'admin/job/delete';
 
-  displayedColumns = ['title', 'description', 'company', 'location', 'time', 'jobType', 'action'];
+  displayedColumns = ['jobPosition', 'companyName', 'location', 'action'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -47,7 +54,8 @@ export class JobMgmtComponent implements OnInit {
    */
   constructor(
     private matDialog: MatDialog,
-    private jobService: JobMgmtService
+    private jobService: JobMgmtService,
+    private dialog: MatDialog
   ) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -56,7 +64,8 @@ export class JobMgmtComponent implements OnInit {
   ngOnInit() {
 
     // this.initSearch();
-    this.getUsers();
+    // this.getUsers();
+    this.initDataTable(this.jobDataList);
 
   }
 
@@ -75,7 +84,7 @@ export class JobMgmtComponent implements OnInit {
       });
   }
 
-  initDataTable(data: JobModel[]): void {
+  initDataTable(data: any[]): void {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -134,6 +143,15 @@ export class JobMgmtComponent implements OnInit {
         }
       }
     );
+
+  }
+
+  openDialog(): void {
+
+    this.dialog.open(JobDetailComponent, {
+      width: 'auto',
+      height: 'auto',
+    });
 
   }
 

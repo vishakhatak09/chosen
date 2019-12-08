@@ -13,6 +13,7 @@ import { TemplateListService } from './template-list.service';
 import { Router } from '@angular/router';
 import { AdminTemplateModel } from 'core/models/admin-template.model';
 import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
   selector: 'template-list',
@@ -23,7 +24,7 @@ import { PreviewComponent } from 'app/main/pages/common-components/preview/previ
 })
 export class TemplateListComponent implements OnInit, OnDestroy {
 
-  public baseUrl = environment.serverImagePath + 'template/';
+  public baseUrl = AppConstant.GeneralConst.TemplateBasePath;
   public getTemplateUrl = environment.serverBaseUrl + 'admin/template/templateList';
   public deleteTemplateUrl = environment.serverBaseUrl + 'admin/template/delete';
 

@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
-import { MyResumesComponent } from './my-resumes.component';
+import { JobDetailComponent } from './job-detail.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const routes: Routes = [
   {
     path: '',
-    component: MyResumesComponent
+    component: JobDetailComponent
   }
 ];
 
 @NgModule({
-  declarations: [MyResumesComponent],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,
-  ]
+    MatDialogModule
+  ],
+  declarations: [JobDetailComponent]
 })
-export class MyResumesModule { }
+export class JobDetailModule { }

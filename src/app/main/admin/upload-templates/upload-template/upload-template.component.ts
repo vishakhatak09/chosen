@@ -183,6 +183,12 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
     }
   }
 
+  removeImage(): void {
+    this.selectedFile = null;
+    this.templateSrc = null;
+    this.templateFileName = null;
+  }
+
   ngOnDestroy(): void {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();

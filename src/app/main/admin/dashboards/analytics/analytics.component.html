@@ -2,8 +2,7 @@
 
     <div class="main-widget">
 
-        <div class="position-relative p-24 blue-600"
-             fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="position-relative p-24 blue-600" fxLayout="row" fxLayoutAlign="space-between center">
             <div fxLayout="column" fxLayoutAlign="start start">
                 <span class="h2">Visitors</span>
                 <span class="h5 secondary-text">Unique visitors by month</span>
@@ -25,12 +24,9 @@
         </div>
 
         <div class="position-relative h-256 pb-16 blue-600">
-            <canvas baseChart
-                    [datasets]="widgets.widget1.datasets[widget1SelectedYear]"
-                    [labels]="widgets.widget1.labels"
-                    [colors]="widgets.widget1.colors"
-                    [options]="widgets.widget1.options"
-                    [chartType]="widgets.widget1.chartType">
+            <canvas baseChart [datasets]="widgets.widget1.datasets[widget1SelectedYear]"
+                [labels]="widgets.widget1.labels" [colors]="widgets.widget1.colors" [options]="widgets.widget1.options"
+                [chartType]="widgets.widget1.chartType">
             </canvas>
         </div>
 
@@ -209,6 +205,74 @@
             </div>
             <!-- / Widget 5 -->
 
+            <!-- WIDGET 5 of projects analytics page -->
+            <div class="widget" fxFlex="100" fxFlex.gt-sm="33">
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="row" fxFlex="100"
+                    class="widget widget5">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+
+                        <div class="px-16 border-bottom" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+                            <div fxFlex class="py-16 h3">{{widget5Data.title}}</div>
+
+                            <div fxFlex="0 1 auto" class="py-16" fxLayout="row">
+                                <button mat-button class="px-16" *ngFor="let range of widget5Data.ranges | keys"
+                                    (click)="widget5.currentRange = range.key"
+                                    [ngClass]="{'accent' : widget5.currentRange == range.key}">
+                                    {{range.value}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+                            <div class="h-420 my-16" fxLayout="row" fxFlex="100" fxFlex.gt-sm="50">
+                                <ngx-charts-bar-vertical-stacked *fuseIfOnDom [scheme]="widget5.scheme"
+                                    [results]="widget5Data.mainChart[this.widget5.currentRange]"
+                                    [gradient]="widget5.gradient" [xAxis]="widget5.xAxis" [yAxis]="widget5.yAxis"
+                                    [legend]="widget5.legend" [showXAxisLabel]="widget5.showXAxisLabel"
+                                    [showYAxisLabel]="widget5.showYAxisLabel" [xAxisLabel]="widget5.xAxisLabel"
+                                    [yAxisLabel]="widget5.yAxisLabel" (select)="widget5.onSelect($event)">
+                                </ngx-charts-bar-vertical-stacked>
+                            </div>
+
+                            <div class="my-16" fxFlex="100" fxLayout="row wrap" fxFlex.gt-sm="50">
+
+                                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxLayoutAlign="center"
+                                    *ngFor="let widget of widget5Data.supporting | keys" class="mb-24">
+
+                                    <div class="px-24">
+                                        <div class="h4 secondary-text">{{widget.value.label}}</div>
+                                        <div class="mat-display-1 m-0">
+                                            {{widget.value.count[widget5.currentRange]}}
+                                        </div>
+                                    </div>
+
+                                    <div class="h-64">
+                                        <ngx-charts-area-chart *fuseIfOnDom
+                                            [results]="widget.value.chart[widget5.currentRange]"
+                                            [scheme]="widget5.supporting.scheme"
+                                            [gradient]="widget5.supporting.gradient" [xAxis]="widget5.supporting.xAxis"
+                                            [yAxis]="widget5.supporting.yAxis" [legend]="widget5.supporting.legend"
+                                            [showXAxisLabel]="widget5.supporting.showXAxisLabel"
+                                            [showYAxisLabel]="widget5.supporting.showYAxisLabel"
+                                            [xAxisLabel]="widget5.supporting.xAxisLabel"
+                                            [yAxisLabel]="widget5.supporting.yAxisLabel"
+                                            [curve]="widget5.supporting.curve">
+                                        </ngx-charts-area-chart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+            </div>
+            <!-- WIDGET 5 of projects analytics page -->
+
             <!-- Widget 6 -->
             <!-- <div class="pt-48 pb-24 font-size-18 font-weight-300">
                 Where are your users?
@@ -238,8 +302,8 @@
 
             <div fxLayout="row wrap" fxLayout.gt-md="column"> -->
 
-                <!-- Widget 7 -->
-                <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+        <!-- Widget 7 -->
+        <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
 
                     <div class="pb-24 font-size-18 font-weight-300">
                         What are your top devices?
@@ -303,10 +367,10 @@
                     </div>
 
                 </div> -->
-                <!-- / Widget 7 -->
+        <!-- / Widget 7 -->
 
-                <!-- Widget 8 -->
-                <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+        <!-- Widget 8 -->
+        <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
 
                     <div class="pb-24 font-size-18 font-weight-300">
                         How are your sales?
@@ -390,10 +454,10 @@
 
                 </div> -->
 
-                <!-- / Widget 8 -->
+        <!-- / Widget 8 -->
 
-                <!-- Widget 9 -->
-                <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+        <!-- Widget 9 -->
+        <!-- <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
 
                     <div class="pb-24 font-size-18 font-weight-300" [ngClass.lt-lg]="'pt-0'">
                         What are your top campaigns?
@@ -452,9 +516,9 @@
                     </div>
 
                 </div> -->
-                <!-- / widget 9 -->
+        <!-- / widget 9 -->
 
-            <!-- </div>
+        <!-- </div>
 
         </div> -->
 

@@ -94,4 +94,8 @@ export class ProfileService implements Resolve<any> {
         });
     }
 
+    getProfileData(profileApiUrl: string): Observable<any> {
+        return this._httpClient.get(profileApiUrl);
+    }
+
 }

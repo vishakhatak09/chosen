@@ -11,6 +11,7 @@ import { filter, take } from 'rxjs/operators';
 export class LoadingScreenService {
     splashScreenEl: any;
     player: AnimationPlayer;
+    isPlaying = false;
 
     /**
      * Constructor
@@ -79,6 +80,7 @@ export class LoadingScreenService {
 
         setTimeout(() => {
             this.player.play();
+            this.isPlaying = true;
         }, 0);
     }
 
@@ -96,8 +98,11 @@ export class LoadingScreenService {
                     }))
                 ]).create(this.splashScreenEl);
 
-        setTimeout(() => {
-            this.player.play();
-        }, 1500);
+        if (this.isPlaying === true) {
+            setTimeout(() => {
+                this.player.play();
+                this.isPlaying = false;
+            }, 1500);
+        }
     }
 }

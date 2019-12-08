@@ -2,8 +2,8 @@
 
     <div class="about-content" fxLayout="row wrap" fxFlex="100" fxlayoutgap="5px" fxLayoutAlign="space-between">
 
-        <div class="profile-box info-box general" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
-            fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
+        <div class="profile-box info-box general" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="100"
+            fxFlex.lt-lg="100" fxFlex.lt-xl="100" fxFlex.lt-md="100">
 
             <header class="accent">
                 <div class="title">Personal Information</div>
@@ -13,31 +13,31 @@
 
                 <div class="info-line">
                     <div class="title">Name</div>
-                    <div class="info">Adam Smith</div>
+                    <div class="info">{{ userData?.firstName }} {{ userData?.lastName }}</div>
                 </div>
                 <div class="info-line">
                     <div class="title">Phone.</div>
                     <div class="info">
-                        <span>12345689</span>
+                        <span>{{ userData?.contactNumber }}</span>
                     </div>
                 </div>
                 <div class="info-line">
                     <div class="title">Email</div>
                     <div class="info">
-                        <span>adamsmith@gmail.com</span>
+                        <span>{{ loginData?.email }}</span>
                     </div>
                 </div>
                 <div class="info-line">
                     <div class="title">Address</div>
-                    <div class="info">Lorem ipsum</div>
+                    <div class="info">{{ userData?.fullAddress }}</div>
                 </div>
                 <div class="info-line">
                     <div class="title">Birthday</div>
-                    <div class="info">1/1/1990</div>
+                    <div class="info">{{ userData?.dateOfBirth }}</div>
                 </div>
                 <div class="info-line">
                     <div class="title">Gender</div>
-                    <div class="info">Male</div>
+                    <div class="info text-capitalize">{{ userData?.gender }}</div>
                 </div>
                 <!-- <div class="info-line">
                     <div class="title">Locations</div>
@@ -52,7 +52,7 @@
 
         </div>
 
-        <div class="profile-box info-box work" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
+        <!-- <div class="profile-box info-box work" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
             fxFlex.lt-lg="49" fxFlex.lt-xl="49" fxFlex.lt-md="100">
 
             <header class="accent">
@@ -67,32 +67,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- <header class="accent">
-                <div class="title">Work</div>
-            </header>
-
-            <div class="content">
-                <div class="info-line">
-                    <div class="title">Occupation</div>
-                    <div class="info">Lorem ipsum</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Skills</div>
-                    <div class="info">Lorem ipsum</div>
-                </div>
-
-                <div class="info-line">
-                    <div class="title">Jobs</div>
-                    <table class="info jobs">
-                        <tr class="job">
-                            <td class="company">Lorem</td>
-                            <td class="date">Ipsum</td>
-                        </tr>
-                    </table>
-                </div>
-            </div> -->
         </div>
 
         <div class="profile-box info-box contact" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="49"
@@ -191,62 +165,8 @@
                 </div>
             </div>
 
-        </div>
+        </div> -->
 
     </div>
-
-    <!-- <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
-
-        <div class="profile-box friends" fxLayout="column">
-
-            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="title">Friends</div>
-                <div class="more secondary-text">
-                    <span>See 454 more...</span>
-                </div>
-            </header>
-
-            <div class="content" fxLayout="row wrap">
-                <div class="friend" fxFlex="20" *ngFor="let friend of about.friends">
-                    <img [src]="friend.avatar">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="profile-box groups" fxLayout="column">
-
-            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="title">Joined Groups</div>
-                <div class="more secondary-text">
-                    <span>See 6 more...</span>
-                </div>
-            </header>
-
-            <div class="content">
-
-                <div class="group" *ngFor="let group of about.groups" fxLayout="row"
-                     fxLayoutAlign="space-between center">
-
-                    <div fxLayout="row" fxLayoutAlign="start center">
-
-                        <div class="logo">{{group.name.substring(0,1)}}</div>
-
-                        <div>
-                            <div class="name">{{group.name}}</div>
-                            <div class="category">{{group.category}}</div>
-                            <div class="members">{{group.members}} people</div>
-                        </div>
-                    </div>
-
-                    <button mat-icon-button aria-label="More">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-    </div> -->
 
 </div>

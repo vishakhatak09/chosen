@@ -2,6 +2,12 @@ import { environment } from 'environments/environment';
 
 export class AppConstant {
 
+    public static MaxSocialLinks = 4;
+    public static GeneralConst = {
+        UserImagePath: environment.serverImagePath + 'resume/',
+        TemplateBasePath: environment.serverImagePath + 'template/',
+    }
+
     public static MaritalStatusOptions: OptionType[] = [
         {
             value: 'unmarried',
@@ -168,7 +174,23 @@ export class AppConstant {
         saveThirdStepApi: environment.serverBaseUrl + 'api/resume/resumeThirdStep',
         saveFourthStepApi: environment.serverBaseUrl + 'api/resume/resumeForthStep',
         saveFifthStepApi: environment.serverBaseUrl + 'api/resume/resumeFifthStep',
+        saveSixthStepApi: environment.serverBaseUrl + 'api/resume/resumeSixthStep',
     };
+
+    public static JobTypeOptions: OptionType[] = [
+        {
+            value: 'all_jobs',
+            viewValue: 'All Jobs',
+        },
+        {
+            value: 'company_jobs',
+            viewValue: 'Company Jobs',
+        },
+        {
+            value: 'consultant_jobs',
+            viewValue: 'Consultant Jobs',
+        },
+    ];
 }
 
 export interface OptionType {
