@@ -10,7 +10,7 @@ import { AdRegisterComponent } from './register.component';
 
 const routes = [
     {
-        path: 'register',
+        path: '',
         component: AdRegisterComponent
     }
 ];

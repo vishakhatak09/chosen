@@ -20,7 +20,7 @@ import { CoreModule } from 'core/core.module';
 import { AuthGuardService, AdminGuardService } from 'core/services/auth-guard.service';
 import { LandingComponent } from './main/landing/landing.component';
 import 'hammerjs';
-import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
+// import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 
 const appRoutes: Routes = [
     // {
@@ -39,7 +39,6 @@ const appRoutes: Routes = [
     {
         path: 'ad',
         loadChildren: './main/admin/admin.module#AdminModule',
-        canLoad: [AdminGuardService]
     },
     {
         path: '**',

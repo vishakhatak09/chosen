@@ -11,7 +11,7 @@ import { AdForgotPasswordComponent } from './forgot-password.component';
 
 const routes = [
     {
-        path: 'forgot-password',
+        path: '',
         component: AdForgotPasswordComponent
     }
 ];

@@ -12,7 +12,7 @@ import { AdLoginComponent } from './login.component';
 
 const routes = [
     {
-        path: 'login',
+        path: '',
         component: AdLoginComponent
     }
 ];
