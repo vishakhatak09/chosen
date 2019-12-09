@@ -98,11 +98,11 @@ export class LoadingScreenService {
                     }))
                 ]).create(this.splashScreenEl);
 
-        if (this.isPlaying === true) {
+        // if (this.isPlaying === true) {
             setTimeout(() => {
                 this.player.play();
                 this.isPlaying = false;
             }, 1500);
-        }
+        // }
     }
 }

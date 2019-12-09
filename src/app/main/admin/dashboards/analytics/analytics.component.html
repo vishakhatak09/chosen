@@ -36,6 +36,68 @@
 
         <div class="left mr-lg-32">
 
+            <div class="pb-24 font-size-18 font-weight-300" *ngIf="statisticWidget.length > 0">
+                How much your users have their resumes?
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start start">
+                <!-- WIDGET 1 of project-->
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" fxFlex="100"
+                    fxFlex.gt-xs="50" fxFlex.gt-md="25" *ngFor="let stat of statisticWidget">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+                        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                            <mat-form-field style="display: none;">
+                                <mat-select class="simplified font-size-16" [(ngModel)]="stat.currentRange"
+                                    aria-label="Change range">
+                                    <mat-option *ngFor="let range of stat.ranges | keys" [value]="range.key">
+                                        {{range.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <button mat-icon-button fuseWidgetToggle aria-label="more" style="display: none;">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                            <div class="light-blue-fg font-size-72 line-height-72">
+                                <!-- {{stat.data.count[stat.currentRange]}} -->
+                                {{stat.data.count['DT']}}
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">{{stat.data.label}}
+                            </div>
+                        </div>
+
+                        <!-- <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                            <span class="h4 secondary-text text-truncate">
+                                {{widgets.widget1.data.extra.label}}:
+                            </span>
+                            <span class="h4 ml-8">
+                                {{widgets.widget1.data.extra.count[widgets.widget1.currentRange]}}
+                            </span>
+                        </div> -->
+                    </div>
+                    <!-- / Front -->
+
+                    <!-- Back -->
+                    <div class="fuse-widget-back p-16 pt-32">
+                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                            aria-label="Flip widget">
+                            <mat-icon class="s-16">close</mat-icon>
+                        </button>
+
+                        <div>
+                            {{widgets.widget1.detail}}
+                        </div>
+                    </div>
+                    <!-- / Back -->
+
+                </fuse-widget>
+                <!-- WIDGET 1 of project-->
+            </div>
+
             <div class="pb-24 font-size-18 font-weight-300">
                 How are your active users trending over time?
             </div>

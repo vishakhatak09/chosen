@@ -52,4 +52,8 @@ export class AnalyticsDashboardService implements Resolve<any> {
                 }, reject);
         });
     }
+
+    getDashboardData(url: string): Observable<any> {
+        return this._httpClient.get(url);
+    }
 }

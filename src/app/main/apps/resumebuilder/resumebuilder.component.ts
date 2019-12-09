@@ -34,7 +34,8 @@ import {
   EducationModel,
   SkillRating,
   SocialModel,
-  WorkModel
+  WorkModel,
+  MyResumesModel
 } from 'core/models/resumebuilder.model';
 import { ToastrService } from 'core/services/toastr.service';
 import { environment } from 'environments/environment';
@@ -56,7 +57,7 @@ import * as html2canvas from 'html2canvas';
 import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, retry } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -73,6 +74,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   public defaultProfile = environment.baseUrl + 'assets/images/logos/profile.jpg';
+  public getEditUrl = environment.serverBaseUrl + 'api/resume/singleResume';
+  resumeEditData: MyResumesModel;
   public profileSrc: string | ArrayBuffer;
   public profileFileName: string;
   public basicDetailForm: FormGroup;
@@ -144,6 +147,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     // console.log('templateId', this.templateId);
     this.resumeId = this.activatedRoute.snapshot.paramMap.get('resumeId');
     // console.log('resumeId', this.resumeId);
+    if ( this.resumeId ) {
+      this.getResumeData(this.resumeId);
+    }
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -276,11 +282,16 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
     html2canvas(document.querySelector('#save-template')).then(canvas => {
 
-      const pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);
+      // const pdf = new jsPDF('p', 'mm', 'a4');
 
-      const imgData = canvas.toDataURL('image/jpg', 1.0);
-      pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
-      pdf.save('resume_' + moment().toDate().getTime() + '.pdf');
+      // const imgWidth = 208;
+      // // const pageHeight = 295;
+      // const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      // const imgData = canvas.toDataURL('image/png', 1.0);
+      // pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      // // pdf.addImage(imgData, 0, 0, canvas.width, canvas.height); //old
+      // pdf.save('resume_' + moment().toDate().getTime() + '.pdf'); //new
 
     });
     // const doc = new jsPDF();
@@ -426,13 +437,13 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
    * Add Social Link Array
    */
   addSocialLink(): void {
-    if ( this.socialLinkArray.length < this.maxSocialLinks ) {
+    if (this.socialLinkArray.length < this.maxSocialLinks) {
       this.socialLinkArray.push(
         {
           website: '',
           link: ''
         }
-        );
+      );
     }
   }
 
@@ -501,7 +512,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   editAdditional(value): void {
-    const data = Array.from(this.additionalInfoData);
+    const data = _.cloneDeep(this.additionalInfoData);
     const isExist = data.findIndex((info: AdditionalModel) => {
       return info.type.toLowerCase() === value.type.toLowerCase();
     });
@@ -544,7 +555,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     }
     // this.generateRunTimeComponent(true);
     if (this.selectedIndex === 4) {
-      if ( !this.haveAdditionalInfo ) {
+      if (!this.haveAdditionalInfo) {
         const dialogRef = this.matDialog.open(
           ConfirmationDialogComponent,
           {
@@ -757,7 +768,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     } else if (this.selectedIndex === 2) {
       this.saveWorkData();
     } else if (this.selectedIndex === 3) {
-      if ( this.educationData.length === 0 ) {
+      if (this.educationData.length === 0) {
         this.toastrService.displaySnackBar('Please add atleast one education detail', 'error');
         return;
       } else {
@@ -913,9 +924,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   saveAdditionalInfo(): void {
     let additionalData = _.cloneDeep(this.additionalInfoData);
     additionalData = additionalData.filter((info) => {
-      if ( info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations' ) {
+      if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
         info.value = [info.value];
-      } else if ( info.type.toLowerCase() === 'certifications' ) {
+      } else if (info.type.toLowerCase() === 'certifications') {
         info.value = info.value.filter((value: any) => {
           value.date = this.commonService.getMomentFormattedDate(value.date);
           return value;
@@ -937,6 +948,75 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         },
         error => { }
       );
+  }
+
+  getResumeData(resumeId: string): void {
+
+    const params = {
+      'params': {
+        'resumeId': resumeId
+      }
+    };
+
+    this.resumeBuilderService.getTemplateResumeDetail(this.getEditUrl, params)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((resumeData) => {
+        if (resumeData.code === 200 && resumeData.data) {
+          this.resumeEditData = resumeData.data;
+          this.setResumeData(this.resumeEditData);
+        }
+      });
+
+  }
+
+  setResumeData(resumeEditData: MyResumesModel): void {
+
+    if (resumeEditData.personalInfo) {
+      const personalData = resumeEditData.personalInfo;
+      this.basicDetailForm.setValue({
+        firstName: personalData.firstName,
+        lastName: personalData.lastName,
+        contactNumber: personalData.contactNumber,
+        fullAddress: personalData.fullAddress,
+        designation: personalData.designation || '',
+        dateOfBirth: this.commonService.getMomentFromDate(personalData.dateOfBirth) || null,
+        placeOfBirth: personalData.placeOfBirth || null,
+        maritalStatus: personalData.maritalStatus || null,
+        gender: personalData.gender || null,
+      });
+    }
+
+    if (resumeEditData.careerObjective) {
+      this.careerObjForm.setValue({
+        careerObjective: resumeEditData.careerObjective,
+      });
+    }
+
+    this.educationData = resumeEditData.educationHistory.filter((value) => {
+      return value.yearOfPassing = this.commonService.getMomentFromDate(value.yearOfPassing);
+    });
+    this.workExperienceData = resumeEditData.workExperience.filter((value) => {
+      if ( value ) {
+        value.joiningDate = this.commonService.getMomentFromDate(value.joiningDate);
+        value.leavingDate = this.commonService.getMomentFromDate(value.leavingDate);
+      }
+      return value;
+    });
+    if (resumeEditData.additionalInfo && resumeEditData.additionalInfo.length > 0) {
+      this.additionalInfoData = resumeEditData.additionalInfo.filter((info) => {
+        if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
+          info.value = typeof info.value === 'object' && info.value.length > 0 ? info.value[0] : '';
+        }
+        const selected = this.additionalInfoList.findIndex((add) => add.value.toLowerCase() === info.type.toLowerCase());
+        if ( selected !== -1 ) {
+          this.additionalInfoList[selected].checked = true;
+        }
+        return info;
+      });
+      this.haveAdditionalInfo = true;
+      this.cdRef.detectChanges();
+    }
+    this.skillRatingList = resumeEditData.skills;
   }
 
   /**

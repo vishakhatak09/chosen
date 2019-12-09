@@ -44,6 +44,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     @Input() additionalInfo: AdditionalModel[] = [];
     @Input() public profileSrc: string | ArrayBuffer;
     @Input() socialData: SocialModel[] = [];
+    @Input() userEmail: string;
     // Template content
     @Input() content: string;
 

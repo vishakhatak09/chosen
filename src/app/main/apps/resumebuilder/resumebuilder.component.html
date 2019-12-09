@@ -165,7 +165,7 @@
                                             <mat-label>Website</mat-label>
                                             <mat-select placeholder="Select Website" [(value)]="social.website" required>
                                                 <mat-option [value]="site" *ngFor="let site of socialSites">
-                                                    {{ site }}
+                                                    <span class="text-capitalize">{{ site }}</span>
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
@@ -438,7 +438,8 @@
                                     <h3><strong>Additional</strong></h3>
 
                                     <div class="w-100-p additional" *ngFor="let add of additionalInfoList">
-                                        <mat-checkbox (change)="addRemoveAdditional($event.checked, add)">{{add}}
+                                        <mat-checkbox [checked]="add.checked" (change)="addRemoveAdditional($event.checked, add.value)">
+                                            {{add.value}}
                                         </mat-checkbox>
                                     </div>
 
@@ -487,7 +488,7 @@
                 </div>
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
-                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
+                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
                         [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
                     </app-resume-template>
                     <!-- <div #container></div> -->

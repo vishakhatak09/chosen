@@ -6,7 +6,7 @@ export class AppConstant {
     public static GeneralConst = {
         UserImagePath: environment.serverImagePath + 'resume/',
         TemplateBasePath: environment.serverImagePath + 'template/',
-    }
+    };
 
     public static MaritalStatusOptions: OptionType[] = [
         {
@@ -114,19 +114,37 @@ export class AppConstant {
     ];
 
     public static SocialSites: string[] = [
-        'Twitter',
-        'LinkedIn',
-        'Website',
-        'Facebook'
+        'skype',
+        'linkedin',
+        'website',
+        'facebook'
     ];
 
     public static AdditionalInfo = [
-        'Languages',
-        'Interests',
-        'References',
-        'Accomplishments',
-        'Affiliations',
-        'Certifications',
+        {
+            value: 'Languages',
+            checked: false,
+        },
+        {
+            value: 'Interests',
+            checked: false,
+        },
+        {
+            value: 'References',
+            checked: false,
+        },
+        {
+            value: 'Accomplishments',
+            checked: false,
+        },
+        {
+            value: 'Affiliations',
+            checked: false,
+        },
+        {
+            value: 'Certifications',
+            checked: false,
+        },
     ];
 
     public static FooterLinkUrl = 'http://staging.chosenyou.com/';

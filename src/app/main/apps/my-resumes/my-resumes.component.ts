@@ -1,4 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { environment } from 'environments/environment';
+import { Subject } from 'rxjs';
+import { MyResumesService } from './my-resumes.service';
+import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { MyResumesModel } from 'core/models/resumebuilder.model';
+import { AppConstant } from 'core/constants/app.constant';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-my-resumes',
@@ -6,11 +15,90 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./my-resumes.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MyResumesComponent implements OnInit {
+export class MyResumesComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  resumeGetUrl = environment.serverBaseUrl + 'api/resume/profileResumeList';
+  resumeDeleteUrl = environment.serverBaseUrl + 'api/resume/deleteResume';
+  public imageBaseUrl = AppConstant.GeneralConst.UserImagePath;
+  public resumeList: MyResumesModel[] = [];
+
+  // private
+  private _unsubscribeAll: Subject<any> = new Subject();
+  // profileResumeList
+  constructor(
+    private router: Router,
+    private myResumeService: MyResumesService,
+    private matDialog: MatDialog
+  ) { }
 
   ngOnInit() {
+    this.getMyResumeList();
+  }
+
+  getMyResumeList(): void {
+
+    this.myResumeService.getMyResumes(this.resumeGetUrl)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response) => {
+          // console.log(response);
+          if (response.data) {
+            this.resumeList = response.data;
+          }
+        },
+        (err) => {
+          // console.log(err);
+        }
+      );
+
+  }
+
+  onDelete(resume: MyResumesModel): void {
+
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      {
+        data: {
+          msg: 'Are you sure you want to delete this resume ?'
+        },
+        width: 'auto',
+        height: 'auto',
+        disableClose: true,
+      }
+    );
+    dialogRef.afterClosed().subscribe(
+      (confirmation) => {
+        if (confirmation === true) {
+          const params = {
+            params: {
+              resumeId: resume._id,
+            }
+          };
+          this.myResumeService.deleteResume(this.resumeDeleteUrl, params)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(
+              (response) => {
+                if (response.code === 200) {
+                  this.getMyResumeList();
+                }
+              },
+              error => {
+                // console.log(error);
+              }
+            );
+        }
+      }
+    );
+
+  }
+
+  editResume(resume: MyResumesModel): void {
+    this.router.navigate(['/user/' + resume.templateId + '/resumebuilder/' + resume._id]);
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 
 }

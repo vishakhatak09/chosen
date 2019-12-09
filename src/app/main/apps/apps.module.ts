@@ -12,10 +12,6 @@ const routes: Routes = [
     //     loadChildren: './scrumboard/scrumboard.module#ScrumboardModule'
     // },
     {
-        path: 'resume',
-        loadChildren: './resume/resume.module#ResumeModule'
-    },
-    {
         path: ':templateId/resumebuilder',
         loadChildren: './resumebuilder/resumebuilder.module#ResumebuilderModule'
     },

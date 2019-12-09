@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 
 import { fuseAnimations } from '@fuse/animations';
 
@@ -6,6 +6,9 @@ import { AnalyticsDashboardDb } from 'app/fake-db/dashboard-analytics';
 import { AnalyticsDashboardService } from './analytics.service';
 import * as shape from 'd3-shape';
 import { ProjectDashboardDb } from 'app/fake-db/dashboard-project';
+import { environment } from 'environments/environment';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'analytics-dashboard',
@@ -14,12 +17,18 @@ import { ProjectDashboardDb } from 'app/fake-db/dashboard-project';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AnalyticsDashboardComponent implements OnInit {
+export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     widgets: any;
     widget1SelectedYear = '2019';
     widget5SelectedDay = 'today';
     widget5: any = {};
     widget5Data;
+    statisticWidget: any[] = [];
+    public getUserApiUrl = environment.serverBaseUrl + 'admin/dashBoard';
+    dashboardData: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * Constructor
@@ -76,6 +85,7 @@ export class AnalyticsDashboardComponent implements OnInit {
                 curve: shape.curveBasis
             }
         };
+        this.getDashboardDetail();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -138,6 +148,60 @@ export class AnalyticsDashboardComponent implements OnInit {
                 });
             }
         });
+    }
+
+    getDashboardDetail(): void {
+
+        this._analyticsDashboardService.getDashboardData(this.getUserApiUrl)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response) => {
+                if (response.code === 200 && response.data) {
+                    this.dashboardData = response.data;
+                    this.setStatisticWidget();
+                }
+            });
+
+    }
+
+    setStatisticWidget(): void {
+
+        const statisticsList = Object.keys(this.dashboardData);
+        if (statisticsList.length > 0) {
+            statisticsList.forEach((key: string) => {
+                this.statisticWidget.push(
+                    {
+                        'ranges': {
+                            'DY': 'Yesterday',
+                            'DT': 'Today',
+                            'DTM': 'Tomorrow'
+                        },
+                        'currentRange': 'DT',
+                        'data': {
+                            'label': key.toUpperCase(),
+                            'count': {
+                                'DY': 0,
+                                'DT': this.dashboardData[key], // default
+                                'DTM': 0
+                            },
+                            // 'extra': {
+                            //     'label': 'Completed',
+                            //     'count': {
+                            //         'DY': 6,
+                            //         'DT': 7,
+                            //         'DTM': '-'
+                            //     }
+                            // }
+                        },
+                        'detail': 'You can show some detailed information about this widget in here.'
+                    }
+                );
+            });
+        }
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 }
 

@@ -59,9 +59,9 @@
                 </table> -->
                 <div style="display: inline-table;margin: 5px 20px 5px 0;">
                     <img style="width: 14px;display: inline-block;vertical-align: middle;" src="assets/icons/template-icons/envelope.svg" alt="">
-                    <span style="margin-left: 7px;display: inline-block;vertical-align: middle;" *ngIf="templateForm.email" [innerHTML]="templateForm.email">
+                    <span style="margin-left: 7px;display: inline-block;vertical-align: middle;" *ngIf="userEmail" [innerHTML]="userEmail">
                         </span>
-                    <span style="margin-left: 7px;display: inline-block;vertical-align: middle;" *ngIf="!templateForm.email">john.doe@gmail.com
+                    <span style="margin-left: 7px;display: inline-block;vertical-align: middle;" *ngIf="!userEmail">john.doe@gmail.com
                         </span>
                 </div>
                 <div style="display: inline-table;margin: 5px 20px 5px 0;">
@@ -111,7 +111,11 @@
                         </td>
                     </tr>
                 </table> -->
-                <div style="display: inline-table;margin: 5px 20px 5px 0;">
+                <div style="display: inline-table;margin: 5px 20px 5px 0;" *ngFor="let social of socialData">
+                    <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="'assets/icons/template-icons/' + social.website + '.svg'" alt="">
+                    <span style="margin-left: 7px;display: inline-block;vertical-align: middle;" [innerHTML]="social.link"></span>
+                </div>
+                <!-- <div style="display: inline-table;margin: 5px 20px 5px 0;">
                     <img style="width: 14px;display: inline-block;vertical-align: middle;" src="assets/icons/template-icons/linkedin.svg" alt="">
                     <span style="margin-left: 7px;display: inline-block;vertical-align: middle;">linkedin.com/in/john.doe</span>
                 </div>
@@ -126,7 +130,7 @@
                 <div style="display: inline-table;margin: 5px 20px 5px 0;">
                     <img style="width: 14px;display: inline-block;vertical-align: middle;" src="assets/icons/template-icons/website.svg" alt="">
                     <span style="margin-left: 7px;display: inline-block;vertical-align: middle;">www.website.com</span>
-                </div>
+                </div> -->
             </td>
         </tr>
         <tr>

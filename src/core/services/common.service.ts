@@ -13,9 +13,14 @@ export class CommonService {
 
   constructor() { }
 
-  getMomentFormattedDate(date: moment.Moment, format = 'DD/MM/YYYY'): string {
+  getMomentFormattedDate(date: moment.Moment, format = 'MM/DD/YYYY'): string {
     const dateString = date.format(format);
     return dateString;
+  }
+
+  getMomentFromDate(date: string): moment.Moment {
+    const convertedDate = moment(new Date(date));
+    return convertedDate;
   }
 
   getSalaryOptions(): string[] {

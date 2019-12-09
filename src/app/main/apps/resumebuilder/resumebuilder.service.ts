@@ -16,4 +16,8 @@ export class ResumeBuilderService {
     public templateDetail(templateUrl: string, params: any): Observable<any> {
         return this.httpClient.post(templateUrl, params);
     }
+
+    public getTemplateResumeDetail(url: string, params: any): Observable<any> {
+        return this.httpClient.post(url, params);
+    }
 }

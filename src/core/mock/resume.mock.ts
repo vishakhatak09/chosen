@@ -95,6 +95,7 @@ export class ResumeMock {
             joiningDate: moment(),
             leavingDate: moment().year(moment().year() + 1),
             isTillDate: false,
+            _id: '1',
         },
         {
             companyName: 'Sample Company',
@@ -103,6 +104,7 @@ export class ResumeMock {
             joiningDate: moment(),
             leavingDate: moment().year(moment().year() + 1),
             isTillDate: false,
+            _id: '2'
         },
     ];
     public static educationData = [

@@ -4,6 +4,10 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { AdminGuardService } from 'core/services/auth-guard.service';
 
 const routes: Routes = [
+    // {
+    //     path: 'project',
+    //     loadChildren: './dashboards/project/project.module#ProjectDashboardModule'
+    // },
     {
         path: 'login',
         loadChildren: './login/login.module#AdLoginModule'
