@@ -5,6 +5,8 @@ import { takeUntil, startWith, map } from 'rxjs/operators';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { FormControl } from '@angular/forms';
 import { JobModel } from 'core/models/job.model';
+import { MatDialog } from '@angular/material/dialog';
+import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
 
 @Component({
     selector: 'fuse-search-bar',
@@ -21,13 +23,18 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
 
     options: JobModel[] = [
         {
-            title: 'API Developer Jobs in Pune, India',
-            description: 'via Wisdom Jobs India',
-            company: 'FORRET INDIA PRIVATE LIMITED',
-            location: 'Ahmedabad, Gujarat',
-            time: '11 hours ago',
-            jobType: 'Full-Time',
-            logo: 'assets/icons/template-icons/envelope.svg'
+            logo: 'assets/images/logos/fuse.svg',
+            jobPosition: 'Api Developer',
+            jobDescription: 'Full time backend developer with a minimum experience of 1-2 years in core & any framework',
+            state: 'Gujarat',
+            location: 'Ahmedabad',
+            companyName: 'FORRET INDIA PRIVATE LIMITED',
+            keywords: 'API Developer Jobs in Pune, India',
+            workExperience: '1 - 2',
+            expectedSalary: '20',
+            industry: 'IT',
+            jobCategory: 'IT Software - All Jobs',
+            jobType: 'All Jobs',
         }
     ];
     filteredOptions: Observable<JobModel[]>;
@@ -41,7 +48,8 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
      * @param {FuseConfigService} _fuseConfigService
      */
     constructor(
-        private _fuseConfigService: FuseConfigService
+        private _fuseConfigService: FuseConfigService,
+        private matDialog: MatDialog
     ) {
         // Set the defaults
         this.input = new EventEmitter();
@@ -79,7 +87,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
         if (typeof value === 'string') {
             const filterValue = value.toLowerCase();
 
-            return this.options.filter(option => option.title.toLowerCase().includes(filterValue));
+            return this.options.filter(option => option.jobDescription.toLowerCase().includes(filterValue));
         }
     }
 
@@ -118,6 +126,19 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
      */
     search(event): void {
         this.input.emit(event.target.value);
+    }
+
+    selectedJob(event): void {
+        this.searchBox.setValue(event.option.value.title, { emitEvent: false });
+        this.openJobModal(event.option.value);
+    }
+
+    openJobModal(data: JobModel): void {
+        this.matDialog.open(JobDetailComponent, {
+            width: '1000px',
+            height: 'auto',
+            data: data
+        });
     }
 
 }

@@ -28,6 +28,7 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 import { CommonService } from 'core/services/common.service';
 import { ResumeBuilderResolver } from './resumebuilder.resolver';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 const routes: Routes = [
   {
@@ -75,7 +76,8 @@ const routes: Routes = [
     MatDialogModule,
     FuseMaterialColorPickerModule,
 
-    EditorModule
+    EditorModule,
+    PDFExportModule
   ],
   providers: [ResumeBuilderService, CommonService, ResumeBuilderResolver],
   schemas: []

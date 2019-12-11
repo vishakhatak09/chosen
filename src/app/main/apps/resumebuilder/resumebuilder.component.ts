@@ -52,13 +52,12 @@ import { ResumeBuilderService } from './resumebuilder.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService } from 'core/services/authentication.service';
 declare var tinymce: any;
-import * as jsPDF from 'jspdf';
-import * as html2canvas from 'html2canvas';
 import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
-import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
-import { takeUntil, retry } from 'rxjs/operators';
+// import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
+import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import htmlToImage from 'html-to-image';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -111,6 +110,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   public MockTemplate: string;
   isLinear = true;
   userEmail: string;
+  userName: string;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -124,6 +124,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   public resumeId: string;
   public maxSocialLinks = AppConstant.MaxSocialLinks;
 
+  public resolution: number;
   /**
    * Constructor
    * @param _formBuilder FormBuilder
@@ -198,6 +199,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
     const userData = this.authService.currentUserValue;
     this.userEmail = userData ? userData.email : '';
+    this.userName = userData ? userData.name : '';
   }
 
   ngAfterContentInit(): void {
@@ -278,28 +280,27 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     }
   }
 
-  saveAsPdf(): void {
+  saveAsPdf(pdf: any): void {
+      pdf.saveAs(`resume_${this.userName}`);
+    // this.generateImage();
 
-    html2canvas(document.querySelector('#save-template')).then(canvas => {
+  }
 
-      // const pdf = new jsPDF('p', 'mm', 'a4');
-
-      // const imgWidth = 208;
-      // // const pageHeight = 295;
-      // const imgHeight = canvas.height * imgWidth / canvas.width;
-
-      // const imgData = canvas.toDataURL('image/png', 1.0);
-      // pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      // // pdf.addImage(imgData, 0, 0, canvas.width, canvas.height); //old
-      // pdf.save('resume_' + moment().toDate().getTime() + '.pdf'); //new
-
-    });
-    // const doc = new jsPDF();
-    // doc.addHTML(this.templateContent.nativeElement , () => {
-    //   const timestamp = Date.now();
-    //   doc.save(`resume_${timestamp}.pdf`);
-    // });
-    // doc.text('Hello world!', 10, 10);
+  generateImage(): void {
+    const node = document.getElementById('template-resume');
+    if ( node ) {
+      const oldWidth = node.style.width;
+      node.style.width = '100%';
+      htmlToImage.toPng(node)
+      .then((dataUrl) => {
+        console.log('dataUrl', dataUrl);
+        node.style.width = oldWidth;
+      })
+      .catch((error) => {
+        console.error('oops, something went wrong!', error);
+        node.style.width = oldWidth;
+      });
+    }
   }
 
   openWorkDialog(): void {
@@ -945,6 +946,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .subscribe(
         (response) => {
           console.log(response);
+          this.saveTemplatePdfImg();
         },
         error => { }
       );
@@ -1017,6 +1019,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       this.cdRef.detectChanges();
     }
     this.skillRatingList = resumeEditData.skills;
+  }
+
+  saveTemplatePdfImg(): void {
+    this.router.navigate(['/user/my-resumes']);
   }
 
   /**

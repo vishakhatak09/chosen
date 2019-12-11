@@ -31,7 +31,7 @@
                 <button mat-mini-fab type="button" matTooltip="Preview" [matTooltipPosition]="'above'" (click)="templatePreview()" class="save-product-button">
                     <mat-icon>remove_red_eye</mat-icon>
                 </button>
-                <button *ngIf="allowDownload" mat-mini-fab type="button" matTooltip="Download" [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf()">
+                <button *ngIf="allowDownload || resumeEditData" mat-mini-fab type="button" matTooltip="Download" [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf(pdf)">
                     <mat-icon>picture_as_pdf</mat-icon>
                 </button>
             </div>
@@ -193,7 +193,7 @@
                             <ng-template matStepLabel>Career Objective</ng-template>
 
                             <div class="tab-content" *ngIf="selectedIndex == 1">
-                                <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume" [formGroup]="careerObjForm">
+                                <form fxLayout="row wrap" fxLayoutAlign="start start" name="resume" [formGroup]="careerObjForm" (ngSubmit)="formSubmit()">
 
                                     <div class="w-100-p p-8">
                                         <ng-container *ngTemplateOutlet="editor"></ng-container>
@@ -488,9 +488,11 @@
                 </div>
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
-                    <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                        [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
-                    </app-resume-template>
+                    <kendo-pdf-export #pdf [imageResolution]="resolution">
+                        <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
+                            [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
+                        </app-resume-template>
+                    </kendo-pdf-export>
                     <!-- <div #container></div> -->
                 </div>
 

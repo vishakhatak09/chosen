@@ -12,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { JobMgmtComponent } from './job-mgmt.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { JobMgmtService } from './job-mgmt.service';
-import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
 
 const routes: Routes = [
   {
@@ -22,8 +21,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [JobMgmtComponent, JobDetailComponent],
-  entryComponents: [JobDetailComponent],
+  declarations: [JobMgmtComponent],
+  entryComponents: [],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,

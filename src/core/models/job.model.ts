@@ -1,10 +1,14 @@
-export interface JobModel {
-    title: string;
-    description: string;
-    company: string;
-    location: string; 
-    time: any;
-    jobType: 'Full-Time' | 'Part-Time';
+export interface JobModel {jobPosition: string;
+    jobDescription: string;
+    state: string;
+    location: string;
+    companyName: string;
+    keywords: string;
+    workExperience: string;
+    expectedSalary: string;
+    industry: string;
+    jobCategory: string;
+    jobType: string;
     logo?: string;
 }
 

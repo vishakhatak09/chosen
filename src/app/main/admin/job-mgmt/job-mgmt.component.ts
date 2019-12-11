@@ -31,7 +31,7 @@ export class JobMgmtComponent implements OnInit {
     }
   ];
 
-  public getJobDataApiUrl = environment.serverBaseUrl + 'admin/job/get';
+  public getJobDataApiUrl = environment.serverBaseUrl + 'admin/job/jobList';
   public deleteJobApiUrl = environment.serverBaseUrl + 'admin/job/delete';
 
   displayedColumns = ['jobPosition', 'companyName', 'location', 'action'];
@@ -55,7 +55,6 @@ export class JobMgmtComponent implements OnInit {
   constructor(
     private matDialog: MatDialog,
     private jobService: JobMgmtService,
-    private dialog: MatDialog
   ) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -64,8 +63,8 @@ export class JobMgmtComponent implements OnInit {
   ngOnInit() {
 
     // this.initSearch();
-    // this.getUsers();
-    this.initDataTable(this.jobDataList);
+    this.getUsers();
+    // this.initDataTable(this.jobDataList);
 
   }
 
@@ -143,15 +142,6 @@ export class JobMgmtComponent implements OnInit {
         }
       }
     );
-
-  }
-
-  openDialog(): void {
-
-    this.dialog.open(JobDetailComponent, {
-      width: 'auto',
-      height: 'auto',
-    });
 
   }
 

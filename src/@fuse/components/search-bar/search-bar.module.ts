@@ -9,11 +9,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FuseSearchBarComponent } from './search-bar.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FuseSharedModule } from '@fuse/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
 
 @NgModule({
     declarations: [
-        FuseSearchBarComponent
+        FuseSearchBarComponent,
+        JobDetailComponent
     ],
+    entryComponents: [JobDetailComponent],
     imports: [
         CommonModule,
         RouterModule,
@@ -23,7 +27,8 @@ import { FuseSharedModule } from '@fuse/shared.module';
         MatAutocompleteModule,
         ReactiveFormsModule,
         FormsModule,
-        FuseSharedModule
+        FuseSharedModule,
+        MatDialogModule
     ],
     exports: [
         FuseSearchBarComponent
