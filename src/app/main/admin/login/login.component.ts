@@ -10,6 +10,7 @@ import { environment } from 'environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'core/services/toastr.service';
+import { EncryptDecryptService } from 'core/services/encrypt-decrypt.service';
 
 @Component({
     selector: 'ad-login',
@@ -37,7 +38,8 @@ export class AdLoginComponent implements OnInit, OnDestroy {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _authService: AuthenticationService,
-        private _toastrService: ToastrService
+        private _toastrService: ToastrService,
+        private _encryptDecryptService: EncryptDecryptService
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -89,10 +91,11 @@ export class AdLoginComponent implements OnInit, OnDestroy {
         if (this.loginForm.valid) {
             this.isLoading = true;
             const formValue = this.loginForm.value;
+            const encryptedPswd = this._authService.encryptPassword(formValue.password);
             const params = {
                 'params': {
                     'email': formValue.email,
-                    'password': formValue.password
+                    'password': encryptedPswd
                 }
             };
             this._authService.login(this.adminLoginUrl, params)

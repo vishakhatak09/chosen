@@ -86,11 +86,12 @@ export class AdRegisterComponent implements OnInit, OnDestroy {
         if (this.registerForm.valid) {
             this.isLoading = true;
             const formValue = this.registerForm.value;
+            const encryptedPswd = this._authService.encryptPassword(formValue.password);
             const params = {
                 'params': {
                     'name': formValue.name,
                     'email': formValue.email,
-                    'password': formValue.password
+                    'password': encryptedPswd
                 }
             };
             this._authService.register(this.signUpUrl, params)

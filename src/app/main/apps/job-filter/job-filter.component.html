@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>
+  Job Filter
+  <button mat-icon-button matTooltip="Close" [matTooltipPosition]="'above'" (click)="dialogRef.close()"
+    class="dialog-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div mat-dialog-content fxLayout="row wrap">
+
+  <div fxLayout="row wrap"></div>
+  <div mat-dialog-actions style="flex-direction: row-reverse;width: 100%;">
+    <button type="button" class="accent" mat-raised-button (click)="dialogRef.close()">Cancel</button> &nbsp;
+    <button type="submit" class="accent" mat-raised-button>Apply</button>
+  </div>
+</div>

@@ -148,7 +148,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     // console.log('templateId', this.templateId);
     this.resumeId = this.activatedRoute.snapshot.paramMap.get('resumeId');
     // console.log('resumeId', this.resumeId);
-    if ( this.resumeId ) {
+    if (this.resumeId) {
       this.getResumeData(this.resumeId);
     }
   }
@@ -281,25 +281,25 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveAsPdf(pdf: any): void {
-      pdf.saveAs(`resume_${this.userName}`);
+    pdf.saveAs(`resume_${this.userName}`);
     // this.generateImage();
 
   }
 
   generateImage(): void {
     const node = document.getElementById('template-resume');
-    if ( node ) {
+    if (node) {
       const oldWidth = node.style.width;
       node.style.width = '100%';
       htmlToImage.toPng(node)
-      .then((dataUrl) => {
-        console.log('dataUrl', dataUrl);
-        node.style.width = oldWidth;
-      })
-      .catch((error) => {
-        console.error('oops, something went wrong!', error);
-        node.style.width = oldWidth;
-      });
+        .then((dataUrl) => {
+          console.log('dataUrl', dataUrl);
+          node.style.width = oldWidth;
+        })
+        .catch((error) => {
+          console.error('oops, something went wrong!', error);
+          node.style.width = oldWidth;
+        });
     }
   }
 
@@ -574,9 +574,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           if (resp === true) {
             this.haveAdditionalInfo = true;
             this.cdRef.detectChanges();
-            setTimeout(() => {
-              this.selectedIndex = 5;
-            }, 10);
+            this.saveSkills(true);
+            // setTimeout(() => {
+            //   this.selectedIndex = 5;
+            // }, 10);
           } else {
             this.saveSkills();
           }
@@ -903,7 +904,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       );
   }
 
-  saveSkills(): void {
+  saveSkills(haveAdditionalInfo = false): void {
 
     const params = {
       'params': {
@@ -915,7 +916,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (response) => {
-          this.selectedIndex = this.selectedIndex + 1;
+          if (haveAdditionalInfo) {
+            this.selectedIndex = 5;
+          } else {
+            this.saveTemplatePdfImg();
+          }
+
         },
         error => { }
       );
@@ -986,6 +992,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         maritalStatus: personalData.maritalStatus || null,
         gender: personalData.gender || null,
       });
+      this.socialLinkArray = personalData.socialLinks;
     }
 
     if (resumeEditData.careerObjective) {
@@ -998,7 +1005,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       return value.yearOfPassing = this.commonService.getMomentFromDate(value.yearOfPassing);
     });
     this.workExperienceData = resumeEditData.workExperience.filter((value) => {
-      if ( value ) {
+      if (value) {
         value.joiningDate = this.commonService.getMomentFromDate(value.joiningDate);
         value.leavingDate = this.commonService.getMomentFromDate(value.leavingDate);
       }
@@ -1010,7 +1017,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           info.value = typeof info.value === 'object' && info.value.length > 0 ? info.value[0] : '';
         }
         const selected = this.additionalInfoList.findIndex((add) => add.value.toLowerCase() === info.type.toLowerCase());
-        if ( selected !== -1 ) {
+        if (selected !== -1) {
           this.additionalInfoList[selected].checked = true;
         }
         return info;

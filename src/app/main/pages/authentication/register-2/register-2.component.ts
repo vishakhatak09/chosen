@@ -86,11 +86,12 @@ export class Register2Component implements OnInit, OnDestroy {
         if (this.registerForm.valid) {
             this.isLoading = true;
             const formValue = this.registerForm.value;
+            const pswd = this._authService.encryptPassword(this.registerForm.value.password);
             const params = {
                 'params': {
                     'name': formValue.name,
                     'email': formValue.email,
-                    'password': formValue.password
+                    'password': pswd
                 }
             };
             this._authService.register(this.signUpUrl, params)

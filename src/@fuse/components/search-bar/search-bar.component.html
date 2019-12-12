@@ -9,11 +9,11 @@
                 <mat-icon class="s-24 secondary-text">search</mat-icon>
             </button>
         </label>
-        <div class="border-left" *ngIf="collapsed">
+        <!-- <div class="border-left" *ngIf="collapsed">
             <button mat-icon-button class="fuse-search-bar-expander">
                     <mat-icon class="s-24 secondary-text">filter_list</mat-icon>
                 </button>
-        </div>
+        </div> -->
         <input id="fuse-search-bar-input" class="ml-24" type="text" placeholder="Search" [formControl]="searchBox" (input)="search($event)" fxFlex [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selectedJob($event)">
             <mat-option class="search-list border-bottom p-16" *ngFor="let option of filteredOptions | async" [value]="option">
@@ -80,6 +80,13 @@
         <button mat-icon-button class="fuse-search-bar-collapser" (click)="collapse()" aria-label="Collapse Search Bar">
             <mat-icon class="s-24 secondary-text">close</mat-icon>
         </button>
+
+        <div class="border-left" *ngIf="!collapsed">
+            <button mat-icon-button class="fuse-search-bar-expander"
+                matTooltip="Apply Filter" [matTooltipPosition]="'above'" (click)="openFilterModal()">
+                <mat-icon class="s-24 secondary-text">filter_list</mat-icon>
+            </button>
+        </div>
 
     </div>
 

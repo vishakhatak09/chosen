@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { JobModel } from 'core/models/job.model';
 import { MatDialog } from '@angular/material/dialog';
 import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
+import { JobFilterComponent } from 'app/main/apps/job-filter/job-filter.component';
 
 @Component({
     selector: 'fuse-search-bar',
@@ -22,20 +23,20 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
     input: EventEmitter<any>;
 
     options: JobModel[] = [
-        {
-            logo: 'assets/images/logos/fuse.svg',
-            jobPosition: 'Api Developer',
-            jobDescription: 'Full time backend developer with a minimum experience of 1-2 years in core & any framework',
-            state: 'Gujarat',
-            location: 'Ahmedabad',
-            companyName: 'FORRET INDIA PRIVATE LIMITED',
-            keywords: 'API Developer Jobs in Pune, India',
-            workExperience: '1 - 2',
-            expectedSalary: '20',
-            industry: 'IT',
-            jobCategory: 'IT Software - All Jobs',
-            jobType: 'All Jobs',
-        }
+        // {
+        //     logo: 'assets/images/logos/fuse.svg',
+        //     jobPosition: 'Api Developer',
+        //     jobDescription: 'Full time backend developer with a minimum experience of 1-2 years in core & any framework',
+        //     state: 'Gujarat',
+        //     location: 'Ahmedabad',
+        //     companyName: 'FORRET INDIA PRIVATE LIMITED',
+        //     keywords: 'API Developer Jobs in Pune, India',
+        //     workExperience: '1 - 2',
+        //     expectedSalary: '20',
+        //     industry: 'IT',
+        //     jobCategory: 'IT Software - All Jobs',
+        //     jobType: 'All Jobs',
+        // }
     ];
     filteredOptions: Observable<JobModel[]>;
 
@@ -139,6 +140,17 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
             height: 'auto',
             data: data
         });
+    }
+
+    openFilterModal(): void {
+        // const dialogRef = this.matDialog.open(JobFilterComponent, {
+        //     width: '1000px',
+        //     height: 'auto',
+        //     data: {}
+        // });
+        // dialogRef.afterClosed().subscribe((response) => {
+
+        // });
     }
 
 }

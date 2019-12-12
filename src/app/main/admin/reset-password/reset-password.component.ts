@@ -83,11 +83,11 @@ export class AdResetPasswordComponent implements OnInit, OnDestroy {
     onResetPassword(): void {
 
         this.isLogin = true;
-
+        const encryptedPswd = this._authService.encryptPassword(this.resetPasswordForm.value.password);
         const params = {
             'params': {
                 'emailVerificationToken': this.resetToken,
-                'password': this.resetPasswordForm.value.password,
+                'password': encryptedPswd,
             }
         };
         this._authService.resetPassword(this.resetPswdApi, params)

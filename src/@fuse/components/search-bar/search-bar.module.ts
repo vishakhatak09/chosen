@@ -11,13 +11,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { JobFilterComponent } from 'app/main/apps/job-filter/job-filter.component';
 
 @NgModule({
     declarations: [
         FuseSearchBarComponent,
-        JobDetailComponent
+        JobDetailComponent,
+        JobFilterComponent
     ],
-    entryComponents: [JobDetailComponent],
+    entryComponents: [JobDetailComponent, JobFilterComponent],
     imports: [
         CommonModule,
         RouterModule,
@@ -28,7 +31,8 @@ import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.componen
         ReactiveFormsModule,
         FormsModule,
         FuseSharedModule,
-        MatDialogModule
+        MatDialogModule,
+        MatTooltipModule
     ],
     exports: [
         FuseSearchBarComponent

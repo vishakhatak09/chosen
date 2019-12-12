@@ -1,0 +1,30 @@
+@import "src/@fuse/scss/fuse";
+
+:host{
+    .mat-dialog-title{
+        color: mat-color($mat-green, 600); 
+        margin: 0 0 10px 0;
+    }
+    .mat-dialog-content{
+        overflow: visible;
+
+        .detail-icon{
+            color: #80808080 !important;
+        }
+
+        form {
+            padding-left: 20px;
+        
+            .mat-dialog-actions {
+                // float: right;
+                color: mat-color($mat-green, 600); 
+                width: 100%;
+                flex-direction: row-reverse;
+            }
+        }
+    } 
+    .dialog-close-btn{
+        float: right;
+        color: black !important;
+    }
+}

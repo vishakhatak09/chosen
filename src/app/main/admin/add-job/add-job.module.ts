@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { Ng5SliderModule } from 'ng5-slider';
 import { CommonService } from 'core/services/common.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
     MatInputModule,
     MatTooltipModule,
     MatSelectModule,
-    Ng5SliderModule
+    Ng5SliderModule,
+    MatAutocompleteModule
   ],
   providers: [CommonService]
 })

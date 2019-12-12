@@ -23,13 +23,7 @@ import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.componen
 export class JobMgmtComponent implements OnInit {
 
   dataSource: MatTableDataSource<any[]> = new MatTableDataSource([]);
-  jobDataList: any[] = [
-    {
-      'jobPosition': 'Software Developer / Sr. Software Engineer',
-      'companyName': 'Sixth Energy Technologies Pvt Ltd',
-      'location': 'Ahmedabad'
-    }
-  ];
+  jobDataList: any[] = [];
 
   public getJobDataApiUrl = environment.serverBaseUrl + 'admin/job/jobList';
   public deleteJobApiUrl = environment.serverBaseUrl + 'admin/job/delete';
@@ -95,11 +89,11 @@ export class JobMgmtComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         data => {
-          console.log('jobdata', data);
+          this.jobDataList = data.data;
           this.initDataTable(this.jobDataList);
         },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
 
@@ -135,7 +129,7 @@ export class JobMgmtComponent implements OnInit {
                 this.getUsers();
               },
               error => {
-                console.log(error);
+                // console.log(error);
               }
             );
 

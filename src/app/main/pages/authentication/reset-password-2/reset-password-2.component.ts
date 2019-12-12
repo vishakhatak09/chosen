@@ -87,11 +87,12 @@ export class ResetPassword2Component implements OnInit, OnDestroy {
     onResetPassword(): void {
 
         this.isLogin = true;
+        const pswd = this._authService.encryptPassword(this.resetPasswordForm.value.password);
 
         const params = {
             'params': {
                 'emailVerificationToken': this.resetToken,
-                'password': this.resetPasswordForm.value.password,
+                'password': pswd,
             }
         };
         this._authService.resetPassword(this.resetPswdApi, params)

@@ -4,14 +4,14 @@ import { fuseAnimations } from '@fuse/animations';
 import { AppConstant } from 'core/constants/app.constant';
 import { Options } from 'ng5-slider';
 import { CommonService } from 'core/services/common.service';
-import { MatSelectChange } from '@angular/material/select';
 import { CityModel } from 'core/models/job.model';
 import { JobIndustry, JobCategory } from 'core/constants/job-constant';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { takeUntil, startWith, map } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-add-job',
@@ -40,7 +40,13 @@ export class AddJobComponent implements OnInit, OnDestroy {
   CityList: CityModel[] = [];
   JobIndustryList: string[] = JobIndustry;
   JobCategoryList: string[] = JobCategory;
-  public addJobDataApiUrl = environment.serverBaseUrl + 'admin/job/jobList';
+
+  filteredStateOptions: Observable<string[]>;
+  filteredCityOptions: Observable<CityModel[]>;
+  filteredIndustryOptions: Observable<string[]>;
+  filteredCategoryOptions: Observable<string[]>;
+
+  public addJobDataApiUrl = environment.serverBaseUrl + 'admin/job/createJob';
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -55,8 +61,9 @@ export class AddJobComponent implements OnInit, OnDestroy {
     this.StateList = this.commonService.getStateList();
   }
 
-  getCityFromState(event: MatSelectChange): void {
-    const stateId = event.value;
+  getCityFromState(event: MatAutocompleteSelectedEvent): void {
+    const stateId = event.option.value;
+
     this.CityList = this.commonService.getCity(stateId);
   }
 
@@ -76,6 +83,59 @@ export class AddJobComponent implements OnInit, OnDestroy {
       jobType: ['', Validators.required],
     });
 
+    this.initSearch();
+
+  }
+
+  initSearch(): void {
+
+    this.filteredStateOptions = this.addJobForm.get('state').valueChanges.pipe(
+      startWith(''),
+      map(value => value ? this._stateFilter(value) : this.StateList.slice())
+    );
+
+    this.filteredCityOptions = this.addJobForm.get('location').valueChanges.pipe(
+      startWith(''),
+      map(value => value ? this._cityFilter(value) : this.CityList.slice())
+    );
+
+    this.filteredIndustryOptions = this.addJobForm.get('industry').valueChanges.pipe(
+      startWith(''),
+      map(value => value ? this._industryJobTypeFilter(value, 'industry') : this.JobIndustryList.slice())
+    );
+
+    this.filteredCategoryOptions = this.addJobForm.get('jobCategory').valueChanges.pipe(
+      startWith(''),
+      map(value => value ? this._industryJobTypeFilter(value, 'jobCategory') : this.JobCategoryList.slice())
+    );
+
+  }
+
+  private _stateFilter(value: string): string[] {
+    if (typeof value === 'string') {
+      this.CityList = [];
+      this.addJobForm.get('location').reset();
+      const filterValue = value.toLowerCase();
+      return this.StateList.filter(option => option.toLowerCase().includes(filterValue));
+    }
+  }
+
+  private _cityFilter(value: string): CityModel[] {
+    if (typeof value === 'string') {
+      const filterValue = value.toLowerCase();
+      return this.CityList.filter(option => option.city.toLowerCase().includes(filterValue));
+    }
+  }
+
+  private _industryJobTypeFilter(value: string, type: 'industry' | 'jobCategory'): string[] {
+    if (typeof value === 'string') {
+      const filterValue = value.toLowerCase();
+      if (type === 'industry') {
+        return this.JobIndustryList.filter(option => option.toLowerCase().includes(filterValue));
+      } else {
+        return this.JobCategoryList.filter(option => option.toLowerCase().includes(filterValue));
+      }
+    }
   }
 
   onSubmit(): void {
@@ -91,7 +151,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
           'jobType': formValues.jobType,
           'location': formValues.location + ', ' + formValues.state,
           'workExperience': {
-            'years': formValues.workExperience,
+            'years': this.maxExperience,
             'month': '0'
           },
           'salary': formValues.expectedSalary,
@@ -104,11 +164,10 @@ export class AddJobComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(
           (response) => {
-            console.log(response);
             this.router.navigate(['/ad/job-mgmt']);
           },
           (error) => {
-            console.log(error);
+            // console.log(error);
           }
         );
     }

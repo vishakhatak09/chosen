@@ -179,12 +179,14 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         } else {
             this.skillList = this.skillData;
         }
-        if (!this.fontColor) {
-            this.fontColor = 'rgba(0, 0, 0, 0.87)';
-        }
-        if (!this.backColor) {
-            this.backColor = '#e0e0e0';
-        }
+        // if (!this.fontColor) {
+        //     this.fontColor = 'rgba(0, 0, 0, 0.87)';
+        // }
+        // if (!this.backColor) {
+        //     this.backColor = '#e0e0e0';
+        // }
+        this.fontColor = 'black';
+        this.backColor = '';
         const additionalDataList = _.clone(this.additionalInfo);
         this.additionalList = additionalDataList.filter((info) => {
             if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {

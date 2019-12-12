@@ -59,13 +59,13 @@
                             <mat-form-field fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fxFlex.md="100"
                                 floatLabel="always" appearance="outline" class="pl-4">
                                 <mat-label>Job Location State</mat-label>
-                                <mat-select placeholder="Select Job Location State" name="State"
-                                    (selectionChange)="getCityFromState($event)" formControlName="state"
-                                    autocomplete="off" required>
-                                    <mat-option *ngFor="let option of StateList" [value]="option">
-                                        {{ option }}
+                                <input matInput type="text" placeholder="Select Job Location State" formControlName="state"
+                                    autocomplete="off" required fxFlex [matAutocomplete]="auto">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="getCityFromState($event)">
+                                    <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
+                                        {{option}}
                                     </mat-option>
-                                </mat-select>
+                                </mat-autocomplete>
                                 <mat-error *ngIf="addJobForm.get('state').hasError('required')">
                                     Please select state for job location
                                 </mat-error>
@@ -74,12 +74,13 @@
                             <mat-form-field fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fxFlex.md="100"
                                 floatLabel="always" appearance="outline" class="pl-4">
                                 <mat-label>Job Location City</mat-label>
-                                <mat-select placeholder="Select Job Location" name="Location" formControlName="location"
-                                    autocomplete="off" required>
-                                    <mat-option *ngFor="let option of CityList" [value]="option.city">
-                                        {{ option.city }}
+                                <input matInput type="text" placeholder="Select Job Location" name="Location"
+                                    formControlName="location" autocomplete="off" required fxFlex [matAutocomplete]="autoState">
+                                <mat-autocomplete autoActiveFirstOption #autoState="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option.city">
+                                        {{option.city}}
                                     </mat-option>
-                                </mat-select>
+                                </mat-autocomplete>
                                 <mat-error *ngIf="addJobForm.get('location').hasError('required')">
                                     Please select job location
                                 </mat-error>
@@ -110,7 +111,6 @@
                                     [(highValue)]="maxExperience" [options]="options"></ng5-slider>
                             </div>
 
-
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
                                 <mat-label>Expected Salary (in Lakhs)</mat-label>
                                 <mat-select placeholder="Expected Salary (in Lakhs)" name="ExpectedSalary"
@@ -127,12 +127,13 @@
                             <!-- industry -->
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
                                 <mat-label>Industry</mat-label>
-                                <mat-select placeholder="Select Industry" name="Industry" formControlName="industry"
-                                    autocomplete="off" required>
-                                    <mat-option *ngFor="let option of JobIndustryList" [value]="option">
-                                        {{ option }}
+                                <input matInput type="text" placeholder="Select Industry" name="Industry"
+                                    formControlName="industry" autocomplete="off" required fxFlex [matAutocomplete]="autoIndustry">
+                                <mat-autocomplete autoActiveFirstOption #autoIndustry="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredIndustryOptions | async" [value]="option">
+                                        {{option}}
                                     </mat-option>
-                                </mat-select>
+                                </mat-autocomplete>
                                 <mat-error *ngIf="addJobForm.get('industry').hasError('required')">
                                     Please select industry
                                 </mat-error>
@@ -140,12 +141,13 @@
 
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
                                 <mat-label>Job Category</mat-label>
-                                <mat-select placeholder="Select Job Category" name="JobCategory"
-                                    formControlName="jobCategory" autocomplete="off" required>
-                                    <mat-option *ngFor="let option of JobCategoryList" [value]="option">
-                                        {{ option }}
+                                <input matInput type="text" placeholder="Select Job Category" name="JobCategory"
+                                    formControlName="jobCategory" autocomplete="off" required fxFlex [matAutocomplete]="autoJobType">
+                                <mat-autocomplete autoActiveFirstOption #autoJobType="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredCategoryOptions | async" [value]="option">
+                                        {{option}}
                                     </mat-option>
-                                </mat-select>
+                                </mat-autocomplete>
                                 <mat-error *ngIf="addJobForm.get('jobCategory').hasError('required')">
                                     Please select job category
                                 </mat-error>

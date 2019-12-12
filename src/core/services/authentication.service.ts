@@ -133,4 +133,9 @@ export class AuthenticationService {
     this._encryptDecryptService.setEncryptedLocalStorage(AppConstant.AuthStorageKey, user);
     this.currentUserSubject.next(user);
   }
+
+  encryptPassword(password: string): string {
+    return password;
+    // return this._encryptDecryptService.encryptData(password).toString();
+  }
 }

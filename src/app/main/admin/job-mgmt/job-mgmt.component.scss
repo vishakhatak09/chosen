@@ -128,22 +128,17 @@ job-mgmt {
             align-items: center;
         }
 
-        .mat-column-id {
-            flex: 0 1 84px;
+        .mat-column-jobPosition{
+            flex: 0 1 20%;
         }
-
-        .mat-column-image {
-            flex: 0 1 84px;
-
-            .product-image {
-                width: 52px;
-                height: 52px;
-                border: 1px solid rgba(0, 0, 0, .12);
-            }
+        .mat-column-companyName{
+            flex: 0 1 30%;
         }
-
-        .mat-column-buttons {
-            flex: 0 1 80px;
+        .mat-column-location{
+            flex: 0 1 25%;
+        }
+        .mat-column-action{
+            flex: 0 1 10%;
         }
 
         .quantity-indicator {

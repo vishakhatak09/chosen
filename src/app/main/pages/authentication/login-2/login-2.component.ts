@@ -87,10 +87,11 @@ export class Login2Component implements OnInit, OnDestroy {
         if (this.loginForm.valid) {
             this.isLoading = true;
             const formValue = this.loginForm.value;
+            const encryptedPswd = this.authService.encryptPassword(formValue.password);
             const params = {
                 'params': {
                     'email': formValue.email,
-                    'password': formValue.password
+                    'password': encryptedPswd
                 }
             };
             this.authService.login(this.loginUrl, params)
