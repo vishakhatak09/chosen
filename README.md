@@ -1,12 +1,11 @@
 # Chosen - Angular
 
-Resume builder with Angular 8 and Angular Material
+Chosen
 
 ## The Community
 
-Share your ideas, discuss Fuse and help each other.
+Share your ideas, discuss and help each other.
 
-[Click here](http://staging.chosenyou.com) to see our Community page.
 
 ## Development server
 
