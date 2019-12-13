@@ -76,7 +76,7 @@
 
                 <!-- Action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Action</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
                     <mat-cell *matCellDef="let order" >
                         <button mat-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'"
                             class="gray-400-fg" [routerLink]="['/ad/' + order._id + '/add-job']">

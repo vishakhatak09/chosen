@@ -50,10 +50,10 @@
                                 <input type="text" hidden formControlName="image">
                             </div>
 
-                            <mat-error *ngIf=" contentForm.touched && contentForm.get('image').hasError('required')">
+                            <!-- <mat-error *ngIf=" contentForm.touched && contentForm.get('image').hasError('required')">
                                 Please select landing page image
                             </mat-error>
-
+ -->
                             <div floatLabel="always" class="pl-4" fxFlex="100"
                                 *ngFor="let img of imageArray; let index=index;">
                                 <span class="accent upload-span border-radius-16 p-8 w-50-p">
@@ -66,25 +66,25 @@
 
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
                                 <textarea matInput placeholder="Enter Landing Page Text" name="mainTextInput"
-                                    formControlName="mainText" autocomplete="off" required>
+                                    formControlName="mainText" autocomplete="off" >
                                         </textarea>
-                                <mat-error *ngIf="contentForm.get('mainText').hasError('required')">
+                                <!-- <mat-error *ngIf="contentForm.get('mainText').hasError('required')">
                                     Please enter landing page text content
-                                </mat-error>
+                                </mat-error> -->
                             </mat-form-field>
 
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
                                 <textarea matInput placeholder="Enter Landing Page Phrase" name="marqueeTextInput"
-                                    formControlName="phraseText" autocomplete="off" required>
+                                    formControlName="phraseText" autocomplete="off" >
                                         </textarea>
-                                <mat-error *ngIf="contentForm.get('phraseText').hasError('required')">
+                                <!-- <mat-error *ngIf="contentForm.get('phraseText').hasError('required')">
                                     Please enter landing page phrase content
-                                </mat-error>
+                                </mat-error> -->
                             </mat-form-field>
 
                             <div class="pt-12 pl-8 pb-4">
                                 <button type="submit" class="stepper-back" color="primary" mat-raised-button
-                                    [disabled]="isLoading || contentForm.invalid">
+                                    [disabled]="isLoading">
                                     <img class="loading" *ngIf="isLoading" src="assets/images/background/loader.gif">
                                     <span *ngIf="contentData">Update</span>
                                     <span *ngIf="!contentData">Save</span>

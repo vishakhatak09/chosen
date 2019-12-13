@@ -133,7 +133,10 @@ template-list {
 
         .mat-column-image {
             // flex: 0 1 10%;
-            padding: 25px;
+            // padding: 25px;
+            img{
+                max-width: 45%;
+            }
 
             .product-image {
                 width: 52px;

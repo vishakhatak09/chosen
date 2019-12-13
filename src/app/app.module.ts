@@ -37,7 +37,7 @@ const appRoutes: Routes = [
         loadChildren: './main/admin/admin.module#AdminModule',
     },
     {
-        path: 'pagenotfound',
+        path: '404page',
         component: PageNotFoundComponent
     },
     {
@@ -49,7 +49,7 @@ const appRoutes: Routes = [
         path: '**',
         // redirectTo: '',
         // redirectTo: 'auth/login',
-        redirectTo: 'pagenotfound',
+        redirectTo: '404page',
         pathMatch: 'full'
     }
 ];

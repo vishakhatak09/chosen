@@ -6,7 +6,7 @@ export class AnalyticsDashboardDb {
                 '2019': [
                     {
                         label: 'Visitors',
-                        data: [1.9, 3, 3.4, 2.2, 2.9, 3.9, 2.5, 3.8, 4.1, 3.8, 3.2, 2.9],
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                         fill: 'start'
 
                     }
@@ -272,27 +272,27 @@ export class AnalyticsDashboardDb {
                         fill: 'start'
 
                     },
-                    {
-                        label: 'Page views',
-                        data: [2200, 2900, 3900, 2500, 3800, 3200, 2900, 1900, 3000, 3400, 4100, 3800],
-                        fill: 'start'
-                    }
+                    // {
+                    //     label: 'Page views',
+                    //     data: [2200, 2900, 3900, 2500, 3800, 3200, 2900, 1900, 3000, 3400, 4100, 3800],
+                    //     fill: 'start'
+                    // }
                 ],
                 'today': [
                     {
                         label: 'Visitors',
-                        data: [410, 380, 320, 290, 190, 390, 250, 380, 300, 340, 220, 290],
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                         fill: 'start'
                     },
-                    {
-                        label: 'Page Views',
-                        data: [3000, 3400, 4100, 3800, 2200, 3200, 2900, 1900, 2900, 3900, 2500, 3800],
-                        fill: 'start'
+                    // {
+                    //     label: 'Page Views',
+                    //     data: [3000, 3400, 4100, 3800, 2200, 3200, 2900, 1900, 2900, 3900, 2500, 3800],
+                    //     fill: 'start'
 
-                    }
+                    // }
                 ]
             },
-            labels: ['12am', '2am', '4am', '6am', '8am', '10am', '12pm', '2pm', '4pm', '6pm', '8pm', '10pm'],
+            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
             colors: [
                 {
                     borderColor: '#3949ab',
@@ -353,7 +353,7 @@ export class AnalyticsDashboardDb {
                                 tickMarkLength: 16
                             },
                             ticks: {
-                                stepSize: 1000
+                                stepSize: 5
                             }
                         }
                     ]

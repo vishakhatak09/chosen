@@ -33,7 +33,7 @@ export class ContentMgmtComponent implements OnInit {
   // Apis
   public baseUrl = environment.serverImagePath + 'template/';
   public getContentUrl = environment.serverBaseUrl + 'admin/content/getContent';
-  public addContentUrl = environment.serverBaseUrl + 'admin/content/addContent';
+  public addContentUrl = environment.serverBaseUrl + 'admin/landingPage';
   public updateContentUrl = environment.serverBaseUrl + 'admin/content/updateContent';
 
   constructor(
@@ -58,12 +58,12 @@ export class ContentMgmtComponent implements OnInit {
   ngOnInit() {
 
     this.contentForm = this._fb.group({
-      image: [{ value: '', disabled: true }, Validators.required],
-      mainText: ['', Validators.required],
-      phraseText: ['', Validators.required]
+      image: [{ value: undefined, disabled: true }],
+      mainText: [undefined],
+      phraseText: [undefined]
     });
 
-    this.getContent();
+    // this.getContent();
   }
 
   getContent(): void {
@@ -83,24 +83,25 @@ export class ContentMgmtComponent implements OnInit {
 
   onSubmit() {
     console.log('submitted', this.contentForm.value);
-    if (this.contentForm.valid) {
+    const formValue = this.contentForm.getRawValue();
+    if (formValue.mainText || formValue.phraseText || this.imageArray.length > 0) {
       this.showLoading();
 
-      const formValue = this.contentForm.getRawValue();
 
       const params: any = {
         'params': {
-          image: this.imageArray[0].base64Url,
-          mainText: formValue.mainText,
-          phraseText: formValue.phraseText,
+          imageName: this.imageArray.length > 0 ? this.imageArray[0].name : '',
+          photo: this.imageArray.length > 0 ? this.imageArray[0].base64Url : '',
+          text1: formValue.mainText,
+          text2: formValue.phraseText,
         }
       };
 
-      let api = this.addContentUrl;
-      if (this.contentData) {
-        params.params.id = this.contentData._id;
-        api = this.updateContentUrl;
-      }
+      const api = this.addContentUrl;
+      // if (this.contentData) {
+      //   params.params.id = this.contentData._id;
+      //   api = this.updateContentUrl;
+      // }
 
       this._cmsService.addUpdateContentMgmtData(api, params)
         .pipe(takeUntil(this._unSubscriber))

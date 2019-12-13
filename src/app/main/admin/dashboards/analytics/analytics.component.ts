@@ -21,8 +21,6 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     widgets: any;
     widget1SelectedYear = '2019';
     widget5SelectedDay = 'today';
-    widget5: any = {};
-    widget5Data;
     statisticWidget: any[] = [];
     public getUserApiUrl = environment.serverBaseUrl + 'admin/dashBoard';
     dashboardData: any;
@@ -52,39 +50,6 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // Get the widgets from the service
         this.widgets = AnalyticsDashboardDb.widgets;
-        this.widget5Data = ProjectDashboardDb.widgets.widget5;
-        this.widget5 = {
-            currentRange: 'TW',
-            xAxis: true,
-            yAxis: true,
-            gradient: false,
-            legend: false,
-            showXAxisLabel: false,
-            xAxisLabel: 'Days',
-            showYAxisLabel: false,
-            yAxisLabel: 'Isues',
-            scheme: {
-                domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
-            },
-            onSelect: (ev) => {
-                console.log(ev);
-            },
-            supporting: {
-                currentRange: '',
-                xAxis: false,
-                yAxis: false,
-                gradient: false,
-                legend: false,
-                showXAxisLabel: false,
-                xAxisLabel: 'Days',
-                showYAxisLabel: false,
-                yAxisLabel: 'Isues',
-                scheme: {
-                    domain: ['#42BFF7', '#C6ECFD', '#C7B42C', '#AAAAAA']
-                },
-                curve: shape.curveBasis
-            }
-        };
         this.getDashboardDetail();
     }
 
@@ -123,7 +88,7 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
                             ctx.font = (window as any).Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
                             // Just naively convert to string for now
-                            const dataString = dataset.data[index].toString() + 'k';
+                            const dataString = dataset.data[index].toString();
 
                             // Make sure alignment settings are correct
                             ctx.textAlign = 'center';
@@ -166,36 +131,56 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     setStatisticWidget(): void {
 
         const statisticsList = Object.keys(this.dashboardData);
+        const monthUserArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const monthTemplateArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         if (statisticsList.length > 0) {
             statisticsList.forEach((key: string) => {
-                this.statisticWidget.push(
-                    {
-                        'ranges': {
-                            'DY': 'Yesterday',
-                            'DT': 'Today',
-                            'DTM': 'Tomorrow'
-                        },
-                        'currentRange': 'DT',
-                        'data': {
-                            'label': key.toUpperCase(),
-                            'count': {
-                                'DY': 0,
-                                'DT': this.dashboardData[key], // default
-                                'DTM': 0
+                if (key !== 'monthTemplate' && key !== 'monthUser') {
+                    this.statisticWidget.push(
+                        {
+                            'ranges': {
+                                'DY': 'Yesterday',
+                                'DT': 'Today',
+                                'DTM': 'Tomorrow'
                             },
-                            // 'extra': {
-                            //     'label': 'Completed',
-                            //     'count': {
-                            //         'DY': 6,
-                            //         'DT': 7,
-                            //         'DTM': '-'
-                            //     }
-                            // }
-                        },
-                        'detail': 'You can show some detailed information about this widget in here.'
+                            'currentRange': 'DT',
+                            'data': {
+                                'label': key.toUpperCase(),
+                                'count': {
+                                    'DY': 0,
+                                    'DT': this.dashboardData[key], // default
+                                    'DTM': 0
+                                },
+                                // 'extra': {
+                                //     'label': 'Completed',
+                                //     'count': {
+                                //         'DY': 6,
+                                //         'DT': 7,
+                                //         'DTM': '-'
+                                //     }
+                                // }
+                            },
+                            'detail': 'You can show some detailed information about this widget in here.'
+                        }
+                    );
+                } else {
+                    if (key === 'monthUser') {
+                        for (let i = 0; i < this.dashboardData[key].length; i++) {
+                            const index = this.dashboardData[key][i]['_id'];
+                            const count = this.dashboardData[key][i]['count'];
+                            monthUserArray[index - 1] = count;
+                        }
+                    } else {
+                        for (let i = 0; i < this.dashboardData[key].length; i++) {
+                            const index = this.dashboardData[key][i]['_id'];
+                            const count = this.dashboardData[key][i]['count'];
+                            monthTemplateArray[index - 1] = count;
+                        }
                     }
-                );
+                }
             });
+            this.widgets.widget1.datasets[this.widget1SelectedYear][0].data = monthUserArray;
+            this.widgets.widget5.datasets[this.widget5SelectedDay][0].data = monthTemplateArray;
         }
     }
 

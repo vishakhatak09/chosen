@@ -53,7 +53,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
   private jobId: string;
-  editJobData: JobModel;
+  editJobData;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -167,7 +167,8 @@ export class AddJobComponent implements OnInit, OnDestroy {
           },
           'salary': formValues.expectedSalary,
           'industry': formValues.industry,
-          'jobCategory': formValues.jobCategory
+          'jobCategory': formValues.jobCategory,
+          'email': formValues.email
         }
       };
       if (this.jobId) {
@@ -205,19 +206,21 @@ export class AddJobComponent implements OnInit, OnDestroy {
           if (response.code === 200 && response.data) {
             this.editJobData = response.data;
             if ( this.editJobData ) {
+              const state = this.editJobData.location ? this.editJobData.location.split(',')[1] : '';
+              const location = this.editJobData.location ? this.editJobData.location.split(',')[0] : '';
               this.addJobForm.setValue({
                 jobPosition: this.editJobData.jobPosition,
                 jobDescription: this.editJobData.jobDescription,
-                state: this.editJobData.state,
-                location: this.editJobData.location,
+                state: state.trim(),
+                location: location,
                 companyName: this.editJobData.companyName,
-                keywords: this.editJobData.keywords,
+                keywords: this.editJobData.keywords || '',
                 workExperience: [this.editJobData.workExperience['years'], this.editJobData.workExperience['month']],
-                expectedSalary: this.editJobData.expectedSalary,
+                expectedSalary: this.editJobData.salary,
                 industry: this.editJobData.industry,
                 jobCategory: this.editJobData.jobCategory,
                 jobType: this.editJobData.jobType,
-                email: this.editJobData.email,
+                email: this.editJobData.email || '',
               });
               this.maxExperience = this.editJobData.workExperience['years'];
             }
