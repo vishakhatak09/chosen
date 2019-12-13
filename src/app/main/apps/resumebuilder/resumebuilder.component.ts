@@ -49,7 +49,6 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 import { ResumebuilderModule } from './resumebuilder.module';
 import { ResumeBuilderService } from './resumebuilder.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService } from 'core/services/authentication.service';
 declare var tinymce: any;
 import * as _ from 'lodash';
@@ -137,7 +136,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     private cdRef: ChangeDetectorRef,
     private toastrService: ToastrService,
     private compiler: Compiler,
-    private domSanitizer: DomSanitizer,
     private authService: AuthenticationService,
     private commonService: CommonService,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -148,6 +146,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     // console.log('templateId', this.templateId);
     this.resumeId = this.activatedRoute.snapshot.paramMap.get('resumeId');
     // console.log('resumeId', this.resumeId);
+    this.additionalInfoList.filter((add) => add.checked = false);
     if (this.resumeId) {
       this.getResumeData(this.resumeId);
     }
@@ -492,12 +491,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           } else {
             this.additionalInfoData.push(response);
           }
-          this.additionalInfoData.filter((info) => {
-            if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
-              info.value = this.domSanitizer.bypassSecurityTrustHtml(info.value);
-            }
-            return info;
-          });
           // this.generateRunTimeComponent(true);
         }
       });
@@ -549,6 +542,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   finishStep(): void {
+    if ( !this.resumeId ) {
+      this.toastrService.displaySnackBar('Please save previous steps', 'error');
+      return;
+    }
     if (this.skillForm.invalid || this.skillRatingList.length === 0) {
       this.toastrService.displaySnackBar('Please add atleast one skill', 'error');
       this.skillForm.get('skillType').markAsTouched();
@@ -572,12 +569,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         );
         dialogRef.afterClosed().subscribe((resp: boolean) => {
           if (resp === true) {
-            this.haveAdditionalInfo = true;
-            this.cdRef.detectChanges();
             this.saveSkills(true);
-            // setTimeout(() => {
-            //   this.selectedIndex = 5;
-            // }, 10);
           } else {
             this.saveSkills();
           }
@@ -685,13 +677,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   generateRunTimeComponent(isLastSteps = false): void {
 
     let data = {};
-
-    // this.additionalInfoData.filter((info) => {
-    //   if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
-    //     info.value = this.domSanitizer.bypassSecurityTrustHtml(info.value);
-    //   }
-    //   return info;
-    // });
 
     if (!isLastSteps) {
 
@@ -830,6 +815,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveCareerObjective(): void {
+    if ( !this.resumeId ) {
+      this.toastrService.displaySnackBar('Please save first step', 'error');
+      return;
+    }
     const params = {
       'params': {
         'id': this.resumeId,
@@ -848,6 +837,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveWorkData(): void {
+    if ( !this.resumeId ) {
+      this.toastrService.displaySnackBar('Please save first step', 'error');
+      return;
+    }
     const data = [];
     if (this.workExperienceData) {
       this.workExperienceData.forEach((record) => {
@@ -877,6 +870,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveEducation(): void {
+    if ( !this.resumeId ) {
+      this.toastrService.displaySnackBar('Please save first step', 'error');
+      return;
+    }
     const data = [];
     if (this.educationData) {
       this.educationData.forEach((record) => {
@@ -905,7 +902,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveSkills(haveAdditionalInfo = false): void {
-
+    if ( !this.resumeId ) {
+      this.toastrService.displaySnackBar('Please save previous steps', 'error');
+      return;
+    }
     const params = {
       'params': {
         'id': this.resumeId,
@@ -917,6 +917,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .subscribe(
         (response) => {
           if (haveAdditionalInfo) {
+            this.haveAdditionalInfo = true;
+            this.cdRef.detectChanges();
             this.selectedIndex = 5;
           } else {
             this.saveTemplatePdfImg();
@@ -1026,6 +1028,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       this.cdRef.detectChanges();
     }
     this.skillRatingList = resumeEditData.skills;
+    this.isLinear = false;
   }
 
   saveTemplatePdfImg(): void {

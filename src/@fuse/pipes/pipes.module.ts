@@ -5,24 +5,26 @@ import { GetByIdPipe } from './getById.pipe';
 import { HtmlToPlaintextPipe } from './htmlToPlaintext.pipe';
 import { FilterPipe } from './filter.pipe';
 import { CamelCaseToDashPipe } from './camelCaseToDash.pipe';
+import { SafeHtmlPipe } from './safeHtml.pipe';
 
 @NgModule({
-    declarations: [
-        KeysPipe,
-        GetByIdPipe,
-        HtmlToPlaintextPipe,
-        FilterPipe,
-        CamelCaseToDashPipe
-    ],
-    imports     : [],
-    exports     : [
-        KeysPipe,
-        GetByIdPipe,
-        HtmlToPlaintextPipe,
-        FilterPipe,
-        CamelCaseToDashPipe
-    ]
+   declarations: [
+      KeysPipe,
+      GetByIdPipe,
+      HtmlToPlaintextPipe,
+      FilterPipe,
+      CamelCaseToDashPipe,
+      SafeHtmlPipe
+   ],
+   imports: [],
+   exports: [
+      KeysPipe,
+      GetByIdPipe,
+      HtmlToPlaintextPipe,
+      FilterPipe,
+      CamelCaseToDashPipe,
+      SafeHtmlPipe
+   ]
 })
-export class FusePipesModule
-{
+export class FusePipesModule {
 }

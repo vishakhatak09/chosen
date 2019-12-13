@@ -68,7 +68,8 @@ export class AdditionalInfoComponent implements OnInit {
     const type = this.additionalInfo.type.toLowerCase();
     if (type === 'accomplishments' || type === 'affiliations') {
       if (this.additionalInfo.value) {
-        const safeHtmlData = this.domsanitizer.bypassSecurityTrustHtml(this.additionalInfo.value);
+        // const safeHtmlData = this.domsanitizer.bypassSecurityTrustHtml(this.additionalInfo.value);
+        const safeHtmlData = this.additionalInfo.value;
         this.setupTinyMce(safeHtmlData);
       } else {
         this.setupTinyMce();
@@ -157,13 +158,14 @@ export class AdditionalInfoComponent implements OnInit {
     if (value) {
       setTimeout(() => {
         // c4onsole.log(tinymce.activeEditor);
-        if (value['changingThisBreaksApplicationSecurity']) {
-          if (value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity']) {
-            this.editorText.setValue(value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity']);
-          } else {
-            this.editorText.setValue(value['changingThisBreaksApplicationSecurity']);
-          }
-        }
+        // if (value['changingThisBreaksApplicationSecurity']) {
+        //   if (value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity']) {
+        //     this.editorText.setValue(value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity']);
+        //   } else {
+        //     this.editorText.setValue(value['changingThisBreaksApplicationSecurity']);
+        //   }
+        // }
+        this.editorText.setValue(value);
       }, 10);
     }
   }

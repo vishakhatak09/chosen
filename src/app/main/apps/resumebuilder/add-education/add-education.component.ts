@@ -37,7 +37,7 @@ export const MY_FORMATS = {
     <form fxLayout="row wrap" fxLayoutGap="25px" #eduForm="ngForm" [formGroup]="userEduForm"
       name="EduForm" (ngSubmit)="submitForm()">
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>College Name</mat-label>
             <input matInput placeholder="College Name" type="text"
                 formControlName="collegeName"
@@ -47,7 +47,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>University Name</mat-label>
             <input matInput placeholder="University Name" type="text"
                 formControlName="universityName"
@@ -57,7 +57,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>Course Name</mat-label>
             <input matInput placeholder="Course Name" type="text" name="CourseName"
                 formControlName="courseName"
@@ -67,7 +67,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>Year of passing</mat-label>
             <input matInput [matDatepicker]="picker"
                 formControlName="yearOfPassing" placeholder="Year of passing" name="YearOfPassing"

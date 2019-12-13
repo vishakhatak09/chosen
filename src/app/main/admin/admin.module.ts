@@ -70,6 +70,11 @@ const routes: Routes = [
         canLoad: [AdminGuardService]
     },
     {
+        path: ':jobId/add-job',
+        loadChildren: './add-job/add-job.module#AddJobModule',
+        canLoad: [AdminGuardService]
+    },
+    {
         path: 'content-mgmt',
         loadChildren: './cms/content-mgmt/content-mgmt.module#ContentMgmtModule',
         canLoad: [AdminGuardService]

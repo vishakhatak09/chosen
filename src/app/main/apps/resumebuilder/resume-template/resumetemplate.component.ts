@@ -5,11 +5,10 @@ import {
     OnChanges,
     OnInit,
     ViewEncapsulation,
-    ChangeDetectorRef,
     SimpleChanges,
     ElementRef
 } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SafeHtml } from '@angular/platform-browser';
 import { fuseAnimations } from '@fuse/animations';
 import { ResumeMock } from 'core/mock/resume.mock';
 import { AdditionalModel, EducationModel, SkillRating, TemplateModel, WorkModel, SocialModel } from 'core/models/resumebuilder.model';
@@ -76,9 +75,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
      * @param resumeBuilderService ResumeBuilderService
      */
     constructor(
-        private domsanitizer: DomSanitizer,
         private resumeBuilderService: ResumeBuilderService,
-        private cdRef: ChangeDetectorRef,
         public hostElement: ElementRef
     ) {
         // if (this.content) {
@@ -87,18 +84,18 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     }
 
     // Disable ctrl + p, ctrl + c,  ctrl + v,  ctrl + x
-    // @HostListener('document:keydown', ['$event'])
-    // handleKeyboardEvent(event: KeyboardEvent) {
-    //     if (event.ctrlKey &&
-    //         // tslint:disable-next-line: deprecation
-    //         (event.key === 'p' || event.charCode === 16 || event.charCode === 112 || event.keyCode === 80 ||
-    //             event.key === 'c' || event.key === 'x')
-    //     ) {
-    //         event.cancelBubble = true;
-    //         event.preventDefault();
-    //         event.stopImmediatePropagation();
-    //     }
-    // }
+    @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+        if (event.ctrlKey &&
+            // tslint:disable-next-line: deprecation
+            (event.key === 'p' || event.charCode === 16 || event.charCode === 112 || event.keyCode === 80 ||
+                event.key === 'c' || event.key === 'x')
+        ) {
+            event.cancelBubble = true;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    }
 
     // Disable right click menu open
     @HostListener('contextmenu', ['$event'])
@@ -188,20 +185,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
         this.fontColor = 'black';
         this.backColor = '';
         const additionalDataList = _.clone(this.additionalInfo);
-        this.additionalList = additionalDataList.filter((info) => {
-            if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
-                if (info.value && info.value['changingThisBreaksApplicationSecurity']) {
-                    info.value = info.value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity'];
-                }
-            }
-            return info;
-        });
+        this.additionalList = additionalDataList;
     }
-
-    // getInnerHTMLValue() {
-    //     return this.domsanitizer.bypassSecurityTrustHtml(
-    //         String(this.content)
-    //     );
-    // }
 
 }

@@ -452,10 +452,10 @@
                                         </h3>
                                         <ng-container [ngSwitch]="add.type">
                                             <ng-container *ngSwitchCase="'Accomplishments'">
-                                                <p [innerHTML]="add.value"></p>
+                                                <p [innerHTML]="add.value | safeHtml"></p>
                                             </ng-container>
                                             <ng-container *ngSwitchCase="'Affiliations'">
-                                                <p [innerHTML]="add.value"></p>
+                                                <p [innerHTML]="add.value | safeHtml"></p>
                                             </ng-container>
                                             <ng-container *ngSwitchCase="'Certifications'">
                                                 <ng-container *ngFor="let item of add.value">

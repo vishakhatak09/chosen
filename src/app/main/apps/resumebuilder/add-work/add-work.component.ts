@@ -35,7 +35,7 @@ export const MY_FORMATS = {
     <form fxLayout="row wrap" fxLayoutGap="25px" #workForm="ngForm" [formGroup]="userWorkForm"
       name="WorkForm" (ngSubmit)="submitForm()">
 
-        <mat-form-field floatLabel="always" fxFlex.xs="100" fxFlex="100" >
+        <mat-form-field floatLabel="always" fxFlex.xs="100" fxFlex="100" appearance="outline">
             <mat-label hidden>Designation</mat-label>
             <input matInput placeholder="Designation" type="text"
                 formControlName="designation"
@@ -45,7 +45,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>Company name</mat-label>
             <input matInput placeholder="Company name" type="text"
                 formControlName="companyName"
@@ -55,7 +55,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>Location</mat-label>
             <input matInput placeholder="Location" type="text" name="LocationName"
             formControlName="location" autocomplete="off">
@@ -64,7 +64,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>Joining Date</mat-label>
             <input matInput [matDatepicker]="picker"
                 formControlName="joiningDate"
@@ -88,7 +88,7 @@ export const MY_FORMATS = {
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" >
+        <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>Leaving Date</mat-label>
             <input matInput [matDatepicker]="picker2"
                 formControlName="leavingDate"

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { StateCity } from 'core/constants/location';
 import { CityModel } from 'core/models/job.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class CommonService {
   private maxSalary = 100;
   locationUrl = 'core/constants/location.json';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getMomentFormattedDate(date: moment.Moment, format = 'MM/DD/YYYY'): string {
     const dateString = date.format(format);
@@ -51,6 +53,14 @@ export class CommonService {
   getCity(stateName: string): CityModel[] {
     const stateList = StateCity;
     return stateList[stateName];
+  }
+
+  addUpdateJob(addUpdateApi: string, params: any): Observable<any> {
+    return this.http.post(addUpdateApi, params);
+  }
+
+  getSingleJob(getSingleJobApi: string, params: any): Observable<any> {
+    return this.http.post(getSingleJobApi, params);
   }
 
 }

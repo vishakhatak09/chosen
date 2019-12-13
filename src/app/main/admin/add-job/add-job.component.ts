@@ -4,13 +4,13 @@ import { fuseAnimations } from '@fuse/animations';
 import { AppConstant } from 'core/constants/app.constant';
 import { Options } from 'ng5-slider';
 import { CommonService } from 'core/services/common.service';
-import { CityModel } from 'core/models/job.model';
+import { CityModel, JobModel } from 'core/models/job.model';
 import { JobIndustry, JobCategory } from 'core/constants/job-constant';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { takeUntil, startWith, map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
@@ -47,18 +47,26 @@ export class AddJobComponent implements OnInit, OnDestroy {
   filteredCategoryOptions: Observable<string[]>;
 
   public addJobDataApiUrl = environment.serverBaseUrl + 'admin/job/createJob';
+  public getSingleJobDataApiUrl = environment.serverBaseUrl + 'admin/job/singleJob';
+  public updateJobDataApiUrl = environment.serverBaseUrl + 'admin/job/updateJob';
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
+  private jobId: string;
+  editJobData: JobModel;
 
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
-    private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.SalaryOptions = this.commonService.getSalaryOptions();
     this.StateList = this.commonService.getStateList();
+    this.jobId = this.activatedRoute.snapshot.paramMap.get('jobId');
+    if (this.jobId) {
+      this.getSingleJob();
+    }
   }
 
   getCityFromState(event: MatAutocompleteSelectedEvent): void {
@@ -81,6 +89,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
       industry: ['', Validators.required],
       jobCategory: ['', Validators.required],
       jobType: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
     });
 
     this.initSearch();
@@ -142,8 +151,10 @@ export class AddJobComponent implements OnInit, OnDestroy {
 
     if (this.addJobForm.valid) {
 
+      let currentApi = this.addJobDataApiUrl;
+
       const formValues = this.addJobForm.value;
-      const params = {
+      const params: any = {
         'params': {
           'jobPosition': formValues.jobPosition,
           'jobDescription': formValues.jobPosition,
@@ -159,8 +170,12 @@ export class AddJobComponent implements OnInit, OnDestroy {
           'jobCategory': formValues.jobCategory
         }
       };
+      if (this.jobId) {
+        params.params.id = this.jobId;
+        currentApi = this.updateJobDataApiUrl;
+      }
 
-      this.http.post(this.addJobDataApiUrl, params)
+      this.commonService.addUpdateJob(currentApi, params)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(
           (response) => {
@@ -171,6 +186,48 @@ export class AddJobComponent implements OnInit, OnDestroy {
           }
         );
     }
+
+  }
+
+  getSingleJob(): void {
+
+    const params = {
+      'params': {
+        'jobId': this.jobId
+      }
+    };
+
+    this.commonService.getSingleJob(this.getSingleJobDataApiUrl, params)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response) => {
+          // console.log(response);
+          if (response.code === 200 && response.data) {
+            this.editJobData = response.data;
+            if ( this.editJobData ) {
+              this.addJobForm.setValue({
+                jobPosition: this.editJobData.jobPosition,
+                jobDescription: this.editJobData.jobDescription,
+                state: this.editJobData.state,
+                location: this.editJobData.location,
+                companyName: this.editJobData.companyName,
+                keywords: this.editJobData.keywords,
+                workExperience: [this.editJobData.workExperience['years'], this.editJobData.workExperience['month']],
+                expectedSalary: this.editJobData.expectedSalary,
+                industry: this.editJobData.industry,
+                jobCategory: this.editJobData.jobCategory,
+                jobType: this.editJobData.jobType,
+                email: this.editJobData.email,
+              });
+              this.maxExperience = this.editJobData.workExperience['years'];
+            }
+
+          }
+        },
+        (error) => {
+          // console.log(error);
+        }
+      );
 
   }
 

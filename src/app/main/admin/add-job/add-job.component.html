@@ -166,6 +166,18 @@
                                 </mat-error>
                             </mat-form-field>
 
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="text" placeholder="Enter Job Contact Email" name="Email"
+                                    formControlName="email" autocomplete="off" required>
+                                <mat-error *ngIf="addJobForm.get('email').hasError('required')">
+                                    Please enter job contact email
+                                </mat-error>
+                                <mat-error *ngIf="addJobForm.get('email').hasError('email')">
+                                    Please enter proper job contact email
+                                </mat-error>
+                            </mat-form-field>
+
                             <div class="pt-12 pl-8 pb-4">
                                 <button type="submit" class="stepper-back" color="primary" mat-raised-button
                                     [disabled]="isLoading || addJobForm.invalid">

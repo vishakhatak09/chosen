@@ -26,7 +26,7 @@ export class JobMgmtComponent implements OnInit {
   jobDataList: any[] = [];
 
   public getJobDataApiUrl = environment.serverBaseUrl + 'admin/job/jobList';
-  public deleteJobApiUrl = environment.serverBaseUrl + 'admin/job/delete';
+  public deleteJobApiUrl = environment.serverBaseUrl + 'admin/job/deleteJob';
 
   displayedColumns = ['jobPosition', 'companyName', 'location', 'action'];
 
@@ -118,7 +118,7 @@ export class JobMgmtComponent implements OnInit {
 
           const param = {
             params: {
-              id: user._id
+              jobId: user._id
             }
           };
 

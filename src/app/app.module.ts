@@ -18,15 +18,11 @@ import { fuseConfig } from 'app/fuse-config';
 import { LayoutModule } from 'app/layout/layout.module';
 import { CoreModule } from 'core/core.module';
 import { AuthGuardService, AdminGuardService } from 'core/services/auth-guard.service';
-import { LandingComponent } from './main/landing/landing.component';
 import 'hammerjs';
+import { PageNotFoundComponent } from './main/pageNotFound/pageNotFound.component';
 // import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 
 const appRoutes: Routes = [
-    // {
-    //     path: '',
-    //     component: LandingComponent
-    // },
     {
         path: 'user',
         loadChildren: './main/apps/apps.module#AppsModule',
@@ -41,9 +37,19 @@ const appRoutes: Routes = [
         loadChildren: './main/admin/admin.module#AdminModule',
     },
     {
+        path: 'pagenotfound',
+        component: PageNotFoundComponent
+    },
+    {
+        path: '',
+        redirectTo: 'auth/login',
+        pathMatch: 'full'
+    },
+    {
         path: '**',
         // redirectTo: '',
-        redirectTo: 'auth/login',
+        // redirectTo: 'auth/login',
+        redirectTo: 'pagenotfound',
         pathMatch: 'full'
     }
 ];
@@ -51,7 +57,7 @@ const appRoutes: Routes = [
 @NgModule({
     declarations: [
         AppComponent,
-        LandingComponent
+        PageNotFoundComponent
     ],
     imports: [
         BrowserModule,
