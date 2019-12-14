@@ -61,11 +61,15 @@ export class AddJobComponent implements OnInit, OnDestroy {
   public addJobDataApiUrl = environment.serverBaseUrl + 'admin/job/createJob';
   public getSingleJobDataApiUrl = environment.serverBaseUrl + 'admin/job/singleJob';
   public updateJobDataApiUrl = environment.serverBaseUrl + 'admin/job/updateJob';
+  public imgBaseUrl = environment.serverImagePath + 'job/';
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
   private jobId: string;
   editJobData;
+  selectedFile: File;
+  logoSrc: string | ArrayBuffer;
+  logoFileName: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -101,7 +105,8 @@ export class AddJobComponent implements OnInit, OnDestroy {
       industry: ['', Validators.required],
       jobCategory: ['', Validators.required],
       jobType: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      logo: ['']
     });
 
     this.initSearch();
@@ -166,7 +171,14 @@ export class AddJobComponent implements OnInit, OnDestroy {
       let currentApi = this.addJobDataApiUrl;
 
       const formValues = this.addJobForm.value;
-      // console.log(formValues); return;
+      const startWorkExp = {
+        'years': formValues.workExperience[0],
+        'month': '0'
+      };
+      const endWorkExp = {
+        'years': formValues.workExperience[1],
+        'month': '0'
+      };
       const params: any = {
         'params': {
           'jobPosition': formValues.jobPosition,
@@ -174,11 +186,15 @@ export class AddJobComponent implements OnInit, OnDestroy {
           'companyName': formValues.companyName,
           'jobType': formValues.jobType,
           'location': formValues.location + ', ' + formValues.state,
-          'workExperience': formValues.workExperience,
-          'salary': formValues.expectedSalary,
+          'startworkExperience': startWorkExp,
+          'endworkExperience': endWorkExp,
+          'stratSalary': formValues.expectedSalary[0],
+          'endSalary': formValues.expectedSalary[1],
           'industry': formValues.industry,
           'jobCategory': formValues.jobCategory,
-          'email': formValues.email
+          'email': formValues.email,
+          'imageName': this.selectedFile ? this.logoFileName : '',
+          'photo': this.selectedFile ? this.logoSrc : '',
         }
       };
       if (this.jobId) {
@@ -215,7 +231,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
           // console.log(response);
           if (response.code === 200 && response.data) {
             this.editJobData = response.data;
-            if ( this.editJobData ) {
+            if (this.editJobData) {
               const state = this.editJobData.location ? this.editJobData.location.split(',')[1] : '';
               const location = this.editJobData.location ? this.editJobData.location.split(',')[0] : '';
               this.addJobForm.setValue({
@@ -232,7 +248,12 @@ export class AddJobComponent implements OnInit, OnDestroy {
                 jobType: this.editJobData.jobType,
                 email: this.editJobData.email || '',
               });
-              this.maxExperience = this.editJobData.workExperience['years'];
+              this.minExperience = Number(this.editJobData.startworkExperience['years']);
+              this.maxExperience = Number(this.editJobData.data.image['years']);
+              this.minSalary = Number(this.editJobData.stratSalary['years']);
+              this.maxSalary = Number(this.editJobData.endSalary['years']);
+              this.logoFileName = this.editJobData.imageName;
+              this.logoSrc = this.imgBaseUrl + this.editJobData.imageName;
             }
 
           }
@@ -242,6 +263,35 @@ export class AddJobComponent implements OnInit, OnDestroy {
         }
       );
 
+  }
+
+  /**
+   * Get selected file for profile image
+   * @param files Selected File
+   */
+  getFileData(files: FileList): void {
+    if (files.length > 0) {
+      const fileData: File = files[0];
+      this.selectedFile = fileData;
+      const reader = new FileReader();
+      reader.readAsDataURL(fileData);
+      reader.onload = (() => {
+        this.logoSrc = reader.result;
+        this.logoFileName = fileData.name;
+      });
+    } else {
+      this.removeImage();
+    }
+  }
+
+  removeImage() {
+    this.selectedFile = null;
+    this.logoSrc = null;
+    this.logoFileName = null;
+    const fileEle: any = document.getElementById('file');
+    if (fileEle) {
+      fileEle.value = '';
+    }
   }
 
   ngOnDestroy(): void {

@@ -102,9 +102,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
         this.templateFileName = fileData.name;
       });
     } else {
-      this.selectedFile = null;
-      this.templateSrc = null;
-      this.templateFileName = null;
+      this.removeImage();
     }
   }
 
@@ -187,6 +185,10 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
     this.selectedFile = null;
     this.templateSrc = null;
     this.templateFileName = null;
+    const fileEle: any = document.getElementById('file');
+    if (fileEle) {
+      fileEle.value = '';
+    }
   }
 
   ngOnDestroy(): void {

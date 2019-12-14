@@ -37,6 +37,20 @@
                         <form class="template-form ml-12 mt-16" fxLayout="row wrap" [formGroup]="addJobForm"
                             fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
 
+                            <div floatLabel="always" class="mb-12" fxFlex="100">
+                                <app-drag-drop-uploader (selectFile)="getFileData($event)"></app-drag-drop-uploader>
+                                <input type="text" id="file-upload" hidden formControlName="logo" accept="image/*">
+                            </div>
+
+                            <div floatLabel="always" fxFlex="100" *ngIf="logoFileName">
+                                <span class="accent upload-span border-radius-16 p-8 w-50-p">
+                                    {{logoFileName}}
+                                </span>
+                                <button type="button" class="remove-btn" mat-icon-button (click)="removeImage()">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
                                 <mat-label>Job Position</mat-label>
                                 <input matInput type="text" placeholder="Enter Job Position" name="JobPosition"
@@ -159,7 +173,7 @@
                                 </mat-error>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
                                 <mat-label>Email</mat-label>
                                 <input matInput type="text" placeholder="Enter Job Contact Email" name="Email"
                                     formControlName="email" autocomplete="off" required>
