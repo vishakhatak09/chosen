@@ -30,7 +30,7 @@
 
             <div class="content">
 
-                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar>
+                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" >
 
                     <div class="tab-content pl-12 h-100-p">
 
@@ -56,6 +56,7 @@
  -->
                             <div floatLabel="always" class="pl-4" fxFlex="100"
                                 *ngFor="let img of imageArray; let index=index;">
+                                <img [src]="img.base64Url">
                                 <span class="accent upload-span border-radius-16 p-8 w-50-p">
                                     {{img.name}}
                                 </span>

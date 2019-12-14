@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { ProfileService } from './profile.service';
 import { takeUntil } from 'rxjs/operators';
 import { AppConstant } from 'core/constants/app.constant';
+import { ToastrService } from 'core/services/toastr.service';
 
 @Component({
     selector: 'profile',
@@ -17,11 +18,16 @@ import { AppConstant } from 'core/constants/app.constant';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-    public profileApi = environment.serverBaseUrl + 'api/resume/profileResumeList';
-    public imageBaseUrl = AppConstant.GeneralConst.UserImagePath;
+    public profileApi = environment.serverBaseUrl + 'api/getUserProfile';
+    public updateProfileApi = environment.serverBaseUrl + 'api/profileUpdate';
+    public imageBaseUrl = AppConstant.GeneralConst.profileImagePath;
     public userData: any;
     public loginData: any;
     public isEdited = false;
+    profileSrc;
+    profileImgName: string;
+    userId: string;
+    defaultProfileImage: string;
 
     private unSubscribeAll: Subject<any> = new Subject();
 
@@ -30,7 +36,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _authService: AuthenticationService,
-        private _profileService: ProfileService
+        private _profileService: ProfileService,
+        private _toastrService: ToastrService
     ) {
         this.loginData = this._authService.currentUserValue;
     }
@@ -47,10 +54,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 (response) => {
                     // console.log('response', response);
                     if (response.code === 200 && response.data) {
-                        if (response.data.length > 0) {
-                            this.userData = response.data[response.data.length - 1].personalInfo || null;
+                        if (response.data.lastResume && response.data.lastResume.personalInfo) {
+                            this.userData = response.data.lastResume.personalInfo;
                         }
-
+                        if (response.data.singleUser) {
+                            this.userId = response.data.singleUser._id;
+                            this.defaultProfileImage = response.data.singleUser.image;
+                            this._authService.currentUserValue.image = this.defaultProfileImage;
+                            this._authService.currentUserValue = this._authService.currentUserValue;
+                        }
                     }
                 },
                 (error) => {
@@ -61,7 +73,50 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     getFile(files: FileList): void {
-        // console.log(files);
+        if (files.length > 0) {
+            const fileData = files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(fileData);
+            reader.onload = (() => {
+                this.profileSrc = reader.result;
+                this.profileImgName = fileData.name;
+            });
+        } else {
+            this.profileSrc = null;
+            this.profileImgName = null;
+        }
+    }
+
+    uploadImage(): void {
+
+        if ( !this.profileSrc ) {
+            this._toastrService.displaySnackBar('Please select image to upload', 'error');
+            return;
+        }
+
+        const params = {
+            'params': {
+                'userId': this.userId,
+                'imageName': this.profileImgName,
+                'photo': this.profileSrc,
+            }
+        };
+
+        this._profileService.updateProfileData(this.updateProfileApi, params)
+            .pipe(takeUntil(this.unSubscribeAll))
+            .subscribe(
+                (resp) => {
+                    if (resp.code === 200) {
+                        this.isEdited = !this.isEdited;
+                        this.getProfileData();
+                    }
+                },
+                (error) => {
+                    this.isEdited = !this.isEdited;
+                    this._toastrService.displaySnackBar('Something went wrrong, please try again', 'error');
+                }
+            );
+
     }
 
     ngOnDestroy(): void {

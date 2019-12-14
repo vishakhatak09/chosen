@@ -26,7 +26,7 @@ export class JwtInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     this.currentUser = this.authenticationService.currentUserValue;
     if (this.currentUser && this.currentUser.token) {
-      if (!request.url.includes('Step')) {
+      if (!request.url.includes('Step') && !request.url.includes('jobFilter')) {
         this.loadingService.show();
       }
       request = request.clone({

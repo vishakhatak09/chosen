@@ -5,6 +5,7 @@ export class AppConstant {
     public static MaxSocialLinks = 4;
     public static GeneralConst = {
         UserImagePath: environment.serverImagePath + 'resume/',
+        profileImagePath: environment.serverImagePath + 'profile/',
         TemplateBasePath: environment.serverImagePath + 'template/',
     };
 
@@ -193,19 +194,20 @@ export class AppConstant {
         saveFourthStepApi: environment.serverBaseUrl + 'api/resume/resumeForthStep',
         saveFifthStepApi: environment.serverBaseUrl + 'api/resume/resumeFifthStep',
         saveSixthStepApi: environment.serverBaseUrl + 'api/resume/resumeSixthStep',
+        saveImgPdfStepApi: environment.serverBaseUrl + 'api/resume/resumeImagePdf',
     };
 
     public static JobTypeOptions: OptionType[] = [
         {
-            value: 'all_jobs',
+            value: 'alljob',
             viewValue: 'All Jobs',
         },
         {
-            value: 'company_jobs',
+            value: 'companyjob',
             viewValue: 'Company Jobs',
         },
         {
-            value: 'consultant_jobs',
+            value: 'consultantjob',
             viewValue: 'Consultant Jobs',
         },
     ];

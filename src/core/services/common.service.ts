@@ -16,6 +16,9 @@ export class CommonService {
   constructor(private http: HttpClient) { }
 
   getMomentFormattedDate(date: moment.Moment, format = 'MM/DD/YYYY'): string {
+    if ( typeof date === 'string' ) {
+      date = moment(new Date(date));
+    }
     const dateString = date.format(format);
     return dateString;
   }
@@ -61,6 +64,10 @@ export class CommonService {
 
   getSingleJob(getSingleJobApi: string, params: any): Observable<any> {
     return this.http.post(getSingleJobApi, params);
+  }
+
+  searchJob(searchUrl: string, params: any): Observable<any>{
+    return this.http.post(searchUrl, params);
   }
 
 }

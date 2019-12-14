@@ -152,7 +152,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
         image: this.baseUrl + template.image
       },
       width: 'auto',
-      height: 'auto',
+      height: '100%',
     });
   }
 

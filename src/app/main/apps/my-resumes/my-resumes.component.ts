@@ -8,6 +8,7 @@ import { MyResumesModel } from 'core/models/resumebuilder.model';
 import { AppConstant } from 'core/constants/app.constant';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
+import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
 
 @Component({
   selector: 'app-my-resumes',
@@ -94,6 +95,16 @@ export class MyResumesComponent implements OnInit, OnDestroy {
 
   editResume(resume: MyResumesModel): void {
     this.router.navigate(['/user/' + resume.templateId + '/resumebuilder/' + resume._id]);
+  }
+
+  previewImage(template: MyResumesModel): void {
+    this.matDialog.open(PreviewComponent, {
+      data: {
+        image: this.imageBaseUrl + template.resumeImage
+      },
+      width: 'auto',
+      height: '100%',
+    });
   }
 
   ngOnDestroy(): void {

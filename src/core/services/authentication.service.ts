@@ -30,6 +30,10 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  public set currentUserValue(value) {
+    this.currentUserSubject.next(value);
+  }
+
   login(loginAPI, userDetail): Observable<any> {
     return this.http.post<any>(loginAPI, userDetail).pipe(
       map(user => {

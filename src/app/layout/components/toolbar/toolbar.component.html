@@ -34,7 +34,9 @@
 
             <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" *ngIf="userData?.type === 'user'" src="assets/images/logos/profile.jpg">
+                    <img class="avatar mr-0 mr-sm-16" *ngIf="userData?.type === 'user' && !userData?.image" src="assets/images/logos/profile.jpg">
+                    <img class="avatar mr-0 mr-sm-16" *ngIf="userData?.type === 'user' && userData?.image" 
+                        [src]="imageBaseUrl + userData.image">
                     <div>
                         <span class="username mr-12" fxHide fxShow.gt-sm>{{ userEmail }}</span>
                         <!-- <p class="mb-0" fxHide fxShow.gt-sm>admin@gmail.com</p> -->

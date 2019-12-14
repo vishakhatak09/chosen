@@ -31,10 +31,10 @@ export class ContentMgmtComponent implements OnInit {
   private _unSubscriber: Subject<any> = new Subject();
 
   // Apis
-  public baseUrl = environment.serverImagePath + 'template/';
-  public getContentUrl = environment.serverBaseUrl + 'admin/content/getContent';
+  public baseUrl = environment.serverImagePath + 'landingPage/';
+  public getContentUrl = environment.serverBaseUrl + 'admin/landingPageList';
   public addContentUrl = environment.serverBaseUrl + 'admin/landingPage';
-  public updateContentUrl = environment.serverBaseUrl + 'admin/content/updateContent';
+  public updateContentUrl = environment.serverBaseUrl + 'admin/updatelandingPage';
 
   constructor(
     private _toastrService: ToastrService,
@@ -63,7 +63,7 @@ export class ContentMgmtComponent implements OnInit {
       phraseText: [undefined]
     });
 
-    // this.getContent();
+    this.getContent();
   }
 
   getContent(): void {
@@ -72,17 +72,27 @@ export class ContentMgmtComponent implements OnInit {
       .pipe(takeUntil(this._unSubscriber))
       .subscribe(
         (data) => {
-          console.log(data);
+          if (data.code === 200) {
+            const landingData = data.data;
+            if (  landingData && landingData.length > 0) {
+              this.contentData = landingData[landingData.length - 1];
+              this.contentForm.get('mainText').setValue(this.contentData.text1);
+              this.contentForm.get('phraseText').setValue(this.contentData.text2);
+              const obj = {
+                base64Url: this.baseUrl + this.contentData.image,
+                name: this.contentData.image,
+              };
+              this.imageArray.push(obj);
+            }
+          }
         },
-        error => {
-          console.log(error);
-        }
+        error => {}
       );
 
   }
 
   onSubmit() {
-    console.log('submitted', this.contentForm.value);
+
     const formValue = this.contentForm.getRawValue();
     if (formValue.mainText || formValue.phraseText || this.imageArray.length > 0) {
       this.showLoading();
@@ -97,22 +107,22 @@ export class ContentMgmtComponent implements OnInit {
         }
       };
 
-      const api = this.addContentUrl;
-      // if (this.contentData) {
-      //   params.params.id = this.contentData._id;
-      //   api = this.updateContentUrl;
-      // }
+      let api = this.addContentUrl;
+      if (this.contentData) {
+        params.params.landingPageId = this.contentData._id;
+        api = this.updateContentUrl;
+      }
 
       this._cmsService.addUpdateContentMgmtData(api, params)
         .pipe(takeUntil(this._unSubscriber))
         .subscribe(
           (response) => {
-            console.log('add/update response', response);
+            // console.log('add/update response', response);
             this.hideLoading();
           },
           error => {
             this.hideLoading();
-            console.log(error);
+            // console.log(error);
           });
     }
   }

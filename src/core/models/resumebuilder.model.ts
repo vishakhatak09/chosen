@@ -92,5 +92,6 @@ export interface MyResumesModel {
     updatedAt: string;
     userId: string;
     workExperience: WorkModel[];
+    resumeImage?: string;
     _id: string;
 }

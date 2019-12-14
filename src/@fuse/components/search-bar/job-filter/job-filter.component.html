@@ -1,0 +1,94 @@
+<h1 mat-dialog-title>
+  Select Job Filter
+  <button mat-icon-button matTooltip="Close" [matTooltipPosition]="'above'" (click)="dialogRef.close()"
+    class="dialog-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div mat-dialog-content fxLayout="row wrap" style="padding: 0;">
+
+  <div fxLayout="row wrap"></div>
+  <form class="template-form ml-12 mt-16" fxLayout="row wrap" [formGroup]="filterJobForm" fxLayoutGap="25px"
+    (ngSubmit)="onSubmit()" novalidate>
+
+    <mat-form-field fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fxFlex.md="100" floatLabel="always"
+      appearance="outline">
+      <mat-label>Job Location State</mat-label>
+      <input matInput type="text" placeholder="Select Job Location State" formControlName="locationState"
+        autocomplete="off" fxFlex [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="getCityFromState($event)">
+        <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fxFlex.md="100" floatLabel="always"
+      appearance="outline">
+      <mat-label>Job Location City</mat-label>
+      <input matInput type="text" placeholder="Select Job Location" name="Location" formControlName="location"
+        autocomplete="off" fxFlex [matAutocomplete]="autoState">
+      <mat-autocomplete autoActiveFirstOption #autoState="matAutocomplete">
+        <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option.city">
+          {{option.city}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!-- workExperience -->
+    <div class="custom-slider pl-4 mb-8 ml-4" fxFlex="100">
+      <mat-label>Experience</mat-label>
+      <ng5-slider [(value)]="minExperience" formControlName="workExperience" [(highValue)]="maxExperience"
+        [options]="options"></ng5-slider>
+    </div>
+
+    <div class="custom-slider pl-4 mb-8 ml-4" fxFlex="100">
+      <mat-label>Expected Salary (in Lakhs)</mat-label>
+      <ng5-slider [(value)]="minSalary" formControlName="salary" [(highValue)]="maxSalary"
+        [options]="salaryOptions"></ng5-slider>
+    </div>
+
+    <mat-form-field fxFlex="100" floatLabel="always" appearance="outline">
+      <mat-label>Industry</mat-label>
+      <mat-chip-list #chipList aria-label="Industry selection">
+        <mat-chip *ngFor="let ind of selectedIndustries" [selectable]="true" [removable]="true"
+          (removed)="removeIndustry(ind)">
+          {{ind}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input #indInput type="text" placeholder="Select Industry" name="Industry" formControlName="industry"
+          autocomplete="off" fxFlex [matAutocomplete]="autoIndustry" [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false"
+          (matChipInputTokenEnd)="addIndustry($event)">
+      </mat-chip-list>
+      <mat-autocomplete #autoIndustry="matAutocomplete" autoActiveFirstOption (optionSelected)="selected($event)">
+        <mat-option *ngFor="let option of filteredIndustryOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" floatLabel="always" appearance="outline">
+      <mat-label>Job Category</mat-label>
+      <input matInput type="text" placeholder="Select Job Category" name="JobCategory" formControlName="jobCategory"
+        autocomplete="off" fxFlex [matAutocomplete]="autoJobType">
+      <mat-autocomplete autoActiveFirstOption #autoJobType="matAutocomplete">
+        <mat-option *ngFor="let option of filteredCategoryOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" floatLabel="always" appearance="outline">
+      <mat-label>Key Skill</mat-label>
+      <input matInput type="text" placeholder="Enter key skills" name="KeySkills" formControlName="keyskill"
+        autocomplete="off" fxFlex>
+    </mat-form-field>
+
+    <div mat-dialog-actions style="flex-direction: row-reverse;width: 100%;">
+      <button type="button" class="primary" mat-raised-button (click)="dialogRef.close()">Cancel</button> &nbsp;
+      <button type="submit" class="accent" mat-raised-button>Apply</button>
+    </div>
+
+  </form>
+</div>

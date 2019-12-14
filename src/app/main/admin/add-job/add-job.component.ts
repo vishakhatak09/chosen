@@ -27,14 +27,26 @@ export class AddJobComponent implements OnInit, OnDestroy {
   jobTypeOptions = AppConstant.JobTypeOptions;
   minExperience = 0;
   maxExperience = 0;
+  minSalary = 0;
+  maxSalary = 0;
   options: Options = {
     floor: 0,
     ceil: 30,
     step: 1,
     minLimit: 0,
-    maxLimit: 10,
+    maxLimit: 30,
     showTicks: true
   };
+
+  salaryOptions: Options = {
+    floor: 0,
+    ceil: 100,
+    step: 5,
+    minLimit: 0,
+    maxLimit: 100,
+    showTicks: true
+  };
+
   SalaryOptions = [];
   StateList: string[] = [];
   CityList: CityModel[] = [];
@@ -154,6 +166,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
       let currentApi = this.addJobDataApiUrl;
 
       const formValues = this.addJobForm.value;
+      // console.log(formValues); return;
       const params: any = {
         'params': {
           'jobPosition': formValues.jobPosition,
@@ -161,10 +174,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
           'companyName': formValues.companyName,
           'jobType': formValues.jobType,
           'location': formValues.location + ', ' + formValues.state,
-          'workExperience': {
-            'years': this.maxExperience,
-            'month': '0'
-          },
+          'workExperience': formValues.workExperience,
           'salary': formValues.expectedSalary,
           'industry': formValues.industry,
           'jobCategory': formValues.jobCategory,

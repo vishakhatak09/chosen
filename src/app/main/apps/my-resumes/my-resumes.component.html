@@ -14,10 +14,10 @@
                 *ngFor="let resume of resumeList">
                 <div class="fuse-card">
 
-                    <!-- <img class="resume-img" [src]="imageBaseUrl + resume.personalInfo?.templateImage"> -->
-                    <img class="resume-img" [src]="'assets/images/templates/tp-1.png'">
+                    <img class="resume-img" [src]="imageBaseUrl + resume.resumeImage">
+                    <!-- <img class="resume-img" [src]="'assets/images/templates/tp-1.png'"> -->
                     <div class="hover-box">
-                        <button mat-mini-fab type="button">
+                        <button mat-mini-fab type="button" (click)="previewImage(resume)">
                             <mat-icon>remove_red_eye</mat-icon>
                         </button>
 

@@ -44,8 +44,8 @@
                             <!-- <p class="accent upload-span border-radius-16 p-8" *ngIf="templateFileName">
                                 {{templateFileName}}
                             </p> -->
-                            <div floatLabel="always" class="pl-4" fxFlex="100">
-                                <span class="accent upload-span border-radius-16 p-8 w-50-p" *ngIf="templateFileName">
+                            <div floatLabel="always" fxFlex="100" *ngIf="templateFileName">
+                                <span class="accent upload-span border-radius-16 p-8 w-50-p">
                                     {{templateFileName}}
                                 </span>
                                 <button type="button" class="remove-btn" mat-icon-button (click)="removeImage()">

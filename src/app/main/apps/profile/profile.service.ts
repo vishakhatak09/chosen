@@ -98,4 +98,8 @@ export class ProfileService implements Resolve<any> {
         return this._httpClient.get(profileApiUrl);
     }
 
+    updateProfileData(profileUpdateApi: string, params: any): Observable<any> {
+        return this._httpClient.post(profileUpdateApi, params);
+    }
+
 }

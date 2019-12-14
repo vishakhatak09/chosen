@@ -9,6 +9,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
 import { AuthenticationService } from 'core/services/authentication.service';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
     selector: 'toolbar',
@@ -28,6 +29,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     isLoggedIn = false;
     userEmail: string;
     userData: any;
+
+    public imageBaseUrl = AppConstant.GeneralConst.profileImagePath;
 
     // Private
     private _unsubscribeAll: Subject<any>;

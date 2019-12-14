@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { MyResumesService } from './my-resumes.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [MyResumesComponent],
+  entryComponents: [PreviewComponent],
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,

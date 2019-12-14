@@ -16,7 +16,7 @@
         </div> -->
         <input id="fuse-search-bar-input" class="ml-24" type="text" placeholder="Search" [formControl]="searchBox" (input)="search($event)" fxFlex [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selectedJob($event)">
-            <mat-option class="search-list border-bottom p-16" *ngFor="let option of filteredOptions | async" [value]="option">
+            <mat-option class="search-list border-bottom p-16" *ngFor="let option of filterResults" [value]="option">
                 <!-- <div>
                     <img [src]="option.logo" style="height: 100px;">
                 </div> -->
@@ -32,7 +32,7 @@
                         <div class="icon">
                             <mat-icon class="mr-8">schedule</mat-icon>
                         </div>
-                        <span class="text-warp secondary-text">5-8 yrs</span>
+                        <span class="text-warp secondary-text">0 - {{option.workExperience}} yrs</span>
                     </div>
                     <div class="pr-16 mt-8 l-n" fxLayout="row">
                         <div class="icon">
@@ -44,7 +44,8 @@
                         <div class="icon">
                             <mat-icon class="mr-8">account_balance_wallet</mat-icon>
                         </div>
-                        <span class="text-warp secondary-text">NRI  9,00,000 - 15,00,000 PA</span>
+                        <span class="text-warp secondary-text" *ngIf="!option.expectedSalary">Not disclosed</span>
+                        <span class="text-warp secondary-text" *ngIf="option.expectedSalary">INR {{ option.expectedSalary }} Lakh(s) PA</span>
                     </div>
                     <div class="pr-16 mt-8 l-n" fxLayout="row" fxFlex="100%" fxFlex.gt-xs="100%" fxFlex.gt-sm="100%">
                         <div class="icon">
@@ -84,7 +85,16 @@
         <div class="border-left" *ngIf="!collapsed">
             <button mat-icon-button class="fuse-search-bar-expander"
                 matTooltip="Apply Filter" [matTooltipPosition]="'above'" (click)="openFilterModal()">
-                <mat-icon class="s-24 secondary-text">filter_list</mat-icon>
+                <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
+                <img src="assets/icons/material-icons/filter.svg">
+            </button>
+        </div>
+
+        <div class="border-left" *ngIf="!collapsed && selectedFilters">
+            <button mat-icon-button class="fuse-search-bar-expander"
+                matTooltip="Clear Filter" [matTooltipPosition]="'above'" (click)="clearFilter()">
+                <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
+                <img src="assets/icons/material-icons/clear-filter.svg">
             </button>
         </div>
 

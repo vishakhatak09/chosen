@@ -12,7 +12,12 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { JobFilterComponent } from 'app/main/apps/job-filter/job-filter.component';
+import { JobFilterComponent } from './job-filter/job-filter.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Ng5SliderModule } from 'ng5-slider';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
     declarations: [
@@ -32,7 +37,12 @@ import { JobFilterComponent } from 'app/main/apps/job-filter/job-filter.componen
         FormsModule,
         FuseSharedModule,
         MatDialogModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatFormFieldModule,
+        Ng5SliderModule,
+        MatSelectModule,
+        MatInputModule,
+        MatChipsModule
     ],
     exports: [
         FuseSearchBarComponent

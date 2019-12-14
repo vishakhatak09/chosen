@@ -157,14 +157,6 @@ export class AdditionalInfoComponent implements OnInit {
     tinymce.init(this.tinyEditorConfig);
     if (value) {
       setTimeout(() => {
-        // c4onsole.log(tinymce.activeEditor);
-        // if (value['changingThisBreaksApplicationSecurity']) {
-        //   if (value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity']) {
-        //     this.editorText.setValue(value['changingThisBreaksApplicationSecurity']['changingThisBreaksApplicationSecurity']);
-        //   } else {
-        //     this.editorText.setValue(value['changingThisBreaksApplicationSecurity']);
-        //   }
-        // }
         this.editorText.setValue(value);
       }, 10);
     }

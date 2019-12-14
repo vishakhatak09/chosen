@@ -6,10 +6,10 @@
 
         <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
             fxLayoutAlign.gt-sm="start center">
-            <img class="profile-image avatar huge" *ngIf="!userData || !userData.profileImage" src="assets/images/logos/profile.jpg"
+            <img class="profile-image avatar huge" *ngIf="!defaultProfileImage" src="assets/images/logos/profile.jpg"
                 [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            <img class="profile-image avatar huge" *ngIf="userData && userData.profileImage" 
-                [src]="imageBaseUrl + userData.profileImage"
+            <img class="profile-image avatar huge" *ngIf="defaultProfileImage" 
+                [src]="imageBaseUrl + defaultProfileImage"
                 [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
 
             <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}">
+        <div class="actions" fxLayout="row" fxLayoutAlign="end " [@animate]="{value:'*',params:{delay:'200ms'}}">
             <button mat-raised-button color="primary" *ngIf="!isEdited" (click)="isEdited = !isEdited">
                 Edit Image
             </button>
@@ -26,7 +26,8 @@
                    <mat-icon>cloud_upload</mat-icon> Upload
                 </button>
                 <input #fileSelect type="file" (change)="getFile($event.target.files)" hidden>
-                <button mat-raised-button color="accent" (click)="isEdited = !isEdited">
+                <span *ngIf="profileImgName">{{profileImgName}}</span>
+                <button mat-raised-button color="accent" (click)="uploadImage()">
                     <mat-icon>save</mat-icon> Save
                 </button>
             </div>

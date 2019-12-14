@@ -56,7 +56,7 @@ import { CommonService } from 'core/services/common.service';
 // import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import htmlToImage from 'html-to-image';
+import { exportPDF, Group, exportImage } from '@progress/kendo-drawing';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -104,6 +104,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   allowDownload = false;
 
   @ViewChild('templateRef', { static: false }) templateContent: ElementRef;
+  @ViewChild('pdf', { static: false }) pdfComponent;
   separatorKeysCodes: number[] = [ENTER];
   selectedIndex = 0;
   public MockTemplate: string;
@@ -124,6 +125,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   public maxSocialLinks = AppConstant.MaxSocialLinks;
 
   public resolution: number;
+  private templatePdfFile: File;
+  private templateImageBase64: Blob | string;
+
   /**
    * Constructor
    * @param _formBuilder FormBuilder
@@ -252,6 +256,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           ResumePreviewComponent,
           {
             width: 'auto',
+            height: '100%',
             data: data,
           },
         );
@@ -281,24 +286,42 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   saveAsPdf(pdf: any): void {
     pdf.saveAs(`resume_${this.userName}`);
-    // this.generateImage();
-
   }
 
-  generateImage(): void {
-    const node = document.getElementById('template-resume');
-    if (node) {
-      const oldWidth = node.style.width;
-      node.style.width = '100%';
-      htmlToImage.toPng(node)
-        .then((dataUrl) => {
-          console.log('dataUrl', dataUrl);
-          node.style.width = oldWidth;
-        })
-        .catch((error) => {
-          console.error('oops, something went wrong!', error);
-          node.style.width = oldWidth;
-        });
+  public dataURLtoFile(dataurl, filename) {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while ( n-- ) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([ ], filename, {type: mime});
+  }
+
+  generatePDF(pdf): void {
+    pdf.export().then((group: Group) => exportPDF(group)).then((dataUri: Blob) => {
+      const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}`);
+      // console.log(base64, fileObject);
+      this.templatePdfFile = fileObject;
+    }).then(() => {
+      this.generateImage(pdf);
+    });
+  }
+
+  generateImage(pdf): void {
+    const element = document.getElementById('template-resume');
+    if ( element ) {
+      element.style.width = '100%';
+      pdf.export().then((group: Group) => exportImage(group)).then((dataUri) => {
+        // console.log('dataUri', dataUri);
+        this.templateImageBase64 = dataUri;
+        // const fileObject = this.dataURLtoFile(dataUri, `resume_image_${this.userName}`);
+        // console.log(fileObject);
+        element.style.width = '';
+        this.saveTemplatePdfImg();
+      });
     }
   }
 
@@ -921,7 +944,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             this.cdRef.detectChanges();
             this.selectedIndex = 5;
           } else {
-            this.saveTemplatePdfImg();
+            // this.saveTemplatePdfImg();
+            if ( this.pdfComponent ) {
+              this.generatePDF(this.pdfComponent);
+            }
           }
 
         },
@@ -937,7 +963,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         info.value = [info.value];
       } else if (info.type.toLowerCase() === 'certifications') {
         info.value = info.value.filter((value: any) => {
-          value.date = this.commonService.getMomentFormattedDate(value.date);
+          if ( value.date ) {
+            value.date = this.commonService.getMomentFormattedDate(value.date);
+          }
           return value;
         });
       }
@@ -953,8 +981,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (response) => {
-          console.log(response);
-          this.saveTemplatePdfImg();
+          if ( response.code === 200 ) {
+            if ( this.pdfComponent ) {
+              this.generatePDF(this.pdfComponent);
+            }
+          }
         },
         error => { }
       );
@@ -1017,6 +1048,13 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       this.additionalInfoData = resumeEditData.additionalInfo.filter((info) => {
         if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
           info.value = typeof info.value === 'object' && info.value.length > 0 ? info.value[0] : '';
+        } else if ( info.type.toLowerCase() === 'certifications' ) {
+          info.value = info.value.filter((value: any) => {
+            if ( value.date ) {
+              value.date = this.commonService.getMomentFromDate(value.date);
+            }
+            return value;
+          });
         }
         const selected = this.additionalInfoList.findIndex((add) => add.value.toLowerCase() === info.type.toLowerCase());
         if (selected !== -1) {
@@ -1032,7 +1070,26 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveTemplatePdfImg(): void {
-    this.router.navigate(['/user/my-resumes']);
+
+    const formData = new FormData();
+    formData.append('pdf', this.templatePdfFile);
+    formData.append('imageName', `resume_image_${this.userName}`);
+    formData.append('photo', this.templateImageBase64);
+    formData.append('id', this.resumeId);
+
+    this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveImgPdfStepApi, formData)
+      .subscribe(
+        (response) => {
+          if ( response.code === 200 ) {
+            this.toastrService.displaySnackBar('Your resume has been saved', 'success');
+            this.router.navigate(['/user/my-resumes']);
+          }
+        },
+        (error) => {
+          this.toastrService.displaySnackBar('Something went wrong while saving your resume. Please try again.', 'error');
+        }
+      );
+
   }
 
   /**
