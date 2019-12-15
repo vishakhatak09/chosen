@@ -53,6 +53,8 @@ export class JobFilterComponent implements OnInit {
   filteredCategoryOptions: Observable<string[]>;
   selectedIndustries: string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  public Arr = Array;
+  public experienceLength = 30;
 
   @ViewChild('indInput', { static: false }) industryInput: ElementRef<HTMLInputElement>;
   @ViewChild('autoIndustry', { static: false }) matAutocomplete: MatAutocomplete;
@@ -76,13 +78,17 @@ export class JobFilterComponent implements OnInit {
       salary: [''],
       industry: [''],
       jobCategory: [''],
-      keyskill: [''],
+      // keyskill: [''],
     });
     this.initSearch();
 
     if (this.dialogData) {
       if ( this.dialogData.industry ) {
         this.selectedIndustries = this.dialogData.industry;
+      }
+      if ( this.dialogData.location && this.dialogData.location !== '' ) {
+        this.filterJobForm.get('locationState').setValue(this.dialogData.location.split(',')[0].trim());
+        this.filterJobForm.get('location').setValue(this.dialogData.location.split(',')[1].trim());
       }
       this.filterJobForm.setValue(this.dialogData);
     }

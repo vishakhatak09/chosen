@@ -9,6 +9,7 @@ import {
 } from '@fuse/directives/fuse-mat-sidenav/fuse-mat-sidenav.directive';
 import { FileDropDirective } from './file-drop.directive';
 import { FileDirective } from './file.directive';
+import { TemplateDynamicDirective } from './template-dynamic.directive';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { FileDirective } from './file.directive';
         FuseMatSidenavTogglerDirective,
         FusePerfectScrollbarDirective,
         FileDropDirective,
-        FileDirective
+        FileDirective,
+        TemplateDynamicDirective
     ],
     imports: [],
     exports: [
@@ -28,7 +30,8 @@ import { FileDirective } from './file.directive';
         FuseMatSidenavTogglerDirective,
         FusePerfectScrollbarDirective,
         FileDropDirective,
-        FileDirective
+        FileDirective,
+        TemplateDynamicDirective
     ]
 })
 export class FuseDirectivesModule {

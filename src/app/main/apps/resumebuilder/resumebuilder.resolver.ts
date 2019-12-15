@@ -22,9 +22,13 @@ export class ResumeBuilderResolver implements Resolve<AdminTemplateModel> {
                 'templateId': templateId,
             }
         };
-        return this.resumeBuilderService.templateDetail(
-            this.templateUrl, params
-        );
+        // if (localStorage.getItem('selected')) {
+            return this.resumeBuilderService.templateDetail(
+                this.templateUrl, params
+            );
+        // } else {
+        //     return null;
+        // }
     }
 
 }

@@ -1,36 +1,18 @@
-import {
-    Component,
-    HostListener,
-    Input,
-    OnChanges,
-    OnInit,
-    ViewEncapsulation,
-    SimpleChanges,
-    ElementRef
-} from '@angular/core';
-import { SafeHtml } from '@angular/platform-browser';
-import { fuseAnimations } from '@fuse/animations';
+import { Component, OnInit, OnChanges, Input, ElementRef, HostListener, SimpleChanges } from '@angular/core';
 import { ResumeMock } from 'core/mock/resume.mock';
-import { AdditionalModel, EducationModel, SkillRating, TemplateModel, WorkModel, SocialModel } from 'core/models/resumebuilder.model';
+import { TemplateModel, SkillRating, WorkModel, EducationModel, AdditionalModel, SocialModel } from 'core/models/resumebuilder.model';
+import { SafeHtml } from '@angular/platform-browser';
 import { ResumeBuilderService } from '../resumebuilder.service';
 import * as _ from 'lodash';
 
 @Component({
-    selector: 'app-resume-template',
-    templateUrl: './resumetemplate.component.html',
-    // template: `
-    // <div  [innerHTML]="content">
-    // </div>
-    // `,
-    styleUrls: ['./resumetemplate.component.scss'],
-    // styles: [],
-    encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+  selector: 'app-resume-professional',
+  templateUrl: './resume-professional.component.html',
+  styleUrls: ['./resume-professional.component.scss']
 })
+export class ResumeProfessionalComponent implements OnInit, OnChanges {
 
-export class ResumeTemplateComponent implements OnInit, OnChanges {
-
-    public str = String;
+  public str = String;
     public Arr = Array;
     public ratingMax = 5;
     public MockData = ResumeMock.data;

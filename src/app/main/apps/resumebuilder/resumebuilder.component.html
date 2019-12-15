@@ -47,7 +47,9 @@
 
                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
 
-                    <mat-vertical-stepper [linear]="isLinear" #stepper fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar [selectedIndex]="selectedIndex" (selectionChange)="stepChange($event)">
+                    <mat-vertical-stepper [linear]="isLinear" id="resume-stepper" #stepper 
+                        fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar 
+                        [selectedIndex]="selectedIndex" (selectionChange)="stepChange($event)">
 
                         <mat-step [stepControl]="basicDetailForm">
 
@@ -361,7 +363,7 @@
 
                                 <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" *ngIf=" skillForm.get('skillType').value == 'basicWithRating' ">
                                     <mat-label> Choose your selection for adding skills</mat-label>
-                                    <mat-select [(ngModel)]="ratingStyle" placeholder="Select" [ngModelOptions]="{standalone: true}" required>
+                                    <mat-select disabled [(ngModel)]="ratingStyle" placeholder="Select" [ngModelOptions]="{standalone: true}" required>
                                         <mat-option [value]="skills.value" *ngFor="let skills of ratingThemeList">
                                             {{ skills.viewValue }}
                                         </mat-option>
@@ -420,10 +422,10 @@
                                 <div class="pt-12 pl-8 pb-4">
                                     <button type="button" class="stepper-back" mat-raised-button
                                         matStepperPrevious>Back</button>
-                                    <button type="button" color="accent"
+                                    <button type="button" color="accent" *ngIf="haveAdditionalInfo == false"
                                         mat-raised-button class="ml-12" (click)="finishStep()">Finish</button>
-                                    <!-- <button type="button" *ngIf="haveAdditionalInfo == true" class="stepper-next ml-12"
-                                        color="accent" mat-raised-button matStepperNext>Next</button> -->
+                                    <button type="button" *ngIf="haveAdditionalInfo == true" class="stepper-next ml-12"
+                                        color="accent" mat-raised-button (click)="saveSkills(true)">Next</button>
                                 </div>
                             </form>
 
@@ -489,9 +491,13 @@
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
                     <kendo-pdf-export #pdf [imageResolution]="resolution">
-                        <app-resume-template #templateRef [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
+                        <!-- <ng-template template-dynamic></ng-template> -->
+                        <app-resume-template #templateRef *ngIf="currentTemplate === 'cubic'" [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
                             [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
                         </app-resume-template>
+                        <app-resume-professional #templateRef *ngIf="currentTemplate === 'professional'" [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
+                            [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
+                        </app-resume-professional>
                     </kendo-pdf-export>
                     <!-- <div #container></div> -->
                 </div>

@@ -99,7 +99,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
       state: ['', Validators.required],
       location: ['', Validators.required],
       companyName: ['', Validators.required],
-      keywords: ['', Validators.required],
+      // keywords: ['', Validators.required],
       workExperience: ['', Validators.required],
       expectedSalary: [''],
       industry: ['', Validators.required],
@@ -188,7 +188,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
           'location': formValues.location + ', ' + formValues.state,
           'startworkExperience': startWorkExp,
           'endworkExperience': endWorkExp,
-          'stratSalary': formValues.expectedSalary[0],
+          'startSalary': formValues.expectedSalary[0],
           'endSalary': formValues.expectedSalary[1],
           'industry': formValues.industry,
           'jobCategory': formValues.jobCategory,
@@ -240,18 +240,23 @@ export class AddJobComponent implements OnInit, OnDestroy {
                 state: state.trim(),
                 location: location,
                 companyName: this.editJobData.companyName,
-                keywords: this.editJobData.keywords || '',
+                // keywords: this.editJobData.keywords || '',
                 workExperience: [this.editJobData.workExperience['years'], this.editJobData.workExperience['month']],
                 expectedSalary: this.editJobData.salary,
                 industry: this.editJobData.industry,
                 jobCategory: this.editJobData.jobCategory,
                 jobType: this.editJobData.jobType,
                 email: this.editJobData.email || '',
+                logo: ''
               });
-              this.minExperience = Number(this.editJobData.startworkExperience['years']);
-              this.maxExperience = Number(this.editJobData.data.image['years']);
-              this.minSalary = Number(this.editJobData.stratSalary['years']);
-              this.maxSalary = Number(this.editJobData.endSalary['years']);
+              if (this.editJobData.startworkExperience) {
+                this.minExperience = Number(this.editJobData.startworkExperience['years']);
+                this.maxExperience = Number(this.editJobData.data.image['years']);
+              }
+              if (this.editJobData.stratSalary) {
+                this.minSalary = Number(this.editJobData.stratSalary['years']);
+                this.maxSalary = Number(this.editJobData.endSalary['years']);
+              }
               this.logoFileName = this.editJobData.imageName;
               this.logoSrc = this.imgBaseUrl + this.editJobData.imageName;
             }

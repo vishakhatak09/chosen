@@ -106,24 +106,49 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
     }
 
     private _filter(value: string): Observable<any> {
-        if (typeof value === 'string' && value.length > 2) {
+        let searchLocation;
+        let experience;
+        if ( this.selectedFilters && this.selectedFilters.locationState && this.selectedFilters.location ) {
+            searchLocation = this.selectedFilters.location + ', ' + this.selectedFilters.locationState;
+        }
+        if ( this.selectedFilters && this.selectedFilters.workExperience ) {
+            experience = {
+                'years': this.selectedFilters.workExperience,
+                'month': 0
+            };
+        }
+        if (typeof value === 'string' && value.length > 0) {
             const filterValue = value.toLowerCase();
 
             const params: any = {
                 params: {
                     location: this.selectedFilters ? this.selectedFilters.location : undefined,
-                    workExperience: this.selectedFilters ? this.selectedFilters.workExperience : undefined,
+                    workExperience: experience,
                     salary: this.selectedFilters ? this.selectedFilters.salary : undefined,
                     industry: this.selectedFilters ? this.selectedFilters.industry : undefined,
                     jobCategory: this.selectedFilters ? this.selectedFilters.jobCategory : undefined,
-                    keyskill: this.selectedFilters ? this.selectedFilters.keyskill : undefined,
-                    keywords: filterValue
+                    // keyskill: this.selectedFilters ? this.selectedFilters.keyskill : undefined,
+                    // keywords: filterValue
+                    keyskill: filterValue
                 }
             };
 
             return this.commonService.searchJob(this.getJobApi, params);
         } else {
-            return of(null);
+            const params: any = {
+                params: {
+                    location: this.selectedFilters ? this.selectedFilters.location : undefined,
+                    workExperience: experience,
+                    salary: this.selectedFilters ? this.selectedFilters.salary : undefined,
+                    industry: this.selectedFilters ? this.selectedFilters.industry : undefined,
+                    jobCategory: this.selectedFilters ? this.selectedFilters.jobCategory : undefined,
+                    // keyskill: this.selectedFilters ? this.selectedFilters.keyskill : undefined,
+                    // keywords: filterValue
+                    keyskill: ''
+                }
+            };
+
+            return this.commonService.searchJob(this.getJobApi, params);
         }
     }
 
@@ -193,6 +218,11 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe((response) => {
             if (response) {
                 this.selectedFilters = response;
+                const element = document.getElementById('fuse-search-bar-input');
+                if ( element ) {
+                    element.focus();
+                    this.searchBox.patchValue(this.searchBox.value, {emitEvent: true});
+                }
             }
         });
     }

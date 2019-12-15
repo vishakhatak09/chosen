@@ -16,8 +16,8 @@ import {
   ViewContainerRef,
   ComponentRef,
   AfterContentInit,
-  AfterViewInit,
-  ComponentFactoryResolver
+  ComponentFactoryResolver,
+  OnChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -57,6 +57,10 @@ import { CommonService } from 'core/services/common.service';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { exportPDF, Group, exportImage } from '@progress/kendo-drawing';
+import { TemplateDynamicDirective } from '@fuse/directives/template-dynamic.directive';
+import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
+import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
+import { LoadingScreenService } from '@fuse/services/loading.service';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -69,7 +73,7 @@ import { exportPDF, Group, exportImage } from '@progress/kendo-drawing';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit, OnChanges {
 
   public defaultProfile = environment.baseUrl + 'assets/images/logos/profile.jpg';
   public getEditUrl = environment.serverBaseUrl + 'api/resume/singleResume';
@@ -83,11 +87,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   genderOptions: OptionType[] = AppConstant.GenderOptions;
   baseUrl = environment.baseUrl;
   maxRate = 5;
-  currentRate = 0;
   ratingStyle = 'square';
   skillOptions: OptionType[] = AppConstant.SkillCustomOptions;
   skillRatingList: SkillRating[] = [];
   ratingThemeList: OptionType[] = AppConstant.RatingThemes;
+  public imageBaseUrl = AppConstant.GeneralConst.UserImagePath;
 
   tinyEditorConfig = {};
   workExperienceData: WorkModel[] = [];
@@ -128,6 +132,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   private templatePdfFile: File;
   private templateImageBase64: Blob | string;
 
+  // dynamic template
+  public currentTemplate: string;
+  @ViewChild(TemplateDynamicDirective, {static: true}) dynamicTemplate: TemplateDynamicDirective;
+  isComponentLoaded = false;
+  selectedImage: File;
+
   /**
    * Constructor
    * @param _formBuilder FormBuilder
@@ -144,8 +154,18 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     private commonService: CommonService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private loaderService: LoadingScreenService
   ) {
+    this.currentTemplate = localStorage.getItem('selected');
+    if ( this.activatedRoute.data ) {
+      this.activatedRoute.data.subscribe((resp) => {
+        if ( resp.data.code === 200 && resp.data.data ) {
+          this.currentTemplate = resp.data.data.title.toLowerCase();
+          // this.loaderService.show();
+        }
+      });
+    }
     this.templateId = this.activatedRoute.snapshot.paramMap.get('templateId');
     // console.log('templateId', this.templateId);
     this.resumeId = this.activatedRoute.snapshot.paramMap.get('resumeId');
@@ -183,10 +203,18 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     });
 
     this.skillForm = this._formBuilder.group({
-      skillType: ['basic', [Validators.required]],
+      skillType: ['', [Validators.required]],
       ratingType: [this.ratingStyle, []],
       skillInput: [undefined],
     });
+
+    if ( this.currentTemplate === 'cubic' ) {
+      this.skillForm.get('skillType').setValue('basic');
+      this.skillForm.get('skillType').disable();
+    } else if ( this.currentTemplate === 'professional' ) {
+      this.skillForm.get('skillType').setValue('basicWithRating');
+      this.skillForm.get('skillType').disable();
+    }
 
     this.skillForm.get('skillType').valueChanges.subscribe((val) => {
       if (val === 'basicStyled') {
@@ -198,7 +226,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       }
     });
     this.setupTinyMce();
-    this.sendTemplateValues();
 
     const userData = this.authService.currentUserValue;
     this.userEmail = userData ? userData.email : '';
@@ -207,6 +234,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   ngAfterContentInit(): void {
     this.MockTemplate = templateMock;
+    // this.loadComponent();
     // // Generate dynamic component with html
     // setTimeout(() => {
     //   // this.generateRunTimeComponent();
@@ -214,12 +242,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     // }, 0);
   }
 
-  ngAfterViewInit(): void {
-    // Generate dynamic component with html
-    setTimeout(() => {
-      // // this.generateRunTimeComponent();
-      this.cdRef.detectChanges();
-    }, 0);
+  ngOnChanges(): void {
+    // if ( this.isComponentLoaded === true) {
+    //   // this.loadComponent();
+    // }
   }
 
   private setupTinyMce(): void {
@@ -275,6 +301,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       const reader = new FileReader();
       reader.readAsDataURL(fileData);
       reader.onload = (() => {
+        this.selectedImage = fileData;
         this.profileSrc = reader.result;
         this.profileFileName = fileData.name;
       });
@@ -557,11 +584,16 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   stepChange(event: StepperSelectionEvent): void {
     this.selectedIndex = event.selectedIndex;
+    // const stepperElement = document.getElementById('resume-stepper');
+    // if ( stepperElement ) {
+    //   stepperElement.scrollIntoView();
+    // }
     if (this.selectedIndex >= 4) {
       this.allowDownload = true;
     } else {
       this.allowDownload = false;
     }
+    // this.cdRef.detectChanges();
   }
 
   finishStep(): void {
@@ -605,28 +637,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     //   // this.toastrService.displaySnackBar('Your resume has been saved', 'success');
     //   this.saveAdditionalInfo();
     // }
-  }
-
-  sendTemplateValues(): void {
-    // this.resumeBuilderService.templateData.next(
-    //   {
-    //     templateContent: templateMock,
-    //   }
-    // );
-    this.basicDetailForm.valueChanges
-      .subscribe((_val) => {
-        // this.generateRunTimeComponent();
-      });
-
-    this.careerObjForm.valueChanges
-      .subscribe((value) => {
-        // this.generateRunTimeComponent();
-      });
-
-    this.skillForm.valueChanges
-      .subscribe((_val) => {
-        // this.generateRunTimeComponent();
-      });
   }
 
   private createComponentFactorySync(
@@ -795,6 +805,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     if (this.basicDetailForm.valid) {
       // this.selectedIndex = this.selectedIndex + 1;
       const formValue = this.basicDetailForm.value;
+      let profileImage = this.profileSrc;
+      if (this.resumeEditData.personalInfo.profileImage && !this.selectedImage) {
+        profileImage = '';
+      }
       const params: any = {
         'params': {
           'personalInfo': {
@@ -809,8 +823,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             'maritalStatus': formValue.maritalStatus,
             'gender': formValue.gender,
             'socialLinks': this.socialLinkArray,
-            'imageName': this.profileFileName || undefined,
-            'photo': this.profileSrc || undefined,
+            'imageName': this.selectedImage ? this.profileFileName : '',
+            'designation': formValue.designation,
+            'photo': profileImage,
           }
         }
       };
@@ -1026,6 +1041,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         gender: personalData.gender || null,
       });
       this.socialLinkArray = personalData.socialLinks;
+      if ( resumeEditData.personalInfo.profileImage ) {
+        this.profileSrc = this.imageBaseUrl + resumeEditData.personalInfo.profileImage;
+      }
     }
 
     if (resumeEditData.careerObjective) {
@@ -1092,11 +1110,41 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   }
 
+  loadComponent(): void {
+
+    let componentFactory;
+    if ( this.currentTemplate === 'cubic' ) {
+      componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeTemplateComponent);
+    } else if ( this.currentTemplate === 'professional' ) {
+      componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeProfessionalComponent);
+    }
+
+    const viewContainerRef = this.dynamicTemplate.viewContainerRef;
+    viewContainerRef.clear();
+
+    if ( componentFactory ) {
+      const componentRef = viewContainerRef.createComponent(componentFactory);
+      (<any>componentRef.instance).templateForm = this.basicDetailForm.getRawValue();
+      (<any>componentRef.instance).userEmail = this.userEmail;
+      (<any>componentRef.instance).experienceData = this.workExperienceData;
+      (<any>componentRef.instance).careerObjective = this.careerObjForm.get('careerObjective').value;
+      (<any>componentRef.instance).educationData = this.educationData;
+      (<any>componentRef.instance).skillData = this.skillRatingList;
+      (<any>componentRef.instance).additionalInfo = this.additionalInfoData;
+      (<any>componentRef.instance).socialData = this.socialLinkArray;
+      (<any>componentRef.instance).profileSrc = this.profileSrc;
+      // this.loaderService.hide();
+      this.isComponentLoaded = true;
+    }
+
+  }
+
   /**
    * On destroy
    */
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
+    localStorage.removeItem('selected');
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }

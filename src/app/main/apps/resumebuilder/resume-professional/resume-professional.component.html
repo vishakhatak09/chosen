@@ -1,0 +1,219 @@
+<div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;">
+  <table cellspacing="0" cellpadding="0" style="font-family: sans-serif; margin: auto;color: #444444;">
+    <tr>
+      <td style="padding: 20px; background-color: #193042">
+        <table cellspacing="0" cellpadding="0" style="width: 100%">
+          <tr>
+            <td>
+              <h1 style="margin: 0 0 5px; font-size: 24px;font-weight: 500;color: #fff;">
+                <span *ngIf="templateForm.firstName">{{templateForm.firstName}} </span>
+                <span *ngIf="!templateForm.firstName">John </span>
+                <span *ngIf="templateForm.lastName ">{{templateForm.lastName}}</span>
+                <span *ngIf="!templateForm.lastName">Doe</span>
+              </h1>
+              <h4 style="margin: 0 0 5px; font-size: 16px;font-weight: 500;color: #2f9032;">
+                {{ templateForm?.designation }}
+              </h4>
+              <p style="margin: 0; font-size: 13px;color: #fff;"
+                [innerHTML]="careerObjective || ResumeMockData.data.careerObjective"></p>
+            </td>
+            <td *ngIf="profileSrc">
+              <div style="border: solid 2px #2f9032;border-radius: 5px;">
+                <img style="display: block;" [src]="profileSrc" alt="">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="background: #001729;padding: 10px 20px; font-size: 0;color: #fff">
+        <div
+          style="display: inline-table;white-space: nowrap;padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;">
+          <img style="width: 14px;display: inline-block;vertical-align: middle;"
+            src="assets/icons/template-icons/envelope-w.svg" alt="">
+          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;" *ngIf="userEmail"
+            [innerHTML]="userEmail">
+          </span>
+          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
+            *ngIf="!userEmail">john.doe@gmail.com
+          </span>
+        </div>
+        <div
+          style="display: inline-table;white-space: nowrap;padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;">
+          <img style="width: 14px;display: inline-block;vertical-align: middle;"
+            src="assets/icons/template-icons/mobile-w.svg" alt="mobile">
+          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
+            *ngIf="templateForm.contactNumber" [innerHTML]="templateForm.contactNumber">
+          </span>
+          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
+            *ngIf="!templateForm.contactNumber">1234567890
+          </span>
+        </div>
+
+        <div
+          style="display: inline-table;white-space: nowrap;padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;">
+          <img style="width: 14px;display: inline-block;vertical-align: middle;"
+            src="assets/icons/template-icons/location-w.svg" alt="location">
+          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
+            *ngIf="templateForm?.fullAddress" [innerHTML]="templateForm.fullAddress">
+          </span>
+          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
+            *ngIf="!templateForm || !templateForm.fullAddress" > Lorem ipsum dolor
+            met
+          </span>
+        </div>
+
+        <div
+          style="display: inline-table;white-space: nowrap;padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;"
+          *ngFor="let social of socialData">
+          <img style="width: 14px;display: inline-block;vertical-align: middle;"
+            [src]="'assets/icons/template-icons/' + social.website + '-w.svg'" alt="{{social.website}}">
+          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
+            [innerHTML]="social.link">
+          </span>
+        </div>
+
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 20px">
+        <table cellspacing="0" cellpadding="0" style="width: 100%">
+          <tr>
+            <td style="padding-right: 15px;width: 50%;vertical-align: top;">
+              <table cellspacing="0" cellpadding="0" style="width: 100%">
+                <tr *ngIf="experienceList.length > 0">
+                  <td>
+                    <h2 style="color: #2f9032;margin:0 0 7px; font-size: 16px; text-transform: uppercase">
+                      <span style="display: inline-block;border-bottom: solid 2px;line-height: 22px;">Work
+                        experience</span>
+                    </h2>
+                    <div *ngFor="let item of experienceList; let i = index"
+                      [ngStyle]="{'margin-top': i > 0 ? '15px' : '0'}">
+                      <h3 style="margin:0; font-size: 14px;" [innerHTML]="item.designation"></h3>
+                      <h4 style="color: #2f9032;margin:2px 0 0; font-size: 13px;" [innerHTML]="item.companyName"></h4>
+                      <div style="font-size: 0;margin: 7px 0 5px;">
+                        <p
+                          style="color: #2f9032;display:inline-block;width: 50%;margin:0;font-style: italic;font-size: 10px;">
+                          {{ item.joiningDate | date: 'LLLL yyyy' }} - {{ item.leavingDate | date: 'LLLL yyyy' }}
+                        </p>
+                        <p style="color: #2f9032;display:inline-block;width: 50%;margin:0;font-style: italic;font-size: 10px;text-align: right;"
+                          [innerHTML]="item.location">
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="height: 25px;"></td>
+                </tr>
+                <tr *ngIf="educationList.length > 0">
+                  <td>
+                    <h2 style="color: #2f9032;margin:0 0 7px; font-size: 16px; text-transform: uppercase">
+                      <span style="display: inline-block;border-bottom: solid 2px;line-height: 22px;">Education</span>
+                    </h2>
+                    <div *ngFor="let item of educationList">
+                      <h3 style="margin:0; font-size: 14px;" [innerHTML]="item.courseName"></h3>
+                      <h4 style="color: #2f9032;margin:2px 0 0; font-size: 13px;" [innerHTML]="item.collegeName"></h4>
+                      <div style="font-size: 0;margin: 7px 0 5px;">
+                        <p
+                          style="color: #2f9032;display:inline-block;width: 50%;margin:0;font-style: italic;font-size: 10px;">
+                          {{ item.yearOfPassing | date: 'yyyy' }}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <ng-container *ngIf="additionalList.length > 0">
+                  <ng-container *ngFor="let item of additionalList">
+                    <tr *ngIf="item.type == 'Accomplishments'">
+                      <td style="height: 20px;"></td>
+                    <tr *ngIf="item.type == 'Accomplishments'">
+                      <td>
+                        <h2 style="color: #2f9032;margin:0 0 7px; font-size: 16px; text-transform: uppercase">
+                          <span style="display: inline-block;border-bottom: solid 2px;line-height: 22px;"
+                            [innerHTML]="item.type"></span>
+                        </h2>
+                        <p style="margin:0; font-size: 12px;" [innerHTML]="item.value | safeHtml"></p>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </table>
+            </td>
+            <td style="padding-left: 15px;width: 50%;vertical-align: top;" *ngIf="skillList.length > 0">
+              <table cellspacing="0" cellpadding="0" style="width: 100%">
+                <tr>
+                  <td>
+                    <h2 style="color: #2f9032;margin:0 0 7px; font-size: 16px; text-transform: uppercase">
+                      <span style="display: inline-block;border-bottom: solid 2px;line-height: 22px;">Skills</span>
+                    </h2>
+                    <table cellspacing="0" cellpadding="0" style="width: 100%">
+                      <tr *ngFor="let skill of skillList">
+                        <td style="font-weight: 600;font-size: 12px;padding: 7px 0;">{{skill.skillName}}</td>
+                        <td style="font-size: 0;text-align: right;padding: 7px 0;">
+                          <span *ngFor="let item of Arr(ratingMax); let i = index;"
+                            [ngStyle]="{'background-color': (i < skill.ratings) ? '#2f9032' : '#b7b7b7' }"
+                            style="border-radius: 2px;display: inline-block;margin-left: 10px;width:15px;height: 15px;"></span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <ng-container *ngIf="additionalList.length > 0">
+                  <ng-container *ngFor="let item of additionalList">
+                    <tr>
+                      <td style="height: 20px;"></td>
+                    </tr>
+                    <tr *ngIf="item.type !== 'Accomplishments'">
+                      <td>
+                        <h2 style="color: #2f9032;margin:0 0 7px; font-size: 16px; text-transform: uppercase">
+                          <span style="display: inline-block;border-bottom: solid 2px;line-height: 22px;"
+                            [innerHTML]="item.type"></span>
+                        </h2>
+
+                        <ng-container [ngSwitch]="item.type">
+
+                          <ng-container *ngSwitchCase="'Accomplishments'">
+                            <!-- <p style="margin:0; font-size: 12px;" [innerHTML]="item.value | safeHtml"></p> -->
+                          </ng-container>
+
+                          <ng-container *ngSwitchCase="'Affiliations'">
+                            <p style="margin:0; font-size: 12px;" [innerHTML]="item.value | safeHtml"></p>
+                          </ng-container>
+
+                          <ng-container *ngSwitchCase="'Certifications'">
+
+                            <div style="margin-top:10px" *ngFor="let data of item.value">
+                              <h3 style="margin:0; font-size: 12px;">{{ data.certificate }} </h3>
+                              <p
+                                style="display:inline-block;margin:0;font-style: italic;font-size: 10px;color: #909090;">
+                                {{ data.date | date: 'yyyy' }}</p>
+                            </div>
+
+                          </ng-container>
+
+                          <ng-container *ngSwitchDefault>
+                            <div
+                              style="display: inline-table;white-space: nowrap;padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;"
+                              *ngFor="let data of item.value">
+                              <span
+                                style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;">
+                                {{ data }}
+                              </span>
+                            </div>
+                          </ng-container>
+
+                        </ng-container>
+
+                      </td>
+
+                  </ng-container>
+                </ng-container>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+  </table>
+</div>

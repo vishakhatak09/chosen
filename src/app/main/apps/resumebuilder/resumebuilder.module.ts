@@ -29,6 +29,7 @@ import { ResumePreviewComponent } from './resume-preview/resume-preview.componen
 import { CommonService } from 'core/services/common.service';
 import { ResumeBuilderResolver } from './resumebuilder.resolver';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
 
 const routes: Routes = [
   {
@@ -47,16 +48,18 @@ const routes: Routes = [
     AddWorkComponent,
     AddEducationComponent,
     AdditionalInfoComponent,
-    // Template1Component,
-    ResumePreviewComponent
+    ResumePreviewComponent,
+
+    ResumeProfessionalComponent
   ],
   entryComponents: [
     ResumeTemplateComponent,
     AddWorkComponent,
     AddEducationComponent,
     AdditionalInfoComponent,
-    // Template1Component
-    ResumePreviewComponent
+    ResumePreviewComponent,
+
+    ResumeProfessionalComponent
   ],
   imports: [
     RouterModule.forChild(routes),

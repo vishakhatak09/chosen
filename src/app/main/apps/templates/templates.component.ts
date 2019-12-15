@@ -31,7 +31,7 @@ export class TemplatesComponent implements OnInit, OnDestroy {
   ) {
     // Set the defaults
     this.view = 'preview';
-
+    localStorage.removeItem('selected');
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -55,6 +55,7 @@ export class TemplatesComponent implements OnInit, OnDestroy {
 
   selectTemplate(item: AdminTemplateModel): void {
     if (item) {
+      localStorage.setItem('selected', item.title.toLowerCase());
       this.router.navigate(['/user/' + item._id + '/resumebuilder']);
     }
   }

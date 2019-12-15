@@ -14,6 +14,7 @@ import { finalize } from 'rxjs/operators';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   currentUser: any;
+  isDisplaying = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -26,7 +27,9 @@ export class JwtInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     this.currentUser = this.authenticationService.currentUserValue;
     if (this.currentUser && this.currentUser.token) {
-      if (!request.url.includes('Step') && !request.url.includes('jobFilter')) {
+      // if (!request.url.includes('Step') && !request.url.includes('jobFilter')) {
+      if ( !request.url.includes('jobFilter')) {
+        this.isDisplaying = true;
         this.loadingService.show();
       }
       request = request.clone({
@@ -42,7 +45,11 @@ export class JwtInterceptor implements HttpInterceptor {
       }
     });
     return next.handle(request).pipe(
-      finalize(() => this.loadingService.hide())
+      finalize(() => {
+        if ( this.isDisplaying === true ) {
+          this.loadingService.hide();
+        }
+      })
     );
   }
 }
