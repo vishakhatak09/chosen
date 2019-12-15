@@ -80,6 +80,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             reader.onload = (() => {
                 this.profileSrc = reader.result;
                 this.profileImgName = fileData.name;
+                this.uploadImage();
             });
         } else {
             this.profileSrc = null;

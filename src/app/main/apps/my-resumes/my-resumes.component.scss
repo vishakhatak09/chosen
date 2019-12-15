@@ -1,9 +1,14 @@
 @import "src/@fuse/scss/fuse";
 app-my-resumes {
     .fuse-card {
+        box-shadow: 0 0 5px 0px #9c9c9c;
         max-width: initial;
         min-width: auto;
+        height: 100%;
         position: relative;
+        img {
+            max-width: 100%;
+        }
         .hover-box {
             position: absolute;
             top: 0;
@@ -35,6 +40,8 @@ app-my-resumes {
                 position: relative;
                 z-index: 1;
                 margin: 0 5px;
+                width: 50px;
+                height: 50px;
                 .mat-button-wrapper {
                     padding: 0;
                     font-size: 18px;

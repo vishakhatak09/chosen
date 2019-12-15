@@ -3,13 +3,12 @@
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
     <!-- / TOP BACKGROUND -->
- 
+
     <!-- CENTER -->
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
 
             <!-- APP TITLE -->
             <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
@@ -30,12 +29,11 @@
 
             <div class="content">
 
-                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" >
+                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
 
                     <div class="tab-content pl-12 h-100-p">
 
-                        <form class="template-form ml-12 mt-16" fxLayout="row wrap" [formGroup]="contentForm"
-                            fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
+                        <form class="template-form ml-12 mt-16" fxLayout="row wrap" [formGroup]="contentForm" fxLayoutGap="25px" (ngSubmit)="onSubmit()" novalidate>
 
                             <!-- <div floatLabel="always" class="mb-12 pl-4 upload-div ml-4" fxFlex="97">
                                 <input type="file" #file hidden accept="image/*" formControlName="image"
@@ -54,9 +52,10 @@
                                 Please select landing page image
                             </mat-error>
  -->
-                            <div floatLabel="always" class="pl-4" fxFlex="100"
-                                *ngFor="let img of imageArray; let index=index;">
-                                <img [src]="img.base64Url">
+                            <div floatLabel="always" class="pl-4" fxFlex="100" *ngFor="let img of imageArray; let index=index;">
+                                <div class="img-box mb-4">
+                                    <img [src]="img.base64Url">
+                                </div>
                                 <span class="accent upload-span border-radius-16 p-8 w-50-p">
                                     {{img.name}}
                                 </span>
@@ -66,8 +65,7 @@
                             </div>
 
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4 mt-20">
-                                <textarea matInput placeholder="Enter Landing Page Text" name="mainTextInput"
-                                    formControlName="mainText" autocomplete="off" >
+                                <textarea matInput placeholder="Enter Landing Page Text" name="mainTextInput" formControlName="mainText" autocomplete="off">
                                         </textarea>
                                 <!-- <mat-error *ngIf="contentForm.get('mainText').hasError('required')">
                                     Please enter landing page text content
@@ -75,8 +73,7 @@
                             </mat-form-field>
 
                             <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="pl-4">
-                                <textarea matInput placeholder="Enter Landing Page Phrase" name="marqueeTextInput"
-                                    formControlName="phraseText" autocomplete="off" >
+                                <textarea matInput placeholder="Enter Landing Page Phrase" name="marqueeTextInput" formControlName="phraseText" autocomplete="off">
                                         </textarea>
                                 <!-- <mat-error *ngIf="contentForm.get('phraseText').hasError('required')">
                                     Please enter landing page phrase content
@@ -84,8 +81,7 @@
                             </mat-form-field>
 
                             <div class="pt-12 pl-8 pb-4">
-                                <button type="submit" class="stepper-back" color="primary" mat-raised-button
-                                    [disabled]="isLoading">
+                                <button type="submit" class="stepper-back" color="primary" mat-raised-button [disabled]="isLoading">
                                     <img class="loading" *ngIf="isLoading" src="assets/images/background/loader.gif">
                                     <span *ngIf="contentData">Update</span>
                                     <span *ngIf="!contentData">Save</span>

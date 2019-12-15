@@ -94,6 +94,10 @@ app-resumebuilder {
     }
 }
 
+.title-box {
+    background-color: #e0e0e0
+}
+
 .form-radio-group {
     display: flex;
     flex-direction: row;
@@ -156,20 +160,16 @@ app-resumebuilder {
         border-radius: 10px;
         color: mat-color($mat-green, 600);
         .action-buttons {
-            float: right;
+            width: 30px;
+            height: 30px;
+            .mat-button-wrapper {
+                display: block;
+            }
             .mat-icon {
                 font-size: 20px;
+                height: 20px;
+                width: 20px;
             }
-        }
-        .description {
-            display: flex !important;
-        }
-        .work-index {
-            margin-left: 10px;
-        }
-        .work-desc {
-            width: 100%;
-            margin-left: 30px;
         }
     }
 }

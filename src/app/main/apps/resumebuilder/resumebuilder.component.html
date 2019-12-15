@@ -136,10 +136,8 @@
 
                                     <div class="w-100-p">
                                         <mat-label class="example-radio-group-label">Marital Status: </mat-label>
-                                        <mat-radio-group aria-labelledby="example-radio-group-label"
-                                            class="form-radio-group" formControlName="maritalStatus">
-                                            <mat-radio-button class="form-radio-button"
-                                                *ngFor="let status of maritalStatusOpts" [value]="status.value">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label" class="form-radio-group" formControlName="maritalStatus">
+                                            <mat-radio-button class="form-radio-button" *ngFor="let status of maritalStatusOpts" [value]="status.value">
                                                 {{status.viewValue}}
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -162,28 +160,28 @@
                                         </button>
                                     </div>
 
-                                    <div class="w-100-p" *ngFor="let social of socialLinkArray; let i = index">
-                                        <mat-form-field floatLabel="always" class="w-45-p" appearance="outline">
-                                            <mat-label>Website</mat-label>
-                                            <mat-select placeholder="Select Website" [(value)]="social.website" required>
-                                                <mat-option [value]="site" *ngFor="let site of socialSites">
-                                                    <span class="text-capitalize">{{ site }}</span>
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                        &nbsp;
-                                        <mat-form-field floatLabel="always" class="w-45-p" appearance="outline">
-                                            <mat-label>Link</mat-label>
-                                            <input matInput placeholder="Social Link" #linkUrl (change)="social.link = linkUrl.value" [(value)]="social.link" type="text" name="socialLink" [pattern]="urlPattern" autocomplete="off">
-                                        </mat-form-field>
-                                        <button mat-button type="button" class="red-400-fg social-del" (click)="removeSocialLink(i)" *ngIf="socialLinkArray.length > 1">
+                                    <div class="w-100-p" fxLayout="row" *ngFor="let social of socialLinkArray; let i = index">
+                                        <div class="w-100-p" fxLayout="row wrap">
+                                            <mat-form-field floatLabel="always" class="pr-12" fxFlex="100%" fxFlex.gt-xs="50%" appearance="outline">
+                                                <mat-label>Website</mat-label>
+                                                <mat-select placeholder="Select Website" [(value)]="social.website" required>
+                                                    <mat-option [value]="site" *ngFor="let site of socialSites">
+                                                        <span class="text-capitalize">{{ site }}</span>
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-form-field floatLabel="always" class="pr-12" fxFlex="100%" fxFlex.gt-xs="50%" appearance="outline">
+                                                <mat-label>Link</mat-label>
+                                                <input matInput placeholder="Social Link" #linkUrl (change)="social.link = linkUrl.value" [(value)]="social.link" type="text" name="socialLink" [pattern]="urlPattern" autocomplete="off">
+                                            </mat-form-field>
+                                        </div>
+                                        <button mat-icon-button type="button" class="red-400-fg social-del" (click)="removeSocialLink(i)" *ngIf="socialLinkArray.length > 1">
                                             <mat-icon>delete</mat-icon>
                                         </button>
 
                                     </div>
                                     <div class="pt-12">
-                                        <button type="submit" class="stepper-next ml-12" color="accent"
-                                            mat-raised-button>Next</button>
+                                        <button type="submit" class="stepper-next ml-12" color="accent" mat-raised-button>Next</button>
                                     </div>
 
                                 </form>
@@ -209,10 +207,8 @@
                                         </ng-template>
 
                                         <div class="p-8">
-                                            <button type="button" class="stepper-back" mat-raised-button
-                                                matStepperPrevious>Back</button>
-                                            <button type="submit" class="stepper-next ml-12" color="accent"
-                                                mat-raised-button>Next</button>
+                                            <button type="button" class="stepper-back" mat-raised-button matStepperPrevious>Back</button>
+                                            <button type="submit" class="stepper-next ml-12" color="accent" mat-raised-button>Next</button>
                                         </div>
                                     </div>
 
@@ -224,8 +220,7 @@
                         <mat-step [stepControl]="workForm">
 
                             <div class="tab-content">
-                                <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start"
-                                    name="WorkForm" (ngSubmit)="formSubmit()">
+                                <form fxLayout="row wrap" #workForm="ngForm" fxLayoutAlign="start start" name="WorkForm" (ngSubmit)="formSubmit()">
                                     <ng-template matStepLabel>
                                         Work Experience
                                         <!-- <button mat-icon-button hidden>
@@ -235,33 +230,23 @@
 
                                     <div class="w-100-p">
 
-                                        <div class="skill-content p-8" fxLayout="row" fxLayoutAlign="start end">
+                                        <div class="skill-content p-8" fxLayout="row wrap" fxLayoutAlign="start end">
                                             <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%" *ngFor="let data of workExperienceData; let index = index;">
                                                 <div class="work-content mat-elevation-z2 border">
-                                                    <div class="w-100-p">
-                                                        <button type="button" mat-icon-button matTooltip="Delete"
-                                                            [matTooltipPosition]="'above'"
-                                                            class="action-buttons red-400-fg"
-                                                            (click)="deleteWorkExperience(index, 'work')">
-                                                            <mat-icon>delete</mat-icon>
-                                                        </button>
-                                                        &nbsp;
-                                                        <button type="button" mat-icon-button matTooltip="Edit"
-                                                            [matTooltipPosition]="'above'"
-                                                            class="action-buttons grey-500-fg"
-                                                            (click)="editWorkExperience(index, 'work')">
-                                                            <mat-icon>edit</mat-icon>
-                                                        </button>
+                                                    <div class="w-100-p title-box py-4 pl-16 pr-8" fxLayoutAlign="space-between center">
+                                                        <span class="font-weight-800 mr-auto">{{index+1}}</span>
+                                                        <button type="button" mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'work')">
+                                                                <mat-icon>delete</mat-icon>
+                                                            </button>
+                                                        <button type="button" mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons grey-500-fg" (click)="editWorkExperience(index, 'work')">
+                                                                <mat-icon>edit</mat-icon>
+                                                            </button>
                                                     </div>
-                                                    <div class="w-100-p description">
-                                                        <span class="work-index">{{index+1}}</span>
-                                                        <span class="work-desc">
-                                                            <p>{{ data.designation }}</p>
-                                                            <p>{{ data.companyName }}</p>
-                                                            <p>{{ data.location }}</p>
-                                                            <p>{{data.joiningDate | date: 'LLLL yyyy'}} -
-                                                                {{data.leavingDate | date: 'LLLL yyyy'}}</p>
-                                                        </span>
+                                                    <div class="w-100-p description px-16">
+                                                        <p>{{ data.designation }}</p>
+                                                        <p>{{ data.companyName }}</p>
+                                                        <p>{{ data.location }}</p>
+                                                        <p>{{data.joiningDate | date: 'LLLL yyyy'}} - {{data.leavingDate | date: 'LLLL yyyy'}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,10 +261,8 @@
                                     </div>
 
                                     <div class="p-16">
-                                        <button type="button" class="stepper-back" mat-raised-button
-                                            matStepperPrevious>Back</button>
-                                        <button type="submit" class="stepper-next ml-12" color="accent"
-                                            mat-raised-button>Next</button>
+                                        <button type="button" class="stepper-back" mat-raised-button matStepperPrevious>Back</button>
+                                        <button type="submit" class="stepper-next ml-12" color="accent" mat-raised-button>Next</button>
                                     </div>
 
                                 </form>
@@ -295,31 +278,22 @@
                                     <ng-template matStepLabel>Education Summary</ng-template>
                                     <div class="w-100-p">
 
-                                        <div class="skill-content p-8" fxLayout="row" fxLayoutAlign="start end">
+                                        <div class="skill-content p-8" fxLayout="row wrap" fxLayoutAlign="start end">
                                             <div class="p-8" fxFlex="100%" fxFlex.gt-xs="50%" *ngFor="let data of educationData; let index = index;">
                                                 <div class="work-content mat-elevation-z2 border">
-                                                <div class="w-100-p">
-                                                    <button type="button" mat-icon-button matTooltip="Delete"
-                                                        [matTooltipPosition]="'above'" class="action-buttons red-400-fg"
-                                                        (click)="deleteWorkExperience(index, 'education')">
-                                                        <mat-icon>delete</mat-icon>
-                                                    </button>
-                                                    &nbsp;
-                                                    <button type="button" mat-icon-button matTooltip="Edit"
-                                                        [matTooltipPosition]="'above'"
-                                                        class="action-buttons grey-500-fg"
-                                                        (click)="editWorkExperience(index, 'education')">
-                                                        <mat-icon>edit</mat-icon>
-                                                    </button>
+                                                    <div class="w-100-p title-box py-4 pl-16 pr-8" fxLayoutAlign="space-between center">
+                                                        <span class="font-weight-800 mr-auto">{{index+1}}</span>
+                                                        <button type="button" mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'education')">
+                                                                    <mat-icon>delete</mat-icon>
+                                                                </button> &nbsp;
+                                                        <button type="button" mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons grey-500-fg" (click)="editWorkExperience(index, 'education')">
+                                                                    <mat-icon>edit</mat-icon>
+                                                                </button>
                                                     </div>
-                                                    <div class="w-100-p description">
-                                                        <span class="work-index">{{index+1}}</span>
-                                                        <span class="work-desc">
+                                                    <div class="w-100-p description px-16">
                                                         <p>{{ data.courseName }}</p>
                                                         <p>{{ data.collegeName }}</p>
-                                                        <p>{{ data.universityName }} ,
-                                                            {{ data.yearOfPassing | date: 'yyyy' }}</p>
-                                                    </span>
+                                                        <p>{{ data.universityName }} , {{ data.yearOfPassing | date: 'yyyy' }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -332,10 +306,8 @@
                                         </div>
                                     </div>
                                     <div class="p-16">
-                                        <button type="button" class="stepper-back" mat-raised-button
-                                            matStepperPrevious>Back</button>
-                                        <button type="submit" class="stepper-next ml-12" color="accent"
-                                            mat-raised-button>Next</button>
+                                        <button type="button" class="stepper-back" mat-raised-button matStepperPrevious>Back</button>
+                                        <button type="submit" class="stepper-next ml-12" color="accent" mat-raised-button>Next</button>
                                     </div>
                                 </form>
 
@@ -345,8 +317,7 @@
 
                         <mat-step [stepControl]="skillForm">
 
-                            <form class="tab-content pt-8 pl-12" [formGroup]="skillForm" fxLayout="row wrap"
-                                fxLayoutGap="25px" (ngSubmit)="formSubmit()">
+                            <form class="tab-content pt-8 pl-12" [formGroup]="skillForm" fxLayout="row wrap" fxLayoutGap="25px" (ngSubmit)="formSubmit()">
                                 <ng-template matStepLabel>Areas of Expertise</ng-template>
 
                                 <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)">
@@ -407,8 +378,7 @@
 
                                                 <bar-rating [theme]="ratingStyle" (rateChange)="skills.ratings = rate.value" [(rate)]="skills.ratings" #rate [showText]="false" [max]="maxRate">
                                                 </bar-rating>
-                                                <button type="button" mat-icon-button class="refresh-icon"
-                                                    (click)="skills.ratings = 0">
+                                                <button type="button" mat-icon-button class="refresh-icon" (click)="skills.ratings = 0">
                                                     <mat-icon>refresh</mat-icon>
                                                 </button>
 
@@ -478,10 +448,8 @@
 
                             </div>
                             <div class="pt-12 pl-8 pb-4">
-                                <button type="button" class="stepper-back" mat-raised-button
-                                    matStepperPrevious>Back</button>
-                                <button type="button" class="ml-12" color="accent" mat-raised-button
-                                    (click)="saveAdditionalInfo()">Finish</button>
+                                <button type="button" class="stepper-back" mat-raised-button matStepperPrevious>Back</button>
+                                <button type="button" class="ml-12" color="accent" mat-raised-button (click)="saveAdditionalInfo()">Finish</button>
                             </div>
                         </mat-step>
 

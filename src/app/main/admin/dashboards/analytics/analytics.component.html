@@ -16,41 +16,36 @@
                     (click)="widget1SelectedYear = '2017'" [ngClass]="{'blue-700': widget1SelectedYear === '2017'}">
                     2017
                 </div> -->
-                <div class="py-8 px-12 border-radius-2 line-height-1 cursor-pointer"
-                    (click)="widget1SelectedYear = '2019'" [ngClass]="{'blue-700': widget1SelectedYear === '2019'}">
+                <div class="py-8 px-12 border-radius-2 line-height-1 cursor-pointer" (click)="widget1SelectedYear = '2019'" [ngClass]="{'blue-700': widget1SelectedYear === '2019'}">
                     2019
                 </div>
             </div>
         </div>
 
         <div class="position-relative h-256 pb-16 blue-600">
-            <canvas baseChart [datasets]="widgets.widget1.datasets[widget1SelectedYear]"
-                [labels]="widgets.widget1.labels" [colors]="widgets.widget1.colors" [options]="widgets.widget1.options"
-                [chartType]="widgets.widget1.chartType">
+            <canvas baseChart [datasets]="widgets.widget1.datasets[widget1SelectedYear]" [labels]="widgets.widget1.labels" [colors]="widgets.widget1.colors" [options]="widgets.widget1.options" [chartType]="widgets.widget1.chartType">
             </canvas>
         </div>
 
     </div>
 
-    <div class="content">
+    <div class="content p-24">
 
-        <div class="left mr-lg-32">
+        <div class="left">
 
-            <div class="pb-24 font-size-18 font-weight-300" *ngIf="statisticWidget.length > 0">
+            <div class="pb-8 px-8 font-size-18 font-weight-300" *ngIf="statisticWidget.length > 0">
                 How much your users have their resumes?
             </div>
 
             <div fxLayout="column" fxLayoutAlign="start" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start start">
                 <!-- WIDGET 1 of project-->
-                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" fxFlex="100"
-                    fxFlex.gt-xs="50" fxFlex.gt-md="25" *ngFor="let stat of statisticWidget; let index = index;">
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25" *ngFor="let stat of statisticWidget; let index = index;">
 
                     <!-- Front -->
                     <div class="fuse-widget-front">
                         <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
                             <mat-form-field style="display: none;">
-                                <mat-select class="simplified font-size-16" [(ngModel)]="stat.currentRange"
-                                    aria-label="Change range">
+                                <mat-select class="simplified font-size-16" [(ngModel)]="stat.currentRange" aria-label="Change range">
                                     <mat-option *ngFor="let range of stat.ranges | keys" [value]="range.key">
                                         {{range.value}}
                                     </mat-option>
@@ -63,11 +58,9 @@
 
                         <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                             <!-- <div class="light-blue-fg font-size-72 line-height-72"> -->
-                            <div class=" font-size-72 line-height-72" 
-                                [ngClass]="{'light-blue-fg': index == 0, 'red-fg': index == 1, 
+                            <div class=" font-size-72 line-height-72" [ngClass]="{'light-blue-fg': index == 0, 'red-fg': index == 1, 
                                 'orange-fg': index == 2, 'blue-grey-fg': index == 3
-                                }"    
-                            >
+                                }">
                                 <!-- {{stat.data.count[stat.currentRange]}} -->
                                 {{stat.data.count['DT']}}
                             </div>
@@ -88,8 +81,7 @@
 
                     <!-- Back -->
                     <div class="fuse-widget-back p-16 pt-32">
-                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
-                            aria-label="Flip widget">
+                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button" aria-label="Flip widget">
                             <mat-icon class="s-16">close</mat-icon>
                         </button>
 
@@ -105,40 +97,37 @@
 
 
             <!-- Widget 5 -->
-            <div class="pt-48 pb-24 font-size-18 font-weight-300">
+            <div class="pt-24 pb-8 px-8 font-size-18 font-weight-300">
                 How many resumes your users made?
             </div>
+            <fuse-widget class="px-8">
+                <div class="fuse-card auto-width">
 
-            <div class="fuse-card auto-width">
-
-                <div class="position-relative p-24 w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div fxLayout="column" fxLayoutAlign="start start">
-                        <span class="h2">Visitors' resumes</span>
-                    </div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <!-- <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                            (click)="widget5SelectedDay = 'yesterday'"
-                            [ngClass]="{'accent': widget5SelectedDay === 'yesterday'}">
-                            Yesterday
-                        </div> s-->
-                        <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                            (click)="widget5SelectedDay = 'today'"
-                            [ngClass]="{'accent': widget5SelectedDay === 'today'}">
-                            Today
+                    <div class="position-relative p-24 w-100-p" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayout="column" fxLayoutAlign="start start">
+                            <span class="h2">Visitors' resumes</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <!-- <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
+                                (click)="widget5SelectedDay = 'yesterday'"
+                                [ngClass]="{'accent': widget5SelectedDay === 'yesterday'}">
+                                Yesterday
+                            </div> s-->
+                            <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer" (click)="widget5SelectedDay = 'today'" [ngClass]="{'accent': widget5SelectedDay === 'today'}">
+                                Today
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="position-relative h-368 pb-16 w-100-p">
-                    <canvas baseChart [datasets]="widgets.widget5.datasets[widget5SelectedDay]"
-                        [labels]="widgets.widget5.labels" [colors]="widgets.widget5.colors"
-                        [options]="widgets.widget5.options" [chartType]="widgets.widget5.chartType">
-                    </canvas>
+                    <div class="position-relative h-368 pb-16 w-100-p">
+                        <canvas baseChart [datasets]="widgets.widget5.datasets[widget5SelectedDay]" [labels]="widgets.widget5.labels" [colors]="widgets.widget5.colors" [options]="widgets.widget5.options" [chartType]="widgets.widget5.chartType">
+                        </canvas>
+                    </div>
                 </div>
+            </fuse-widget>
 
-            </div>
             <!-- / Widget 5 -->
-            
+
         </div>
 
     </div>

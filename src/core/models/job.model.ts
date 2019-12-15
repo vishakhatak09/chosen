@@ -11,6 +11,7 @@ export interface JobModel {jobPosition: string;
     jobType: string;
     logo?: string;
     email: string;
+    image?: string;
 }
 
 export interface CityModel {

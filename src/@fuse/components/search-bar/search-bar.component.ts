@@ -21,6 +21,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     searchBox = new FormControl();
     getJobApi = environment.serverBaseUrl + 'api/jobFilter';
+    public baseUrl = environment.serverImagePath + 'job/';
     public filterResults: JobModel[] = [];
 
     selectedFilters;
@@ -108,10 +109,10 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
     private _filter(value: string): Observable<any> {
         let searchLocation;
         let experience;
-        if ( this.selectedFilters && this.selectedFilters.locationState && this.selectedFilters.location ) {
+        if (this.selectedFilters && this.selectedFilters.locationState && this.selectedFilters.location) {
             searchLocation = this.selectedFilters.location + ', ' + this.selectedFilters.locationState;
         }
-        if ( this.selectedFilters && this.selectedFilters.workExperience ) {
+        if (this.selectedFilters && this.selectedFilters.workExperience) {
             experience = {
                 'years': this.selectedFilters.workExperience,
                 'month': 0
@@ -132,6 +133,22 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
                     keyskill: filterValue
                 }
             };
+
+            // const temp = {
+            //     "params": {
+            //         "location": "tokiyo",
+            //         "workExperience": {
+            //             "years": "2",
+            //             "month": "2"
+            //         },
+            //         "salary": "15000",
+            //         "industry": [
+            //             "NAVRI", "fashion"
+            //         ],
+            //         "jobCategory": "companyjob",
+            //         "keyskill": "node"
+            //     }
+            // };
 
             return this.commonService.searchJob(this.getJobApi, params);
         } else {
@@ -173,7 +190,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
      * Collapse
      */
     collapse(): void {
-        this.searchBox.reset();
+        // this.searchBox.reset();
         this.collapsed = true;
     }
 
@@ -219,9 +236,9 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
             if (response) {
                 this.selectedFilters = response;
                 const element = document.getElementById('fuse-search-bar-input');
-                if ( element ) {
+                if (element) {
                     element.focus();
-                    this.searchBox.patchValue(this.searchBox.value, {emitEvent: true});
+                    this.searchBox.patchValue(this.searchBox.value, { emitEvent: true });
                 }
             }
         });
