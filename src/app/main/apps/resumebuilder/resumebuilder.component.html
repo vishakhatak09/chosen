@@ -458,7 +458,7 @@
                 </div>
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
-                    <kendo-pdf-export #pdf [imageResolution]="resolution">
+                    <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution">
                         <!-- <ng-template template-dynamic></ng-template> -->
                         <app-resume-template #templateRef *ngIf="currentTemplate === 'cubic'" [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
                             [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">

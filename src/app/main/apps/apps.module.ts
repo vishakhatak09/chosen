@@ -28,6 +28,10 @@ const routes: Routes = [
         loadChildren: './my-resumes/my-resumes.module#MyResumesModule'
     },
     {
+        path: 'my-resumes/:choose',
+        loadChildren: './my-resumes/my-resumes.module#MyResumesModule'
+    },
+    {
         path: 'profile',
         loadChildren: './profile/profile.module#ProfileModule'
     },

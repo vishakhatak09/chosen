@@ -134,23 +134,23 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
                 }
             };
 
-            // const temp = {
-            //     "params": {
-            //         "location": "tokiyo",
-            //         "workExperience": {
-            //             "years": "2",
-            //             "month": "2"
-            //         },
-            //         "salary": "15000",
-            //         "industry": [
-            //             "NAVRI", "fashion"
-            //         ],
-            //         "jobCategory": "companyjob",
-            //         "keyskill": "node"
-            //     }
-            // };
+            const temp = {
+                "params": {
+                    "location": "ahmedabad",
+                    "workExperience": {
+                        "years": "5",
+                        // "month": "0"
+                    },
+                    "salary": "15",
+                    "industry": [
+                        "NAVRI", "fashion"
+                    ],
+                    "jobCategory": "companyjob",
+                    "keyskill": filterValue
+                }
+            };
 
-            return this.commonService.searchJob(this.getJobApi, params);
+            return this.commonService.searchJob(this.getJobApi, temp);
         } else {
             const params: any = {
                 params: {

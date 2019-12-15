@@ -128,7 +128,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   public resumeId: string;
   public maxSocialLinks = AppConstant.MaxSocialLinks;
 
-  public resolution: number;
+  public resolution: number = 100;
+  public pageSize;
+  // public pageSize = 'A4';
   private templatePdfFile: File;
   private templateImageBase64: Blob | string;
 
@@ -312,7 +314,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveAsPdf(pdf: any): void {
+    console.log('pdf', pdf);
     pdf.saveAs(`resume_${this.userName}`);
+    this.generateImage(pdf, true);
   }
 
   public dataURLtoFile(dataurl, filename) {
@@ -337,17 +341,22 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     });
   }
 
-  generateImage(pdf): void {
+  generateImage(pdf, download = false): void {
     const element = document.getElementById('template-resume');
     if ( element ) {
-      element.style.width = '100%';
+      const border = element.style.border;
+      // element.style.width = '100%';
+      element.style.border = '';
       pdf.export().then((group: Group) => exportImage(group)).then((dataUri) => {
-        // console.log('dataUri', dataUri);
+        console.log('dataUri', dataUri);
         this.templateImageBase64 = dataUri;
         // const fileObject = this.dataURLtoFile(dataUri, `resume_image_${this.userName}`);
         // console.log(fileObject);
         element.style.width = '';
-        this.saveTemplatePdfImg();
+        element.style.border = border;
+        if ( !download ) {
+          this.saveTemplatePdfImg();
+        }
       });
     }
   }
