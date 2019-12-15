@@ -74,8 +74,8 @@ export class ContentMgmtComponent implements OnInit {
         (data) => {
           if (data.code === 200) {
             const landingData = data.data;
-            if (  landingData && landingData.length > 0) {
-              this.contentData = landingData[landingData.length - 1];
+            if (landingData) {
+              this.contentData = landingData;
               this.contentForm.get('mainText').setValue(this.contentData.text1);
               this.contentForm.get('phraseText').setValue(this.contentData.text2);
               const obj = {
@@ -86,7 +86,7 @@ export class ContentMgmtComponent implements OnInit {
             }
           }
         },
-        error => {}
+        error => { }
       );
 
   }
@@ -100,8 +100,8 @@ export class ContentMgmtComponent implements OnInit {
 
       const params: any = {
         'params': {
-          imageName: this.imageArray.length > 0 ? this.imageArray[0].name : '',
-          photo: this.imageArray.length > 0 ? this.imageArray[0].base64Url : '',
+          imageName: this.imageFiles.length > 0 ? this.imageArray[0].name : '',
+          photo: this.imageFiles.length > 0 ? this.imageArray[0].base64Url : '',
           text1: formValue.mainText,
           text2: formValue.phraseText,
         }
@@ -118,6 +118,7 @@ export class ContentMgmtComponent implements OnInit {
         .subscribe(
           (response) => {
             // console.log('add/update response', response);
+            this._toastrService.displaySnackBar('Details saved successfully', 'success');
             this.hideLoading();
           },
           error => {
@@ -133,39 +134,60 @@ export class ContentMgmtComponent implements OnInit {
    */
   getFileData(files: FileList): void {
     // console.log('files', files);
-    if (files.length > 0 && this.imageFiles.length <= this.maxFileLength) {
+    // if (files.length > 0 && this.imageFiles.length <= this.maxFileLength) {
+    if (files.length > 0) {
       // this.imageFiles = files;
-      for (let i = 0; i < files.length; i++) {
-        const fileData: File = files[i];
-        if (!fileData.type.toLowerCase().includes('image')) {
-          this._toastrService.displaySnackBar('Please select only image files', 'error');
-          return;
-        } else {
-          if (this.imageFiles.length < this.maxFileLength) {
-            this.imageFiles.push(files[i]);
-            this.showLoading();
-            const reader = new FileReader();
-            reader.readAsDataURL(fileData);
-            reader.onload = (() => {
-              const obj = {
-                base64Url: reader.result,
-                name: fileData.name,
-              };
-              this.imageArray.push(obj);
-              this.contentForm.get('image').setValue(fileData.name);
-            });
-          } else {
-            this._toastrService.displaySnackBar('Only 1 image is allowed to upload', 'error');
-            this.hideLoading();
-            return;
-          }
-        }
-      }
+      // for (let i = 0; i < files.length; i++) {
+      //   const fileData: File = files[i];
+      //   if (!fileData.type.toLowerCase().includes('image')) {
+      //     this._toastrService.displaySnackBar('Please select only image files', 'error');
+      //     return;
+      //   } else {
+      //     if (this.imageFiles.length < this.maxFileLength) {
+      //       this.imageFiles.push(files[i]);
+      //       this.showLoading();
+      //       const reader = new FileReader();
+      //       reader.readAsDataURL(fileData);
+      //       reader.onload = (() => {
+      //         const obj = {
+      //           base64Url: reader.result,
+      //           name: fileData.name,
+      //         };
+      //         this.imageArray.push(obj);
+      //         this.contentForm.get('image').setValue(fileData.name);
+      //       });
+      //     } else {
+      //       this._toastrService.displaySnackBar('Only 1 image is allowed to upload', 'error');
+      //       this.hideLoading();
+      //       return;
+      //     }
+      //   }
+      // }
+      this.imageFiles = [];
+      this.imageArray = [];
+      const fileData = files[0];
+      this.imageFiles.push(files[0]);
+      this.showLoading();
+      const reader = new FileReader();
+      reader.readAsDataURL(fileData);
+      reader.onload = (() => {
+        const obj = {
+          base64Url: reader.result,
+          name: fileData.name,
+        };
+        this.imageArray.push(obj);
+        this.contentForm.get('image').setValue(fileData.name);
+      });
       this.hideLoading();
       // console.log(this.imageFiles);
-    } else if (this.imageFiles.length > 7) {
-      this._toastrService.displaySnackBar('You must upload only 1 image', 'error');
+    } else {
+      if ( this.imageArray.length > 0 ) {
+        this.removeImage(0);
+      }
     }
+    //  else if (this.imageFiles.length > this.maxFileLength) {
+      // this._toastrService.displaySnackBar('You must upload only 1 image', 'error');
+    // }
   }
 
   /**
@@ -176,6 +198,10 @@ export class ContentMgmtComponent implements OnInit {
     this.imageArray.splice(index, 1);
     this.imageFiles.splice(index, 1);
     this.contentForm.get('image').setValue(null);
+    const fileEle: any = document.getElementById('file');
+    if (fileEle) {
+      fileEle.value = '';
+    }
   }
 
   showLoading(): void {

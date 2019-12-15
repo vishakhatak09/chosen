@@ -187,7 +187,8 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
             height: 'auto',
             restoreFocus: false,
             disableClose: true,
-            data: this.selectedFilters
+            data: this.selectedFilters,
+            closeOnNavigation: true
         });
         dialogRef.afterClosed().subscribe((response) => {
             if (response) {
