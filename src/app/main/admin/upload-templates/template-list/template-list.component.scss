@@ -1,73 +1,35 @@
 @import "src/@fuse/scss/fuse";
-
 template-list {
-
     #templates {
-
         .top-bg {
-
             @include media-breakpoint('xs') {
                 height: 224px;
             }
         }
-
-        > .center {
-
-            > .header {
-
-                height: 120px !important;
-                min-height: 120px !important;
-                max-height: 120px!important;
-
-                .add-template{
-                    font-size: 14px;
-                    font-weight: 600;
-                    box-sizing: border-box;
-                    cursor: pointer;
-                    border: none;
-                    -webkit-tap-highlight-color: transparent;
-                    display: inline-block;
-                    white-space: nowrap;
-                    text-decoration: none;
-                    vertical-align: baseline;
-                    text-align: center;
-                    margin: 0;
-                    line-height: 36px;
-                    overflow: visible;
-                    transform: translate3d(0,0,0);
-                    transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
-                    min-width: 0;
-                    border-radius: 50%;
-                    width: 56px;
-                    height: 56px;
-                    padding: 0;
-                    flex-shrink: 0;
+        >.center {
+            >.header {
+                height: 100px !important;
+                min-height: 100px !important;
+                max-height: 100px!important;
+                .add-template {
                     color: #43a047;
                     background-color: #fff !important;
-                    box-shadow: 0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px 0 rgba(0,0,0,.14),0 1px 18px 0 rgba(0,0,0,.12);
-                    // position: absolute;
-                    bottom: 5px;
-                    left: 16px;
                     z-index: 999;
                 }
-
                 .search-wrapper {
                     width: 100%;
                     max-width: 480px;
                     border-radius: 28px;
                     overflow: hidden;
                     @include mat-elevation(1);
-
                     @include media-breakpoint('xs') {
                         width: 100%;
                     }
-
                     .search {
                         width: 100%;
                         height: 48px;
                         line-height: 48px;
                         padding: 0 18px;
-
                         input {
                             width: 100%;
                             height: 48px;
@@ -79,80 +41,65 @@ template-list {
                         }
                     }
                 }
-
-                @include media-breakpoint('xs') {
-                    padding: 8px 0;
-                    height: 160px !important;
-                    min-height: 160px !important;
-                    max-height: 160px !important;
-                }
             }
         }
     }
-
     .mat-tab-group,
     .mat-tab-body-wrapper,
     .tab-content {
         flex: 1 1 auto;
         max-width: 100%;
     }
-
-    .orders-table {
-        flex: 1 1 auto;
+    .table-scroll {
+        overflow: auto;
+    }
+    table {
+        // flex: 1 1 auto;
         border-bottom: 1px solid rgba(0, 0, 0, .12);
         overflow: auto;
         -webkit-overflow-scrolling: touch;
-
+        width: 100%;
         .mat-header-row {
             min-height: 64px;
         }
-
-        .order {
-            position: relative;
-            cursor: pointer;
-            height: 150px;
-        }
-
         .mat-cell {
-            min-width: 0;
-            display: flex;
-            align-items: center;
+            padding: 10px;
+            p {
+                margin: 0
+            }
         }
-
+        // .mat-cell {
+        //     min-width: 0;
+        //     display: flex;
+        //     align-items: center;
+        // }
         // .mat-column-id {
         //     flex: 0 1 84px;
         // }
-
         // .mat-column-title{
         //     flex: 0 1 15%;
         // }
-
         // .mat-column-description{
         //     flex: 0 1 60%;
         // }
-
-        .mat-column-image {
-            // flex: 0 1 10%;
-            // padding: 25px;
-            img{
-                max-width: 45%;
-            }
-
-            .product-image {
-                width: 52px;
-                height: 52px;
-                border: 1px solid rgba(0, 0, 0, .12);
+        .img-box {
+            width: 65px;
+            height: 80px;
+            border: solid 1px #bdbdbd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px;
+            img {
+                max-height: 100%;
             }
         }
-
         // .mat-column-action{
         //     flex: 0 1 15%;
         // }
-
         // .mat-column-buttons {
         //     flex: 0 1 80px;
         // }
-
         .quantity-indicator {
             display: inline-block;
             vertical-align: middle;
@@ -160,13 +107,11 @@ template-list {
             height: 8px;
             border-radius: 4px;
             margin-right: 8px;
-
-            & + span {
+            &+span {
                 display: inline-block;
                 vertical-align: middle;
             }
         }
-
         .active-icon {
             border-radius: 50%;
         }

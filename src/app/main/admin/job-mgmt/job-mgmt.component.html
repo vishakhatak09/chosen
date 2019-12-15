@@ -8,11 +8,10 @@
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center">
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
 
             <!-- APP TITLE -->
-            <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
+            <div class="logo" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     work_outline
                 </mat-icon>
@@ -30,11 +29,13 @@
             <!-- / SEARCH -->
 
             <div>
-                <button class="add-job" mat-button type="button" matTooltip="Add Job"
-                [matTooltipPosition]="'below'" [routerLink]="['/ad/add-job']">
-                <!-- [matTooltipPosition]="'below'" (click)="openDialog()"> -->
+                <!-- <button class="add-job" mat-button type="button" matTooltip="Add Job" [matTooltipPosition]="'below'" [routerLink]="['/ad/add-job']">
+                [matTooltipPosition]="'below'" (click)="openDialog()">
                     <mat-icon>add</mat-icon>
-                </button>
+                </button> -->
+                <button class="add-job" mat-mini-fab matTooltip="Add Job" [matTooltipPosition]="'below'" [routerLink]="['/ad/add-job']">
+                    <mat-icon>add</mat-icon>
+                  </button>
             </div>
 
         </div>
@@ -43,60 +44,60 @@
         <!-- CONTENT CARD -->
         <div class="content-card">
 
-            <mat-table class="orders-table" #table [dataSource]="dataSource" matSort
-                [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
+            <div class="table-scroll">
+                <table mat-table class="orders-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
 
-                <!-- JobPosition Column -->
-                <ng-container matColumnDef="jobPosition">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Job Position</mat-header-cell>
-                    <mat-cell *matCellDef="let job">
-                        <p class="text-truncate">{{job.jobPosition}}</p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- JobPosition Column -->
+                    <ng-container matColumnDef="jobPosition">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Job Position</th>
+                        <td mat-cell *matCellDef="let job">
+                            <p class="text-truncate">{{job.jobPosition}}</p>
+                        </td>
+                    </ng-container>
 
-                <!-- Company Column -->
-                <ng-container matColumnDef="companyName">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Company</mat-header-cell>
-                    <mat-cell *matCellDef="let job">
-                        <p class="text-truncate">
-                            {{job.companyName}}
-                        </p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Company Column -->
+                    <ng-container matColumnDef="companyName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
+                        <td mat-cell *matCellDef="let job">
+                            <p class="text-truncate">
+                                {{job.companyName}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-                <!-- Location Column -->
-                <ng-container matColumnDef="location">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
-                    <mat-cell *matCellDef="let job">
-                        <p class="text-truncate">
-                            {{job.location}}
-                        </p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Location Column -->
+                    <ng-container matColumnDef="location">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                        <td mat-cell *matCellDef="let job">
+                            <p class="text-truncate">
+                                {{job.location}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-                <!-- Action Column -->
-                <ng-container matColumnDef="action">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
-                    <mat-cell *matCellDef="let order" >
-                        <button mat-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'"
-                            class="gray-400-fg" [routerLink]="['/ad/' + order._id + '/add-job']">
-                            <mat-icon>edit</mat-icon>
-                        </button>&nbsp;
-                        <button mat-button type="button" matTooltip="Delete" [matTooltipPosition]="'above'"
-                            class="red-400-fg" (click)="onDelete(order)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                        <td mat-cell *matCellDef="let order">
+                            <div fxLayout="row">
+                                <button mat-icon-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'" class="gray-400-fg" [routerLink]="['/ad/' + order._id + '/add-job']">
+                                <mat-icon>edit</mat-icon>
+                            </button>&nbsp;
+                                <button mat-icon-button type="button" matTooltip="Delete" [matTooltipPosition]="'above'" class="red-400-fg" (click)="onDelete(order)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            </div>
+                        </td>
+                    </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
 
-                <mat-row *matRowDef="let order; columns: displayedColumns;" class="order" matRipple>
-                </mat-row>
-            </mat-table>
+                    <tr mat-row *matRowDef="let order; columns: displayedColumns;" class="order" matRipple>
+                    </tr>
+                </table>
+            </div>
 
-            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                [pageSizeOptions]="[5, 10, 25, 100]">
+            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
             </mat-paginator>
 
         </div>

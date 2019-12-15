@@ -1,20 +1,13 @@
 @import "src/@fuse/scss/fuse";
-
 userlist {
-
     #users {
-
         .top-bg {
-
             @include media-breakpoint('xs') {
                 height: 224px;
             }
         }
-
-        > .center {
-
-            > .header {
-
+        >.center {
+            >.header {
                 .search-wrapper {
                     background: #fff;
                     width: 100%;
@@ -22,21 +15,17 @@ userlist {
                     border-radius: 28px;
                     overflow: hidden;
                     @include mat-elevation(1);
-
                     @include media-breakpoint('xs') {
                         width: 100%;
                     }
-
                     .search {
                         width: 100%;
                         height: 48px;
                         line-height: 48px;
                         padding: 0 18px;
-
-                        .mat-icon{
-                            color: rgba(0,0,0,.54);
+                        .mat-icon {
+                            color: rgba(0, 0, 0, .54);
                         }
-
                         input {
                             width: 100%;
                             height: 48px;
@@ -48,93 +37,45 @@ userlist {
                         }
                     }
                 }
-
                 @include media-breakpoint('xs') {
                     padding: 8px 0;
-                    height: 160px !important;
-                    min-height: 160px !important;
-                    max-height: 160px !important;
+                    height: 120px !important;
+                    min-height: 120px !important;
+                    max-height: 120px !important;
                 }
             }
         }
     }
-
     .mat-tab-group,
     .mat-tab-body-wrapper,
     .tab-content {
         flex: 1 1 auto;
         max-width: 100%;
     }
-
-    .orders-table {
-        flex: 1 1 auto;
+    .table-scroll {
+        overflow: auto;
+    }
+    table {
+        // flex: 1 1 auto;
         border-bottom: 1px solid rgba(0, 0, 0, .12);
         overflow: auto;
         -webkit-overflow-scrolling: touch;
-
-        .mat-header-row {
-            min-height: 64px;
-        }
-
-        .mat-header-cell{
-            color: rgba(22, 18, 18, 0.97);
-            font-weight: bold;
-        }
-
+        width: 100%;
         .order {
             position: relative;
             cursor: pointer;
-            height: 84px;
+            height: 60px;
         }
-
+        .mat-header-cell {
+            color: rgba(22, 18, 18, 0.97);
+            font-weight: bold;
+            padding: 10px;
+        }
         .mat-cell {
-            min-width: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .mat-column-_id {
-            flex: 0 1 10%;
-        }
-
-        .mat-column-name {
-            flex: 0 1 20%;
-        }
-
-        .mat-column-email {
-            flex: 0 1 30%;
-        }
-
-        .mat-column-image {
-            flex: 0 1 84px;
-
-            .product-image {
-                width: 52px;
-                height: 52px;
-                border: 1px solid rgba(0, 0, 0, .12);
+            padding: 10px;
+            p {
+                margin: 0
             }
-        }
-
-        .mat-column-buttons {
-            flex: 0 1 80px;
-        }
-
-        .quantity-indicator {
-            display: inline-block;
-            vertical-align: middle;
-            width: 8px;
-            height: 8px;
-            border-radius: 4px;
-            margin-right: 8px;
-
-            & + span {
-                display: inline-block;
-                vertical-align: middle;
-            }
-        }
-
-        .active-icon {
-            border-radius: 50%;
         }
     }
 }

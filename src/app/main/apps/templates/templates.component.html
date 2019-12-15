@@ -25,19 +25,19 @@
 
             <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%" *ngFor="let item of templateData">
 
-                <div class="fuse-card">
+                <div class="fuse-card p-4">
                     <div class="hover-box">
                         <button (click)="selectTemplate(item)" mat-raised-button>Choose Template</button>
                     </div>
-                    <img [src]="baseUrl + item.image">
+                    <img class="mb-auto" [src]="baseUrl + item.image">
                     <!-- <span class="use-template">Use this template</span> -->
 
-                    <div class="pl-16" style="align-self: flex-start;">
+                    <div class="px-8" style="align-self: flex-start;">
                         <div class="h3"><strong>{{ item.title }}</strong></div>
                         <!-- <div class="h4 secondary-text">Free on Thursdays</div> -->
                     </div>
 
-                    <div class="p-16 pt-4 line-height-1.75 font-size-12">
+                    <div class="px-8 py-4 line-height-1.75 font-size-12">
                         {{ item.description }}
                     </div>
 

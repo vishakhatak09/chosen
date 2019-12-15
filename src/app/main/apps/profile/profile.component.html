@@ -1,23 +1,24 @@
 <div id="profile" class="page-layout simple tabbed">
 
     <!-- HEADER -->
-    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
-        fxLayoutAlign.gt-sm="space-between end">
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between end">
 
-        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start center">
-            <img class="profile-image avatar huge" *ngIf="!defaultProfileImage" src="assets/images/logos/profile.jpg"
-                [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            <img class="profile-image avatar huge" *ngIf="defaultProfileImage" 
-                [src]="imageBaseUrl + defaultProfileImage"
-                [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="start center">
+            <div class="profile-imgBox">
+                <div class="edit-box">
+                    <mat-icon>edit</mat-icon>
+                    <input type="file">
+                </div>
+                <img class="profile-image avatar huge m-0" *ngIf="!defaultProfileImage" src="assets/images/logos/profile.jpg" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                <img class="profile-image avatar huge m-0" *ngIf="defaultProfileImage" [src]="imageBaseUrl + defaultProfileImage" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            </div>
 
             <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                 {{ userData?.firstName }} {{ userData?.lastName }}
             </div>
         </div>
 
-        <div class="actions" fxLayout="row" fxLayoutAlign="end " [@animate]="{value:'*',params:{delay:'200ms'}}">
+        <!-- <div class="actions" fxLayout="row" fxLayoutAlign="end " [@animate]="{value:'*',params:{delay:'200ms'}}">
             <button mat-raised-button color="primary" *ngIf="!isEdited" (click)="isEdited = !isEdited">
                 Edit Image
             </button>
@@ -31,7 +32,7 @@
                     <mat-icon>save</mat-icon> Save
                 </button>
             </div>
-        </div>
+        </div> -->
 
     </div>
     <!-- / HEADER -->

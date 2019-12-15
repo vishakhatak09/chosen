@@ -1,9 +1,15 @@
 @import "src/@fuse/scss/fuse";
 app-templates {
     .fuse-card {
+        justify-content: space-between;
+        box-shadow: 0 0 5px 0px #9c9c9c;
         max-width: initial;
         min-width: auto;
         position: relative;
+        height: 100%;
+        img {
+            max-width: 100%;
+        }
         .hover-box {
             position: absolute;
             top: 0;
@@ -35,6 +41,9 @@ app-templates {
                 font-weight: 700;
                 position: relative;
                 z-index: 1;
+                font-size: 18px;
+                height: 46px;
+                padding: 0 20px;
             }
         }
         &:hover {

@@ -8,11 +8,10 @@
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
 
             <!-- APP TITLE -->
-            <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
+            <div class="logo mb-8 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     people
                 </mat-icon>
@@ -34,94 +33,91 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card">
+            <div class="table-scroll">
+                <table mat-table class="orders-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
 
-            <mat-table class="orders-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}"
-                fusePerfectScrollbar>
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sr.</th>
+                        <td mat-cell *matCellDef="let user; let index= index">
+                            <p class="text-truncate">{{ index + 1 }}</p>
+                        </td>
+                    </ng-container>
 
-                <!-- ID Column -->
-                <ng-container matColumnDef="_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sr.</mat-header-cell>
-                    <mat-cell *matCellDef="let user; let index= index">
-                        <p class="text-truncate">{{ index + 1 }}</p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                        <td mat-cell *matCellDef="let user">
+                            <p class="text-truncate">{{user.name}}</p>
+                        </td>
+                    </ng-container>
 
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-                    <mat-cell *matCellDef="let user">
-                        <p class="text-truncate">{{user.name}}</p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Email Column -->
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                        <td mat-cell *matCellDef="let user">
+                            <p class="text-truncate">
+                                {{user.email}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-                <!-- Email Column -->
-                <ng-container matColumnDef="email">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                    <mat-cell *matCellDef="let user">
-                        <p class="text-truncate">
-                            {{user.email}}
-                        </p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Resumes Column -->
+                    <!-- <ng-container matColumnDef="resumes">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Resumes</th>
+                        <td mat-cell *matCellDef="let user">
+                            <p class="text-truncate">
+                                {{user.resumes}}
+                            </p>
+                        </td>
+                    </ng-container> -->
 
-                <!-- Resumes Column -->
-                <!-- <ng-container matColumnDef="resumes">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Resumes</mat-header-cell>
-                    <mat-cell *matCellDef="let user">
-                        <p class="text-truncate">
-                            {{user.resumes}}
-                        </p>
-                    </mat-cell>
-                </ng-container> -->
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+                        <td mat-cell *matCellDef="let user">
+                            <p class="text-truncate text-capitalize">
+                                {{user.type}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-                <ng-container matColumnDef="type">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
-                    <mat-cell *matCellDef="let user">
-                        <p class="text-truncate text-capitalize">
-                            {{user.type}}
-                        </p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Payment Column -->
+                    <!-- <ng-container matColumnDef="payment">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Payment</th>
+                        <td mat-cell *matCellDef="let user">
+                            <mat-icon class="accent border-radius-100" *ngIf="user.payment">done</mat-icon>
+                            <mat-icon class="red border-radius-100" *ngIf="!user.payment">clear</mat-icon>
+                        </td>
+                    </ng-container> -->
 
-                <!-- Payment Column -->
-                <!-- <ng-container matColumnDef="payment">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Payment</mat-header-cell>
-                    <mat-cell *matCellDef="let user">
-                        <mat-icon class="accent border-radius-100" *ngIf="user.payment">done</mat-icon>
-                        <mat-icon class="red border-radius-100" *ngIf="!user.payment">clear</mat-icon>
-                    </mat-cell>
-                </ng-container> -->
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                        <td mat-cell *matCellDef="let order">
+                            <p class="status text-truncate p-4">
+                                <ng-container *ngIf="order.status == '0'">Inactive</ng-container>
+                                <ng-container *ngIf="order.status == '1'">Active</ng-container>
+                            </p>
+                        </td>
+                    </ng-container>
 
-                <!-- Status Column -->
-                <ng-container matColumnDef="status">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-                    <mat-cell *matCellDef="let order">
-                        <p class="status text-truncate p-4">
-                            <ng-container *ngIf="order.status == '0'">Inactive</ng-container>
-                            <ng-container *ngIf="order.status == '1'">Active</ng-container>
-                        </p>
-                    </mat-cell>
-                </ng-container>
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                        <td mat-cell *matCellDef="let order">
+                            <button mat-icon-button type="button" matTooltip="Delete" [matTooltipPosition]="'above'" class="red-400-fg" (click)="onDelete(order)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
 
-                <!-- Action Column -->
-                <ng-container matColumnDef="action">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
-                    <mat-cell *matCellDef="let order">
-                        <button mat-button type="button" matTooltip="Delete" [matTooltipPosition]="'above'"
-                            class="red-400-fg" (click)="onDelete(order)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </mat-cell>
-                </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
 
-                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
-
-                <mat-row *matRowDef="let order; columns: displayedColumns;" class="order" matRipple>
-                </mat-row>
-            </mat-table>
-
-            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                [pageSizeOptions]="[5, 10, 25, 100]">
+                    <tr mat-row *matRowDef="let order; columns: displayedColumns;" class="order" matRipple>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
             </mat-paginator>
 
         </div>
