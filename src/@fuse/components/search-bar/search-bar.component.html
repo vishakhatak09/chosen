@@ -32,7 +32,7 @@
                         <div class="icon">
                             <mat-icon class="mr-8">schedule</mat-icon>
                         </div>
-                        <span class="text-warp secondary-text">0 - {{option.workExperience}} yrs</span>
+                        <span class="text-warp secondary-text">{{ option?.workExperience.toString().replace(',', ' - ') }} yrs</span>
                     </div>
                     <div class="pr-16 mt-8 l-n" fxLayout="row">
                         <div class="icon">
@@ -45,7 +45,9 @@
                             <mat-icon class="mr-8">account_balance_wallet</mat-icon>
                         </div>
                         <span class="text-warp secondary-text" *ngIf="!option.expectedSalary">Not disclosed</span>
-                        <span class="text-warp secondary-text" *ngIf="option.expectedSalary">INR {{ option.expectedSalary }} Lakh(s) PA</span>
+                        <span class="text-warp secondary-text" *ngIf="option.expectedSalary">
+                            INR {{ option.expectedSalary.toString().replace(',', ' - ') }} Lakh(s) PA
+                        </span>
                     </div>
                     <div class="pr-16 mt-8 l-n" fxLayout="row" fxFlex="100%" fxFlex.gt-xs="100%" fxFlex.gt-sm="100%">
                         <div class="icon">

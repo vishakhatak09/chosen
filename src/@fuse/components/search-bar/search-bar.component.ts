@@ -152,21 +152,24 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
 
             return this.commonService.searchJob(this.getJobApi, temp);
         } else {
-            const params: any = {
-                params: {
-                    location: this.selectedFilters ? this.selectedFilters.location : undefined,
-                    workExperience: experience,
-                    salary: this.selectedFilters ? this.selectedFilters.salary : undefined,
-                    industry: this.selectedFilters ? this.selectedFilters.industry : undefined,
-                    jobCategory: this.selectedFilters ? this.selectedFilters.jobCategory : undefined,
-                    // keyskill: this.selectedFilters ? this.selectedFilters.keyskill : undefined,
-                    // keywords: filterValue
-                    keyskill: ''
-                }
-            };
-
-            return this.commonService.searchJob(this.getJobApi, params);
+            return of(null);
         }
+        //  else {
+        //     const params: any = {
+        //         params: {
+        //             location: this.selectedFilters ? this.selectedFilters.location : undefined,
+        //             workExperience: experience,
+        //             salary: this.selectedFilters ? this.selectedFilters.salary : undefined,
+        //             industry: this.selectedFilters ? this.selectedFilters.industry : undefined,
+        //             jobCategory: this.selectedFilters ? this.selectedFilters.jobCategory : undefined,
+        //             // keyskill: this.selectedFilters ? this.selectedFilters.keyskill : undefined,
+        //             // keywords: filterValue
+        //             keyskill: ''
+        //         }
+        //     };
+        //     return this.commonService.searchJob(this.getJobApi, params);
+
+        // }
     }
 
     clearFilter(): void {
@@ -219,7 +222,8 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
         this.matDialog.open(JobDetailComponent, {
             width: '1000px',
             height: 'auto',
-            data: data
+            data: data,
+            closeOnNavigation: true,
         });
     }
 

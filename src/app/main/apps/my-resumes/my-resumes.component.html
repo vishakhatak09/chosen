@@ -15,17 +15,23 @@
                     <img class="resume-img" [src]="imageBaseUrl + resume.resumeImage">
                     <!-- <img class="resume-img" [src]="'assets/images/templates/tp-1.png'"> -->
                     <div class="hover-box">
-                        <button mat-mini-fab type="button" (click)="previewImage(resume)">
+                        <button mat-mini-fab type="button" *ngIf="!chooseResume" (click)="previewImage(resume)">
                             <mat-icon>remove_red_eye</mat-icon>
                         </button>
 
-                        <button mat-mini-fab type="button" (click)="editResume(resume)">
+                        <button mat-mini-fab type="button" *ngIf="!chooseResume" (click)="editResume(resume)">
                             <mat-icon>edit</mat-icon>
                         </button>
 
-                        <button mat-mini-fab type="button" (click)="onDelete(resume)">
+                        <button mat-mini-fab type="button" *ngIf="!chooseResume" (click)="onDelete(resume)">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <button mat-mini-fab type="button" matTooltip="Select this resume" *ngIf="chooseResume == true" 
+                            (click)="chooseResumeForJob(resume)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                        
                     </div>
 
                 </div>

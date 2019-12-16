@@ -136,7 +136,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   // dynamic template
   public currentTemplate: string;
-  @ViewChild(TemplateDynamicDirective, {static: true}) dynamicTemplate: TemplateDynamicDirective;
+  @ViewChild(TemplateDynamicDirective, { static: true }) dynamicTemplate: TemplateDynamicDirective;
   isComponentLoaded = false;
   selectedImage: File;
 
@@ -160,9 +160,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     private loaderService: LoadingScreenService
   ) {
     this.currentTemplate = localStorage.getItem('selected');
-    if ( this.activatedRoute.data ) {
+    if (this.activatedRoute.data) {
       this.activatedRoute.data.subscribe((resp) => {
-        if ( resp.data.code === 200 && resp.data.data ) {
+        if (resp.data.code === 200 && resp.data.data) {
           this.currentTemplate = resp.data.data.title.toLowerCase();
           // this.loaderService.show();
         }
@@ -210,10 +210,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       skillInput: [undefined],
     });
 
-    if ( this.currentTemplate === 'cubic' ) {
+    if (this.currentTemplate === 'cubic') {
       this.skillForm.get('skillType').setValue('basic');
       this.skillForm.get('skillType').disable();
-    } else if ( this.currentTemplate === 'professional' ) {
+    } else if (this.currentTemplate === 'professional') {
       this.skillForm.get('skillType').setValue('basicWithRating');
       this.skillForm.get('skillType').disable();
     }
@@ -314,7 +314,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveAsPdf(pdf: any): void {
-    console.log('pdf', pdf);
+    // console.log('pdf', pdf);
     pdf.saveAs(`resume_${this.userName}`);
     this.generateImage(pdf, true);
   }
@@ -325,37 +325,36 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     const bstr = atob(arr[1]);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
-    while ( n-- ) {
-        u8arr[n] = bstr.charCodeAt(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([ ], filename, {type: mime});
+    return new File([], filename, { type: mime });
   }
 
-  generatePDF(pdf): void {
+  generatePDF(pdf: any): void {
+    this.loaderService.show();
     pdf.export().then((group: Group) => exportPDF(group)).then((dataUri: Blob) => {
       const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}`);
-      // console.log(base64, fileObject);
       this.templatePdfFile = fileObject;
     }).then(() => {
       this.generateImage(pdf);
-    });
+    }).catch(() => this.loaderService.hide());
   }
 
-  generateImage(pdf, download = false): void {
+  generateImage(pdf: any, download = false): void {
     const element = document.getElementById('template-resume');
-    if ( element ) {
+    if (element) {
       const border = element.style.border;
       // element.style.width = '100%';
       element.style.border = '';
       pdf.export().then((group: Group) => exportImage(group)).then((dataUri) => {
-        console.log('dataUri', dataUri);
         this.templateImageBase64 = dataUri;
-        // const fileObject = this.dataURLtoFile(dataUri, `resume_image_${this.userName}`);
-        // console.log(fileObject);
         element.style.width = '';
         element.style.border = border;
-        if ( !download ) {
+        if (!download) {
           this.saveTemplatePdfImg();
+        } else {
+          this.loaderService.hide();
         }
       });
     }
@@ -606,7 +605,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   finishStep(): void {
-    if ( !this.resumeId ) {
+    if (!this.resumeId) {
       this.toastrService.displaySnackBar('Please save previous steps', 'error');
       return;
     }
@@ -642,10 +641,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         this.saveSkills();
       }
     }
-    // else if (this.selectedIndex === 5) {
-    //   // this.toastrService.displaySnackBar('Your resume has been saved', 'success');
-    //   this.saveAdditionalInfo();
-    // }
   }
 
   private createComponentFactorySync(
@@ -812,7 +807,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   savePersonalInfo(): void {
 
     if (this.basicDetailForm.valid) {
-      // this.selectedIndex = this.selectedIndex + 1;
       const formValue = this.basicDetailForm.value;
       let profileImage = this.profileSrc;
       if (this.resumeEditData.personalInfo.profileImage && !this.selectedImage) {
@@ -862,7 +856,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveCareerObjective(): void {
-    if ( !this.resumeId ) {
+    if (!this.resumeId) {
       this.toastrService.displaySnackBar('Please save first step', 'error');
       return;
     }
@@ -884,7 +878,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveWorkData(): void {
-    if ( !this.resumeId ) {
+    if (!this.resumeId) {
       this.toastrService.displaySnackBar('Please save first step', 'error');
       return;
     }
@@ -917,7 +911,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveEducation(): void {
-    if ( !this.resumeId ) {
+    if (!this.resumeId) {
       this.toastrService.displaySnackBar('Please save first step', 'error');
       return;
     }
@@ -949,7 +943,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveSkills(haveAdditionalInfo = false): void {
-    if ( !this.resumeId ) {
+    if (!this.resumeId) {
       this.toastrService.displaySnackBar('Please save previous steps', 'error');
       return;
     }
@@ -969,7 +963,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             this.selectedIndex = 5;
           } else {
             // this.saveTemplatePdfImg();
-            if ( this.pdfComponent ) {
+            if (this.pdfComponent) {
               this.generatePDF(this.pdfComponent);
             }
           }
@@ -987,7 +981,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         info.value = [info.value];
       } else if (info.type.toLowerCase() === 'certifications') {
         info.value = info.value.filter((value: any) => {
-          if ( value.date ) {
+          if (value.date) {
             value.date = this.commonService.getMomentFormattedDate(value.date);
           }
           return value;
@@ -1005,8 +999,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (response) => {
-          if ( response.code === 200 ) {
-            if ( this.pdfComponent ) {
+          if (response.code === 200) {
+            if (this.pdfComponent) {
               this.generatePDF(this.pdfComponent);
             }
           }
@@ -1050,7 +1044,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         gender: personalData.gender || null,
       });
       this.socialLinkArray = personalData.socialLinks;
-      if ( resumeEditData.personalInfo.profileImage ) {
+      if (resumeEditData.personalInfo.profileImage) {
         this.profileSrc = this.imageBaseUrl + resumeEditData.personalInfo.profileImage;
       }
     }
@@ -1075,9 +1069,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       this.additionalInfoData = resumeEditData.additionalInfo.filter((info) => {
         if (info.type.toLowerCase() === 'accomplishments' || info.type.toLowerCase() === 'affiliations') {
           info.value = typeof info.value === 'object' && info.value.length > 0 ? info.value[0] : '';
-        } else if ( info.type.toLowerCase() === 'certifications' ) {
+        } else if (info.type.toLowerCase() === 'certifications') {
           info.value = info.value.filter((value: any) => {
-            if ( value.date ) {
+            if (value.date) {
               value.date = this.commonService.getMomentFromDate(value.date);
             }
             return value;
@@ -1097,6 +1091,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   saveTemplatePdfImg(): void {
+    this.loaderService.show();
 
     const formData = new FormData();
     formData.append('pdf', this.templatePdfFile);
@@ -1107,12 +1102,14 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveImgPdfStepApi, formData)
       .subscribe(
         (response) => {
-          if ( response.code === 200 ) {
+          if (response.code === 200) {
+            this.loaderService.hide();
             this.toastrService.displaySnackBar('Your resume has been saved', 'success');
             this.router.navigate(['/user/my-resumes']);
           }
         },
         (error) => {
+          this.loaderService.hide();
           this.toastrService.displaySnackBar('Something went wrong while saving your resume. Please try again.', 'error');
         }
       );
@@ -1122,16 +1119,16 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   loadComponent(): void {
 
     let componentFactory;
-    if ( this.currentTemplate === 'cubic' ) {
+    if (this.currentTemplate === 'cubic') {
       componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeTemplateComponent);
-    } else if ( this.currentTemplate === 'professional' ) {
+    } else if (this.currentTemplate === 'professional') {
       componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeProfessionalComponent);
     }
 
     const viewContainerRef = this.dynamicTemplate.viewContainerRef;
     viewContainerRef.clear();
 
-    if ( componentFactory ) {
+    if (componentFactory) {
       const componentRef = viewContainerRef.createComponent(componentFactory);
       (<any>componentRef.instance).templateForm = this.basicDetailForm.getRawValue();
       (<any>componentRef.instance).userEmail = this.userEmail;

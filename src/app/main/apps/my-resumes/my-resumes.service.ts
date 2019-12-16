@@ -17,4 +17,8 @@ export class MyResumesService {
     return this.http.post(url, params);
   }
 
+  chooseSendEmail(url: string, params: any): Observable<any> {
+    return this.http.post(url, params);
+  }
+
 }

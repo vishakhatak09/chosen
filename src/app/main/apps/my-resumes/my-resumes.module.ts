@@ -5,6 +5,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { MyResumesService } from './my-resumes.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const routes: Routes = [
   {
@@ -19,7 +20,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     FuseSharedModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule
   ],
   providers: [MyResumesService]
 })

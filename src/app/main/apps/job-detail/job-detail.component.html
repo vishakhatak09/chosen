@@ -12,13 +12,14 @@
     <p class="w-100-p font-size-18 font-weight-900">{{ dialogData?.jobPosition }}</p>
     <span class="w-100-p font-weight-600">{{ dialogData?.companyName }}</span>
     <p class="w-100-p font-size-12 ">
-      <mat-icon class="detail-icon">work</mat-icon> {{ dialogData?.workExperience }} years
+      <mat-icon class="detail-icon">work</mat-icon> {{ dialogData?.workExperience.toString().replace(',', ' - ') }} years
     </p>
     <p class="w-100-p">
-      <mat-icon class="detail-icon">account_balance_wallet</mat-icon> ₹ 2,00,000 - 7,00,000 P.A.
+      <mat-icon class="detail-icon">account_balance_wallet</mat-icon>
+      {{ dialogData?.expectedSalary.toString().replace(',', ' - ') }} Lakh(s) PA
     </p>
     <p class="w-100-p">
-      <mat-icon class="detail-icon">room</mat-icon> {{ dialogData?.location }} {{ dialogData?.state }}
+      <mat-icon class="detail-icon">room</mat-icon> {{ dialogData?.location }}
     </p>
 
   </div>
@@ -33,7 +34,7 @@
   </div>
 
   <div class="w-100-p right">
-    <button mat-icon-button class="apply-button" color="primary" aria-label="Apply">
+    <button mat-icon-button class="apply-button" type="button" color="primary" aria-label="Apply" (click)="applyJob()">
       <mat-icon class="s-24 secondary-text">
         add_box
       </mat-icon> Apply Now

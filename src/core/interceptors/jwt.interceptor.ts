@@ -28,7 +28,7 @@ export class JwtInterceptor implements HttpInterceptor {
     this.currentUser = this.authenticationService.currentUserValue;
     if (this.currentUser && this.currentUser.token) {
       // if (!request.url.includes('Step') && !request.url.includes('jobFilter')) {
-      if ( !request.url.includes('jobFilter')) {
+      if ( !request.url.endsWith('jobFilter')) {
         this.isDisplaying = true;
         this.loadingService.show();
       }
@@ -48,6 +48,7 @@ export class JwtInterceptor implements HttpInterceptor {
       finalize(() => {
         if ( this.isDisplaying === true ) {
           this.loadingService.hide();
+          this.isDisplaying = false;
         }
       })
     );
