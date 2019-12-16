@@ -148,7 +148,10 @@ export class MyResumesComponent implements OnInit, OnDestroy {
             .subscribe(
               (response) => {
                 if (response.code === 200) {
-                  this.toastrService.displaySnackBar('Job application mail has been sent with your selected resume successfully', 'success');
+                  this.toastrService.displaySnackBar(
+                    'Job application mail has been sent with your selected resume successfully',
+                    'success'
+                  );
                   this.router.navigate(['/user/templates']);
                 }
               },
