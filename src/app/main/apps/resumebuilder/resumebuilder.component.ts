@@ -9,10 +9,6 @@ import {
   OnDestroy,
   ElementRef,
   ChangeDetectorRef,
-  Compiler,
-  ComponentFactory,
-  NgModule,
-  ModuleWithComponentFactories,
   ViewContainerRef,
   ComponentRef,
   AfterContentInit,
@@ -27,8 +23,6 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
 import { AppConstant, OptionType } from 'core/constants/app.constant';
-import { ResumeMock } from 'core/mock/resume.mock';
-import { templateMock } from 'core/mock/temp-content';
 import {
   AdditionalModel,
   EducationModel,
@@ -61,6 +55,7 @@ import { TemplateDynamicDirective } from '@fuse/directives/template-dynamic.dire
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
 import { LoadingScreenService } from '@fuse/services/loading.service';
+import { templateMock } from 'core/mock/temp-content';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -139,6 +134,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   @ViewChild(TemplateDynamicDirective, { static: true }) dynamicTemplate: TemplateDynamicDirective;
   isComponentLoaded = false;
   selectedImage: File;
+  lastStep: boolean;
+  selectedSkillType = false;
 
   /**
    * Constructor
@@ -151,7 +148,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     private resumeBuilderService: ResumeBuilderService,
     private cdRef: ChangeDetectorRef,
     private toastrService: ToastrService,
-    private compiler: Compiler,
     private authService: AuthenticationService,
     private commonService: CommonService,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -169,9 +165,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       });
     }
     this.templateId = this.activatedRoute.snapshot.paramMap.get('templateId');
-    // console.log('templateId', this.templateId);
     this.resumeId = this.activatedRoute.snapshot.paramMap.get('resumeId');
-    // console.log('resumeId', this.resumeId);
     this.additionalInfoList.filter((add) => add.checked = false);
     if (this.resumeId) {
       this.getResumeData(this.resumeId);
@@ -238,10 +232,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     this.MockTemplate = templateMock;
     // this.loadComponent();
     // // Generate dynamic component with html
-    // setTimeout(() => {
-    //   // this.generateRunTimeComponent();
-    //   this.cdRef.detectChanges();
-    // }, 0);
   }
 
   ngOnChanges(): void {
@@ -272,22 +262,24 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   // -----------------------------------------------------------------------------------------------------
 
   templatePreview(): void {
-    if (this.selectedIndex === 4 || this.selectedIndex === 5) {
-      // this.generateRunTimeComponent(true);
-    }
+    this.lastStep = true;
     setTimeout(() => {
       if (this.templateContent) {
         // if (this.container) {
         const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
         // const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
-        this.matDialog.open(
+        const dialogRef = this.matDialog.open(
           ResumePreviewComponent,
           {
             width: 'auto',
             height: '100%',
             data: data,
+            restoreFocus: false
           },
         );
+        dialogRef.beforeClosed().subscribe(() => {
+          this.lastStep = false;
+        });
       }
     }, 100);
 
@@ -341,7 +333,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     }).catch(() => this.loaderService.hide());
   }
 
-  generateImage(pdf: any, download = false): void {
+  generateImage(pdf: any, download = false, isLastStep = false): void {
+    this.lastStep = true;
     const element = document.getElementById('template-resume');
     if (element) {
       const border = element.style.border;
@@ -352,7 +345,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         element.style.width = '';
         element.style.border = border;
         if (!download) {
-          this.saveTemplatePdfImg();
+          this.saveTemplatePdfImg(isLastStep);
         } else {
           this.loaderService.hide();
         }
@@ -373,7 +366,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     dialogRef.afterClosed().subscribe((data: WorkModel) => {
       if (data) {
         this.workExperienceData.push(data);
-        // // this.generateRunTimeComponent();
       }
     });
   }
@@ -391,7 +383,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     dialogRef.afterClosed().subscribe((data: EducationModel) => {
       if (data) {
         this.educationData.push(data);
-        // this.generateRunTimeComponent();
       }
     });
   }
@@ -417,7 +408,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         } else {
           this.educationData[index] = data;
         }
-        // this.generateRunTimeComponent();
       }
     });
   }
@@ -443,7 +433,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           } else {
             this.educationData.splice(index, 1);
           }
-          // this.generateRunTimeComponent();
         }
       });
     }
@@ -549,7 +538,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           } else {
             this.additionalInfoData.push(response);
           }
-          // this.generateRunTimeComponent(true);
         }
       });
     } else {
@@ -558,7 +546,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       });
       if (index !== -1) {
         this.additionalInfoData.splice(index, 1);
-        // this.generateRunTimeComponent(true);
       }
     }
   }
@@ -583,7 +570,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           data.push(response);
         }
         this.additionalInfoData = data;
-        // this.generateRunTimeComponent(true);
       } else {
         this.additionalInfoData = data;
       }
@@ -611,10 +597,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     }
     if (this.skillForm.invalid || this.skillRatingList.length === 0) {
       this.toastrService.displaySnackBar('Please add atleast one skill', 'error');
-      this.skillForm.get('skillType').markAsTouched();
+      // this.skillForm.get('skillType').markAsTouched();
       return;
     }
-    // this.generateRunTimeComponent(true);
     if (this.selectedIndex === 4) {
       if (!this.haveAdditionalInfo) {
         const dialogRef = this.matDialog.open(
@@ -641,125 +626,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         this.saveSkills();
       }
     }
-  }
-
-  private createComponentFactorySync(
-    metadata: Component, componentClass: any, componentData: any, compiler?: Compiler,
-  ): any {
-    const cmpClass = componentClass || class RuntimeComponent {
-      templateForm = componentData.templateForm;
-      experienceData = componentData.experienceData;
-      careerObjective = componentData.careerObjective;
-      educationData = componentData.educationData;
-      skillData = componentData.skillData;
-      additionalInfo = componentData.additionalInfo;
-      socialData = componentData.socialData;
-      profileSrc = componentData.profileSrc;
-      content = componentData.content;
-      skillMockData = [];
-      fontColor = componentData.fontColor;
-      backColor = componentData.backColor;
-    };
-    const decoratedCmp = Component(metadata)(cmpClass);
-    // return decoratedCmp;
-
-    @NgModule({ imports: [ResumebuilderModule, CommonModule], declarations: [decoratedCmp] })
-    class RuntimeComponentModule { }
-
-    const module: ModuleWithComponentFactories<any> = compiler.compileModuleAndAllComponentsSync(RuntimeComponentModule);
-    return module.componentFactories.find(f => f.componentType === decoratedCmp);
-  }
-
-  async compileTemplate(data: any) {
-
-    const metadata = {
-      selector: `template-sample`,
-      template: this.MockTemplate,
-    };
-
-    // console.log('compiler', this.compiler);
-    const factory = this.createComponentFactorySync(metadata, null, data, this.compiler);
-    // console.log('factory', factory);
-    // console.log('this.container', this.container);
-    // const factory = this.componentFactoryResolver.resolveComponentFactory(this.createComponentFactorySync(metadata, null, data));
-    // console.log(factory)
-    if (this.componentRef) {
-      this.componentRef.destroy();
-      this.componentRef = null;
-    }
-    this.componentRef = this.container.createComponent(factory);
-    this.cdRef.detectChanges();
-
-    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeTemplateComponent);
-    // const viewContainerRef = this.container;
-    // viewContainerRef.clear();
-
-    // const componentRef = viewContainerRef.createComponent(componentFactory);
-    // // componentRef.hostView
-    // (<any>componentRef.instance).templateForm = data.templateForm;
-    // (<any>componentRef.instance).experienceData = data.experienceData;
-    // (<any>componentRef.instance).careerObjective = data.careerObjective;
-    // (<any>componentRef.instance).educationData = data.educationData;
-    // (<any>componentRef.instance).skillData = data.skillData;
-    // (<any>componentRef.instance).additionalInfo = data.additionalInfo;
-    // (<any>componentRef.instance).socialData = data.socialData;
-    // (<any>componentRef.instance).profileSrc = data.profileSrc;
-    // (<any>componentRef.instance).content = data.content;
-    // (<any>componentRef.instance).skillMockData = data.skillMockData;
-    // (<any>componentRef.instance).fontColor = data.fontColor;
-    // (<any>componentRef.instance).backColor = data.backColor;
-
-  }
-
-  generateRunTimeComponent(isLastSteps = false): void {
-
-    let data = {};
-
-    if (!isLastSteps) {
-
-      let basicDetail: any;
-      if (this.basicDetailForm) {
-        basicDetail = this.basicDetailForm.getRawValue();
-        basicDetail.email = this.userEmail;
-      }
-
-      data = {
-        templateForm: basicDetail || ResumeMock.templateForm,
-        experienceData: this.workExperienceData.length > 0 ? this.workExperienceData : ResumeMock.experienceData,
-        careerObjective: this.careerObjForm ? this.careerObjForm.get('careerObjective').value : ResumeMock.data.careerObjective,
-        educationData: this.educationData.length > 0 ? this.educationData : ResumeMock.educationData,
-        skillData: this.skillRatingList.length > 0 ? this.skillRatingList : ResumeMock.skillData,
-        additionalInfo: this.additionalInfoData,
-        socialData: this.socialLinkArray,
-        profileSrc: this.profileSrc || this.defaultProfile,
-        content: this.MockTemplate,
-        fontColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.fontColor : 'rgba(0, 0, 0, 0.87)',
-        backColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.backColor : '#e0e0e0',
-      };
-
-    } else {
-
-      const basicDetail = this.basicDetailForm.getRawValue();
-      basicDetail.email = this.userEmail;
-
-      data = {
-        templateForm: basicDetail,
-        experienceData: this.workExperienceData,
-        careerObjective: this.careerObjForm.get('careerObjective').value,
-        educationData: this.educationData,
-        skillData: this.skillRatingList,
-        additionalInfo: this.additionalInfoData,
-        socialData: this.socialLinkArray,
-        profileSrc: this.profileSrc,
-        content: this.MockTemplate,
-        fontColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.fontColor : 'rgba(0, 0, 0, 0.87)',
-        backColor: basicDetail && this.skillForm.get('skillType').value === 'basicStyled' ? this.backColor : '#e0e0e0',
-      };
-
-    }
-
-    this.compileTemplate(data);
-
   }
 
   /**
@@ -799,9 +665,6 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         this.saveEducation();
       }
     }
-    // else if (this.selectedIndex === 4) {
-    //   this.saveSkills();
-    // }
   }
 
   savePersonalInfo(): void {
@@ -809,7 +672,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     if (this.basicDetailForm.valid) {
       const formValue = this.basicDetailForm.value;
       let profileImage = this.profileSrc;
-      if (this.resumeEditData.personalInfo.profileImage && !this.selectedImage) {
+      if (
+        this.resumeEditData && this.resumeEditData.personalInfo &&
+        this.resumeEditData.personalInfo.profileImage && !this.selectedImage
+      ) {
         profileImage = '';
       }
       const params: any = {
@@ -843,8 +709,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         .subscribe(
           (response) => {
             this.selectedIndex = this.selectedIndex + 1;
-            if (response.data._id) {
+            if (response && response.data && response.data._id) {
               this.resumeId = response.data._id;
+              this.everyStepSaveImage();
             }
           },
           error => { }
@@ -871,6 +738,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .subscribe(
         (response) => {
           this.selectedIndex = this.selectedIndex + 1;
+          this.everyStepSaveImage();
         },
         error => { }
       );
@@ -905,6 +773,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .subscribe(
         (response) => {
           this.selectedIndex = this.selectedIndex + 1;
+          this.everyStepSaveImage();
         },
         error => { }
       );
@@ -937,6 +806,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       .subscribe(
         (response) => {
           this.selectedIndex = this.selectedIndex + 1;
+          this.everyStepSaveImage();
         },
         error => { }
       );
@@ -1090,11 +960,14 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     this.isLinear = false;
   }
 
-  saveTemplatePdfImg(): void {
+  saveTemplatePdfImg(isLastStep = false): void {
     this.loaderService.show();
 
     const formData = new FormData();
-    formData.append('pdf', this.templatePdfFile);
+    if (isLastStep) {
+      formData.append('pdf', this.templatePdfFile);
+    }
+
     formData.append('imageName', `resume_image_${this.userName}`);
     formData.append('photo', this.templateImageBase64);
     formData.append('id', this.resumeId);
@@ -1104,8 +977,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         (response) => {
           if (response.code === 200) {
             this.loaderService.hide();
-            this.toastrService.displaySnackBar('Your resume has been saved', 'success');
-            this.router.navigate(['/user/my-resumes']);
+            if (isLastStep) {
+              this.toastrService.displaySnackBar('Your resume has been saved', 'success');
+              this.router.navigate(['/user/my-resumes']);
+            } else {
+              this.lastStep = false;
+            }
           }
         },
         (error) => {
@@ -1143,6 +1020,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       this.isComponentLoaded = true;
     }
 
+  }
+
+  everyStepSaveImage(): void {
+    if (this.pdfComponent) {
+      this.generateImage(this.pdfComponent, false, false);
+    }
   }
 
   /**

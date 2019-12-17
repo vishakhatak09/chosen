@@ -65,7 +65,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
         this.collapsed = true;
 
         // Set the private defaults
-        // this._unsubscribeAll 
+        // this._unsubscribeAll
     }
 
     // -----------------------------------------------------------------------------------------------------

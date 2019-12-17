@@ -51,7 +51,7 @@
                 </div>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="socialData.length > 0">
             <td style="background: #eaeaea;padding: 5px 20px;">                
                 <div style="display: inline-table;margin: 5px 20px 5px 0;" *ngFor="let social of socialData">
                     <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="'assets/icons/template-icons/' + social.website + '.svg'" alt="">

@@ -57,6 +57,7 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     public additionalList: AdditionalModel[] = [];
     @Input() fontColor: string;
     @Input() backColor: string;
+    @Input() lastStep = false;
 
 
     /**
@@ -104,22 +105,22 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
      * On Changes
      */
     ngOnChanges(changes: SimpleChanges): void {
-        if (this.experienceData.length === 0) {
+        if (this.experienceData.length === 0 && !this.lastStep) {
             this.experienceList = ResumeMock.experienceData;
         } else {
             this.experienceList = this.experienceData;
         }
-        if (this.careerObjective === undefined || this.careerObjective === '') {
+        if ((this.careerObjective === undefined || this.careerObjective === '') && !this.lastStep) {
             this.careerObj = ResumeMock.data.careerObjective;
         } else {
             this.careerObj = this.careerObjective;
         }
-        if (this.educationData.length === 0) {
+        if (this.educationData.length === 0 && !this.lastStep) {
             this.educationList = ResumeMock.educationData;
         } else {
             this.educationList = this.educationData;
         }
-        if (this.skillData.length === 0) {
+        if (this.skillData.length === 0 && !this.lastStep) {
             this.skillList = ResumeMock.skillData;
         } else {
             this.skillList = this.skillData;

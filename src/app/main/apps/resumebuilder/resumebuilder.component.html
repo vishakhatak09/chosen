@@ -332,10 +332,10 @@
                                     </mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" *ngIf=" skillForm.get('skillType').value == 'basicWithRating' ">
+                                <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" *ngIf=" skillForm.get('skillType').value == 'basicWithRating' " >
                                     <mat-label> Choose your selection for adding skills</mat-label>
                                     <mat-select disabled [(ngModel)]="ratingStyle" placeholder="Select" [ngModelOptions]="{standalone: true}" required>
-                                        <mat-option [value]="skills.value" *ngFor="let skills of ratingThemeList">
+                                        <mat-option [value]="skills.value" *ngFor="let skills of ratingThemeList" [disabled]="skillForm.get('skillType').value == 'basicWithRating'">
                                             {{ skills.viewValue }}
                                         </mat-option>
                                     </mat-select>
@@ -461,10 +461,10 @@
                     <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution">
                         <!-- <ng-template template-dynamic></ng-template> -->
                         <app-resume-template #templateRef *ngIf="currentTemplate === 'cubic'" [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                            [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
+                            [socialData]="socialLinkArray" [lastStep]="lastStep" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
                         </app-resume-template>
                         <app-resume-professional #templateRef *ngIf="currentTemplate === 'professional'" [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                            [socialData]="socialLinkArray" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
+                            [socialData]="socialLinkArray" [lastStep]="lastStep" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
                         </app-resume-professional>
                     </kendo-pdf-export>
                     <!-- <div #container></div> -->
