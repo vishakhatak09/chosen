@@ -37,6 +37,7 @@
 
                             <div fxFlex="100" class="mb-24">
                                 <div floatLabel="always">
+                                    <mat-label>Select logo</mat-label>
                                     <app-drag-drop-uploader (selectFile)="getFileData($event)"></app-drag-drop-uploader>
                                     <input type="text" id="file-upload" hidden formControlName="logo" accept="image/*">
                                 </div>

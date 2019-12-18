@@ -7,19 +7,26 @@
 </h1>
 <div mat-dialog-content fxLayout="row wrap">
 
-  <div class="w-100-p">
+  <div class="w-100-p" fxLayout="row wrap" fxLayoutAlign=" start">
 
     <p class="w-100-p font-size-18 font-weight-900">{{ dialogData?.jobPosition }}</p>
     <span class="w-100-p font-weight-600">{{ dialogData?.companyName }}</span>
-    <p class="w-100-p font-size-12 ">
-      <mat-icon class="detail-icon">work</mat-icon> {{ dialogData?.workExperience.toString().replace(',', ' - ') }} years
+    <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row" *ngIf="dialogData?.startworkExperience">
+      <mat-icon class="detail-icon">work</mat-icon> {{dialogData?.startworkExperience?.years}} yrs
     </p>
-    <p class="w-100-p">
+    <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row">
       <mat-icon class="detail-icon">account_balance_wallet</mat-icon>
-      {{ dialogData?.expectedSalary.toString().replace(',', ' - ') }} Lakh(s) PA
+      <span class="text-warp secondary-text" *ngIf="(dialogData?.startSalary == undefined || dialogData?.startSalary === '')
+          && (dialogData?.endSalary == undefined || dialogData?.endSalary === '')">Not disclosed</span>
+      <span class="text-warp secondary-text" *ngIf="dialogData?.startSalary !== undefined && dialogData?.endSalary !== undefined">
+        INR {{ dialogData?.startSalary }} - {{ dialogData?.endSalary }} Lakh(s) PA
+      </span>
     </p>
-    <p class="w-100-p">
+    <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row">
       <mat-icon class="detail-icon">room</mat-icon> {{ dialogData?.location }}
+    </p>
+    <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row" *ngIf="dialogData?.industry">
+      <mat-icon class="detail-icon">layers</mat-icon> <span class="secondary-text skill">{{dialogData?.industry}}</span>
     </p>
 
   </div>
@@ -34,8 +41,9 @@
   </div>
 
   <div class="w-100-p right">
-    <button mat-icon-button class="apply-button" type="button" color="primary" aria-label="Apply" (click)="applyJob()">
-      <mat-icon class="s-24 secondary-text">
+    <button mat-icon-button class="apply-button mr-52" type="button" color="primary" aria-label="Apply" (click)="applyJob()"
+      style="float: right;color: #43a047;">
+      <mat-icon class="s-24 secondary-text" style-:v >
         add_box
       </mat-icon> Apply Now
     </button>

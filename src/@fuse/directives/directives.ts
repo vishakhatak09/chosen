@@ -10,6 +10,7 @@ import {
 import { FileDropDirective } from './file-drop.directive';
 import { FileDirective } from './file.directive';
 import { TemplateDynamicDirective } from './template-dynamic.directive';
+import { InputRestrictionDirective } from './input-restriction.directive';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { TemplateDynamicDirective } from './template-dynamic.directive';
         FusePerfectScrollbarDirective,
         FileDropDirective,
         FileDirective,
-        TemplateDynamicDirective
+        TemplateDynamicDirective,
+        InputRestrictionDirective
     ],
     imports: [],
     exports: [
@@ -31,7 +33,8 @@ import { TemplateDynamicDirective } from './template-dynamic.directive';
         FusePerfectScrollbarDirective,
         FileDropDirective,
         FileDirective,
-        TemplateDynamicDirective
+        TemplateDynamicDirective,
+        InputRestrictionDirective
     ]
 })
 export class FuseDirectivesModule {

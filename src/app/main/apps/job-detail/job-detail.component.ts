@@ -28,6 +28,7 @@ export class JobDetailComponent implements OnInit {
           }
         }
       );
+      this.dialogRef.close();
     }
   }
 

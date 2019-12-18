@@ -89,11 +89,12 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
         //     startWith(''),
         //     switchMap(value => this._filter(value)),
         // );
-        this.searchBox.valueChanges.pipe(
-            // startWith(''),
-            switchMap(value => this._filter(value)),
-            takeUntil(this._unsubscribeAll)
-        )
+        this.searchBox.valueChanges
+            .pipe(
+                // startWith(''),
+                switchMap(value => this._filter(value)),
+                takeUntil(this._unsubscribeAll)
+            )
             .subscribe(
                 (response) => {
                     if (response && response.code === 200) {
@@ -102,78 +103,82 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
                         this.filterResults = [];
                     }
                 },
-                ((error) => this.filterResults = [])
+                ((error) => {
+                    this.filterResults = [];
+                    this.searchBox = null;
+                    this.searchBox = new FormControl();
+                    this.searchBox.setValue(' ', { emitEvent: true });
+                })
             );
     }
 
     private _filter(value: string): Observable<any> {
         let searchLocation;
         let experience;
-        if (this.selectedFilters && this.selectedFilters.locationState && this.selectedFilters.location) {
-            searchLocation = this.selectedFilters.location + ', ' + this.selectedFilters.locationState;
+        if (this.selectedFilters && this.selectedFilters.locationState) {
+            if (this.selectedFilters.location) {
+                searchLocation = this.selectedFilters.location + ', ' + this.selectedFilters.locationState;
+            } else {
+                searchLocation = this.selectedFilters.locationState;
+            }
         }
         if (this.selectedFilters && this.selectedFilters.workExperience) {
             experience = {
-                'years': this.selectedFilters.workExperience,
-                'month': 0
+                'years': String(this.selectedFilters.workExperience),
+                'month': '0'
             };
+        }
+        const params: any = {
+            params: {}
+        };
+        if (this.selectedFilters) {
+            if (searchLocation) {
+                params.params.location = searchLocation;
+            }
+            if (this.selectedFilters.workExperience) {
+                params.params.workExperience = experience;
+            }
+            if (this.selectedFilters.salary) {
+                params.params.salary = String(this.selectedFilters.salary);
+            }
+            if (this.selectedFilters.industry) {
+                params.params.industry = this.selectedFilters.industry;
+            }
+            if (this.selectedFilters.jobCategory) {
+                params.params.jobCategory = this.selectedFilters.jobCategory;
+            }
         }
         if (typeof value === 'string' && value.length > 0) {
             const filterValue = value.toLowerCase();
+            params.params.keyskill = filterValue;
 
-            const params: any = {
-                params: {
-                    location: this.selectedFilters ? this.selectedFilters.location : undefined,
-                    workExperience: experience,
-                    salary: this.selectedFilters ? this.selectedFilters.salary : undefined,
-                    industry: this.selectedFilters ? this.selectedFilters.industry : undefined,
-                    jobCategory: this.selectedFilters ? this.selectedFilters.jobCategory : undefined,
-                    // keyskill: this.selectedFilters ? this.selectedFilters.keyskill : undefined,
-                    // keywords: filterValue
-                    keyskill: filterValue
-                }
-            };
+            // const temp = {
+            //     "params": {
+            //         "location": "ahmedabad",
+            //         "workExperience": {
+            //             "years": "5",
+            //             // "month": "0"
+            //         },
+            //         "salary": "15",
+            //         "industry": [
+            //             "NAVRI", "fashion"
+            //         ],
+            //         "jobCategory": "companyjob",
+            //         "keyskill": filterValue
+            //     }
+            // };
 
-            const temp = {
-                "params": {
-                    "location": "ahmedabad",
-                    "workExperience": {
-                        "years": "5",
-                        // "month": "0"
-                    },
-                    "salary": "15",
-                    "industry": [
-                        "NAVRI", "fashion"
-                    ],
-                    "jobCategory": "companyjob",
-                    "keyskill": filterValue
-                }
-            };
-
-            return this.commonService.searchJob(this.getJobApi, temp);
+            return this.commonService.searchJob(this.getJobApi, params);
+        } else if (this.selectedFilters) {
+            return this.commonService.searchJob(this.getJobApi, params);
         } else {
             return of(null);
         }
-        //  else {
-        //     const params: any = {
-        //         params: {
-        //             location: this.selectedFilters ? this.selectedFilters.location : undefined,
-        //             workExperience: experience,
-        //             salary: this.selectedFilters ? this.selectedFilters.salary : undefined,
-        //             industry: this.selectedFilters ? this.selectedFilters.industry : undefined,
-        //             jobCategory: this.selectedFilters ? this.selectedFilters.jobCategory : undefined,
-        //             // keyskill: this.selectedFilters ? this.selectedFilters.keyskill : undefined,
-        //             // keywords: filterValue
-        //             keyskill: ''
-        //         }
-        //     };
-        //     return this.commonService.searchJob(this.getJobApi, params);
-
-        // }
     }
 
     clearFilter(): void {
         this.selectedFilters = null;
+        this.searchBox.setValue('', { emitEvent: true });
     }
 
     /**
@@ -241,8 +246,8 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
                 this.selectedFilters = response;
                 const element = document.getElementById('fuse-search-bar-input');
                 if (element) {
+                    this.searchBox.patchValue(this.searchBox.value ? this.searchBox.value : ' ', { emitEvent: true });
                     element.focus();
-                    this.searchBox.patchValue(this.searchBox.value, { emitEvent: true });
                 }
             }
         });
