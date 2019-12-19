@@ -29,22 +29,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
     @Output()
     input: EventEmitter<any>;
 
-    options: JobModel[] = [
-        // {
-        //     logo: 'assets/images/logos/fuse.svg',
-        //     jobPosition: 'Api Developer',
-        //     jobDescription: 'Full time backend developer with a minimum experience of 1-2 years in core & any framework',
-        //     state: 'Gujarat',
-        //     location: 'Ahmedabad',
-        //     companyName: 'FORRET INDIA PRIVATE LIMITED',
-        //     keywords: 'API Developer Jobs in Pune, India',
-        //     workExperience: '1 - 2',
-        //     expectedSalary: '20',
-        //     industry: 'IT',
-        //     jobCategory: 'IT Software - All Jobs',
-        //     jobType: 'All Jobs',
-        // }
-    ];
+    options: JobModel[] = [];
     filteredOptions: Observable<JobModel[]>;
 
     // Private
@@ -85,10 +70,10 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
                 }
             );
 
-        // this.filteredOptions = this.searchBox.valueChanges.pipe(
-        //     startWith(''),
-        //     switchMap(value => this._filter(value)),
-        // );
+        this.initAutoComplete();
+    }
+
+    initAutoComplete() {
         this.searchBox.valueChanges
             .pipe(
                 // startWith(''),
@@ -105,9 +90,7 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
                 },
                 ((error) => {
                     this.filterResults = [];
-                    this.searchBox = null;
-                    this.searchBox = new FormControl();
-                    this.searchBox.setValue(' ', { emitEvent: true });
+                    this.initAutoComplete();
                 })
             );
     }

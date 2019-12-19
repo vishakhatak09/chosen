@@ -31,7 +31,8 @@
                             { "glob": "**/*", "input": "node_modules/tinymce/plugins", "output": "/tinymce/plugins/" }
                         ],
                         "styles": [
-                            "src/styles.scss"
+                            "src/styles.scss",
+                            "node_modules/@progress/kendo-theme-default/dist/all.css"
                         ],
                         "scripts": [
                             "node_modules/html2canvas/dist/html2canvas.js",

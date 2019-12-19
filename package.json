@@ -39,6 +39,7 @@
         "@progress/kendo-angular-common": "1.2.1",
         "@progress/kendo-angular-pdf-export": "2.0.0",
         "@progress/kendo-drawing": "1.6.0",
+        "@progress/kendo-theme-default": "4.10.0",
         "@swimlane/dragula": "3.8.0",
         "@swimlane/ngx-charts": "11.1.0",
         "@swimlane/ngx-datatable": "15.0.0",

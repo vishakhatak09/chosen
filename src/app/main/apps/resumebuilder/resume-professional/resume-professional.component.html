@@ -15,7 +15,7 @@
                 {{ templateForm?.designation }}
               </h4>
               <p style="margin: 0; font-size: 13px;color: #fff;"
-                [innerHTML]="careerObjective || ResumeMockData.data.careerObjective"></p>
+                [innerHTML]="careerObjective || ResumeMockData.data.careerObjective | safeHtml"></p>
             </td>
             <td *ngIf="profileSrc">
               <div style="border: solid 2px #2f9032;border-radius: 5px;">

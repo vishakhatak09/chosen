@@ -30,6 +30,7 @@ import { CommonService } from 'core/services/common.service';
 import { ResumeBuilderResolver } from './resumebuilder.resolver';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
+import { CanDeactivateGuard } from './can-deactivate-guard.service';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
     component: ResumebuilderComponent,
     resolve: {
       data: ResumeBuilderResolver
-    }
+    },
+    canDeactivate: [CanDeactivateGuard]
   }
 ];
 
@@ -82,7 +84,7 @@ const routes: Routes = [
     EditorModule,
     PDFExportModule
   ],
-  providers: [ResumeBuilderService, CommonService, ResumeBuilderResolver],
+  providers: [ResumeBuilderService, CommonService, ResumeBuilderResolver, CanDeactivateGuard],
   schemas: []
 })
 export class ResumebuilderModule { }

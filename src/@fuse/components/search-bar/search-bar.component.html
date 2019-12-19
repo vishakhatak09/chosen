@@ -14,7 +14,8 @@
                     <mat-icon class="s-24 secondary-text">filter_list</mat-icon>
                 </button>
         </div> -->
-        <input id="fuse-search-bar-input" appInputRestriction="noSpecialChars" class="ml-24" type="text" placeholder="Search" [formControl]="searchBox"
+        <!-- appInputRestriction="noSpecialChars" -->
+        <input id="fuse-search-bar-input"  class="ml-24" type="text" placeholder="Search" [formControl]="searchBox"
             (input)="search($event)" fxFlex [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selectedJob($event)">
             <mat-option class="search-list border-bottom p-16" *ngFor="let option of filterResults" [value]="option">
@@ -93,7 +94,8 @@
             <button mat-icon-button class="fuse-search-bar-expander" matTooltip="Apply Filter"
                 [matTooltipPosition]="'above'" (click)="openFilterModal()">
                 <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
-                <img src="assets/icons/material-icons/filter.svg">
+                <!-- <img src="assets/icons/material-icons/filter.svg"> -->
+                <span class="k-icon k-i-filter" style="font-size:30px;"> </span>
             </button>
         </div>
 
@@ -101,7 +103,8 @@
             <button mat-icon-button class="fuse-search-bar-expander" matTooltip="Clear Filter"
                 [matTooltipPosition]="'above'" (click)="clearFilter()">
                 <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
-                <img src="assets/icons/material-icons/clear-filter.svg">
+                <!-- <img src="assets/icons/material-icons/clear-filter.svg"> -->
+                <span class="k-icon k-i-filter-clear" style="font-size:30px;"></span>
             </button>
         </div>
 

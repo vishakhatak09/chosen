@@ -34,20 +34,18 @@ import {
 import { ToastrService } from 'core/services/toastr.service';
 import { environment } from 'environments/environment';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import 'tinymce/tinymce.min.js';
 import { ConfirmationDialogComponent } from '../../pages/common-components/confirmation/confirmation.component';
 import { AddEducationComponent } from './add-education/add-education.component';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
-import { ResumebuilderModule } from './resumebuilder.module';
 import { ResumeBuilderService } from './resumebuilder.service';
 import { AuthenticationService } from 'core/services/authentication.service';
 declare var tinymce: any;
 import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
-// import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { exportPDF, Group, exportImage } from '@progress/kendo-drawing';
@@ -123,8 +121,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   public resumeId: string;
   public maxSocialLinks = AppConstant.MaxSocialLinks;
 
-  public resolution: number = 100;
-  public pageSize;
+  public resolution = 100;
+  public pageSize: string;
   // public pageSize = 'A4';
   private templatePdfFile: File;
   private templateImageBase64: Blob | string;
@@ -1026,6 +1024,32 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     if (this.pdfComponent) {
       this.generateImage(this.pdfComponent, false, false);
     }
+  }
+
+  canDeactivate(): Observable<boolean> | boolean {
+
+    if (!this.resumeEditData && this.basicDetailForm.touched &&
+      (this.basicDetailForm.invalid || this.careerObjForm.invalid ||
+        this.selectedIndex > 0
+      )
+    ) {
+      const dialogRef = this.matDialog.open(
+        ConfirmationDialogComponent,
+        {
+          width: 'auto',
+          height: 'auto',
+          disableClose: true,
+          data: {
+            msg: 'Your changes will be lost, are you sure you want to exit ?',
+          },
+          id: 'deactivate-dialog'
+        }
+      );
+      return dialogRef.afterClosed();
+    } else {
+      return true;
+    }
+
   }
 
   /**
