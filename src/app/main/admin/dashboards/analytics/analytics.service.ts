@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AnalyticsDashboardService implements Resolve<any> {
     widgets: any[];
+    analyticsDashboardApi = 'https://www.googleapis.com/analytics/v3/data/realtime?key=[YOUR_API_KEY]';
 
     /**
      * Constructor
@@ -55,5 +56,9 @@ export class AnalyticsDashboardService implements Resolve<any> {
 
     getDashboardData(url: string): Observable<any> {
         return this._httpClient.get(url);
+    }
+
+    getGoogleAnalyticsData(): Observable<any> {
+      return this._httpClient.get(this.analyticsDashboardApi);
     }
 }

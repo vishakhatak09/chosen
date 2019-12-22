@@ -41,7 +41,9 @@
                         <span class="username mr-12" fxHide fxShow.gt-sm>{{ userEmail }}</span>
                         <!-- <p class="mb-0" fxHide fxShow.gt-sm>admin@gmail.com</p> -->
                     </div>
-                    <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+                    <mat-icon class="s-16" fxHide.xs *ngIf="userData?.type === 'user'">keyboard_arrow_down</mat-icon>
+                    <!-- <mat-icon class="s-16" *ngIf="userData?.type === 'admin'">keyboard_arrow_down</mat-icon> -->
+                    <span class="k-icon k-i-user" *ngIf="userData?.type === 'admin'"></span>
                 </div>
             </button>
 

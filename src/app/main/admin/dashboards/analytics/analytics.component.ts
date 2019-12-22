@@ -51,6 +51,19 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
         // Get the widgets from the service
         this.widgets = AnalyticsDashboardDb.widgets;
         this.getDashboardDetail();
+        // this.getGoogleAnalyticsData();
+    }
+
+    getGoogleAnalyticsData() {
+        this._analyticsDashboardService.getGoogleAnalyticsData()
+            .subscribe(
+                (response) => {
+                    console.log('response', response);
+                },
+                (error) => {
+                    console.log('error', error);
+                }
+            );
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -3,14 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators';
+import { takeUntil } from 'rxjs/operators';
 import { confirmPasswordValidator } from './confirm-password.validator';
 import { AuthenticationService } from 'core/services/authentication.service';
 import { ToastrService } from 'core/services/toastr.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
-
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
     selector: 'ad-register',
@@ -101,9 +100,16 @@ export class AdRegisterComponent implements OnInit, OnDestroy {
                         this._toastrService.displaySnackBar('Registration was successfull', 'success');
                         this._router.navigate(['/ad/login']);
                     },
-                    (error: HttpErrorResponse) => {
+                    (error: any) => {
                         this.isLoading = false;
-                        this._toastrService.displaySnackBar(error.message, 'error');
+                        if (error && error.code === 409) {
+                            this._toastrService.displaySnackBar('This user already exists. Please try with another email.', 'error');
+                        } else {
+                            this._toastrService.displaySnackBar(
+                                error.message || AppConstant.ConstantMsgs.somethingWentWrong,
+                                'error'
+                            );
+                        }
                     }
                 );
         }

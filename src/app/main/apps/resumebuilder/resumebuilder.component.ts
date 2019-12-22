@@ -322,13 +322,16 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   generatePDF(pdf: any): void {
+    this.lastStep = false;
     this.loaderService.show();
     pdf.export().then((group: Group) => exportPDF(group)).then((dataUri: Blob) => {
       const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}`);
       this.templatePdfFile = fileObject;
     }).then(() => {
       this.generateImage(pdf);
-    }).catch(() => this.loaderService.hide());
+    }).catch(() => {
+      this.loaderService.hide();
+    });
   }
 
   generateImage(pdf: any, download = false, isLastStep = false): void {

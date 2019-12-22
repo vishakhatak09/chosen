@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,6 +9,7 @@ import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { confirmPasswordValidator } from 'core/validators/confirm-password.validator';
+import { AppConstant } from 'core/constants/app.constant';
 
 
 @Component({
@@ -101,9 +101,16 @@ export class Register2Component implements OnInit, OnDestroy {
                         this._toastrService.displaySnackBar('Registration was successfull', 'success');
                         this._router.navigate(['/auth/login']);
                     },
-                    (error: HttpErrorResponse) => {
+                    (error: any) => {
                         this.isLoading = false;
-                        this._toastrService.displaySnackBar(error.message, 'error');
+                        if (error && error.code === 409) {
+                            this._toastrService.displaySnackBar('This user already exists. Please try with another email.', 'error');
+                        } else {
+                            this._toastrService.displaySnackBar(
+                                error.message || AppConstant.ConstantMsgs.somethingWentWrong,
+                                'error'
+                            );
+                        }
                     }
                 );
         }

@@ -194,8 +194,8 @@ export class AppComponent implements OnInit, OnDestroy {
                     } else {
                         this.isLandingPage = false;
                     }
-                    // (<any>window).ga('set', 'page', event.urlAfterRedirects);
-                    // (<any>window).ga('send', 'pageview');
+                    (<any>window).ga('set', 'page', event.urlAfterRedirects);
+                    (<any>window).ga('send', 'pageview');
                 }
             );
 

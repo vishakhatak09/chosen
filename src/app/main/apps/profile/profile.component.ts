@@ -8,6 +8,7 @@ import { ProfileService } from './profile.service';
 import { takeUntil } from 'rxjs/operators';
 import { AppConstant } from 'core/constants/app.constant';
 import { ToastrService } from 'core/services/toastr.service';
+import { CommonService } from 'core/services/common.service';
 
 @Component({
     selector: 'profile',
@@ -37,7 +38,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     constructor(
         private _authService: AuthenticationService,
         private _profileService: ProfileService,
-        private _toastrService: ToastrService
+        private _toastrService: ToastrService,
+        private commonService: CommonService
     ) {
         this.loginData = this._authService.currentUserValue;
     }
@@ -55,7 +57,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     // console.log('response', response);
                     if (response.code === 200 && response.data) {
                         if (response.data.lastResume && response.data.lastResume.personalInfo) {
-                            this.userData = response.data.lastResume.personalInfo;
+                            if (response.data.lastResume.personalInfo && response.data.lastResume.personalInfo.dateOfBirth) {
+                                const dateOfBirth = this.commonService.getMomentFromDate(response.data.lastResume.personalInfo.dateOfBirth);
+                                const converted = this.commonService.getMomentFormattedDate(dateOfBirth, 'DD/MM/YYY');
+                                response.data.lastResume.personalInfo.dateOfBirth = converted;
+                                this.userData = response.data.lastResume.personalInfo;
+                            }
                         }
                         if (response.data.singleUser) {
                             this.userId = response.data.singleUser._id;
@@ -90,7 +97,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     uploadImage(): void {
 
-        if ( !this.profileSrc ) {
+        if (!this.profileSrc) {
             this._toastrService.displaySnackBar('Please select image to upload', 'error');
             return;
         }

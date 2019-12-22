@@ -1,17 +1,16 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AppConstant } from 'core/constants/app.constant';
-import { Options } from 'ng5-slider';
+import { JobCategory, JobIndustry } from 'core/constants/job-constant';
+import { CityModel } from 'core/models/job.model';
 import { CommonService } from 'core/services/common.service';
-import { CityModel, JobModel } from 'core/models/job.model';
-import { JobIndustry, JobCategory } from 'core/constants/job-constant';
-import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { takeUntil, startWith, map } from 'rxjs/operators';
-import { Subject, Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Options } from 'ng5-slider';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-job',
