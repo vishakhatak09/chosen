@@ -51,7 +51,8 @@
                             <mat-form-field floatLabel="always" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" appearance="outline">
                                 <mat-label>Select font family for your resume</mat-label>
                                 <mat-select placeholder="Select Font Family" [(value)]="selectedFont" required>
-                                    <mat-option [value]="opt.value" *ngFor="let opt of fontFamilyOptions">
+                                    <mat-option [value]="opt.value" *ngFor="let opt of fontFamilyOptions"
+                                        [ngStyle]="{'font-family': opt.value}">
                                         <span>{{ opt.viewValue }}</span>
                                     </mat-option>
                                 </mat-select>
@@ -128,8 +129,7 @@
                                             Full address is required
                                         </mat-error>
                                     </mat-form-field>
-                                    <!-- currentJobLocation -->
-                                    <!-- preferredJobLocation -->
+
                                     <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
                                         <mat-label>Current Job Location</mat-label>
                                         <input matInput type="text" placeholder="Current Job Location" name="CurrentJobLocation" formControlName="currentJobLocation" autocomplete="off" required>

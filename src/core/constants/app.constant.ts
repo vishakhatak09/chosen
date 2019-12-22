@@ -214,12 +214,24 @@ export class AppConstant {
 
     public static FontFamilyOptions: OptionType[] = [
         {
+            value: 'arial',
+            viewValue: 'Arial'
+        },
+        {
             value: 'sans-serif',
             viewValue: 'Sans Serif',
         },
         {
             value: 'serif',
             viewValue: 'Serif',
+        },
+        {
+            value: 'verdana',
+            viewValue: 'Verdana',
+        },
+        {
+            value: 'tohoma',
+            viewValue: 'Tohoma',
         },
     ];
 }
