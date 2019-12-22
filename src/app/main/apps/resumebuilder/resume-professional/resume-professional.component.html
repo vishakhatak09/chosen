@@ -7,16 +7,16 @@
         <table cellspacing="0" cellpadding="0" style="width: 100%">
           <tr>
             <td>
-              <h1 style="margin: 0 0 5px; font-size: 24px;font-weight: 500;color: #fff;">
+              <h2 style="margin: 0 0 5px; font-size: 16px;font-weight: 500;color: #fff;">
                 <span *ngIf="templateForm.firstName">{{templateForm.firstName}} </span>
                 <span *ngIf="!templateForm.firstName">John </span>
                 <span *ngIf="templateForm.lastName ">{{templateForm.lastName}}</span>
                 <span *ngIf="!templateForm.lastName">Doe</span>
-              </h1>
-              <h4 style="margin: 0 0 5px; font-size: 16px;font-weight: 500;color: #2f9032;">
+              </h2>
+              <h4 style="margin: 0 0 5px; font-size: 14px;font-weight: 500;color: #2f9032;">
                 {{ templateForm?.designation }}
               </h4>
-              <p style="margin: 0; font-size: 13px;color: #fff;"
+              <p style="margin: 0; font-size: 12px;color: #fff;"
                 [innerHTML]="careerObjective || ResumeMockData.data.careerObjective | safeHtml"></p>
             </td>
             <td *ngIf="profileSrc">
@@ -103,7 +103,7 @@
                           [innerHTML]="item.location">
                         </p>
                       </div>
-                      <p style="font-size: 10px;margin: 7px 0 5px;color: #2f9032;" *ngIf="item.jobDescription" [innerHTML]="item.jobDescription | safeHtml"></p>
+                      <p style="font-size: 12px;margin: 7px 0 5px;color: #2f9032;" *ngIf="item.jobDescription" [innerHTML]="item.jobDescription | safeHtml"></p>
                     </div>
                   </td>
                 </tr>

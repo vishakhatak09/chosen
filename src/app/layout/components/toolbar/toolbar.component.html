@@ -25,7 +25,7 @@
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
                     <!-- <input #filter placeholder="Search for a user"> -->
-                    <input id="fuse-search-bar-input" class="ml-24" #searchInput type="text" placeholder="Search job here.."
+                    <input id="fuse-search-bar-input" #searchInput type="text" placeholder="Search job here.."
                         [formControl]="searchBox" (input)="search($event)" fxFlex [matAutocomplete]="auto">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
                         (optionSelected)="selectedJob($event)">

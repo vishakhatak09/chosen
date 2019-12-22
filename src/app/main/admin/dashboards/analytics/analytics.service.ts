@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class AnalyticsDashboardService implements Resolve<any> {
     widgets: any[];
-    analyticsDashboardApi = 'https://www.googleapis.com/analytics/v3/data/realtime?key=[YOUR_API_KEY]';
+    private ApiKey = environment.analyticsApiKey;
+    analyticsDashboardApi = 'https://www.googleapis.com/analytics/v3/data/realtime?key=[' + this.ApiKey + ']';
 
     /**
      * Constructor
@@ -59,6 +61,6 @@ export class AnalyticsDashboardService implements Resolve<any> {
     }
 
     getGoogleAnalyticsData(): Observable<any> {
-      return this._httpClient.get(this.analyticsDashboardApi);
+        return this._httpClient.get(this.analyticsDashboardApi);
     }
 }

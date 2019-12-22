@@ -27,6 +27,19 @@ profile-about {
                     }
                 }
             }
+
+            .profile-content{
+                display: flex;
+                flex-direction: row;
+                flex: 1 1 100%;
+                flex-wrap: wrap;
+                .info-line{
+                    width: 50%;
+                    @include media-breakpoint('xs') {
+                        width: 100%;
+                    }
+                }
+            }
         }
 
         .about-sidebar {
@@ -118,7 +131,8 @@ profile-about {
         &.info-box {
 
             .info-line {
-                margin-bottom: 24px;
+                // margin-bottom: 24px;
+                padding: 10px;
 
                 .title {
                     font-size: 15px;

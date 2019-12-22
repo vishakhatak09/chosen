@@ -7,13 +7,13 @@
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td>
-                            <h2 style="margin: 0 0 5px; font-size: 20px;font-weight: 600;color: #444444;">
+                            <h2 style="margin: 0 0 5px; font-size: 16px;font-weight: 600;color: #444444;">
                                 <span *ngIf="templateForm.firstName">{{templateForm.firstName}} </span>
                                 <span *ngIf="!templateForm.firstName">John </span>
                                 <span *ngIf="templateForm.lastName ">{{templateForm.lastName}}</span>
                                 <span *ngIf="!templateForm.lastName">Doe</span>
                             </h2>
-                            <h4 style="margin: 0 0 5px; font-size: 16px;font-weight: 500;color: #8c8c8cdd;">
+                            <h4 style="margin: 0 0 5px; font-size: 14px;font-weight: 500;color: #8c8c8cdd;">
                                 {{ templateForm.designation }}
                             </h4>
                             <p style="margin: 0; font-size: 12px;color: #444444;" [innerHTML]="careerObjective || ResumeMockData.data.careerObjective | safeHtml">
