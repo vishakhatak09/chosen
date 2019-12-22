@@ -45,7 +45,22 @@
             <!-- CONTENT -->
             <div class="content">
 
-                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
+                <div class="pt-16" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar>
+                    <div class="tab-content px-12">
+                        <form name="fontOption">                        
+                            <mat-form-field floatLabel="always" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" appearance="outline">
+                                <mat-label>Select font family for your resume</mat-label>
+                                <mat-select placeholder="Select Font Family" [(value)]="selectedFont" required>
+                                    <mat-option [value]="opt.value" *ngFor="let opt of fontFamilyOptions">
+                                        <span>{{ opt.viewValue }}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </form>
+                    </div>
+                </div>
+
+                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>                    
 
                     <mat-vertical-stepper [linear]="isLinear" id="resume-stepper" #stepper 
                         fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar 
@@ -111,6 +126,23 @@
                                         </textarea>
                                         <mat-error *ngIf="basicDetailForm.get('fullAddress').hasError('required')">
                                             Full address is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <!-- currentJobLocation -->
+                                    <!-- preferredJobLocation -->
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Current Job Location</mat-label>
+                                        <input matInput type="text" placeholder="Current Job Location" name="CurrentJobLocation" formControlName="currentJobLocation" autocomplete="off" required>
+                                        <mat-error *ngIf="basicDetailForm.get('currentJobLocation').hasError('required')">
+                                            Current job location is required
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field floatLabel="always" class="w-100-p" appearance="outline">
+                                        <mat-label>Preferred Job Location</mat-label>
+                                        <input type="text" matInput placeholder="Preferred Job Location" name="PreferredJobLocation" formControlName="preferredJobLocation" autocomplete="off" required>
+                                        <mat-error *ngIf="basicDetailForm.get('preferredJobLocation').hasError('required')">
+                                            Preferred job location is required
                                         </mat-error>
                                     </mat-form-field>
 
@@ -235,12 +267,12 @@
                                                 <div class="work-content mat-elevation-z2 border">
                                                     <div class="w-100-p title-box py-4 pl-16 pr-8" fxLayoutAlign="space-between center">
                                                         <span class="font-weight-800 mr-auto">{{index+1}}</span>
-                                                        <button type="button" mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'work')">
-                                                                <mat-icon>delete</mat-icon>
-                                                            </button>
                                                         <button type="button" mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons grey-500-fg" (click)="editWorkExperience(index, 'work')">
                                                                 <mat-icon>edit</mat-icon>
-                                                            </button>
+                                                        </button> &nbsp;
+                                                        <button type="button" mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'work')">
+                                                                <mat-icon>delete</mat-icon>
+                                                        </button>
                                                     </div>
                                                     <div class="w-100-p description px-16">
                                                         <p>{{ data.designation }}</p>
@@ -283,12 +315,12 @@
                                                 <div class="work-content mat-elevation-z2 border">
                                                     <div class="w-100-p title-box py-4 pl-16 pr-8" fxLayoutAlign="space-between center">
                                                         <span class="font-weight-800 mr-auto">{{index+1}}</span>
-                                                        <button type="button" mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'education')">
-                                                                    <mat-icon>delete</mat-icon>
-                                                                </button> &nbsp;
                                                         <button type="button" mat-icon-button matTooltip="Edit" [matTooltipPosition]="'above'" class="action-buttons grey-500-fg" (click)="editWorkExperience(index, 'education')">
                                                                     <mat-icon>edit</mat-icon>
-                                                                </button>
+                                                        </button> &nbsp;
+                                                        <button type="button" mat-icon-button matTooltip="Delete" [matTooltipPosition]="'above'" class="action-buttons red-400-fg" (click)="deleteWorkExperience(index, 'education')">
+                                                                    <mat-icon>delete</mat-icon>
+                                                        </button>
                                                     </div>
                                                     <div class="w-100-p description px-16">
                                                         <p>{{ data.courseName }}</p>
@@ -460,11 +492,17 @@
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
                     <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution">
                         <!-- <ng-template template-dynamic></ng-template> -->
-                        <app-resume-template #templateRef *ngIf="currentTemplate === 'cubic'" [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                            [socialData]="socialLinkArray" [lastStep]="lastStep" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
+                        <app-resume-template #templateRef *ngIf="currentTemplate === 'cubic'" [templateForm]="basicDetailForm.getRawValue()" 
+                            [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" 
+                            [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
+                            [socialData]="socialLinkArray" [lastStep]="lastStep" [profileSrc]="profileSrc" 
+                            [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor" [selectedFont]="selectedFont">
                         </app-resume-template>
-                        <app-resume-professional #templateRef *ngIf="currentTemplate === 'professional'" [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
-                            [socialData]="socialLinkArray" [lastStep]="lastStep" [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor" [backColor]="backColor">
+                        <app-resume-professional #templateRef *ngIf="currentTemplate === 'professional'" [templateForm]="basicDetailForm.getRawValue()" 
+                            [userEmail]="userEmail" [experienceData]="workExperienceData" [careerObjective]="careerObjForm.get('careerObjective').value" 
+                            [educationData]="educationData" [skillData]="skillRatingList" [additionalInfo]="additionalInfoData"
+                            [socialData]="socialLinkArray" [lastStep]="lastStep" [profileSrc]="profileSrc" [content]="MockTemplate" 
+                            [fontColor]="fontColor" [backColor]="backColor" [selectedFont]="selectedFont">
                         </app-resume-professional>
                     </kendo-pdf-export>
                     <!-- <div #container></div> -->

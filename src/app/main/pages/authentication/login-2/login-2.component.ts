@@ -58,10 +58,11 @@ export class Login2Component implements OnInit, OnDestroy {
         };
 
         // // Redirect if already login
-        // const currentUserValue = this.authService.currentUserValue;
-        // if (currentUserValue && currentUserValue.type && currentUserValue.type === 'admin') {
-        //     this._router.navigate(['/user/dashboard']);
-        // } else {
+        const currentUserValue = this.authService.currentUserValue;
+        if (currentUserValue && currentUserValue.type && currentUserValue.type === 'user') {
+            this._router.navigate(['/user/templates']);
+        }
+        //  else {
         //     this._router.navigate(['/user/templates']);
         // }
     }

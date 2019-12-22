@@ -19,6 +19,11 @@ export interface JobModel {
         years: string;
         month: string;
     };
+    endworkExperience?: {
+        years: string;
+        month: string;
+    };
+    _id: string;
 }
 
 export interface CityModel {

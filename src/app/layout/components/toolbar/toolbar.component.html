@@ -21,6 +21,68 @@
                 <fuse-shortcuts [navigation]="navigation"></fuse-shortcuts>
             </div> -->
 
+            <div class="search-wrapper  ml-sm-32" *ngIf="userData?.type === 'user'">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <!-- <input #filter placeholder="Search for a user"> -->
+                    <input id="fuse-search-bar-input" class="ml-24" #searchInput type="text" placeholder="Search job here.."
+                        [formControl]="searchBox" (input)="search($event)" fxFlex [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                        (optionSelected)="selectedJob($event)">
+                        <mat-option class="search-list border-bottom p-16" *ngFor="let option of filterResults"
+                            [value]="option">
+                            <div class="img-box border mr-16">
+                                <img [src]="baseUrl + option.image">
+                            </div>
+                            <div class="desc" fxLayout="row wrap" fxLayoutAlign=" start">
+                                <div class="l-n" fxLayout="column" fxFlex="100%" fxFlex.gt-xs="100%"
+                                    fxFlex.gt-sm="100%">
+                                    <span class="text-warp primary-900-fg font-weight-800">{{option.jobPosition}}</span>
+                                    <span class="hint-text">{{ option.companyName }}</span>
+                                </div>
+                                <div class="pr-16 mt-8 l-n" fxLayout="row"
+                                    *ngIf="option.startworkExperience && option.startworkExperience.years">
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">schedule</mat-icon>
+                                    </div>
+                                    <span class="text-warp secondary-text">
+                                        {{option?.startworkExperience?.years}}
+                                        <ng-container *ngIf="option?.endworkExperience?.years">-
+                                            {{option?.endworkExperience?.years}}</ng-container> yrs
+                                    </span>
+                                </div>
+                                <div class="pr-16 mt-8 l-n" fxLayout="row">
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">room</mat-icon>
+                                    </div>
+                                    <span class="text-warp secondary-text">{{option.location}}</span>
+                                </div>
+                                <div class="pr-16 mt-8 l-n" fxLayout="row">
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">account_balance_wallet</mat-icon>
+                                    </div>
+                                    <span class="text-warp secondary-text" *ngIf="(option.startSalary == undefined || option.startSalary === '')
+                         && (option.endSalary == undefined || option.endSalary === '')">Not disclosed</span>
+                                    <span class="text-warp secondary-text"
+                                        *ngIf="option.startSalary !== undefined && option.endSalary !== undefined">
+                                        INR {{ option?.startSalary }} - {{ option?.endSalary }} Lakh(s) PA
+                                    </span>
+                                </div>
+                                <div class="pr-16 mt-8 l-n" fxLayout="row" fxFlex="100%" fxFlex.gt-xs="100%"
+                                    fxFlex.gt-sm="100%">
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">layers</mat-icon>
+                                    </div>
+                                    <!-- <span class="secondary-text skill">{{option.jobDescription}}</span> -->
+                                    <span class="secondary-text skill">{{option.industry}}</span>
+                                </div>
+
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+
         </div>
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
@@ -34,8 +96,9 @@
 
             <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" *ngIf="userData?.type === 'user' && !userData?.image" src="assets/images/logos/profile.jpg">
-                    <img class="avatar mr-0 mr-sm-16" *ngIf="userData?.type === 'user' && userData?.image" 
+                    <img class="avatar mr-0 mr-sm-16" *ngIf="userData?.type === 'user' && !userData?.image"
+                        src="assets/images/logos/profile.jpg">
+                    <img class="avatar mr-0 mr-sm-16" *ngIf="userData?.type === 'user' && userData?.image"
                         [src]="imageBaseUrl + userData.image">
                     <div>
                         <span class="username mr-12" fxHide fxShow.gt-sm>{{ userEmail }}</span>
@@ -66,9 +129,11 @@
 
             </mat-menu>
 
-            <div class="toolbar-separator"></div>
+            <!-- <div class="toolbar-separator"></div> -->
 
-            <fuse-search-bar  *ngIf="userData?.type === 'user'"></fuse-search-bar>
+            <!-- <fuse-search-bar  *ngIf="userData?.type === 'user'"></fuse-search-bar> -->
+
+
 
             <!-- <div class="toolbar-separator"></div> -->
 

@@ -1,5 +1,7 @@
 <div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;">
-    <table cellspacing="0" cellpadding="0" style="font-family: sans-serif; width: 100%; margin: auto;color: #444444;">
+    <table cellspacing="0" cellpadding="0" style="width: 100%; margin: auto;color: #444444;"
+        [ngStyle]="{'font-family': selectedFont}">
+        <!-- font-family: sans-serif;  -->
         <tr>
             <td style="padding: 0 20px">
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
@@ -14,7 +16,7 @@
                             <h4 style="margin: 0 0 5px; font-size: 16px;font-weight: 500;color: #8c8c8cdd;">
                                 {{ templateForm.designation }}
                             </h4>
-                            <p style="margin: 0; font-size: 12px;color: #444444;" [innerHTML]="careerObjective || ResumeMockData.data.careerObjective">
+                            <p style="margin: 0; font-size: 12px;color: #444444;" [innerHTML]="careerObjective || ResumeMockData.data.careerObjective | safeHtml">
                             </p>
                         </td>
                     </tr>
@@ -105,6 +107,8 @@
                                                 font-size: 10px;color: #909090;text-align: right;" [innerHTML]="item.location">
                                 </p>
                             </div>
+                            <div style="margin:0; font-size: 12px; color: #909090;" [innerHTML]="item.jobDescription | safeHtml">                                
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -156,10 +160,10 @@
                                     </h3>
                                     <ng-container [ngSwitch]="item.type">
                                         <ng-container *ngSwitchCase="'Accomplishments'">
-                                            <p [innerHTML]="item.value"></p>
+                                            <p [innerHTML]="item.value | safeHtml"></p>
                                         </ng-container>
                                         <ng-container *ngSwitchCase="'Affiliations'">
-                                            <p [innerHTML]="item.value"></p>
+                                            <p [innerHTML]="item.value | safeHtml"></p>
                                         </ng-container>
                                         <ng-container *ngSwitchCase="'Certifications'">
                                             <div style="width: 50%;padding-right: 15px;vertical-align: top;" *ngFor="let data of item.value">

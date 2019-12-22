@@ -126,6 +126,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   // public pageSize = 'A4';
   private templatePdfFile: File;
   private templateImageBase64: Blob | string;
+  public fontFamilyOptions = AppConstant.FontFamilyOptions;
+  public selectedFont = 'sans-serif';
 
   // dynamic template
   public currentTemplate: string;
@@ -156,7 +158,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     this.currentTemplate = localStorage.getItem('selected');
     if (this.activatedRoute.data) {
       this.activatedRoute.data.subscribe((resp) => {
-        if (resp.data.code === 200 && resp.data.data) {
+        if (resp.data && resp.data.code === 200 && resp.data.data) {
           this.currentTemplate = resp.data.data.title.toLowerCase();
           // this.loaderService.show();
         }
@@ -185,6 +187,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       contactNumber: [undefined, [Validators.required, Validators.pattern(AppConstant.ValidPhonePattern)]],
       // email: ['', [Validators.required, Validators.email]],
       fullAddress: [undefined, [Validators.required]],
+      currentJobLocation: [undefined, [Validators.required]],
+      preferredJobLocation: [undefined, [Validators.required]],
       designation: [undefined, [Validators.required]],
       dateOfBirth: [{ value: undefined, disabled: false }],
       placeOfBirth: [undefined],
@@ -339,12 +343,15 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     const element = document.getElementById('template-resume');
     if (element) {
       const border = element.style.border;
+      const shadow = element.style.boxShadow;
       // element.style.width = '100%';
       element.style.border = '';
+      element.style.boxShadow = '';
       pdf.export().then((group: Group) => exportImage(group)).then((dataUri) => {
         this.templateImageBase64 = dataUri;
         element.style.width = '';
         element.style.border = border;
+        element.style.boxShadow = shadow;
         if (!download) {
           this.saveTemplatePdfImg(isLastStep);
         } else {
@@ -633,7 +640,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
    * Handle datepicker input
    */
   handlePicker(event: KeyboardEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
-    if (isTyping) {
+    console.log('event', event);
+    console.log('isTyping', isTyping);
+    if (isTyping && event.key !== 'Tab') {
       event.stopPropagation();
       event.preventDefault();
       return;
@@ -687,6 +696,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             'contactNumber': formValue.contactNumber,
             'email': this.userEmail,
             'fullAddress': formValue.fullAddress,
+            'currentJobLocation': formValue.currentJobLocation,
+            'preferredJobLocation': formValue.preferredJobLocation,
             'dateOfBirth': formValue.dateOfBirth ?
               this.commonService.getMomentFormattedDate(formValue.dateOfBirth) : '',
             'placeOfBirth': formValue.placeOfBirth,
@@ -760,6 +771,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           'designation': record.designation,
           'joiningDate': this.commonService.getMomentFormattedDate(record.joiningDate),
           'leavingDate': this.commonService.getMomentFormattedDate(record.leavingDate),
+          'jobDescription': record.jobDescription
         });
       });
     }
@@ -908,6 +920,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         lastName: personalData.lastName,
         contactNumber: personalData.contactNumber,
         fullAddress: personalData.fullAddress,
+        currentJobLocation: personalData.currentJobLocation || '',
+        preferredJobLocation: personalData.preferredJobLocation || '',
         designation: personalData.designation || '',
         dateOfBirth: this.commonService.getMomentFromDate(personalData.dateOfBirth) || null,
         placeOfBirth: personalData.placeOfBirth || null,

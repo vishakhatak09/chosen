@@ -211,6 +211,17 @@ export class AppConstant {
             viewValue: 'Consultant Jobs',
         },
     ];
+
+    public static FontFamilyOptions: OptionType[] = [
+        {
+            value: 'sans-serif',
+            viewValue: 'Sans Serif',
+        },
+        {
+            value: 'serif',
+            viewValue: 'Serif',
+        },
+    ];
 }
 
 export interface OptionType {

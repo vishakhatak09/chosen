@@ -79,6 +79,8 @@ export class ResumeMock {
             },
         ],
         profileSrc: 'assets/images/logos/profile.jpg',
+        preferredJobLocation: 'Ahmedabad',
+        currentJobLocation: 'Ahmedabad',
     };
     public static templateForm = {
         firstName: 'John',
@@ -95,6 +97,7 @@ export class ResumeMock {
             joiningDate: moment(),
             leavingDate: moment().year(moment().year() + 1),
             isTillDate: false,
+            jobDescription: 'Lorem ipsum',
             _id: '1',
         },
         {
@@ -104,6 +107,7 @@ export class ResumeMock {
             joiningDate: moment(),
             leavingDate: moment().year(moment().year() + 1),
             isTillDate: false,
+            jobDescription: 'Lorem ipsum',
             _id: '2'
         },
     ];

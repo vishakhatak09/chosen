@@ -18,6 +18,8 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+import 'tinymce/tinymce.min.js';
+declare var tinymce: any;
 
 @Component({
   selector: 'app-add-work',
@@ -113,6 +115,21 @@ export const MY_FORMATS = {
           <mat-checkbox name="current" formControlName="isTillDate" (change)="setCurrentDate($event.checked)"
           >Currently working</mat-checkbox>
         </div>
+
+        <div fxFlex.xs="100" fxFlex="100">
+          <ng-container *ngTemplateOutlet="editor"></ng-container>
+            <ng-template matTabContent #editor>
+                <label>Description</label>
+                <editor [id]="'jobDescriptionArea'" autofocus class="tiny-editor"
+                [init]="tinyEditorConfig" placeholder="Job profile description" [formControlName]="'jobDescription'" tagName="textarea">
+                </editor>
+                <mat-error *ngIf="userWorkForm.get('jobDescription').touched &&
+                userWorkForm.get('jobDescription').value == '' ">
+                    Please fill in job profile description
+                </mat-error>
+            </ng-template>
+        </div>
+
         <div mat-dialog-actions>
           <button type="submit" class="accent" mat-raised-button>Save</button>
         </div>
@@ -134,6 +151,7 @@ export class AddWorkComponent implements OnInit, OnDestroy {
   dateValidError = false;
   str = String;
   public userWorkForm: FormGroup;
+  tinyEditorConfig = {};
 
   /**
    * Constructor
@@ -152,6 +170,7 @@ export class AddWorkComponent implements OnInit, OnDestroy {
       designation: ['', [Validators.required]],
       joiningDate: ['', [Validators.required]],
       leavingDate: ['', [Validators.required]],
+      jobDescription: ['', [Validators.required]],
       isTillDate: ['', []],
     });
 
@@ -168,8 +187,11 @@ export class AddWorkComponent implements OnInit, OnDestroy {
         leavingDate: this.userWork.leavingDate,
         isTillDate: moment(this.userWork.leavingDate).year() === moment().year() &&
           moment(this.userWork.leavingDate).month() === moment().month() ? true : false,
+        jobDescription: this.userWork.jobDescription || ''
       });
     }
+
+    this.setupTinyMce();
   }
 
   /**
@@ -190,6 +212,23 @@ export class AddWorkComponent implements OnInit, OnDestroy {
         }
       });
 
+  }
+
+  private setupTinyMce(): void {
+    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    this.tinyEditorConfig = {
+      // selector: 'textarea#editorId',
+      // skin_url: '/skins', // Or loaded from your environments config
+      suffix: '.min',       // Suffix to use when loading resources
+      plugins: 'lists advlist',
+      statusbar: false,
+      browser_spellcheck: true,
+      toolbar: 'bold italic underline | bullist numlist |  undo redo',
+      height: 300,
+      menubar: false,
+      header: false,
+    };
+    tinymce.init(this.tinyEditorConfig);
   }
 
   /**

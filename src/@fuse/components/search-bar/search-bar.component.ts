@@ -201,7 +201,8 @@ export class FuseSearchBarComponent implements OnInit, OnDestroy {
         this.input.emit(event.target.value);
     }
 
-    selectedJob(event): void {
+    selectedJob(event, searchValue): void {
+        console.log(searchValue);
         this.searchBox.setValue(event.option.value.title, { emitEvent: false });
         this.openJobModal(event.option.value);
     }

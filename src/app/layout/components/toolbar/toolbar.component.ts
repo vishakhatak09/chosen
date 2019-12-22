@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Observable, of } from 'rxjs';
+import { takeUntil, switchMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 
@@ -10,6 +10,13 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { navigation } from 'app/navigation/navigation';
 import { AuthenticationService } from 'core/services/authentication.service';
 import { AppConstant } from 'core/constants/app.constant';
+import { FormControl } from '@angular/forms';
+import { environment } from 'environments/environment';
+import { JobModel } from 'core/models/job.model';
+import { CommonService } from 'core/services/common.service';
+import { MatDialog } from '@angular/material/dialog';
+import { JobFilterComponent } from '@fuse/components/search-bar/job-filter/job-filter.component';
+import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
 
 @Component({
     selector: 'toolbar',
@@ -32,6 +39,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     public imageBaseUrl = AppConstant.GeneralConst.profileImagePath;
 
+    searchBox = new FormControl();
+    getJobApi = environment.serverBaseUrl + 'api/jobFilter';
+    public baseUrl = environment.serverImagePath + 'job/';
+    public filterResults: JobModel[] = [];
+
+    selectedFilters;
+    options: JobModel[] = [];
+    filteredOptions: Observable<JobModel[]>;
+    previousSearch = '';
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -47,7 +64,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
         private authService: AuthenticationService,
-        private cdRef: ChangeDetectorRef
+        private cdRef: ChangeDetectorRef,
+        private matDialog: MatDialog,
+        private commonService: CommonService
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -121,6 +140,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 this.authService.setAdminNavigation();
             }
         }
+        this.initAutoComplete();
     }
 
     /**
@@ -152,7 +172,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     search(value): void {
         // Do your search here...
-        console.log(value);
+        // console.log(value);
     }
 
     /**
@@ -166,6 +186,130 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
+    }
+
+    selectedJob(event): void {
+        // console.log(this.previousSearch);
+        this.searchBox.setValue(this.previousSearch, { emitEvent: false });
+        this.openJobModal(event.option.value);
+    }
+
+    openJobModal(data: JobModel): void {
+        const dialogRef = this.matDialog.open(JobDetailComponent, {
+            width: '1000px',
+            height: 'auto',
+            data: data,
+            closeOnNavigation: true,
+        });
+        dialogRef.afterClosed().subscribe(
+            () => {
+                const element = document.getElementById('fuse-search-bar-input');
+                if (element) {
+                    // this.filterResults = this.filterResults.slice();
+                    this.searchBox.patchValue(this.searchBox.value ? this.previousSearch : ' ', { emitEvent: true });
+                    element.focus();
+                }
+            }
+        );
+    }
+
+    openFilterModal(): void {
+        const dialogRef = this.matDialog.open(JobFilterComponent, {
+            width: '1000px',
+            height: 'auto',
+            restoreFocus: false,
+            disableClose: true,
+            data: this.selectedFilters,
+            closeOnNavigation: true
+        });
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response) {
+                this.selectedFilters = response;
+                const element = document.getElementById('fuse-search-bar-input');
+                if (element) {
+                    this.searchBox.patchValue(this.searchBox.value ? this.searchBox.value : ' ', { emitEvent: true });
+                    element.focus();
+                }
+            }
+        });
+    }
+
+    initAutoComplete() {
+        this.searchBox.valueChanges
+            .pipe(
+                // startWith(''),
+                switchMap(value => this._filter(value)),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(
+                (response) => {
+                    if (response && response.code === 200) {
+                        this.filterResults = response.data;
+                    } else {
+                        this.filterResults = [];
+                    }
+                },
+                ((error) => {
+                    this.filterResults = [];
+                    this.initAutoComplete();
+                })
+            );
+    }
+
+    private _filter(value: string): Observable<any> {
+        let searchLocation: string;
+        let experience: { 'years': string; 'month': string; };
+        if (typeof value === 'string') {
+            this.previousSearch = value;
+        }
+        if (this.selectedFilters && this.selectedFilters.locationState) {
+            if (this.selectedFilters.location) {
+                searchLocation = this.selectedFilters.location + ', ' + this.selectedFilters.locationState;
+            } else {
+                searchLocation = this.selectedFilters.locationState;
+            }
+        }
+        if (this.selectedFilters && this.selectedFilters.workExperience) {
+            experience = {
+                'years': String(this.selectedFilters.workExperience),
+                'month': '0'
+            };
+        }
+        const params: any = {
+            params: {}
+        };
+        if (this.selectedFilters) {
+            if (searchLocation) {
+                params.params.location = searchLocation;
+            }
+            if (this.selectedFilters.workExperience) {
+                params.params.workExperience = experience;
+            }
+            if (this.selectedFilters.salary) {
+                params.params.salary = String(this.selectedFilters.salary);
+            }
+            if (this.selectedFilters.industry) {
+                params.params.industry = this.selectedFilters.industry;
+            }
+            if (this.selectedFilters.jobCategory) {
+                params.params.jobCategory = this.selectedFilters.jobCategory;
+            }
+        }
+        if (typeof value === 'string' && value.length > 0) {
+            const filterValue = value.toLowerCase();
+            params.params.keyskill = filterValue;
+
+            return this.commonService.searchJob(this.getJobApi, params);
+        } else if (this.selectedFilters) {
+            return this.commonService.searchJob(this.getJobApi, params);
+        } else {
+            return of(null);
+        }
+    }
+
+    clearFilter(): void {
+        this.selectedFilters = null;
+        this.searchBox.setValue('', { emitEvent: true });
     }
 
     /**

@@ -40,7 +40,7 @@ export class ResumeProfessionalComponent implements OnInit, OnChanges {
     @Input() fontColor: string;
     @Input() backColor: string;
     @Input() lastStep = false;
-
+    @Input() selectedFont: string;
 
     /**
      * Constructor

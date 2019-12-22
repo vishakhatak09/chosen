@@ -32,6 +32,8 @@ export interface TemplateModel {
     ratingType?: string;
     skills: SkillRating[];
     profileSrc?: string | ArrayBuffer;
+    currentJobLocation: string;
+    preferredJobLocation: string;
 }
 
 
@@ -42,6 +44,7 @@ export class WorkModel {
     joiningDate: any;
     leavingDate: any;
     isTillDate?: boolean;
+    jobDescription: string;
     _id: string;
 }
 
@@ -85,6 +88,8 @@ export interface MyResumesModel {
         socialLinks: SocialModel[],
         templateImage?: string;
         designation: string;
+        currentJobLocation: string;
+        preferredJobLocation: string;
     };
     skills: SkillRating[];
     status: string;

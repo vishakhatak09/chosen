@@ -15,6 +15,11 @@ template-list {
                     color: #43a047;
                     background-color: #fff !important;
                     z-index: 999;
+                    display: flex;
+                    justify-content: center;
+                    .mat-button-wrapper{
+                        padding: 0px !important;
+                    }
                 }
                 .search-wrapper {
                     width: 100%;

@@ -165,7 +165,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
 
-    // if (this.addJobForm.valid) {
+    if (this.addJobForm.valid) {
 
       let currentApi = this.addJobDataApiUrl;
 
@@ -181,7 +181,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
       const params: any = {
         'params': {
           'jobPosition': formValues.jobPosition,
-          'jobDescription': formValues.jobPosition,
+          'jobDescription': formValues.jobDescription,
           'companyName': formValues.companyName,
           'jobType': formValues.jobType,
           'location': formValues.location + ', ' + formValues.state,
@@ -196,7 +196,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
           // 'photo': this.selectedFile ? this.logoSrc : '',
         }
       };
-      if ( this.selectedFile ) {
+      if (this.selectedFile) {
         params.params.imageName = this.logoFileName;
         params.params.photo = this.logoSrc;
       }
@@ -205,30 +205,6 @@ export class AddJobComponent implements OnInit, OnDestroy {
         currentApi = this.updateJobDataApiUrl;
       }
 
-      // const temp = {
-      //   "params": {
-      //     "imageName": "6dfb9fff02c5d21be5757919eadbcac6.png",
-      //     "photo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAAA9CAIAAABTMLI6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAAEnRFWHRFWElGOk9yaWVudGF0aW9uADGEWOzvAAAAIXRFWHRDcmVhdGlvbiBUaW1lADIwMTk6MDU6MDIgMjI6MDU6MzelCTz3AAADwUlEQVRoQ+2bTUhUURTHX1EQaX6QkIuZSFtIOWMYZE4SNWS5UAoioVy0yKBoUVEgRB9IHwhqahqRlC5a1KJFGO1UXIXSJnKycOGMOELOYKAyI4IuOr5z1HnPsd7HvW/uhX6Inr/jMPzfOffe/xvGTaHJ6aHBzxeqzygrFHk9TQ0PSdjg5avuDz2fSChKrrt8X/FNEuwY+FhFlcq27bt85V0kDLCZfnJgLDhOlUp2jpcqnmTtNPcqHP0PB75TpZKekUcVT3ZkmnsVXv6HAyNUrZCemU8VT0Tp/1gwRJVKliPDD5i9yvz6rxn+bJNtcQxu/Q9pNj9nht8CXPxHotFIJEpCxeyydAwu/nUnH5zJW7amkRAMLv51i1/Y5gNO9N/smewk//vPmlQlH2uw95+q5GMNDv5DGv/CJh+E+/yLPPwAY/+xeFyW5IMw9q9rvsjJB2HsP6jb/MRuPsDY/zdt/0VOPgjz+Zcm+SAs/etOfkDwzR9g6V+3+QmefBCm/Zcq+SAc+y/+8APM/EuXfBBm/qVLPggz/9IlH4SZf+mSD8Jw/iVLPggb/zImH4SNfxmTD8Ko/xImH4RL/2UZfoCBf0mTD8LAv6TJB2HgX9LkgzDwL2nyQZjMv5TJB7HrX97kg9j1L2/yQWz3X9rkg9j9/OfF2quJh7+35F5ObikJR9B9/tP4AMZmg0uLcVv9FzD5zEwHDH6Befh7W/6lTj6ILf9SJx/Eln+pkw9ic/4lTj6Idf+yJx/Eun/Zkw9i/fxvbuvo7RsgoSh5BTV7CmpIOIju/C/1lVG1AS73bpfLDcVhX1lGRmYS/3vz8160PyWxMSlPPojOP9ihyhhJ5h8Wdm//WmOTIvV7Poks+4eRQLFKc2vH+u0tEUGSz1S4nyqrqP5d7kuXr6Bepe7Og79cgpQnn+mpocCXxz+/tpJW+efiXw/N//36J7onw4TDJUj8B7ZEUpV8Fuaj46NvB/tqwTxcAvrtCjdu1VFlmOX9D6u5udnKCv9keALlKnAcnCr3nzzhJ61SUXWWKpVDx9p5H/4zvwO/Jvqnwn2k1wH9e/e+h4Rh1vwD3a87H9XfxVpHelqaz1dywOsp8hbGYvFr12/TAyr+08nHhAmwyMPBHrhdJZ0MOMnA/P5CD2nDaPzDCBwtPQjfSRsDkk/xkQYS9li+J1+Kw5AvzEcWF+OxuSDepdPDGwCdh/VrwTyg8Q88a2lsa2kkYRgYfpv7vxGfSWlqfX6u+jwJ8+j9A5UVx3+MaG5sxARmvrPrjYU9fw1F+QNRb6/fUX84OQAAAABJRU5ErkJggg==",
-      //     "jobPosition": "java",
-      //     "jobDescription": "java",
-      //     "companyName": "node Pvt. Ltd.",
-      //     "jobType": "navri bajar",
-      //     "location": "tokiyo",
-      //     "startworkExperience": {
-      //       "years": "2",
-      //       "month": "0"
-      //     },
-      //     "endworkExperience": {
-      //       "years": 5,
-      //       "month": "0"
-      //     },
-      //     "startSalary": 0,
-      //     "endSalary": 20,
-      //     "industry": "fashion",
-      //     "jobCategory": "companyjob",
-      //     "email": "pateldarshan2121.dp@gmail.com"
-      //   }
-      // };
 
       this.commonService.addUpdateJob(currentApi, params)
         .pipe(takeUntil(this._unsubscribeAll))
@@ -240,7 +216,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
             // console.log(error);
           }
         );
-    // }
+    }
 
   }
 
@@ -270,7 +246,8 @@ export class AddJobComponent implements OnInit, OnDestroy {
                 companyName: this.editJobData.companyName,
                 // keywords: this.editJobData.keywords || '',
                 workExperience: [this.editJobData.startworkExperience['years'], this.editJobData.endworkExperience['years']],
-                expectedSalary: this.editJobData.salary || '',
+                expectedSalary: this.editJobData.startSalary && this.editJobData.endSalary ?
+                  [Number(this.editJobData.startSalary), Number(this.editJobData.endSalary)] : [0, 0],
                 industry: this.editJobData.industry,
                 jobCategory: this.editJobData.jobCategory,
                 jobType: this.editJobData.jobType,
@@ -285,8 +262,8 @@ export class AddJobComponent implements OnInit, OnDestroy {
                 this.minSalary = Number(this.editJobData.startSalary);
                 this.maxSalary = Number(this.editJobData.endSalary);
               }
-              this.logoFileName = this.editJobData.imageName;
-              this.logoSrc = this.imgBaseUrl + this.editJobData.imageName;
+              this.logoFileName = this.editJobData.image;
+              this.logoSrc = this.imgBaseUrl + this.editJobData.image;
             }
 
           }

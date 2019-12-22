@@ -1,5 +1,7 @@
 <div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;border: solid 2px #d2d2d2;">
-  <table cellspacing="0" cellpadding="0" style="font-family: sans-serif; margin: auto;color: #444444;">
+  <table cellspacing="0" cellpadding="0" style="margin: auto;color: #444444;"
+    [ngStyle]="{'font-family': selectedFont}">
+    <!-- font-family: sans-serif;  -->
     <tr>
       <td style="padding: 20px; background-color: #193042">
         <table cellspacing="0" cellpadding="0" style="width: 100%">
@@ -101,6 +103,7 @@
                           [innerHTML]="item.location">
                         </p>
                       </div>
+                      <p style="font-size: 10px;margin: 7px 0 5px;color: #2f9032;" *ngIf="item.jobDescription" [innerHTML]="item.jobDescription | safeHtml"></p>
                     </div>
                   </td>
                 </tr>
