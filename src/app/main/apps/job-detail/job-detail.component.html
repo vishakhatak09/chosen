@@ -1,9 +1,10 @@
+<button mat-icon-button matTooltip="Close" [matTooltipPosition]="'above'" (click)="dialogRef.close()"
+  class="dialog-close-btn mb-12">
+  <mat-icon>close</mat-icon>
+</button>
 <h1 mat-dialog-title>
   Job details
-  <button mat-icon-button matTooltip="Close" [matTooltipPosition]="'above'" (click)="dialogRef.close()"
-    class="dialog-close-btn">
-    <mat-icon>close</mat-icon>
-  </button>
+  <button type="button" class="apply-button mr-10 accent" mat-raised-button  (click)="applyJob()">Apply Now</button>
 </h1>
 <div mat-dialog-content fxLayout="row wrap">
 
@@ -12,10 +13,12 @@
     <p class="w-100-p font-size-18 font-weight-900">{{ dialogData?.jobPosition }}</p>
     <span class="w-100-p font-weight-600">{{ dialogData?.companyName }}</span>
     <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row" *ngIf="dialogData?.startworkExperience">
-      <mat-icon class="detail-icon">work</mat-icon> {{dialogData?.startworkExperience?.years}} yrs
+      <mat-icon class="detail-icon mr-4">work</mat-icon> {{dialogData?.startworkExperience?.years}}
+      <ng-container *ngIf="dialogData?.endworkExperience?.years">-
+        {{dialogData?.endworkExperience?.years}}</ng-container> yrs
     </p>
     <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row">
-      <mat-icon class="detail-icon">account_balance_wallet</mat-icon>
+      <mat-icon class="detail-icon mr-4">account_balance_wallet</mat-icon>
       <span class="text-warp secondary-text" *ngIf="(dialogData?.startSalary == undefined || dialogData?.startSalary === '')
           && (dialogData?.endSalary == undefined || dialogData?.endSalary === '')">Not disclosed</span>
       <span class="text-warp secondary-text" *ngIf="dialogData?.startSalary !== undefined && dialogData?.endSalary !== undefined">
@@ -23,10 +26,10 @@
       </span>
     </p>
     <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row">
-      <mat-icon class="detail-icon">room</mat-icon> {{ dialogData?.location }}
+      <mat-icon class="detail-icon mr-4">room</mat-icon> {{ dialogData?.location }}
     </p>
     <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row" *ngIf="dialogData?.industry">
-      <mat-icon class="detail-icon">layers</mat-icon> <span class="secondary-text skill">{{dialogData?.industry}}</span>
+      <mat-icon class="detail-icon mr-4">layers</mat-icon> <span class="secondary-text skill">{{dialogData?.industry}}</span>
     </p>
 
   </div>
@@ -34,8 +37,7 @@
   <div class="w-100-p">
 
     <p class="w-100-p font-size-14   font-weight-900">Job description</p>
-    <p>
-      {{ dialogData?.jobDescription }}
+    <p [innerHTML]="dialogData?.jobDescription | safeHtml">
     </p>
 
   </div>
@@ -47,8 +49,7 @@
         add_box
       </mat-icon> Apply Now
     </button> -->
-    <button type="button" class="apply-button mr-10 accent" mat-raised-button 
-    style="float: right;" (click)="applyJob()">Apply Now</button>
+    
   </div>
 
 </div>

@@ -11,6 +11,8 @@ import { environment } from 'environments/environment';
 import { Options } from 'ng5-slider';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
+import 'tinymce/tinymce.min.js';
+declare var tinymce: any;
 
 @Component({
   selector: 'app-add-job',
@@ -69,6 +71,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
   selectedFile: File;
   logoSrc: string | ArrayBuffer;
   logoFileName: string;
+  tinyEditorConfig = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -109,7 +112,7 @@ export class AddJobComponent implements OnInit, OnDestroy {
     });
 
     this.initSearch();
-
+    this.setupTinyMce();
   }
 
   initSearch(): void {
@@ -302,6 +305,23 @@ export class AddJobComponent implements OnInit, OnDestroy {
     if (fileEle) {
       fileEle.value = '';
     }
+  }
+
+  private setupTinyMce(): void {
+    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    this.tinyEditorConfig = {
+      // selector: 'textarea#editorId',
+      // skin_url: '/skins', // Or loaded from your environments config
+      suffix: '.min',       // Suffix to use when loading resources
+      plugins: 'lists advlist',
+      statusbar: false,
+      browser_spellcheck: true,
+      toolbar: 'bold italic underline | bullist numlist |  undo redo',
+      height: 300,
+      menubar: false,
+      header: false,
+    };
+    tinymce.init(this.tinyEditorConfig);
   }
 
   ngOnDestroy(): void {

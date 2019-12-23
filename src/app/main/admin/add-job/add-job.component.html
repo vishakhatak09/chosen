@@ -60,14 +60,29 @@
                                 </mat-error>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="px-8">
+                            <!-- <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="px-8">
                                 <mat-label>Job Description</mat-label>
                                 <textarea matInput placeholder="Enter Job Description" name="JobDescription" formControlName="jobDescription" autocomplete="off" required rows="3">
                                 </textarea>
                                 <mat-error *ngIf="addJobForm.get('jobDescription').hasError('required')">
                                     Please enter job description
                                 </mat-error>
-                            </mat-form-field>
+                            </mat-form-field> -->
+
+                            <div fxFlex.xs="100" fxFlex="100">
+                                <ng-container *ngTemplateOutlet="editor"></ng-container>
+                                  <ng-template matTabContent #editor>
+                                      <label class="ml-8 info">Description</label>
+                                      <editor [id]="'JobDescription'" autofocus class="tiny-editor"
+                                      [init]="tinyEditorConfig" placeholder="Job profile description" 
+                                      [formControlName]="'jobDescription'" tagName="textarea">
+                                      </editor>
+                                      <mat-error *ngIf="addJobForm.get('jobDescription').touched &&
+                                      addJobForm.get('jobDescription').value == '' ">
+                                          Please fill in job description
+                                      </mat-error>
+                                  </ng-template>
+                              </div>
 
                             <mat-form-field fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="50%" fxFlex.gt-md="50%" floatLabel="always" appearance="outline" class="px-8">
                                 <mat-label>Job Location State</mat-label>

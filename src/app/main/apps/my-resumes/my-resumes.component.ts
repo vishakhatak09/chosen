@@ -139,8 +139,9 @@ export class MyResumesComponent implements OnInit, OnDestroy {
           const params = {
             'params': {
               'resumeId': resume._id,
-              'email': 'vishakha.tak@outlook.com',
-              'jobId': '5df6558719342775a973190b'
+              'email': this.jobDetail.email,
+              'jobId': this.jobDetail._id,
+              'jobPosition': this.jobDetail.jobPosition
             }
           };
           this.myResumeService.chooseSendEmail(this.sendResumeMail, params)

@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Ng5SliderModule } from 'ng5-slider';
 import { CommonService } from 'core/services/common.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 const routes: Routes = [
   {
@@ -31,7 +32,8 @@ const routes: Routes = [
     MatTooltipModule,
     MatSelectModule,
     Ng5SliderModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    EditorModule
   ],
   providers: [CommonService]
 })

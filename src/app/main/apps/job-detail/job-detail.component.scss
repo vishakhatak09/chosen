@@ -4,6 +4,12 @@
     .mat-dialog-title{
         color: mat-color($mat-green, 600); 
         margin: 0 0 10px 0;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        width: 100%;
+        border: solid;
+        padding: 15px;
     }
     .mat-dialog-content{
         overflow: visible;
