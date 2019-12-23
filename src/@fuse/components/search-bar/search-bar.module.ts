@@ -10,7 +10,7 @@ import { FuseSearchBarComponent } from './search-bar.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
+// import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JobFilterComponent } from './job-filter/job-filter.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,10 +22,10 @@ import { MatChipsModule } from '@angular/material/chips';
 @NgModule({
     declarations: [
         FuseSearchBarComponent,
-        JobDetailComponent,
-        JobFilterComponent
+        // JobDetailComponent,
+        // JobFilterComponent
     ],
-    entryComponents: [JobDetailComponent, JobFilterComponent],
+    // entryComponents: [JobDetailComponent, JobFilterComponent],
     imports: [
         CommonModule,
         RouterModule,
