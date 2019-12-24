@@ -37,7 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         } else if (err.status === 402) {
           this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.inactiveUser, 'error');
           // this.router.navigate(['/pagenotfound']);
-        } else if (err.status === 400) {
+        } else if (err.status === 400 && !request.url.includes('sentMail')) {
           this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error');
           // this.router.navigate(['/pagenotfound']);
         } else if (err.status === 500) {
@@ -49,7 +49,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         } else if (err.status === 0) {
           this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.noInternet, 'error');
         } else {
-          this.toastrService.displaySnackBar(err.statusText, 'error');
+          if ( !request.url.includes('sentMail')) {
+            this.toastrService.displaySnackBar(err.statusText, 'error');
+          }
         }
         const error = err.error || err.statusText;
         return throwError(error);

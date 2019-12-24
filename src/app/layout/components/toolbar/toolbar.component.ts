@@ -202,12 +202,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             closeOnNavigation: true,
         });
         dialogRef.afterClosed().subscribe(
-            () => {
-                const element = document.getElementById('fuse-search-bar-input');
-                if (element) {
-                    // this.filterResults = this.filterResults.slice();
-                    this.searchBox.patchValue(this.searchBox.value ? this.previousSearch : ' ', { emitEvent: true });
-                    element.focus();
+            (applyJob: boolean) => {
+                if ( !applyJob ) {
+                    const element = document.getElementById('fuse-search-bar-input');
+                    if (element) {
+                        // this.filterResults = this.filterResults.slice();
+                        this.searchBox.patchValue(this.searchBox.value ? this.previousSearch : ' ', { emitEvent: true });
+                        element.focus();
+                    }
+                } else {
+                    this.previousSearch = '';
+                    this.selectedFilters = null;
+                    this.searchBox.setValue('', {emitEvent: true});
                 }
             }
         );

@@ -39,6 +39,9 @@ export class MyResumesComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private toastrService: ToastrService
   ) {
+  }
+
+  ngOnInit() {
     const functionality = this.activatedRoute.snapshot.paramMap.get('choose');
     this.jobDetail = window.history.state['jobDetail'];
     window.history.state['jobDetail'] = null;
@@ -46,9 +49,6 @@ export class MyResumesComponent implements OnInit, OnDestroy {
     if (functionality && functionality === 'choose' && this.jobDetail) {
       this.chooseResume = true;
     }
-  }
-
-  ngOnInit() {
     this.getMyResumeList();
   }
 
@@ -158,8 +158,12 @@ export class MyResumesComponent implements OnInit, OnDestroy {
               },
               (err) => {
                 // console.log(err);
+                if ( err && err.code && err.code === 400 && (err.err && err.err.code || err.err.code === 'ESTREAM') ) {
+                  this.toastrService.displaySnackBar('Please fill all your details is selected resume', 'error', 3000);
+                } else {
+                  this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);
+                }
                 this.router.navigate(['/user/templates']);
-                this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error');
               }
             );
         } else {

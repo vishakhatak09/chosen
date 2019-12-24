@@ -27,9 +27,10 @@ export class ToastrService {
     displaySnackBar(
         message: string,
         type: 'info' | 'error' | 'warning' | 'success',
+        duration = this.duration
     ) {
         this.matToaster.open(message || AppConstant.ConstantMsgs.somethingWentWrong, 'X', {
-            duration: this.duration,
+            duration: duration,
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
             // panelClass: [type + '-snackbar'],
