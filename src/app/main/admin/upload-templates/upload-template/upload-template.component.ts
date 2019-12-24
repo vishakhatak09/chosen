@@ -129,7 +129,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     const formValue = this.uploadTemplateForm.value;
-    console.log(formValue);
+    // console.log(formValue);
     if (this.uploadTemplateForm.valid) {
 
       this.isLoading = true;

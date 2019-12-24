@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { AdminTemplateModel } from 'core/models/admin-template.model';
 import { PreviewComponent } from 'app/main/pages/common-components/preview/preview.component';
 import { AppConstant } from 'core/constants/app.constant';
+import { ToastrService } from 'core/services/toastr.service';
 
 @Component({
   selector: 'template-list',
@@ -51,7 +52,8 @@ export class TemplateListComponent implements OnInit, OnDestroy {
   constructor(
     private matDialog: MatDialog,
     private templateService: TemplateListService,
-    private router: Router
+    private router: Router,
+    private toastrService: ToastrService
   ) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -100,7 +102,8 @@ export class TemplateListComponent implements OnInit, OnDestroy {
                 }
               },
               error => {
-                console.log(error);
+                // console.log(error);
+                this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error');
               }
             );
         }
@@ -136,7 +139,8 @@ export class TemplateListComponent implements OnInit, OnDestroy {
           this.initDataTable(this.templateList);
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
+          this.toastrService.displaySnackBar('No Templates available', 'error');
         }
       );
 

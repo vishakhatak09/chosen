@@ -100,7 +100,7 @@ export class ResetPassword2Component implements OnInit, OnDestroy {
             .subscribe(
                 (response) => {
                     this._toastrService.displaySnackBar('Your password has been reset successfully.', 'success');
-                    this._router.navigate(['/pages/auth/login']);
+                    this._router.navigate(['/auth/login']);
                 },
                 (error: HttpErrorResponse) => {
                     this.isLogin = false;

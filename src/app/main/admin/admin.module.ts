@@ -12,10 +12,10 @@ const routes: Routes = [
         path: 'login',
         loadChildren: './login/login.module#AdLoginModule'
     },
-    {
-        path: 'register',
-        loadChildren: './register/register.module#AdRegisterModule'
-    },
+    // { // hide register for admin
+    //     path: 'register',
+    //     loadChildren: './register/register.module#AdRegisterModule'
+    // },
     {
         path: 'forgot-password',
         loadChildren: './forgot-password/forgot-password.module#AdForgotPasswordModule'

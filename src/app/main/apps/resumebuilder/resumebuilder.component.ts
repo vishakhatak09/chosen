@@ -640,8 +640,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
    * Handle datepicker input
    */
   handlePicker(event: KeyboardEvent, picker: MatDatepicker<moment.Moment>, isTyping = false): void {
-    console.log('event', event);
-    console.log('isTyping', isTyping);
+    // console.log('event', event);
+    // console.log('isTyping', isTyping);
     if (isTyping && event.key !== 'Tab') {
       event.stopPropagation();
       event.preventDefault();

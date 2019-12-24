@@ -5,11 +5,13 @@ import { MatSort } from '@angular/material/sort';
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
-import { USERS, User } from './list';
+import { User } from './list';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'app/main/pages/common-components/confirmation/confirmation.component';
 import { UserListService } from './userlist.service';
 import { environment } from 'environments/environment';
+import { ToastrService } from 'core/services/toastr.service';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
   selector: 'userlist',
@@ -51,7 +53,8 @@ export class UserlistComponent implements OnInit {
    */
   constructor(
     private matDialog: MatDialog,
-    private userService: UserListService
+    private userService: UserListService,
+    private toastrService: ToastrService
   ) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -135,7 +138,8 @@ export class UserlistComponent implements OnInit {
                 this.getUsers();
               },
               error => {
-                console.log(error);
+                // console.log(error);
+                this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error');
               }
             );
 

@@ -158,6 +158,8 @@ export class MyResumesComponent implements OnInit, OnDestroy {
               },
               (err) => {
                 // console.log(err);
+                this.router.navigate(['/user/templates']);
+                this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error');
               }
             );
         } else {
