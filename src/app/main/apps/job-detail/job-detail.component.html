@@ -19,9 +19,15 @@
     </p>
     <p class="pr-16 mt-8 l-n w-50-p" fxLayout="row">
       <mat-icon class="detail-icon mr-4">account_balance_wallet</mat-icon>
-      <span class="text-warp secondary-text" *ngIf="(dialogData?.startSalary == undefined || dialogData?.startSalary === '')
-          && (dialogData?.endSalary == undefined || dialogData?.endSalary === '')">Not disclosed</span>
-      <span class="text-warp secondary-text" *ngIf="dialogData?.startSalary !== undefined && dialogData?.endSalary !== undefined">
+      <span class="text-warp secondary-text" *ngIf="((dialogData?.startSalary == undefined || dialogData?.startSalary === '')
+          && (dialogData?.endSalary == undefined || dialogData?.endSalary === ''))
+          ||
+          (dialogData?.startSalary === '0' && dialogData?.endSalary === '0')
+          ">
+          Not disclosed
+        </span>
+      <span class="text-warp secondary-text" *ngIf="dialogData?.startSalary !== undefined && dialogData?.endSalary !== undefined 
+          && (dialogData?.startSalary !== '0' || dialogData?.endSalary !== '0') ">
         INR {{ dialogData?.startSalary }} - {{ dialogData?.endSalary }} Lakh(s) PA
       </span>
     </p>

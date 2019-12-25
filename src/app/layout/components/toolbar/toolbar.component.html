@@ -61,10 +61,13 @@
                                     <div class="icon">
                                         <mat-icon class="mr-8">account_balance_wallet</mat-icon>
                                     </div>
-                                    <span class="text-warp secondary-text" *ngIf="(option.startSalary == undefined || option.startSalary === '')
-                         && (option.endSalary == undefined || option.endSalary === '')">Not disclosed</span>
-                                    <span class="text-warp secondary-text"
-                                        *ngIf="option.startSalary !== undefined && option.endSalary !== undefined">
+                                    <span class="text-warp secondary-text" *ngIf="((option?.startSalary == undefined || option?.startSalary === '')
+                                        && (option?.endSalary == undefined || option?.endSalary === ''))
+                                        ||
+                                        (option?.startSalary === '0' && option?.endSalary === '0')">Not
+                                        disclosed</span>
+                                    <span class="text-warp secondary-text" *ngIf="option.startSalary !== undefined && option.endSalary !== undefined &&
+                                        (option?.startSalary !== '0' || option?.endSalary !== '0')">
                                         INR {{ option?.startSalary }} - {{ option?.endSalary }} Lakh(s) PA
                                     </span>
                                 </div>
