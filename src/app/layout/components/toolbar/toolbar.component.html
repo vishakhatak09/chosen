@@ -83,10 +83,35 @@
                             </div>
                         </mat-option>
                     </mat-autocomplete>
+
+                    <div>
+                        <button mat-icon-button class="fuse-search-bar-expander disabled-text" matTooltip="Apply Filter"
+                            [matTooltipPosition]="'above'" (click)="openFilterModal()">
+                            <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
+                            <!-- <img src="assets/icons/material-icons/filter.svg"> -->
+                            <span class="k-icon k-i-filter font-size-24" > </span>
+                        </button>
+                    </div>
+
+                    <div *ngIf="selectedFilters">
+                        <button mat-icon-button class="fuse-search-bar-expander disabled-text" matTooltip="Clear Filter"
+                            [matTooltipPosition]="'above'" (click)="clearFilter()">
+                            <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
+                            <!-- <img src="assets/icons/material-icons/clear-filter.svg"> -->
+                            <span class="k-icon k-i-filter-clear font-size-24" ></span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
+            <!-- <div class="toolbar-separator"></div> -->
+
+
+
         </div>
+
+
+
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
 
