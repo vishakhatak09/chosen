@@ -1,4 +1,5 @@
 import { environment } from 'environments/environment';
+import { PDFOptions } from '@progress/kendo-drawing/pdf';
 
 export class AppConstant {
 
@@ -234,6 +235,11 @@ export class AppConstant {
             viewValue: 'Tohoma',
         },
     ];
+
+    public static PdfOptions: PDFOptions = {
+        author: 'Chosenyou',
+        title: 'Resume'
+    };
 }
 
 export interface OptionType {

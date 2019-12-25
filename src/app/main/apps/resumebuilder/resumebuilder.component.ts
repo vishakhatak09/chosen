@@ -293,7 +293,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
    */
   getFileData(files: FileList): void {
     if (files.length > 0) {
-      console.log(files);
+      // console.log(files);
       const fileData: File = files[0];
       const reader = new FileReader();
       reader.readAsDataURL(fileData);
@@ -323,13 +323,13 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-    return new File([], filename, { type: mime });
+    return new File([u8arr], filename, { type: mime });
   }
 
   generatePDF(pdf: any): void {
     this.lastStep = false;
     this.loaderService.show();
-    pdf.export().then((group: Group) => exportPDF(group)).then((dataUri: Blob) => {
+    pdf.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions)).then((dataUri: Blob) => {
       const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}.pdf`);
       this.templatePdfFile = fileObject;
       // console.log('dataUri', dataUri);
