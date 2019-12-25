@@ -26,7 +26,7 @@
                     <mat-icon>search</mat-icon>
                     <!-- <input #filter placeholder="Search for a user"> -->
                     <input id="fuse-search-bar-input" #searchInput type="text" placeholder="Search job here.."
-                        [formControl]="searchBox" (input)="search($event)" fxFlex [matAutocomplete]="auto">
+                        [formControl]="searchBox" fxFlex [matAutocomplete]="auto">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
                         (optionSelected)="selectedJob($event)">
                         <mat-option class="search-list border-bottom p-16" *ngFor="let option of filterResults"

@@ -48,6 +48,13 @@ export class MyResumesComponent implements OnInit, OnDestroy {
     // console.log(functionality);
     if (functionality && functionality === 'choose' && this.jobDetail) {
       this.chooseResume = true;
+      this.toastrService.displaySnackBar(
+        'Please select any one of your resumes.',
+        'success',
+        3000
+      );
+    } else {
+      this.router.navigate(['/user/my-resumes']);
     }
     this.getMyResumeList();
   }
@@ -159,7 +166,7 @@ export class MyResumesComponent implements OnInit, OnDestroy {
               },
               (err) => {
                 // console.log(err);
-                if ( err && err.code && err.code === 400 && (err.err && err.err.code || err.err.code === 'ESTREAM') ) {
+                if (err && err.code && err.code === 400 && (err.err && err.err.code || err.err.code === 'ESTREAM')) {
                   this.toastrService.displaySnackBar('Please fill all your details is selected resume', 'error', 3000);
                 } else {
                   this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);

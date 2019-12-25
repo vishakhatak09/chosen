@@ -1,5 +1,5 @@
 <div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;border: solid 2px #d2d2d2;">
-  <table cellspacing="0" cellpadding="0" style="margin: auto;color: #444444;"
+  <table class="resume-table" cellspacing="0" cellpadding="0" style="margin: auto;color: #444444;"
     [ngStyle]="{'font-family': selectedFont}">
     <!-- font-family: sans-serif;  -->
     <tr>
@@ -154,7 +154,7 @@
                     <table cellspacing="0" cellpadding="0" style="width: 100%">
                       <tr *ngFor="let skill of skillList">
                         <td style="font-weight: 600;font-size: 12px;padding: 7px 0;">{{skill.skillName}}</td>
-                        <td style="font-size: 0;text-align: right;padding: 7px 0;">
+                        <td style="font-size: 0;text-align: right;padding: 7px 0;white-space: nowrap;">
                           <span *ngFor="let item of Arr(ratingMax); let i = index;"
                             [ngStyle]="{'background-color': (i < skill.ratings) ? '#2f9032' : '#b7b7b7' }"
                             style="border-radius: 2px;display: inline-block;margin-left: 10px;width:15px;height: 15px;"></span>

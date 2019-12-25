@@ -200,10 +200,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             height: 'auto',
             data: data,
             closeOnNavigation: true,
+            restoreFocus: false
         });
         dialogRef.afterClosed().subscribe(
             (applyJob: boolean) => {
-                if ( !applyJob ) {
+                if (!applyJob) {
                     const element = document.getElementById('fuse-search-bar-input');
                     if (element) {
                         // this.filterResults = this.filterResults.slice();
@@ -213,7 +214,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 } else {
                     this.previousSearch = '';
                     this.selectedFilters = null;
-                    this.searchBox.setValue('', {emitEvent: true});
+                    this.searchBox.setValue('', { emitEvent: false });
                 }
             }
         );
