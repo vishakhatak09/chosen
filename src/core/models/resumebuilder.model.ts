@@ -99,4 +99,5 @@ export interface MyResumesModel {
     workExperience: WorkModel[];
     resumeImage?: string;
     _id: string;
+    fontFamily?: string;
 }

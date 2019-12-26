@@ -710,7 +710,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             'imageName': this.selectedImage ? this.profileFileName : '',
             'designation': formValue.designation,
             'photo': profileImage,
-          }
+          },
+          fontFamily: this.selectedFont
         }
       };
       if (this.resumeId) {
@@ -935,6 +936,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       if (resumeEditData.personalInfo.profileImage) {
         this.profileSrc = this.imageBaseUrl + resumeEditData.personalInfo.profileImage;
       }
+    }
+
+    if (resumeEditData.fontFamily) {
+      this.selectedFont = resumeEditData.fontFamily;
     }
 
     if (resumeEditData.careerObjective) {
