@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
-
-import { LoginModule } from 'app/main/pages/authentication/login/login.module';
-import { Login2Module } from 'app/main/pages/authentication/login-2/login-2.module';
-import { RegisterModule } from 'app/main/pages/authentication/register/register.module';
-import { Register2Module } from 'app/main/pages/authentication/register-2/register-2.module';
-import { ForgotPasswordModule } from 'app/main/pages/authentication/forgot-password/forgot-password.module';
 import { ForgotPassword2Module } from 'app/main/pages/authentication/forgot-password-2/forgot-password-2.module';
-import { ResetPasswordModule } from 'app/main/pages/authentication/reset-password/reset-password.module';
-import { ResetPassword2Module } from 'app/main/pages/authentication/reset-password-2/reset-password-2.module';
+import { ForgotPasswordModule } from 'app/main/pages/authentication/forgot-password/forgot-password.module';
 import { LockModule } from 'app/main/pages/authentication/lock/lock.module';
+import { Login2Module } from 'app/main/pages/authentication/login-2/login-2.module';
+import { LoginModule } from 'app/main/pages/authentication/login/login.module';
 import { MailConfirmModule } from 'app/main/pages/authentication/mail-confirm/mail-confirm.module';
-import { ComingSoonModule } from 'app/main/pages/coming-soon/coming-soon.module';
-import { InvoiceModernModule } from 'app/main/pages/invoices/modern/modern.module';
-import { InvoiceCompactModule } from 'app/main/pages/invoices/compact/compact.module';
+import { Register2Module } from 'app/main/pages/authentication/register-2/register-2.module';
+import { RegisterModule } from 'app/main/pages/authentication/register/register.module';
+import { ResetPassword2Module } from 'app/main/pages/authentication/reset-password-2/reset-password-2.module';
+import { ResetPasswordModule } from 'app/main/pages/authentication/reset-password/reset-password.module';
+
 
 @NgModule({
     imports: [
@@ -27,13 +24,6 @@ import { InvoiceCompactModule } from 'app/main/pages/invoices/compact/compact.mo
         ResetPassword2Module,
         LockModule,
         MailConfirmModule,
-
-        // Coming-soon
-        ComingSoonModule,
-
-        // Invoices
-        InvoiceModernModule,
-        InvoiceCompactModule,
     ]
 })
 export class PagesModule {

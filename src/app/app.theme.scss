@@ -96,7 +96,6 @@ $typography: mat-typography-config(
 @import "src/app/main/pages/authentication/forgot-password-2/forgot-password-2.theme";
 @import "src/app/main/pages/authentication/lock/lock.theme";
 @import "src/app/main/pages/authentication/mail-confirm/mail-confirm.theme";
-@import "src/app/main/pages/coming-soon/coming-soon.theme";
 
 
 // Define a mixin for easier access
@@ -120,7 +119,6 @@ $typography: mat-typography-config(
     @include forgot-password-2-theme($theme);
     @include lock-theme($theme);
     @include mail-confirm-theme($theme);
-    @include coming-soon-theme($theme);
     
     @include profile-about-theme($theme);
     @include profile-photos-videos-theme($theme);

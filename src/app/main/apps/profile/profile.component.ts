@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                         if (response.data.lastResume && response.data.lastResume.personalInfo) {
                             if (response.data.lastResume.personalInfo && response.data.lastResume.personalInfo.dateOfBirth) {
                                 const dateOfBirth = this.commonService.getMomentFromDate(response.data.lastResume.personalInfo.dateOfBirth);
-                                const converted = this.commonService.getMomentFormattedDate(dateOfBirth, 'DD/MM/YYY');
+                                const converted = this.commonService.getMomentFormattedDate(dateOfBirth, 'DD/MM/YYYY');
                                 response.data.lastResume.personalInfo.dateOfBirth = converted;
                                 this.userData = response.data.lastResume.personalInfo;
                             }

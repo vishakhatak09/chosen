@@ -61,20 +61,21 @@
             *ngIf="templateForm?.fullAddress" [innerHTML]="templateForm.fullAddress">
           </span>
           <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
-            *ngIf="!templateForm || !templateForm.fullAddress" > Lorem ipsum dolor
+            *ngIf="!templateForm || !templateForm.fullAddress"> Lorem ipsum dolor
             met
           </span>
         </div>
 
-        <div
-          style="display: inline-table;white-space: nowrap;padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;"
-          *ngFor="let social of socialData">
-          <img style="width: 14px;display: inline-block;vertical-align: middle;"
-            [src]="'assets/icons/template-icons/' + social.website + '-w.svg'" alt="{{social.website}}">
-          <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
-            [innerHTML]="social.link">
-          </span>
-        </div>
+        <ng-container *ngFor="let social of socialData">
+          <div style="display: inline-table;white-space: nowrap;
+          padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;" *ngIf="social.link && social.website">
+            <img style="width: 14px;display: inline-block;vertical-align: middle;"
+              [src]="'assets/icons/template-icons/' + social.website + '-w.svg'" alt="{{social.website}}">
+            <span style="font-size: 12px;margin-left: 7px;display: inline-block;vertical-align: middle;"
+              [innerHTML]="social.link">
+            </span>
+          </div>
+        </ng-container>
 
       </td>
     </tr>
@@ -103,7 +104,8 @@
                           [innerHTML]="item.location">
                         </p>
                       </div>
-                      <p style="font-size: 12px;margin: 7px 0 5px;color: #2f9032;" *ngIf="item.jobDescription" [innerHTML]="item.jobDescription | safeHtml"></p>
+                      <p style="font-size: 12px;margin: 7px 0 5px;color: #2f9032;" *ngIf="item.jobDescription"
+                        [innerHTML]="item.jobDescription | safeHtml"></p>
                     </div>
                   </td>
                 </tr>
