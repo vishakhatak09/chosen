@@ -17,6 +17,8 @@ import { CommonService } from 'core/services/common.service';
 import { MatDialog } from '@angular/material/dialog';
 import { JobFilterComponent } from '@fuse/components/search-bar/job-filter/job-filter.component';
 import { JobDetailComponent } from 'app/main/apps/job-detail/job-detail.component';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'toolbar',
@@ -32,7 +34,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     languages: any;
     navigation: any;
     selectedLanguage: any;
-    userStatusOptions: any[];
     isLoggedIn = false;
     userEmail: string;
     userData: any;
@@ -50,7 +51,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     previousSearch = '';
 
     // Private
-    private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any>; 
 
     /**
      * Constructor
@@ -66,36 +67,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private authService: AuthenticationService,
         private cdRef: ChangeDetectorRef,
         private matDialog: MatDialog,
-        private commonService: CommonService
+        private commonService: CommonService,
+        iconRegistry: MatIconRegistry, sanitizer: DomSanitizer
     ) {
-        // Set the defaults
-        this.userStatusOptions = [
-            {
-                title: 'Online',
-                icon: 'icon-checkbox-marked-circle',
-                color: '#4CAF50'
-            },
-            {
-                title: 'Away',
-                icon: 'icon-clock',
-                color: '#FFC107'
-            },
-            {
-                title: 'Do not Disturb',
-                icon: 'icon-minus-circle',
-                color: '#F44336'
-            },
-            {
-                title: 'Invisible',
-                icon: 'icon-checkbox-blank-circle-outline',
-                color: '#BDBDBD'
-            },
-            {
-                title: 'Offline',
-                icon: 'icon-checkbox-blank-circle-outline',
-                color: '#616161'
-            }
-        ];
+        iconRegistry.addSvgIcon(
+            'job-search',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/img/job-search.svg'));
 
         this.languages = [
             {

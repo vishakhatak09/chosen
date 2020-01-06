@@ -87,8 +87,8 @@ export class JobFilterComponent implements OnInit {
         this.selectedIndustries = this.dialogData.industry;
       }
       if ( this.dialogData.location && this.dialogData.location !== '' ) {
-        this.filterJobForm.get('locationState').setValue(this.dialogData.location.split(',')[0].trim());
-        this.filterJobForm.get('location').setValue(this.dialogData.location.split(',')[1].trim());
+        this.filterJobForm.get('locationState').setValue(this.dialogData.locationState);
+        this.filterJobForm.get('location').setValue(this.dialogData.location);
       }
       this.filterJobForm.setValue(this.dialogData);
     }

@@ -68,7 +68,8 @@ toolbar {
 .search-wrapper {
     background: #fff;
     width: 100%;
-    max-width: 480px;
+    // max-width: 480px;
+    max-width: 600px;
     border-radius: 28px;
     overflow: hidden;
     @include mat-elevation(1);

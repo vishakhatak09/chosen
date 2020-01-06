@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: './profile/profile.module#ProfileModule'
     },
     {
+        path: 'job-search',
+        loadChildren: './job-search/job-search.module#JobSearchModule'
+    },
+    {
         path: '**',
         redirectTo: 'templates',
         pathMatch: 'full',

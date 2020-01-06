@@ -21,15 +21,14 @@
                 <fuse-shortcuts [navigation]="navigation"></fuse-shortcuts>
             </div> -->
 
-            <div class="search-wrapper  ml-sm-32" *ngIf="userData?.type === 'user'">
-                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+            <!-- <div class="search-wrapper  ml-sm-32" *ngIf="userData?.type === 'user'">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center" style="display: none !important;">
                     <mat-icon>search</mat-icon>
-                    <!-- <input #filter placeholder="Search for a user"> -->
                     <input id="fuse-search-bar-input" #searchInput type="text" placeholder="Search job here.."
                         [formControl]="searchBox" fxFlex [matAutocomplete]="auto">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
                         (optionSelected)="selectedJob($event)">
-                        <mat-option class="search-list border-bottom p-16" *ngFor="let option of filterResults"
+                        <mat-option class="search-list border-bottom p-16"  *ngFor="let option of filterResults"
                             [value]="option">
                             <div class="img-box border mr-16">
                                 <img [src]="baseUrl + option.image">
@@ -76,7 +75,6 @@
                                     <div class="icon">
                                         <mat-icon class="mr-8">layers</mat-icon>
                                     </div>
-                                    <!-- <span class="secondary-text skill">{{option.jobDescription}}</span> -->
                                     <span class="secondary-text skill">{{option.industry}}</span>
                                 </div>
 
@@ -87,8 +85,6 @@
                     <div>
                         <button mat-icon-button class="fuse-search-bar-expander disabled-text" matTooltip="Apply Filter"
                             [matTooltipPosition]="'above'" (click)="openFilterModal()">
-                            <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
-                            <!-- <img src="assets/icons/material-icons/filter.svg"> -->
                             <span class="k-icon k-i-filter font-size-24" > </span>
                         </button>
                     </div>
@@ -96,13 +92,11 @@
                     <div *ngIf="selectedFilters">
                         <button mat-icon-button class="fuse-search-bar-expander disabled-text" matTooltip="Clear Filter"
                             [matTooltipPosition]="'above'" (click)="clearFilter()">
-                            <!-- <mat-icon class="s-24 secondary-text">filter_list</mat-icon> -->
-                            <!-- <img src="assets/icons/material-icons/clear-filter.svg"> -->
                             <span class="k-icon k-i-filter-clear font-size-24" ></span>
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- <div class="toolbar-separator"></div> -->
 
@@ -121,6 +115,12 @@
                         [routerLink]="['/auth/login']">Login</span>
                 </div>
             </button> -->
+            <button mat-button class="user-button" *ngIf="isLoggedIn" [routerLink]="['/user/job-search']">
+                <!-- <mat-icon svgIcon="job-search" aria-hidden="false" aria-label="Job Search"></mat-icon> -->
+                <mat-icon>search</mat-icon> Job Search...
+            </button>
+
+            <div class="toolbar-separator"></div>
 
             <button mat-button [matMenuTriggerFor]="userMenu" class="user-button" *ngIf="isLoggedIn">
                 <div fxLayout="row" fxLayoutAlign="center center">
