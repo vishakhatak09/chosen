@@ -115,7 +115,7 @@
                         [routerLink]="['/auth/login']">Login</span>
                 </div>
             </button> -->
-            <button mat-button class="user-button" *ngIf="isLoggedIn" [routerLink]="['/user/job-search']">
+            <button mat-button class="user-button" *ngIf="isLoggedIn && userData?.type === 'user'" [routerLink]="['/user/job-search']">
                 <!-- <mat-icon svgIcon="job-search" aria-hidden="false" aria-label="Job Search"></mat-icon> -->
                 <mat-icon>search</mat-icon> Job Search...
             </button>
