@@ -44,66 +44,84 @@
         <!-- / HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card" fusePerfectScrollbar>
-            <ng-container *ngIf="filterResults.length > 0; else noResults">
-                <div class="search-list border-bottom p-16 mat-elevation-z4 border-radius-16" mat-ripple *ngFor="let option of filterResults"
-                    (click)="selectedJob(option)" fxLayout="row" fxLayoutAlign="start ">
-                    <div class="img-box border mr-16">
-                        <img [src]="baseUrl + option.image">
-                    </div>
-                    <div class="desc" fxLayout="row wrap" fxLayoutAlign=" start" fxFlex="100%">
-                        <div class="l-n" fxLayout="column" fxFlex="100%" fxFlex.gt-xs="100%" fxFlex.gt-sm="100%">
-                            <span class="text-warp primary-900-fg font-weight-800">{{option.jobPosition}}</span>
-                            <span class="hint-text">{{ option.companyName }}</span>
-                        </div>
-                        <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row"
-                            *ngIf="option.startworkExperience && option.startworkExperience.years">
-                            <div class="icon">
-                                <mat-icon class="mr-8">schedule</mat-icon>
-                            </div>
-                            <span class="text-warp secondary-text">
-                                {{option?.startworkExperience?.years}}
-                                <ng-container *ngIf="option?.endworkExperience?.years">-
-                                    {{option?.endworkExperience?.years}}</ng-container> yrs
-                            </span>
-                        </div>
-                        <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
-                            <div class="icon">
-                                <mat-icon class="mr-8">room</mat-icon>
-                            </div>
-                            <span class="text-warp secondary-text">{{option.location}}</span>
-                        </div>
-                        <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
-                            <div class="icon">
-                                <mat-icon class="mr-8">account_balance_wallet</mat-icon>
-                            </div>
-                            <span class="text-warp secondary-text" *ngIf="((option?.startSalary == undefined || option?.startSalary === '')
-                                && (option?.endSalary == undefined || option?.endSalary === ''))
-                                ||
-                                (option?.startSalary === '0' && option?.endSalary === '0')">Not
-                                disclosed</span>
-                            <span class="text-warp secondary-text" *ngIf="option.startSalary !== undefined && option.endSalary !== undefined &&
-                                (option?.startSalary !== '0' || option?.endSalary !== '0')">
-                                INR {{ option?.startSalary }} - {{ option?.endSalary }} Lakh(s) PA
-                            </span>
-                        </div>
-                        <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row" fxFlex="100%" fxFlex.gt-xs="100%"
-                            fxFlex.gt-sm="100%">
-                            <div class="icon">
-                                <mat-icon class="mr-8">layers</mat-icon>
-                            </div>
-                            <!-- <span class="secondary-text skill">{{option.jobDescription}}</span> -->
-                            <span class="secondary-text skill">{{option.industry}}</span>
-                        </div>
+        <div class="content-card" >
 
+            <div class="result-info" fxLayout="row" fxLayoutAlign="start center">
+
+                <span class="result-count h3 secondary-text">
+                    <span>{{filterResults.length}}</span>
+                    <span class="ml-4">Results</span>
+                </span>
+                
+            </div>
+
+            <div class="results" >
+
+                <ng-container *ngIf="filterResults.length > 0;">
+                    <div class="search-list border-bottom p-8 mat-elevation-z4 border-radius-16 result-item"
+                        mat-ripple *ngFor="let option of filterResults"
+                        (click)="selectedJob(option)" fxLayout="row" fxLayoutAlign="start ">
+                        <div class="img-box border mr-16">
+                            <img [src]="baseUrl + option.image" *ngIf="option.image">
+                            <img src="assets/images/background/no-data.svg" *ngIf="!option.image">
+                        </div>
+                        <div class="desc" fxLayout="row wrap" fxLayoutAlign=" start" fxFlex="100%">
+                            <div class="l-n" fxLayout="column" fxFlex="100%" fxFlex.gt-xs="100%" fxFlex.gt-sm="100%">
+                                <span class="text-warp primary-900-fg font-weight-800">{{option.jobPosition}}</span>
+                                <span class="hint-text">{{ option.companyName }}</span>
+                            </div>
+                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row"
+                                *ngIf="option.startworkExperience && option.startworkExperience.years">
+                                <div class="icon">
+                                    <mat-icon class="mr-8">schedule</mat-icon>
+                                </div>
+                                <span class="text-warp secondary-text">
+                                    {{option?.startworkExperience?.years}}
+                                    <ng-container *ngIf="option?.endworkExperience?.years">-
+                                        {{option?.endworkExperience?.years}}</ng-container> yrs
+                                </span>
+                            </div>
+                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
+                                <div class="icon">
+                                    <mat-icon class="mr-8">room</mat-icon>
+                                </div>
+                                <span class="text-warp secondary-text">{{option.location}}</span>
+                            </div>
+                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
+                                <div class="icon">
+                                    <mat-icon class="mr-8">account_balance_wallet</mat-icon>
+                                </div>
+                                <span class="text-warp secondary-text" *ngIf="((option?.startSalary == undefined || option?.startSalary === '')
+                                    && (option?.endSalary == undefined || option?.endSalary === ''))
+                                    ||
+                                    (option?.startSalary === '0' && option?.endSalary === '0')">Not
+                                    disclosed</span>
+                                <span class="text-warp secondary-text" *ngIf="option.startSalary !== undefined && option.endSalary !== undefined &&
+                                    (option?.startSalary !== '0' || option?.endSalary !== '0')">
+                                    INR {{ option?.startSalary }} - {{ option?.endSalary }} Lakh(s) PA
+                                </span>
+                            </div>
+                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row" fxFlex="100%" fxFlex.gt-xs="100%"
+                                fxFlex.gt-sm="100%">
+                                <div class="icon">
+                                    <mat-icon class="mr-8">layers</mat-icon>
+                                </div>
+                                <!-- <span class="secondary-text skill">{{option.jobDescription}}</span> -->
+                                <span class="secondary-text skill">{{option.industry}}</span>
+                            </div>
+    
+                        </div>
                     </div>
-                </div>
-            </ng-container>
-            <ng-template #noResults>
+                </ng-container>
+
+            </div>
+
+            
+            <!-- <ng-template #noResults>
                 <div class="search-list border-bottom p-16 text-center">
                     No results...
                 </div>
-            </ng-template>
+            </ng-template> -->
 
         </div>
         <!-- / CONTENT CARD -->
