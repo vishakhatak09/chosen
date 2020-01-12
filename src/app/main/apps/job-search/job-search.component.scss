@@ -70,6 +70,10 @@ input#fuse-search-bar-input {
   color: rgba(0, 0, 0, 0.54) !important;
 }
 .search-list {
+
+  @include media-breakpoint("xs") {
+    flex-wrap: wrap;
+  }
   height: auto;
   padding: 10px;
   cursor: pointer;
@@ -105,6 +109,7 @@ input#fuse-search-bar-input {
     white-space: normal;
   }
 }
+
 
 .content-card{
     overflow: auto !important;
@@ -152,4 +157,10 @@ input#fuse-search-bar-input {
       margin-bottom: 32px;
     }
   }
+}
+
+.filter-div{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }

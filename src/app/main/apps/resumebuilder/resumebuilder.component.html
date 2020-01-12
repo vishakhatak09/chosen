@@ -579,9 +579,9 @@
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
                     fusePerfectScrollbar>
-                    <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution">
+                    <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution" [margin]="0">
                         <!-- <ng-template template-dynamic></ng-template> -->
-                        <app-resume-template #templateRef *ngIf="currentTemplate === 'cubic'"
+                        <app-resume-template #templateRef *ngIf="currentTemplate === 'tp1'"
                             [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail"
                             [experienceData]="workExperienceData"
                             [careerObjective]="careerObjForm.get('careerObjective').value"
@@ -590,7 +590,7 @@
                             [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor"
                             [backColor]="backColor" [selectedFont]="selectedFont">
                         </app-resume-template>
-                        <app-resume-professional #templateRef *ngIf="currentTemplate === 'professional'"
+                        <app-resume-professional #templateRef *ngIf="currentTemplate === 'tp2'"
                             [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail"
                             [experienceData]="workExperienceData"
                             [careerObjective]="careerObjForm.get('careerObjective').value"

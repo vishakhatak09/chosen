@@ -65,6 +65,15 @@
                                 </mat-error>
                             </mat-form-field>
 
+                            <mat-form-field class="mt-16" floatLabel="always" fxFlex="100" appearance="outline">
+                                <mat-label>Template Key</mat-label>
+                                <input matInput placeholder="Enter Template Key" type="text" name="TemplateKey"
+                                    formControlName="templateKey" autocomplete="off" required>
+                                <mat-error *ngIf="uploadTemplateForm.get('templateKey').hasError('required')">
+                                    Please enter template key
+                                </mat-error>
+                            </mat-form-field>
+
                             <mat-form-field floatLabel="always" fxFlex="100" appearance="outline">
                                 <mat-label>Description</mat-label>
                                 <textarea matInput placeholder="Enter Template Description" name="templateDescription"
@@ -74,7 +83,7 @@
                                 </mat-error>
                             </mat-form-field>
 
-                            <div fxFlex="100">
+                            <!-- <div fxFlex="100">
                                 <mat-label class="ml-12"><strong>Template html</strong></mat-label>
                                 <ng-container *ngTemplateOutlet="editor"></ng-container>
                                 <ng-template #editor>
@@ -87,7 +96,7 @@
                                     *ngIf="uploadTemplateForm.touched && uploadTemplateForm.get('templateHtml').hasError('required')">
                                     Please fill in template html content
                                 </mat-error>
-                            </div>
+                            </div> -->
 
                             <div class="pt-12 pl-8 pb-4">
                                 <button type="submit" class="stepper-back" color="primary" mat-raised-button

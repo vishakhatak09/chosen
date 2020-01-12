@@ -54,6 +54,7 @@ import { ResumeTemplateComponent } from './resume-template/resumetemplate.compon
 import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
 import { LoadingScreenService } from '@fuse/services/loading.service';
 import { templateMock } from 'core/mock/temp-content';
+import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -122,8 +123,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   public maxSocialLinks = AppConstant.MaxSocialLinks;
 
   public resolution = 100;
-  public pageSize: string;
-  // public pageSize = 'A4';
+  // public pageSize: string;
+  public pageSize = 'A4';
   private templatePdfFile: File;
   private templateImageBase64: Blob | string;
   public fontFamilyOptions = AppConstant.FontFamilyOptions;
@@ -159,7 +160,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     if (this.activatedRoute.data) {
       this.activatedRoute.data.subscribe((resp) => {
         if (resp.data && resp.data.code === 200 && resp.data.data) {
-          this.currentTemplate = resp.data.data.title.toLowerCase();
+          this.currentTemplate = resp.data.data.templateKey.toLowerCase();
           // this.loaderService.show();
         }
       });
@@ -206,10 +207,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       skillInput: [undefined],
     });
 
-    if (this.currentTemplate === 'cubic') {
+    if (this.currentTemplate === 'tp1') {
       this.skillForm.get('skillType').setValue('basic');
       this.skillForm.get('skillType').disable();
-    } else if (this.currentTemplate === 'professional') {
+    } else if (this.currentTemplate === 'tp2') {
       this.skillForm.get('skillType').setValue('basicWithRating');
       this.skillForm.get('skillType').disable();
     }
@@ -308,13 +309,33 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     }
   }
 
-  saveAsPdf(pdf: any): void {
+  saveAsPdf(pdf: PDFExportComponent): void {
     // console.log('pdf', pdf);
-    pdf.saveAs(`resume_${this.userName}`);
-    this.generateImage(pdf, true);
+    // pdf.saveAs(`resume_${this.userName}`);
+    // this.generateImage(pdf, true);
+    const element = document.getElementById('template-resume');
+    if (element) {
+      const border = element.style.border;
+      const shadow = element.style.boxShadow;
+      element.style.border = '';
+      element.style.boxShadow = '';
+      setTimeout(() => {
+        pdf.saveAs(`resume_${this.userName}`);
+        this.generateImage(pdf, true);
+        // element.style.border = border;
+        // element.style.boxShadow = shadow;
+      }, 100);
+      // pdf.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions)).then((dataUri) => {
+      //   // const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}.pdf`);
+      //   // this.templatePdfFile = fileObject;
+      //   console.log('dataUri', dataUri);
+      //   element.style.border = border;
+      //   element.style.boxShadow = shadow;
+      // });
+    }
   }
 
-  public dataURLtoFile(dataurl, filename) {
+  public dataURLtoFile(dataurl: string, filename: string) {
     const arr = dataurl.split(',');
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
@@ -326,22 +347,23 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     return new File([u8arr], filename, { type: mime });
   }
 
-  generatePDF(pdf: any): void {
+  generatePDF(pdf: PDFExportComponent): void {
     this.lastStep = false;
     this.loaderService.show();
-    pdf.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions)).then((dataUri: Blob) => {
-      const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}.pdf`);
-      this.templatePdfFile = fileObject;
-      // console.log('dataUri', dataUri);
-      // console.log('fileObject', fileObject);
-    }).then(() => {
-      this.generateImage(pdf, false, true);
-    }).catch(() => {
-      this.loaderService.hide();
-    });
+    pdf.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions))
+      .then((dataUri) => {
+        const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}.pdf`);
+        this.templatePdfFile = fileObject;
+        // console.log('dataUri', dataUri);
+        // console.log('fileObject', fileObject);
+      }).then(() => {
+        this.generateImage(pdf, false, true);
+      }).catch(() => {
+        this.loaderService.hide();
+      });
   }
 
-  generateImage(pdf: any, download = false, isLastStep = false): void {
+  generateImage(pdf: PDFExportComponent, download = false, isLastStep = false): void {
     this.lastStep = true;
     const element = document.getElementById('template-resume');
     if (element) {
@@ -352,7 +374,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       element.style.boxShadow = '';
       pdf.export().then((group: Group) => exportImage(group)).then((dataUri) => {
         this.templateImageBase64 = dataUri;
-        element.style.width = '';
+        // element.style.width = '';
         element.style.border = border;
         element.style.boxShadow = shadow;
         if (!download) {
@@ -1019,9 +1041,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   loadComponent(): void {
 
     let componentFactory;
-    if (this.currentTemplate === 'cubic') {
+    if (this.currentTemplate === 'tp1') {
       componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeTemplateComponent);
-    } else if (this.currentTemplate === 'professional') {
+    } else if (this.currentTemplate === 'tp2') {
       componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeProfessionalComponent);
     }
 

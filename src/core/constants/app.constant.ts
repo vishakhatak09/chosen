@@ -238,7 +238,9 @@ export class AppConstant {
 
     public static PdfOptions: PDFOptions = {
         author: 'Chosenyou',
-        title: 'Resume'
+        title: 'Resume',
+        paperSize: 'A4',
+        margin: { left: '0cm', top: '0cm', right: '0cm', bottom: '0cm' }
     };
 }
 

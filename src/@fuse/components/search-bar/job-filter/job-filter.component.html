@@ -14,7 +14,7 @@
     <mat-form-field class="px-8" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="50%" fxFlex.gt-md="50%" floatLabel="always"
       appearance="outline">
       <mat-label>Job Location State</mat-label>
-      <input matInput type="text" placeholder="Select Job Location State" formControlName="locationState"
+      <input matInput type="text" placeholder="Select State" formControlName="locationState"
         autocomplete="off" fxFlex [matAutocomplete]="auto">
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="getCityFromState($event)">
         <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
@@ -26,7 +26,7 @@
     <mat-form-field class="px-8" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="50%" fxFlex.gt-md="50%" floatLabel="always"
       appearance="outline">
       <mat-label>Job Location City</mat-label>
-      <input matInput type="text" placeholder="Select Job Location" name="Location" formControlName="location"
+      <input matInput type="text" placeholder="Select City" name="Location" formControlName="location"
         autocomplete="off" fxFlex [matAutocomplete]="autoState">
       <mat-autocomplete autoActiveFirstOption #autoState="matAutocomplete">
         <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option.city">

@@ -10,7 +10,8 @@
     <div class="content">
 
         <div class="card-preview p-12" fxLayout="row wrap">
-            <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%" *ngFor="let resume of resumeList">
+            <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%"
+                *ngFor="let resume of resumeList">
                 <div class="fuse-card p-4">
                     <img class="resume-img" [src]="imageBaseUrl + resume.resumeImage">
                     <!-- <img class="resume-img" [src]="'assets/images/templates/tp-1.png'"> -->
@@ -27,11 +28,11 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <button mat-mini-fab type="button" matTooltip="Select this resume" *ngIf="chooseResume == true" 
+                        <button mat-mini-fab type="button" matTooltip="Select this resume" *ngIf="chooseResume == true"
                             (click)="chooseResumeForJob(resume)">
                             <mat-icon>check</mat-icon>
                         </button>
-                        
+
                     </div>
 
                 </div>

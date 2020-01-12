@@ -8,4 +8,5 @@ export class AdminTemplateModel {
     image: string;
     updatedAt: string;
     createdAt: string;
+    templateKey: string;
 }

@@ -163,7 +163,7 @@ export class JobSearchComponent implements OnInit, OnDestroy {
         this.selectedFilters = response;
         const element = document.getElementById('fuse-search-bar-input');
         if (element) {
-          this.searchBox.patchValue(this.searchBox.value ? this.searchBox.value : ' ', { emitEvent: true });
+          this.searchBox.patchValue(this.searchBox.value ? this.searchBox.value : '', { emitEvent: true });
           element.focus();
         }
       }

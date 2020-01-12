@@ -1,4 +1,5 @@
-<div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;">
+<div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;border: solid 2px #d2d2d2;
+box-shadow: 0 0 22px -10px #000;">
     <table class="resume-table" cellspacing="0" cellpadding="0"
         style="width: 100%; margin: auto;color: #444444; margin-top: 10px;" [ngStyle]="{'font-family': selectedFont}">
         <!-- font-family: sans-serif;  -->
@@ -7,16 +8,16 @@
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td>
-                            <h2 style="margin: 0 0 5px; font-size: 16px;font-weight: 600;color: #444444;">
+                            <h2 style="margin: 0 0 5px; font-size: 14px;font-weight: 600;color: #444444;">
                                 <span *ngIf="templateForm.firstName">{{templateForm.firstName}} </span>
                                 <span *ngIf="!templateForm.firstName">John </span>
                                 <span *ngIf="templateForm.lastName ">{{templateForm.lastName}}</span>
                                 <span *ngIf="!templateForm.lastName">Doe</span>
                             </h2>
-                            <h4 style="margin: 0 0 5px; font-size: 14px;font-weight: 500;color: #8c8c8cdd;">
+                            <h4 style="margin: 0 0 5px; font-size: 12px;font-weight: 500;color: #8c8c8cdd;">
                                 {{ templateForm.designation }}
                             </h4>
-                            <p style="margin: 0; font-size: 12px;color: #444444;"
+                            <p style="margin: 0; font-size: 10px;color: #444444;"
                                 [innerHTML]="careerObjective || ResumeMockData.data.careerObjective | safeHtml">
                             </p>
                         </td>
@@ -28,7 +29,7 @@
             <td style="height: 15px;"></td>
         </tr>
         <tr>
-            <td style="background: #eaeaea;padding: 5px 20px; font-size: 12px;">
+            <td style="background: #eaeaea;padding: 5px 20px; font-size: 10px;">
 
                 <div style="display: inline-table;margin: 5px 20px 5px 0;">
                     <img style="width: 14px;display: inline-block;vertical-align: middle;"
@@ -64,7 +65,7 @@
             </td>
         </tr>
         <tr *ngIf="socialData.length > 0">
-            <td style="background: #eaeaea;padding: 5px 20px;">
+            <td style="background: #eaeaea;padding: 5px 20px; font-size: 10px;">
                 <ng-container *ngFor="let social of socialData">
                     <div style="display: inline-table;margin: 5px 20px 5px 0;" *ngIf="social.link && social.website">
                         <img style="width: 14px;display: inline-block;vertical-align: middle;"
@@ -83,10 +84,10 @@
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td style="font-size: 0;">
-                            <h3 style="margin:0 0 5px; font-size: 14px; text-transform: uppercase; font-weight: bold;">
+                            <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;">
                                 Areas of expertise
                             </h3>
-                            <p style="margin: 2px 5px;font-size: 12px; transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+                            <p style="margin: 2px 5px;font-size: 10px; transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
                                     display: inline-flex; padding: 7px 12px; border-radius: 16px;"
                                 *ngFor="let item of skillList" [ngStyle]="{'color': fontColor ,
                                     'background-color' : backColor}">
@@ -105,15 +106,15 @@
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td>
-                            <h3 style="margin:0 0 5px; font-size: 14px; text-transform: uppercase; font-weight: bold;">
+                            <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;">
                                 Work experience
                             </h3>
                         </td>
                     </tr>
                     <tr *ngFor="let item of experienceList">
                         <td style="font-size: 0; padding: 10px;">
-                            <h3 style="margin:0; font-size: 12px;" [innerHTML]="item.designation"></h3>
-                            <h4 style="margin:2px 0 0; font-size: 12px; color: #909090;" [innerHTML]="item.companyName">
+                            <h3 style="margin:0; font-size: 10px;" [innerHTML]="item.designation"></h3>
+                            <h4 style="margin:2px 0 0; font-size: 10px; color: #909090;" [innerHTML]="item.companyName">
                             </h4>
                             <div style="margin: 7px 0 5px;">
                                 <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
@@ -126,7 +127,7 @@
                                     [innerHTML]="item.location">
                                 </p>
                             </div>
-                            <div style="margin:0; font-size: 12px; color: #909090;"
+                            <div style="margin:0; font-size: 10px; color: #909090;"
                                 [innerHTML]="item.jobDescription | safeHtml">
                             </div>
                         </td>
@@ -142,15 +143,15 @@
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td>
-                            <h3 style="margin:0 0 5px; font-size: 14px; text-transform: uppercase; font-weight: bold;">
+                            <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;">
                                 Education Summary
                             </h3>
                         </td>
                     </tr>
                     <tr *ngFor="let item of educationList">
                         <td style="font-size: 0; padding: 10px;">
-                            <h3 style="margin:0; font-size: 12px;" [innerHTML]="item.courseName"></h3>
-                            <h4 style="margin:2px 0 0; font-size: 12px; color: #909090;" [innerHTML]="item.collegeName">
+                            <h3 style="margin:0; font-size: 10px;" [innerHTML]="item.courseName"></h3>
+                            <h4 style="margin:2px 0 0; font-size: 10px; color: #909090;" [innerHTML]="item.collegeName">
                             </h4>
                             <div style="margin: 7px 0 5px;">
                                 <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
@@ -177,7 +178,7 @@
                         <table cellspacing="0" cellpadding="0" style="width: 100%">
                             <tr>
                                 <td [ngStyle]="{'font-size': item.type == 'Accomplishments' ? '12px' : '0' }">
-                                    <h3 style="margin:0 0 5px; font-size: 14px; text-transform: uppercase; font-weight: bold;"
+                                    <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;"
                                         [innerHTML]="item.type">
                                     </h3>
                                     <ng-container [ngSwitch]="item.type">
@@ -190,7 +191,7 @@
                                         <ng-container *ngSwitchCase="'Certifications'">
                                             <div style="width: 50%;padding-right: 15px;vertical-align: top;"
                                                 *ngFor="let data of item.value">
-                                                <h3 style="margin:0; font-size: 12px;">
+                                                <h3 style="margin:0; font-size: 10px;">
                                                     {{ data.certificate }}
                                                 </h3>
                                                 <p
@@ -200,7 +201,7 @@
                                             </div>
                                         </ng-container>
                                         <ng-container *ngSwitchDefault>
-                                            <p style="margin: 2px 5px;font-size: 12px; transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+                                            <p style="margin: 2px 5px;font-size: 10px; transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
                                                     display: inline-flex; padding: 7px 12px; border-radius: 16px;"
                                                 [ngStyle]="{'color': fontColor ,
                                                     'background-color' : backColor}" *ngFor="let data of item.value">

@@ -46,8 +46,9 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
     this.uploadTemplateForm = this._formBuilder.group({
       templateImage: [undefined, []],
       title: ['', [Validators.required]],
+      templateKey: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      templateHtml: ['', [Validators.required]],
+      // templateHtml: ['', [Validators.required]],
     });
 
     this.setupTinyMce();
@@ -74,11 +75,13 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
                 templateImage: null,
                 title: this.editTemplateData.title,
                 description: this.editTemplateData.description,
-                templateHtml: this.editTemplateData.html,
+                // templateHtml: this.editTemplateData.html,
+                templateKey: this.editTemplateData.templateKey || ''
               });
               this.templateSrc = this.baseUrl + this.editTemplateData.image;
               this.templateFileName = this.editTemplateData.image;
               this.uploadTemplateForm.get('templateImage').setValidators(null);
+              this.uploadTemplateForm.get('templateKey').disable();
             }
           }
         },
@@ -128,7 +131,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    const formValue = this.uploadTemplateForm.value;
+    const formValue = this.uploadTemplateForm.getRawValue();
     // console.log(formValue);
     if (this.uploadTemplateForm.valid) {
 
@@ -148,7 +151,8 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
           // 'photo': templatePhoto,
           'title': formValue.title,
           'description': formValue.description,
-          'html': formValue.templateHtml
+          // 'html': formValue.templateHtml,
+          'templateKey': formValue.templateKey
         }
       };
 

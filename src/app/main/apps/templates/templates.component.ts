@@ -55,7 +55,7 @@ export class TemplatesComponent implements OnInit, OnDestroy {
 
   selectTemplate(item: AdminTemplateModel): void {
     if (item) {
-      localStorage.setItem('selected', item.title.toLowerCase());
+      localStorage.setItem('selected', item.templateKey.toLowerCase());
       this.router.navigate(['/user/' + item._id + '/resumebuilder']);
     }
   }

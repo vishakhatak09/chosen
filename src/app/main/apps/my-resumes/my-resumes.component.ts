@@ -31,6 +31,10 @@ export class MyResumesComponent implements OnInit, OnDestroy {
   chooseResume: boolean;
   jobDetail: JobModel;
 
+  public resolution = 100;
+  // public pageSize: string;
+  public pageSize = 'A4';
+
   // profileResumeList
   constructor(
     private router: Router,
