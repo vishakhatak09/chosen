@@ -21,7 +21,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FuseSharedModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [MyResumesService]
 })

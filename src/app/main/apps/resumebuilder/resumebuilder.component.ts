@@ -55,6 +55,8 @@ import { ResumeProfessionalComponent } from './resume-professional/resume-profes
 import { LoadingScreenService } from '@fuse/services/loading.service';
 import { templateMock } from 'core/mock/temp-content';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
+import * as jsPDF from 'jspdf';
+import 'html2canvas';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -315,23 +317,28 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     // this.generateImage(pdf, true);
     const element = document.getElementById('template-resume');
     if (element) {
+      this.loaderService.show();
       const border = element.style.border;
       const shadow = element.style.boxShadow;
+      const marginTop = element.style.marginTop;
+      const marginBottom = element.style.marginTop;
       element.style.border = '';
       element.style.boxShadow = '';
-      setTimeout(() => {
-        pdf.saveAs(`resume_${this.userName}`);
-        this.generateImage(pdf, true);
-        // element.style.border = border;
-        // element.style.boxShadow = shadow;
-      }, 100);
-      // pdf.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions)).then((dataUri) => {
-      //   // const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}.pdf`);
-      //   // this.templatePdfFile = fileObject;
-      //   console.log('dataUri', dataUri);
-      //   element.style.border = border;
-      //   element.style.boxShadow = shadow;
-      // });
+      element.style.marginTop = '';
+      element.style.marginBottom = '';
+      this.makePdf(element, { border, shadow, marginTop, marginBottom });
+      //   element.classList.remove('temp-box');
+      //   pdf.saveAs(`resume_${this.userName}`);
+      //   this.generateImage(pdf, true);
+      //   setTimeout(() => {
+      //     // console.log('element', element);
+      //     element.style.border = border;
+      //     element.style.boxShadow = shadow;
+      //     element.style.marginTop = marginTop;
+      //     element.style.marginBottom = marginBottom;
+      //     element.classList.add('temp-box');
+      // this.loaderService.hide();
+      //   }, 1000);
     }
   }
 
@@ -347,7 +354,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     return new File([u8arr], filename, { type: mime });
   }
 
-  generatePDF(pdf: PDFExportComponent): void {
+  generatePDF(pdf: PDFExportComponent, lastStep = true): void {
     this.lastStep = false;
     this.loaderService.show();
     pdf.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions))
@@ -357,7 +364,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         // console.log('dataUri', dataUri);
         // console.log('fileObject', fileObject);
       }).then(() => {
-        this.generateImage(pdf, false, true);
+        this.generateImage(pdf, false, lastStep);
       }).catch(() => {
         this.loaderService.hide();
       });
@@ -1009,7 +1016,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     this.loaderService.show();
 
     const formData = new FormData();
-    if (isLastStep) {
+    if (isLastStep || this.templatePdfFile) {
       formData.append('pdf', this.templatePdfFile);
     }
 
@@ -1069,7 +1076,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   everyStepSaveImage(): void {
     if (this.pdfComponent) {
-      this.generateImage(this.pdfComponent, false, false);
+      this.generatePDF(this.pdfComponent, false);
+      // this.generateImage(this.pdfComponent, false, false);
     }
   }
 
@@ -1097,6 +1105,58 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       return true;
     }
 
+  }
+
+  async makePdf(element, styles) {
+    await html2canvas(element, {
+      scale: 5,
+      useCORS: true
+    }).then(async canvas => {
+      const imgWidth = 595.28;
+      const pageHeight = 841.89;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      const imgData = canvas.toDataURL('image/jpeg', '1.0');
+
+      const doc = new jsPDF('p', 'pt', 'a4');
+      doc.internal.scaleFactor = 1.55;
+      let position = 0;
+
+      doc.addImage(
+        imgData,
+        'JPEG',
+        0,
+        position,
+        imgWidth,
+        imgHeight + 15,
+        null,
+        'FAST'
+      );
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(
+          imgData,
+          'JPEG',
+          0,
+          position,
+          imgWidth,
+          imgHeight + 15,
+          null,
+          'FAST'
+        );
+        heightLeft -= pageHeight;
+      }
+      doc.save(`resume_${this.userName}`);
+      element.style.border = styles.border;
+      element.style.boxShadow = styles.shadow;
+      element.style.marginTop = styles.marginTop;
+      element.style.marginBottom = styles.marginBottom;
+      this.loaderService.hide();
+
+    });
   }
 
   /**
