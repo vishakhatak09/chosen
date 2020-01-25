@@ -4,15 +4,17 @@ import { TemplateModel, SkillRating, WorkModel, EducationModel, AdditionalModel,
 import { SafeHtml } from '@angular/platform-browser';
 import { ResumeBuilderService } from '../resumebuilder.service';
 import * as _ from 'lodash';
+import { environment } from 'environments/environment.prod';
+import { TemplateIconUrl } from 'core/constants/icon.constant';
 
 @Component({
-  selector: 'app-resume-professional',
-  templateUrl: './resume-professional.component.html',
-  styleUrls: ['./resume-professional.component.scss']
+    selector: 'app-resume-professional',
+    templateUrl: './resume-professional.component.html',
+    styleUrls: ['./resume-professional.component.scss']
 })
 export class ResumeProfessionalComponent implements OnInit, OnChanges {
 
-  public str = String;
+    public str = String;
     public Arr = Array;
     public ratingMax = 5;
     public MockData = ResumeMock.data;
@@ -41,6 +43,14 @@ export class ResumeProfessionalComponent implements OnInit, OnChanges {
     @Input() backColor: string;
     @Input() lastStep = false;
     @Input() selectedFont: string;
+    public assetPath = environment.imageBaseUrl;
+    mailUrl = TemplateIconUrl.MailSrcWhite;
+    mobileUrl = TemplateIconUrl.PhoneWhite;
+    addressUrl = TemplateIconUrl.LocationWhite;
+    fbUrl = TemplateIconUrl.FbWhite;
+    linkedinUrl = TemplateIconUrl.LinkedInWhite;
+    skypeUrl = TemplateIconUrl.SkypeWhite;
+    websiteUrl = TemplateIconUrl.WebsiteWhite;
 
     /**
      * Constructor

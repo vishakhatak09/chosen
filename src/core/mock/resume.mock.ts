@@ -3,12 +3,12 @@ import * as moment from 'moment';
 
 export class ResumeMock {
     public static data: TemplateModel = {
-        firstName: 'John',
-        lastName: 'Doe',
+        firstName: 'Sumit',
+        lastName: 'Patel',
         contactNumber: '111-222-3333',
-        email: 'john.doe@gmail.com',
+        email: 'sumit.patel@gmail.com',
         fullAddress: 'Lorem ipsum dolor met ',
-        designation: 'developer',
+        designation: 'Developer',
         dateOfBirth: null,
         placeOfBirth: '',
         gender: '',
@@ -83,10 +83,10 @@ export class ResumeMock {
         currentJobLocation: 'Ahmedabad',
     };
     public static templateForm = {
-        firstName: 'John',
-        lastName: 'Doe',
+        firstName: 'Sumit',
+        lastName: 'Patel',
         contactNumber: '111-222-3333',
-        email: 'john.doe@gmail.com',
+        email: 'sumit.patel@gmail.com',
         fullAddress: 'Lorem ipsum dolor met ',
     };
     public static experienceData = [

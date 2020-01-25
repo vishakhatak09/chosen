@@ -14,6 +14,7 @@ import { ResumeMock } from 'core/mock/resume.mock';
 import { AdditionalModel, EducationModel, SkillRating, TemplateModel, WorkModel, SocialModel } from 'core/models/resumebuilder.model';
 import { ResumeBuilderService } from '../resumebuilder.service';
 import * as _ from 'lodash';
+import { TemplateIconUrl } from 'core/constants/icon.constant';
 
 @Component({
     selector: 'app-resume-template',
@@ -59,6 +60,13 @@ export class ResumeTemplateComponent implements OnInit, OnChanges {
     @Input() backColor: string;
     @Input() lastStep = false;
     @Input() selectedFont: string;
+    mailUrl = TemplateIconUrl.MailSrcBlack;
+    mobileUrl = TemplateIconUrl.PhoneBlack;
+    addressUrl = TemplateIconUrl.LocationBlack;
+    fbUrl = TemplateIconUrl.FbBlack;
+    linkedinUrl = TemplateIconUrl.LinkedInBlack;
+    skypeUrl = TemplateIconUrl.SkypeBlack;
+    websiteUrl = TemplateIconUrl.WebsiteBlack;
 
     /**
      * Constructor

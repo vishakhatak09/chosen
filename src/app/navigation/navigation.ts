@@ -25,12 +25,20 @@ export const navigation: FuseNavigation[] = [
                 url: '/user/my-resumes'
             },
             {
-                id: 'mrofile',
+                id: 'profile',
                 title: 'Profile',
                 translate: 'NAV.PROFILE',
                 type: 'item',
                 icon: 'person',
                 url: '/user/profile'
+            },
+            {
+                id: 'jobsearch',
+                title: 'Job Search',
+                translate: 'NAV.JOB_SEARCH',
+                type: 'item',
+                icon: 'work_outline',
+                url: '/user/job-search'
             },
         ]
     },

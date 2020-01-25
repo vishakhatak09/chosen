@@ -6,7 +6,7 @@ import { JobModel } from 'core/models/job.model';
 import { CommonService } from 'core/services/common.service';
 import { environment } from 'environments/environment';
 import { Observable, of, Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, startWith } from 'rxjs/operators';
 import { JobDetailComponent } from '../job-detail/job-detail.component';
 
 @Component({
@@ -18,6 +18,7 @@ export class JobSearchComponent implements OnInit, OnDestroy {
 
   searchBox = new FormControl();
   getJobApi = environment.serverBaseUrl + 'api/jobFilter';
+  getAllJobApi = environment.serverBaseUrl + 'api/jobList';
   public baseUrl = environment.serverImagePath + 'job/';
   public filterResults: JobModel[] = [];
 
@@ -38,10 +39,10 @@ export class JobSearchComponent implements OnInit, OnDestroy {
     this.initAutoComplete();
   }
 
-  initAutoComplete() {
+  initAutoComplete(initialValue = '') {
     this.searchBox.valueChanges
       .pipe(
-        // startWith(''),
+        startWith(initialValue),
         switchMap(value => this._filter(value)),
         takeUntil(this._unsubscribeAll)
       )
@@ -55,7 +56,7 @@ export class JobSearchComponent implements OnInit, OnDestroy {
         },
         ((error) => {
           this.filterResults = [];
-          this.initAutoComplete();
+          this.initAutoComplete(null);
         })
       );
   }
@@ -99,16 +100,27 @@ export class JobSearchComponent implements OnInit, OnDestroy {
         params.params.jobCategory = this.selectedFilters.jobCategory;
       }
     }
-    if (typeof value === 'string' && value.length > 0) {
-      const filterValue = value.toLowerCase();
-      params.params.keyskill = filterValue;
 
-      return this.commonService.searchJob(this.getJobApi, params);
-    } else if (this.selectedFilters) {
-      return this.commonService.searchJob(this.getJobApi, params);
+    if (typeof value === 'string') {
+      if (!this.selectedFilters && value.trim().length === 0) {
+        return this.getAllJobs();
+      } if (typeof value === 'string' && value.length > 0) {
+        const filterValue = value.toLowerCase();
+        params.params.keyskill = filterValue;
+        return this.commonService.searchJob(this.getJobApi, params);
+      } else if (this.selectedFilters) {
+        return this.commonService.searchJob(this.getJobApi, params);
+      } else {
+        return this.getAllJobs();
+      }
     } else {
       return of(null);
     }
+
+  }
+
+  getAllJobs() {
+    return this.commonService.searchAllJob(this.getAllJobApi);
   }
 
   clearFilter(): void {

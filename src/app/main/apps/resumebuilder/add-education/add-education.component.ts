@@ -30,12 +30,14 @@ export const MY_FORMATS = {
         [matTooltipPosition]="'above'"
         (click)="dialogRef.close()" class="dialog-close-btn">
         <mat-icon>close</mat-icon>
-    </button>
+    </button>&nbsp;
+    <button type="button" class="accent save-btn" mat-raised-button
+      (click)="submitForm()">Save</button>
   </h1>
   <div mat-dialog-content>
 
     <form fxLayout="row wrap" fxLayoutGap="25px" #eduForm="ngForm" [formGroup]="userEduForm"
-      name="EduForm" (ngSubmit)="submitForm()">
+      name="EduForm">
 
         <mat-form-field floatLabel="always" fxFlex.xs="calc(100%-25px)" fxFlex="calc(50%-25px)" appearance="outline">
             <mat-label hidden>College Name</mat-label>
@@ -91,9 +93,9 @@ export const MY_FORMATS = {
             (change)="setCurrentDate($event.checked)"
           >Currently Pursuing</mat-checkbox>
         </div>
-        <div mat-dialog-actions>
-          <button type="submit" class="accent" mat-raised-button>Save</button>
-        </div>
+        <!-- <div mat-dialog-actions>
+          <button type="submit" class="accent w-100" mat-raised-button>Save</button>
+        </div> -->
     </form>
   </div>
 
@@ -178,6 +180,8 @@ export class AddEducationComponent implements OnInit, OnDestroy {
   submitForm(): void {
     if (this.userEduForm.valid) {
       this.dialogRef.close(this.userEduForm.value);
+    } else {
+      this.userEduForm.markAllAsTouched();
     }
   }
 

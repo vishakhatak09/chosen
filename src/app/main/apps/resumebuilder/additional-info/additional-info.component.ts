@@ -13,6 +13,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { AppConstant } from 'core/constants/app.constant';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
+import { environment } from 'environments/environment';
 
 declare var tinymce: any;
 
@@ -140,7 +141,8 @@ export class AdditionalInfoComponent implements OnInit {
    * Setup tinymce editor
    */
   private setupTinyMce(value?: SafeHtml): void {
-    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    // tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    tinymce.baseURL = environment.tinyMceBaseUrl; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config

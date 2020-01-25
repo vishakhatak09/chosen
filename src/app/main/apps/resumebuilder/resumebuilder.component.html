@@ -270,6 +270,24 @@
                                                 [init]="tinyEditorConfig" placeholder="Career objective"
                                                 [formControlName]="'careerObjective'" tagName="textarea">
                                             </editor>
+                                            <!-- <kendo-editor [formControlName]="'careerObjective'" style="height: 400px;"> -->
+                                                <!-- <kendo-toolbar>
+                                                    <kendo-toolbar-button kendoEditorBoldButton>
+                                                    </kendo-toolbar-button>
+                                                    <kendo-toolbar-button kendoEditorItalicButton>
+                                                    </kendo-toolbar-button>
+                                                    <kendo-toolbar-button kendoEditorUnderlineButton>
+                                                    </kendo-toolbar-button>
+                                                    <kendo-toolbar-button kendoEditorInsertUnorderedListButton>
+                                                    </kendo-toolbar-button>
+                                                    <kendo-toolbar-button kendoEditorInsertOrderedListButton>
+                                                    </kendo-toolbar-button>
+                                                    <kendo-toolbar-button kendoEditorUndoButton>
+                                                    </kendo-toolbar-button>
+                                                    <kendo-toolbar-button kendoEditorRedoButton>
+                                                    </kendo-toolbar-button>
+                                                </kendo-toolbar> -->
+                                            <!-- </kendo-editor> -->
                                             <mat-error *ngIf="careerObjForm.get('careerObjective').touched && 
                                                 careerObjForm.get('careerObjective').value == '' ">
                                                 Please fill in career objective
@@ -415,7 +433,7 @@
 
                         <mat-step [stepControl]="skillForm">
 
-                            <form class="tab-content pt-8 pl-12" [formGroup]="skillForm" fxLayout="row wrap"
+                            <form class="tab-content pt-8 pl-12 skill-form" [formGroup]="skillForm" fxLayout="row wrap"
                                 fxLayoutGap="25px" (ngSubmit)="formSubmit()">
                                 <ng-template matStepLabel>Areas of Expertise</ng-template>
 

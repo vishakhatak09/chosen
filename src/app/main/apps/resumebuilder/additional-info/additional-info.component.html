@@ -3,11 +3,12 @@
     <button mat-icon-button matTooltip="Close" type="button" [matTooltipPosition]="'above'" (click)="dialogRef.close()"
         class="dialog-close-btn">
         <mat-icon>close</mat-icon>
-    </button>
+    </button>&nbsp;
+    <button type="button" class="accent save-btn" mat-raised-button (click)="submitForm()">Save</button>
 </h1>
 <div mat-dialog-content>
 
-    <form fxLayout="row wrap" fxLayoutGap="25px" #addForm="ngForm" name="AddForm" (ngSubmit)="submitForm()">
+    <form fxLayout="row wrap" fxLayoutGap="25px" #addForm="ngForm" name="AddForm">
 
         <ng-container [ngSwitch]="additionalInfo.type">
             <ng-container *ngSwitchCase="'Accomplishments'">
@@ -16,6 +17,9 @@
                     <editor [id]="'accomplishments'" autofocus [init]="tinyEditorConfig" [formControl]="editorText"
                         name="accomplishments" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
                     </editor>
+                    <!-- <kendo-editor [id]="'accomplishments'" [formControl]="editorText" name="accomplishments"
+                        style="margin: 0; padding: 0; width: 100%;">
+                    </kendo-editor> -->
                 </ng-template>
             </ng-container>
             <ng-container *ngSwitchCase="'Affiliations'">
@@ -24,6 +28,9 @@
                     <editor [id]="'affiliations'" autofocus [init]="tinyEditorConfig" [formControl]="editorText"
                         name="affiliations" tagName="textarea" style="margin: 0; padding: 0; width: 100%;">
                     </editor>
+                    <!-- <kendo-editor  [id]="'affiliations'" [formControl]="editorText" name="accomplishments"
+                        style="margin: 0; padding: 0; width: 100%;">
+                    </kendo-editor> -->
                 </ng-template>
             </ng-container>
             <ng-container *ngSwitchCase="'Certifications'">
@@ -51,7 +58,7 @@
                 </div>
                 <div class="add-certificate">
                     <button mat-button type="button" class="add-button" (click)="addDeleteCertificate('add')">
-                        <mat-icon>add_box</mat-icon> 
+                        <mat-icon>add_box</mat-icon>
                         Add <span *ngIf="certifications.length > 0">More</span>
                     </button>
                 </div>
@@ -59,7 +66,7 @@
             </ng-container>
             <ng-container *ngSwitchDefault>
 
-                <div fxFlex="100">
+                <div fxFlex="98">
                     <mat-form-field class="w-100-p">
                         <input matInput [matChipInputFor]="skillList" placeholder="Add {{ additionalInfo.type }}.."
                             [matChipInputAddOnBlur]="true" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -80,8 +87,8 @@
             </ng-container>
         </ng-container>
 
-        <div mat-dialog-actions>
+        <!-- <div mat-dialog-actions>
             <button type="submit" class="accent" mat-raised-button>Save</button>
-        </div>
+        </div> -->
     </form>
 </div>

@@ -19,6 +19,7 @@ export const MY_FORMATS = {
   },
 };
 import 'tinymce/tinymce.min.js';
+import { environment } from 'environments/environment';
 declare var tinymce: any;
 
 @Component({
@@ -30,12 +31,14 @@ declare var tinymce: any;
         [matTooltipPosition]="'above'"
         (click)="dialogRef.close()" class="dialog-close-btn">
         <mat-icon>close</mat-icon>
-    </button>
+    </button>&nbsp;
+    <button type="button" class="accent save-btn" mat-raised-button 
+      (click)="submitForm()">Save</button>
   </h1>
   <div mat-dialog-content>
 
     <form fxLayout="row wrap" fxLayoutGap="25px" #workForm="ngForm" [formGroup]="userWorkForm"
-      name="WorkForm" (ngSubmit)="submitForm()">
+      name="WorkForm">
 
         <mat-form-field floatLabel="always" fxFlex.xs="100" fxFlex="100" appearance="outline">
             <mat-label hidden>Designation</mat-label>
@@ -123,6 +126,8 @@ declare var tinymce: any;
                 <editor [id]="'jobDescriptionArea'" autofocus class="tiny-editor"
                 [init]="tinyEditorConfig" placeholder="Job profile description" [formControlName]="'jobDescription'" tagName="textarea">
                 </editor>
+                <!-- <kendo-editor [formControlName]="'jobDescription'" style="height: 400px;" placeholder="Job profile description">
+                </kendo-editor> -->
                 <mat-error *ngIf="userWorkForm.get('jobDescription').touched &&
                 userWorkForm.get('jobDescription').value == '' ">
                     Please fill in job profile description
@@ -130,9 +135,9 @@ declare var tinymce: any;
             </ng-template>
         </div>
 
-        <div mat-dialog-actions>
-          <button type="submit" class="accent" mat-raised-button>Save</button>
-        </div>
+        <!-- <div mat-dialog-actions>
+          <button type="submit" class="accent w-100" mat-raised-button>Save</button>
+        </div> -->
     </form>
   </div>
   `,
@@ -215,7 +220,8 @@ export class AddWorkComponent implements OnInit, OnDestroy {
   }
 
   private setupTinyMce(): void {
-    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    // tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    tinymce.baseURL = environment.tinyMceBaseUrl; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config
@@ -274,6 +280,8 @@ export class AddWorkComponent implements OnInit, OnDestroy {
   submitForm(): void {
     if (this.userWorkForm.valid) {
       this.dialogRef.close(this.userWorkForm.value);
+    } else {
+      this.userWorkForm.markAllAsTouched();
     }
   }
 

@@ -50,8 +50,9 @@
                         <!-- <span class="k-icon k-i-filter font-size-30"> Apply filter</span> -->
                         <mat-icon>filter_list</mat-icon> Apply filter
                     </button>
-                    <button *ngIf="selectedFilters" mat-raised-button color="warn" class="fuse-search-bar-expander ml-8 m-4"
-                        matTooltip="Clear Filter" [matTooltipPosition]="'above'" (click)="clearFilter()">
+                    <button *ngIf="selectedFilters" mat-raised-button color="warn"
+                        class="fuse-search-bar-expander ml-8 m-4" matTooltip="Clear Filter"
+                        [matTooltipPosition]="'above'" (click)="clearFilter()">
                         <!-- <span class="k-icon k-i-filter-clear font-size-30"> Remove filter</span> -->
                         <mat-icon>layers_clear</mat-icon> Remove filter
                     </button>
@@ -61,62 +62,65 @@
 
             <div class="results">
 
-                <ng-container *ngIf="filterResults.length > 0;">
-                    <div class="search-list border-bottom p-8 mat-elevation-z4 border-radius-16 result-item" mat-ripple
-                        *ngFor="let option of filterResults" (click)="selectedJob(option)" fxLayout="row"
-                        fxLayoutAlign="start ">
-                        <div class="img-box border mr-16">
-                            <img [src]="baseUrl + option.image" *ngIf="option.image">
-                            <img src="assets/images/background/no-data.svg" *ngIf="!option.image">
-                        </div>
-                        <div class="desc" fxLayout="row wrap" fxLayoutAlign=" start" fxFlex="100%">
-                            <div class="l-n" fxLayout="column" fxFlex="100%" fxFlex.gt-xs="100%" fxFlex.gt-sm="100%">
-                                <span class="text-warp primary-900-fg font-weight-800">{{option.jobPosition}}</span>
-                                <span class="hint-text">{{ option.companyName }}</span>
+                <div>
+                    <ng-container *ngIf="filterResults.length > 0;">
+                        <div class="search-list border-bottom p-8 mat-elevation-z4 border-radius-16 result-item"
+                            mat-ripple *ngFor="let option of filterResults" (click)="selectedJob(option)" fxLayout="row"
+                            fxLayoutAlign="start ">
+                            <div class="img-box border mr-16">
+                                <img [src]="baseUrl + option.image" *ngIf="option.image">
+                                <img src="assets/images/background/no-data.svg" *ngIf="!option.image">
                             </div>
-                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row"
-                                *ngIf="option.startworkExperience && option.startworkExperience.years">
-                                <div class="icon">
-                                    <mat-icon class="mr-8">schedule</mat-icon>
+                            <div class="desc" fxLayout="row wrap" fxLayoutAlign=" start" fxFlex="100%">
+                                <div class="l-n" fxLayout="column" fxFlex="100%" fxFlex.gt-xs="100%"
+                                    fxFlex.gt-sm="100%">
+                                    <span class="text-warp primary-900-fg font-weight-800">{{option.jobPosition}}</span>
+                                    <span class="hint-text">{{ option.companyName }}</span>
                                 </div>
-                                <span class="text-warp secondary-text">
-                                    {{option?.startworkExperience?.years}}
-                                    <ng-container *ngIf="option?.endworkExperience?.years">-
-                                        {{option?.endworkExperience?.years}}</ng-container> yrs
-                                </span>
-                            </div>
-                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
-                                <div class="icon">
-                                    <mat-icon class="mr-8">room</mat-icon>
+                                <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row"
+                                    *ngIf="option.startworkExperience && option.startworkExperience.years">
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">schedule</mat-icon>
+                                    </div>
+                                    <span class="text-warp secondary-text">
+                                        {{option?.startworkExperience?.years}}
+                                        <ng-container *ngIf="option?.endworkExperience?.years">-
+                                            {{option?.endworkExperience?.years}}</ng-container> yrs
+                                    </span>
                                 </div>
-                                <span class="text-warp secondary-text">{{option.location}}</span>
-                            </div>
-                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
-                                <div class="icon">
-                                    <mat-icon class="mr-8">account_balance_wallet</mat-icon>
+                                <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">room</mat-icon>
+                                    </div>
+                                    <span class="text-warp secondary-text">{{option.location}}</span>
                                 </div>
-                                <span class="text-warp secondary-text" *ngIf="((option?.startSalary == undefined || option?.startSalary === '')
-                                    && (option?.endSalary == undefined || option?.endSalary === ''))
-                                    ||
-                                    (option?.startSalary === '0' && option?.endSalary === '0')">Not
-                                    disclosed</span>
-                                <span class="text-warp secondary-text" *ngIf="option.startSalary !== undefined && option.endSalary !== undefined &&
-                                    (option?.startSalary !== '0' || option?.endSalary !== '0')">
-                                    INR {{ option?.startSalary }} - {{ option?.endSalary }} Lakh(s) PA
-                                </span>
-                            </div>
-                            <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row" fxFlex="100%" fxFlex.gt-xs="100%"
-                                fxFlex.gt-sm="100%">
-                                <div class="icon">
-                                    <mat-icon class="mr-8">layers</mat-icon>
+                                <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">account_balance_wallet</mat-icon>
+                                    </div>
+                                    <span class="text-warp secondary-text" *ngIf="((option?.startSalary == undefined || option?.startSalary === '')
+                                        && (option?.endSalary == undefined || option?.endSalary === ''))
+                                        ||
+                                        (option?.startSalary === '0' && option?.endSalary === '0')">Not
+                                        disclosed</span>
+                                    <span class="text-warp secondary-text" *ngIf="option.startSalary !== undefined && option.endSalary !== undefined &&
+                                        (option?.startSalary !== '0' || option?.endSalary !== '0')">
+                                        INR {{ option?.startSalary }} - {{ option?.endSalary }} Lakh(s) PA
+                                    </span>
                                 </div>
-                                <!-- <span class="secondary-text skill">{{option.jobDescription}}</span> -->
-                                <span class="secondary-text skill">{{option.industry}}</span>
-                            </div>
+                                <div class="pr-16 mt-8 l-n ml-12 mr-12" fxLayout="row">
+                                    <!-- fxFlex="100%" fxFlex.gt-xs="100%"  fxFlex.gt-sm="100%" -->
+                                    <div class="icon">
+                                        <mat-icon class="mr-8">layers</mat-icon>
+                                    </div>
+                                    <!-- <span class="secondary-text skill">{{option.jobDescription}}</span> -->
+                                    <span class="secondary-text skill">{{option.industry}}</span>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                </ng-container>
+                    </ng-container>
+                </div>
 
             </div>
 

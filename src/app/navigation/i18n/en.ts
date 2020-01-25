@@ -34,6 +34,7 @@ export const locale = {
             'UPLOAD_TEMPLATES': 'Upload Templates',
             'JOB_DATA_MGMT': 'Job Data Management',
             'LANDING_MGMT': 'Landing Page Management',
+            'JOB_SEARCH': 'Job Search'
         },
     }
 };

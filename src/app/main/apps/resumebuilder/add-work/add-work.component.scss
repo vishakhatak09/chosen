@@ -2,7 +2,11 @@
 
 :host{
     .mat-dialog-title{
-        color: mat-color($mat-green, 600); 
+        color: mat-color($mat-green, 600);
+        .save-btn{
+            float: right;
+            margin-right: 15px;
+        } 
     }
     .mat-dialog-content{
         overflow: visible;
@@ -19,6 +23,9 @@
                 color: mat-color($mat-green, 600); 
                 width: 100%;
                 flex-direction: row-reverse;
+                button{
+                    font-size: 22px;
+                }
             }
         }
     } 

@@ -1,6 +1,5 @@
 import { ENTER } from '@angular/cdk/keycodes';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { CommonModule } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -48,7 +47,7 @@ import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { exportPDF, Group, exportImage } from '@progress/kendo-drawing';
+import { exportPDF, Group, exportImage, pdf } from '@progress/kendo-drawing';
 import { TemplateDynamicDirective } from '@fuse/directives/template-dynamic.directive';
 import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
 import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
@@ -57,6 +56,7 @@ import { templateMock } from 'core/mock/temp-content';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 import * as jsPDF from 'jspdf';
 import 'html2canvas';
+import { PdfViewComponent } from './pdf-view/pdf-view.component';
 
 @Component({
   selector: 'app-resumebuilder',
@@ -246,7 +246,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   private setupTinyMce(): void {
-    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    // tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    tinymce.baseURL = environment.tinyMceBaseUrl; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config
@@ -311,8 +312,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     }
   }
 
-  saveAsPdf(pdf: PDFExportComponent): void {
-    // console.log('pdf', pdf);
+  saveAsPdf(pdfCmp: PDFExportComponent, isSaveImgPDF = true, isLastStep = false): void {
+    // console.log('pdf', pdfCmp);
     // pdf.saveAs(`resume_${this.userName}`);
     // this.generateImage(pdf, true);
     const element = document.getElementById('template-resume');
@@ -326,7 +327,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       element.style.boxShadow = '';
       element.style.marginTop = '';
       element.style.marginBottom = '';
-      this.makePdf(element, { border, shadow, marginTop, marginBottom });
+      this.makePdf(element, { border, shadow, marginTop, marginBottom }, isSaveImgPDF, isLastStep);
       //   element.classList.remove('temp-box');
       //   pdf.saveAs(`resume_${this.userName}`);
       //   this.generateImage(pdf, true);
@@ -354,23 +355,25 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     return new File([u8arr], filename, { type: mime });
   }
 
-  generatePDF(pdf: PDFExportComponent, lastStep = true): void {
+  async generatePDF(pdfComponent: PDFExportComponent, lastStep = true) {
     this.lastStep = false;
     this.loaderService.show();
-    pdf.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions))
-      .then((dataUri) => {
-        const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}.pdf`);
-        this.templatePdfFile = fileObject;
-        // console.log('dataUri', dataUri);
-        // console.log('fileObject', fileObject);
-      }).then(() => {
-        this.generateImage(pdf, false, lastStep);
-      }).catch(() => {
-        this.loaderService.hide();
-      });
+
+    // pdfComponent.export().then((group: Group) => exportPDF(group, AppConstant.PdfOptions))
+    //   .then((dataUri) => {
+    //     const fileObject = this.dataURLtoFile(dataUri, `resume_${this.userName}.pdf`);
+    //     this.templatePdfFile = fileObject;
+    //     // console.log('dataUri', dataUri);
+    //     // console.log('fileObject', fileObject);
+    //   }).then(() => {
+    //     this.generateImage(pdfComponent, false, lastStep);
+    //   }).catch(() => {
+    //     this.loaderService.hide();
+    //   });
+
   }
 
-  generateImage(pdf: PDFExportComponent, download = false, isLastStep = false): void {
+  async generateImage(pdfEle: PDFExportComponent, download = false, isLastStep = false) {
     this.lastStep = true;
     const element = document.getElementById('template-resume');
     if (element) {
@@ -379,17 +382,18 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       // element.style.width = '100%';
       element.style.border = '';
       element.style.boxShadow = '';
-      pdf.export().then((group: Group) => exportImage(group)).then((dataUri) => {
-        this.templateImageBase64 = dataUri;
-        // element.style.width = '';
-        element.style.border = border;
-        element.style.boxShadow = shadow;
-        if (!download) {
-          this.saveTemplatePdfImg(isLastStep);
-        } else {
-          this.loaderService.hide();
-        }
-      });
+      // pdfEle.export().then((group: Group) => exportImage(group)).then((dataUri) => {
+      //   this.templateImageBase64 = dataUri;
+      //   // element.style.width = '';
+      //   element.style.border = border;
+      //   element.style.boxShadow = shadow;
+      //   if (!download) {
+      //     this.saveTemplatePdfImg(isLastStep);
+      //   } else {
+      //     this.loaderService.hide();
+      //   }
+      // });
+
     }
   }
 
@@ -627,6 +631,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     } else {
       this.allowDownload = false;
     }
+    if (this.selectedIndex > 2) {
+      this.lastStep = true;
+    }
     // this.cdRef.detectChanges();
   }
 
@@ -736,9 +743,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             'maritalStatus': formValue.maritalStatus,
             'gender': formValue.gender,
             'socialLinks': this.socialLinkArray,
-            'imageName': this.selectedImage ? this.profileFileName : '',
+            // 'imageName': this.selectedImage ? this.profileFileName : '',
             'designation': formValue.designation,
-            'photo': profileImage,
+            // 'photo': profileImage,
           },
           fontFamily: this.selectedFont
         }
@@ -747,6 +754,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         params.params.id = this.resumeId;
       } else {
         params.params.templateId = this.templateId;
+      }
+      if (this.selectedImage) {
+        params.params.personalInfo.imageName = this.profileFileName;
+        params.params.personalInfo.photo = profileImage;
       }
 
       this.resumeBuilderService.addUpdateResume(AppConstant.ResumeFormApi.saveFirstStepApi, params)
@@ -877,10 +888,12 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
             this.haveAdditionalInfo = true;
             this.cdRef.detectChanges();
             this.selectedIndex = 5;
+            this.everyStepSaveImage();
           } else {
             // this.saveTemplatePdfImg();
             if (this.pdfComponent) {
-              this.generatePDF(this.pdfComponent);
+              // this.generatePDF(this.pdfComponent);
+              this.saveAsPdf(this.pdfComponent, false, true);
             }
           }
 
@@ -917,7 +930,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         (response) => {
           if (response.code === 200) {
             if (this.pdfComponent) {
-              this.generatePDF(this.pdfComponent);
+              // this.generatePDF(this.pdfComponent);
+              this.saveAsPdf(this.pdfComponent, false, true);
             }
           }
         },
@@ -1075,10 +1089,11 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   }
 
   everyStepSaveImage(): void {
-    if (this.pdfComponent) {
-      this.generatePDF(this.pdfComponent, false);
-      // this.generateImage(this.pdfComponent, false, false);
-    }
+    // if (this.pdfComponent) {
+    // this.generatePDF(this.pdfComponent, false);
+    // this.generateImage(this.pdfComponent, false, false);
+    this.saveAsPdf(this.pdfComponent, false, false);
+    // }
   }
 
   canDeactivate(): Observable<boolean> | boolean {
@@ -1107,10 +1122,22 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
   }
 
-  async makePdf(element, styles) {
+  /**
+   * Generates pdf, allows dowloading and generates pdf & image base64 url using html2canvas & jsPDF
+   * @param element HTml element
+   * @param styles styles that are removed and added during save
+   * @param downloadPdfOnly When only downloaded
+   * @param isLastStep When it is last step or not
+   */
+  async makePdf(element: HTMLElement,
+    styles: { border: any; shadow: any; marginTop: any; marginBottom: any; },
+    downloadPdfOnly = false,
+    isLastStep = false
+  ) {
     await html2canvas(element, {
-      scale: 5,
-      useCORS: true
+      scale: 4,
+      useCORS: true,
+      logging: false,
     }).then(async canvas => {
       const imgWidth = 595.28;
       const pageHeight = 841.89;
@@ -1120,6 +1147,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
 
       const doc = new jsPDF('p', 'pt', 'a4');
       doc.internal.scaleFactor = 1.55;
+      doc.setProperties({
+        // title: 'My Resume',
+        toolbar: false
+      });
       let position = 0;
 
       doc.addImage(
@@ -1149,12 +1180,48 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         );
         heightLeft -= pageHeight;
       }
-      doc.save(`resume_${this.userName}`);
-      element.style.border = styles.border;
-      element.style.boxShadow = styles.shadow;
-      element.style.marginTop = styles.marginTop;
-      element.style.marginBottom = styles.marginBottom;
-      this.loaderService.hide();
+      if (downloadPdfOnly === true) {
+        const timestamp = moment().format('x');
+        element.style.border = styles.border;
+        element.style.boxShadow = styles.shadow;
+        element.style.marginTop = styles.marginTop;
+        element.style.marginBottom = styles.marginBottom;
+        this.loaderService.hide();
+        setTimeout(() => {
+          const pdfdata = doc.output('blob');
+          const pdfUrl = URL.createObjectURL(pdfdata);
+          // console.log('pdf', pdfUrl);
+          const dialogRef = this.matDialog.open(
+            PdfViewComponent,
+            {
+              width: '1000px',
+              height: '100%',
+              data: pdfUrl,
+              restoreFocus: false,
+              disableClose: true
+            },
+          );
+          dialogRef.beforeClosed().subscribe((response: boolean) => {
+            if (response === true) {
+              doc.save(`resume_${this.userName}_${timestamp}`);
+            }
+          });
+        }, 500);
+      } else {
+        setTimeout(() => {
+          const pdfUrl = doc.output('datauristring');
+          const imgUrl = canvas.toDataURL('image/jpeg', '1.0');
+          this.templateImageBase64 = imgUrl;
+          const fileObject = this.dataURLtoFile(pdfUrl, `resume_${this.userName}.pdf`);
+          this.templatePdfFile = fileObject;
+          this.saveTemplatePdfImg(isLastStep);
+          element.style.border = styles.border;
+          element.style.boxShadow = styles.shadow;
+          element.style.marginTop = styles.marginTop;
+          element.style.marginBottom = styles.marginBottom;
+          this.loaderService.hide();
+        }, 500);
+      }
 
     });
   }

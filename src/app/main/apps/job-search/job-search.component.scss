@@ -103,7 +103,7 @@ input#fuse-search-bar-input {
     }
   }
   .desc {
-    max-width: calc(100% - 116px);
+    // max-width: calc(100% - 116px);
   }
   .text-warp {
     white-space: normal;
@@ -129,13 +129,14 @@ input#fuse-search-bar-input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 512px;
+  // max-width: 80%;
 
   .result-item {
     margin-top: 24px;
     padding: 16px;
-    border-radius: 4px;
-    @include mat-elevation(1);
+    // border-radius: 4px;
+    width: 100%;
+    // @include mat-elevation(1);
 
     .title {
       font-size: 17px;

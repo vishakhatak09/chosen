@@ -4,6 +4,10 @@
 :host{
     .mat-dialog-title{
         color: mat-color($mat-green, 600); 
+        .save-btn{
+            float: right;
+            margin-right: 15px;
+        } 
     }
     .mat-dialog-content{
         overflow: visible;

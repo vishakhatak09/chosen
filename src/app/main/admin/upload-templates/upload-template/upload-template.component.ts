@@ -51,7 +51,7 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
       // templateHtml: ['', [Validators.required]],
     });
 
-    this.setupTinyMce();
+    // this.setupTinyMce();
     if (this.editTemplateId) {
       this.getEditData();
     }
@@ -110,7 +110,8 @@ export class UploadTemplateComponent implements OnInit, OnDestroy {
   }
 
   private setupTinyMce(): void {
-    tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    // tinymce.baseURL = 'assets'; // Need to display proper editor with its its folder in assets folder
+    tinymce.baseURL = environment.tinyMceBaseUrl; // Need to display proper editor with its its folder in assets folder
     this.tinyEditorConfig = {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config

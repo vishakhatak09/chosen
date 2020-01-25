@@ -4,11 +4,12 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { AnalyticsDashboardDb } from 'app/fake-db/dashboard-analytics';
 import { AnalyticsDashboardService } from './analytics.service';
-import * as shape from 'd3-shape';
-import { ProjectDashboardDb } from 'app/fake-db/dashboard-project';
+// import * as shape from 'd3-shape';
+// import { ProjectDashboardDb } from 'app/fake-db/dashboard-project';
 import { environment } from 'environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'analytics-dashboard',
@@ -19,8 +20,12 @@ import { Subject } from 'rxjs';
 })
 export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     widgets: any;
-    widget1SelectedYear = '2019';
-    widget5SelectedDay = 'today';
+    widget1Conf: any = {};
+    widget5Conf: any = {};
+    widget1Years = [];
+    widget5Years = [];
+    widget1SelectedYear: string;
+    widget5SelectedDay: string;
     statisticWidget: any[] = [];
     public getUserApiUrl = environment.serverBaseUrl + 'admin/dashBoard';
     dashboardData: any;
@@ -144,8 +149,10 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     setStatisticWidget(): void {
 
         const statisticsList = Object.keys(this.dashboardData);
-        const monthUserArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const widget1Array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         const monthTemplateArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let datasetObject = {};
+        let datasetTemplateObject = {};
         if (statisticsList.length > 0) {
             statisticsList.forEach((key: string) => {
                 if (key !== 'monthTemplate' && key !== 'monthUser') {
@@ -178,23 +185,68 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
                     );
                 } else {
                     if (key === 'monthUser') {
-                        for (let i = 0; i < this.dashboardData[key].length; i++) {
-                            const index = this.dashboardData[key][i]['_id'];
-                            const count = this.dashboardData[key][i]['count'];
-                            monthUserArray[index - 1] = count;
+                        // for (let i = 0; i < this.dashboardData[key].length; i++) {
+                        //     const index = this.dashboardData[key][i]['_id'];
+                        //     const count = this.dashboardData[key][i]['count'];
+                        //     widget1Array[index - 1] = count;
+                        // }
+                        const yearArray = _.uniq(_.map(this.dashboardData[key], '_id.year'));
+                        if (yearArray.length > 0) {
+                            datasetObject = this.convertCountObject(key, yearArray, datasetObject);
+                            this.widget1Conf = this.widgets.widget1;
+                            this.widget1Conf.datasets = datasetObject;
                         }
+                        const sorted = yearArray.sort();
+                        this.widget1Years = sorted;
+
                     } else {
-                        for (let i = 0; i < this.dashboardData[key].length; i++) {
-                            const index = this.dashboardData[key][i]['_id'];
-                            const count = this.dashboardData[key][i]['count'];
-                            monthTemplateArray[index - 1] = count;
+                        // for (let i = 0; i < this.dashboardData[key].length; i++) {
+                        //     const index = this.dashboardData[key][i]['_id'];
+                        //     const count = this.dashboardData[key][i]['count'];
+                        //     monthTemplateArray[index - 1] = count;
+                        // }
+                        const yearArray = _.uniq(_.map(this.dashboardData[key], '_id.year'));
+                        if (yearArray.length > 0) {
+                            datasetTemplateObject = this.convertCountObject(key, yearArray, datasetTemplateObject);
+                            this.widget5Conf = this.widgets.widget5;
+                            this.widget5Conf.datasets = datasetTemplateObject;
                         }
+                        const sorted = yearArray.sort();
+                        this.widget5Years = sorted;
                     }
                 }
             });
-            this.widgets.widget1.datasets[this.widget1SelectedYear][0].data = monthUserArray;
-            this.widgets.widget5.datasets[this.widget5SelectedDay][0].data = monthTemplateArray;
+            if (this.widget1Years.length > 0) {
+                this.widget1SelectedYear = (this.widget1Years[0] || '');
+            }
+            if (this.widget5Years.length > 0) {
+                this.widget5SelectedDay = (this.widget5Years[0] || '');
+            }
+            // this.widget1Conf.datasets[this.widget1SelectedYear][0].data = widget1Array;
+            // this.widgets.widget5.datasets[this.widget5SelectedDay][0].data = monthTemplateArray;
         }
+    }
+
+    convertCountObject(key: string, yearArray: any[], dataObject: any) {
+        this.dashboardData[key].forEach((record: any) => {
+            yearArray.forEach((inner: any) => {
+                if (inner === record._id.year) {
+                    if (!dataObject[String(inner)]) {
+                        dataObject[String(inner)] = [
+                            {
+                                label: 'Visitors',
+                                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                fill: 'start'
+                            }
+                        ];
+                    }
+                    const index = record['_id']['month'];
+                    const count: number = record['count'];
+                    dataObject[String(inner)][0].data[index - 1] += count;
+                }
+            });
+        });
+        return dataObject;
     }
 
     ngOnDestroy(): void {

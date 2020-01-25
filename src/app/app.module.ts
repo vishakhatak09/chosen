@@ -20,6 +20,7 @@ import { CoreModule } from 'core/core.module';
 import { AuthGuardService, AdminGuardService } from 'core/services/auth-guard.service';
 import 'hammerjs';
 import { PageNotFoundComponent } from './main/pageNotFound/pageNotFound.component';
+
 // import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
 
 const appRoutes: Routes = [
@@ -82,7 +83,7 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        CoreModule
+        CoreModule,
     ],
     providers: [
         AuthGuardService,

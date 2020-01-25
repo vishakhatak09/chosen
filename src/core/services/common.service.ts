@@ -70,4 +70,8 @@ export class CommonService {
     return this.http.post(searchUrl, params);
   }
 
+  searchAllJob(searchUrl: string): Observable<any>{
+    return this.http.get(searchUrl);
+  }
+
 }

@@ -1,0 +1,25 @@
+@import "src/@fuse/scss/fuse";
+:host{
+    .mat-dialog-container{
+        overflow: hidden !important;
+    }
+    .mat-dialog-title{
+        color: mat-color($mat-green, 600); 
+        .save-btn{
+            float: right;
+            margin-right: 15px;
+        }
+    }
+    .mat-dialog-content{
+        height: 100% !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+    }
+    .dialog-close-btn{
+        float: right;
+        color: black !important;
+    }
+}
+#title{
+    display: none !important;
+}
