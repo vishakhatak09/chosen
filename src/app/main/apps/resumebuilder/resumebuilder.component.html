@@ -34,7 +34,7 @@
                     <mat-icon>remove_red_eye</mat-icon>
                 </button>
                 <button *ngIf="allowDownload || resumeEditData" mat-mini-fab type="button" matTooltip="Download"
-                    [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf(pdf)">
+                    [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf()">
                     <mat-icon>picture_as_pdf</mat-icon>
                 </button>
             </div>
@@ -597,7 +597,7 @@
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
                     fusePerfectScrollbar>
-                    <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution" [margin]="0">
+                    <!-- <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution" [margin]="0"> -->
                         <!-- <ng-template template-dynamic></ng-template> -->
                         <app-resume-template #templateRef *ngIf="currentTemplate === 'tp1'"
                             [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail"
@@ -617,7 +617,7 @@
                             [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor"
                             [backColor]="backColor" [selectedFont]="selectedFont">
                         </app-resume-professional>
-                    </kendo-pdf-export>
+                    <!-- </kendo-pdf-export> -->
                     <!-- <div #container></div> -->
                 </div>
 

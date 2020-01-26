@@ -28,7 +28,6 @@ import { AdditionalInfoComponent } from './additional-info/additional-info.compo
 import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 import { CommonService } from 'core/services/common.service';
 import { ResumeBuilderResolver } from './resumebuilder.resolver';
-import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
 import { CanDeactivateGuard } from './can-deactivate-guard.service';
 import { PdfViewComponent } from './pdf-view/pdf-view.component';
@@ -87,7 +86,6 @@ const routes: Routes = [
     FuseMaterialColorPickerModule,
 
     EditorModule,
-    PDFExportModule,
     // EditorModule
   ],
   providers: [ResumeBuilderService, CommonService, ResumeBuilderResolver, CanDeactivateGuard],

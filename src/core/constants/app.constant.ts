@@ -1,5 +1,4 @@
 import { environment } from 'environments/environment';
-import { PDFOptions } from '@progress/kendo-drawing/pdf';
 
 export class AppConstant {
 
@@ -236,12 +235,6 @@ export class AppConstant {
         },
     ];
 
-    public static PdfOptions: PDFOptions = {
-        author: 'Chosenyou',
-        title: 'Resume',
-        paperSize: 'A4',
-        margin: { left: '0cm', top: '0cm', right: '0cm', bottom: '0cm' }
-    };
 }
 
 export interface OptionType {
