@@ -6,7 +6,14 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-resume-preview',
   template: `
-    <div [innerHTML]="previewContent">
+    <div mat-dialog-content style="font-weight: 800; color: #444444;">
+      <div>
+        <button mat-icon-button matTooltip="Close" class="dialog-close-btn" (click)="dialogRef.close()">
+            <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div [innerHTML]="previewContent">
+      </div>
     </div>
   `,
   styleUrls: ['./resume-preview.component.scss'],

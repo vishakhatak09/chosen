@@ -597,7 +597,6 @@
 
                 <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
                     fusePerfectScrollbar>
-                    <!-- <kendo-pdf-export #pdf [paperSize]="pageSize" [imageResolution]="resolution" [margin]="0"> -->
                         <!-- <ng-template template-dynamic></ng-template> -->
                         <app-resume-template #templateRef *ngIf="currentTemplate === 'tp1'"
                             [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail"
@@ -606,7 +605,7 @@
                             [educationData]="educationData" [skillData]="skillRatingList"
                             [additionalInfo]="additionalInfoData" [socialData]="socialLinkArray" [lastStep]="lastStep"
                             [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor"
-                            [backColor]="backColor" [selectedFont]="selectedFont">
+                            [backColor]="backColor" [selectedFont]="selectedFont" [editId]="resumeId">
                         </app-resume-template>
                         <app-resume-professional #templateRef *ngIf="currentTemplate === 'tp2'"
                             [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail"
@@ -615,9 +614,8 @@
                             [educationData]="educationData" [skillData]="skillRatingList"
                             [additionalInfo]="additionalInfoData" [socialData]="socialLinkArray" [lastStep]="lastStep"
                             [profileSrc]="profileSrc" [content]="MockTemplate" [fontColor]="fontColor"
-                            [backColor]="backColor" [selectedFont]="selectedFont">
+                            [backColor]="backColor" [selectedFont]="selectedFont" [editId]="resumeId">
                         </app-resume-professional>
-                    <!-- </kendo-pdf-export> -->
                     <!-- <div #container></div> -->
                 </div>
 

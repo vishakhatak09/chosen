@@ -125,11 +125,12 @@ export class MyResumesComponent implements OnInit, OnDestroy {
   }
 
   previewImage(template: MyResumesModel): void {
-    this.matDialog.open(PreviewComponent, {
+    const dialogRef = this.matDialog.open(PreviewComponent, {
       data: {
         image: this.imageBaseUrl + template.resumeImage
       },
-      width: 'auto',
+      disableClose: true,
+      width: '50%',
       height: '100%',
     });
   }

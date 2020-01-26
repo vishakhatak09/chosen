@@ -10,7 +10,7 @@
     <div class="content">
 
         <div class="card-preview p-12" fxLayout="row wrap">
-            <div class="p-12" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%"
+            <div class="p-12 resumes" fxFlex="100%" fxFlex.gt-xs="50%" fxFlex.gt-sm="33.33%" fxFlex.gt-md="25%"
                 *ngFor="let resume of resumeList">
                 <div class="fuse-card p-4">
                     <img class="resume-img" [src]="imageBaseUrl + resume.resumeImage">
@@ -34,6 +34,9 @@
                         </button>
 
                     </div>
+                    <!-- <div class="px-8" style="align-self: flex-start;">
+                        <div class="h3"><strong>{{ item.title }}</strong></div>
+                    </div> -->
 
                 </div>
             </div>

@@ -177,11 +177,10 @@
     }
   }
   
-  mat-dialog-container{
-    height: auto !important;
-  }
+  
   
   .dialog-close-btn{
     float: right;
     color: black !important;
-}
+    margin-bottom: 10px;
+  }

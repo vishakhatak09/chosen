@@ -1,64 +1,70 @@
 @import "src/@fuse/scss/fuse";
 app-my-resumes {
-    .fuse-card {
-        box-shadow: 0 0 5px 0px #9c9c9c;
-        max-width: initial;
-        min-width: auto;
-        height: 100%;
-        position: relative;
-        img {
-            max-width: 100%;
-        }
-        .hover-box {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 500ms;
-            opacity: 0;
-            &:after,
-            &:before {
-                background: rgba(0, 0, 0, 0.5);
-                content: "";
-                position: absolute;
-                height: 0;
-                width: 100%;
-                transition: 300ms;
+    .resumes{
+        // height: 550px;
+        // width: 300px;
+        .fuse-card {
+            box-shadow: 0 0 5px 0px #9c9c9c;
+            max-width: initial;
+            min-width: auto;
+            height: 100%;
+            position: relative;
+            img {
+                max-width: 100%;
+                overflow: hidden;
             }
-            &:before {
-                top: 0;
-            }
-            &:after {
-                bottom: 0;
-            }
-            button {
-                background-color: #fff !important;
-                position: relative;
-                z-index: 1;
-                margin: 0 5px;
-                width: 50px;
-                height: 50px;
-                .mat-button-wrapper {
-                    padding: 0;
-                    font-size: 18px;
-                }
-                mat-icon {
-                    color: #0e9472;
-                }
-            }
-        }
-        &:hover {
             .hover-box {
-                opacity: 1;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: 500ms;
+                opacity: 0;
                 &:after,
                 &:before {
-                    height: 50%;
+                    background: rgba(0, 0, 0, 0.5);
+                    content: "";
+                    position: absolute;
+                    height: 0;
+                    width: 100%;
+                    transition: 300ms;
+                }
+                &:before {
+                    top: 0;
+                }
+                &:after {
+                    bottom: 0;
+                }
+                button {
+                    background-color: #fff !important;
+                    position: relative;
+                    z-index: 1;
+                    margin: 0 5px;
+                    width: 50px;
+                    height: 50px;
+                    .mat-button-wrapper {
+                        padding: 0;
+                        font-size: 18px;
+                    }
+                    mat-icon {
+                        color: #0e9472;
+                    }
+                }
+            }
+            &:hover {
+                .hover-box {
+                    opacity: 1;
+                    &:after,
+                    &:before {
+                        height: 50%;
+                    }
                 }
             }
         }
     }
+    
 }

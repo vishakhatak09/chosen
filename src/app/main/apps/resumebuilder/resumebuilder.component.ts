@@ -277,8 +277,10 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           {
             width: 'auto',
             height: '100%',
+            disableClose: true,
             data: data,
-            restoreFocus: false
+            restoreFocus: false,
+            panelClass: this.currentTemplate === 'tp1' ? 'template-preview-first' : 'template-preview-pane'
           },
         );
         dialogRef.beforeClosed().subscribe(() => {
@@ -968,7 +970,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       formData.append('pdf', this.templatePdfFile);
     }
 
-    formData.append('imageName', `resume_image_${this.userName}`);
+    formData.append('imageName', `resume_image_${this.userName}.jpeg`);
     formData.append('photo', this.templateImageBase64);
     formData.append('id', this.resumeId);
 
@@ -1064,13 +1066,17 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     downloadPdfOnly = false,
     isLastStep = false
   ) {
+    const imgWidth = 595.28;
+    const pageHeight = 841.89;
+    const oldWidth = element.style.width;
+    const oldHeight = element.style.height;
+    element.style.width = imgWidth + 'px';
+    element.style.height = pageHeight + 'px';
     await html2canvas(element, {
       scale: 4,
       useCORS: true,
       logging: false,
     }).then(async canvas => {
-      const imgWidth = 595.28;
-      const pageHeight = 841.89;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
       const imgData = canvas.toDataURL('image/jpeg', '1.0');
@@ -1119,6 +1125,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         setTimeout(() => {
           const pdfdata = doc.output('blob');
           const pdfUrl = URL.createObjectURL(pdfdata);
+          element.style.width = oldWidth;
+          element.style.height = oldHeight;
           // console.log('pdf', pdfUrl);
           const dialogRef = this.matDialog.open(
             PdfViewComponent,
@@ -1144,6 +1152,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           const fileObject = this.dataURLtoFile(pdfUrl, `resume_${this.userName}.pdf`);
           this.templatePdfFile = fileObject;
           this.saveTemplatePdfImg(isLastStep);
+          element.style.width = oldWidth;
+          element.style.height = oldHeight;
           element.style.border = styles.border;
           element.style.boxShadow = styles.shadow;
           element.style.marginTop = styles.marginTop;

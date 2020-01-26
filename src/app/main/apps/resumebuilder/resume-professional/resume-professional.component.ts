@@ -43,14 +43,15 @@ export class ResumeProfessionalComponent implements OnInit, OnChanges {
     @Input() backColor: string;
     @Input() lastStep = false;
     @Input() selectedFont: string;
+    @Input() editId: string;
     public assetPath = environment.imageBaseUrl;
-    mailUrl = TemplateIconUrl.MailSrcWhite;
-    mobileUrl = TemplateIconUrl.PhoneWhite;
-    addressUrl = TemplateIconUrl.LocationWhite;
-    fbUrl = TemplateIconUrl.FbWhite;
-    linkedinUrl = TemplateIconUrl.LinkedInWhite;
-    skypeUrl = TemplateIconUrl.SkypeWhite;
-    websiteUrl = TemplateIconUrl.WebsiteWhite;
+    mailUrl = TemplateIconUrl.MailSrcBlack;
+    mobileUrl = TemplateIconUrl.PhoneBlack;
+    addressUrl = TemplateIconUrl.LocationBlack;
+    fbUrl = TemplateIconUrl.FbBlack;
+    linkedinUrl = TemplateIconUrl.LinkedInBlack;
+    skypeUrl = TemplateIconUrl.SkypeBlack;
+    websiteUrl = TemplateIconUrl.WebsiteBlack;
 
     /**
      * Constructor
@@ -97,22 +98,22 @@ export class ResumeProfessionalComponent implements OnInit, OnChanges {
      * On Changes
      */
     ngOnChanges(changes: SimpleChanges): void {
-        if (this.experienceData.length === 0 && !this.lastStep) {
+        if (this.experienceData.length === 0 && !this.lastStep && !this.editId) {
             this.experienceList = ResumeMock.experienceData;
         } else {
             this.experienceList = this.experienceData;
         }
-        if ((this.careerObjective === undefined || this.careerObjective === '') && !this.lastStep) {
+        if ((this.careerObjective === undefined || this.careerObjective === '') && !this.lastStep && !this.editId) {
             this.careerObj = ResumeMock.data.careerObjective;
         } else {
             this.careerObj = this.careerObjective;
         }
-        if (this.educationData.length === 0 && !this.lastStep) {
+        if (this.educationData.length === 0 && !this.lastStep && !this.editId) {
             this.educationList = ResumeMock.educationData;
         } else {
             this.educationList = this.educationData;
         }
-        if (this.skillData.length === 0 && !this.lastStep) {
+        if (this.skillData.length === 0 && !this.lastStep && !this.editId) {
             this.skillList = ResumeMock.skillData;
         } else {
             this.skillList = this.skillData;

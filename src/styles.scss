@@ -159,3 +159,22 @@ input.mat-chip-input{
 }
 
 // .html2canvas-container { width: 3000px !important; height: 3000px !important; }
+.template-preview-pane{
+    .mat-dialog-content{
+        max-height: 100vh !important;
+    }
+    .mat-dialog-container{
+        height: auto !important;
+        overflow: hidden !important;
+    }
+}
+.template-preview-first{
+    .mat-dialog-content{
+        max-height: 100vh !important;
+    }
+    .mat-dialog-container{
+        height: auto !important;
+        // width: 70% !important;
+        overflow: hidden !important;
+    }
+}

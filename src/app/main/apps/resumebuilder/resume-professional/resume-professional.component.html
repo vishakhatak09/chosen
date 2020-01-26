@@ -1,13 +1,14 @@
 <div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;border: solid 2px #d2d2d2;">
-  <table class="resume-table" cellspacing="0" cellpadding="0" style="margin: auto auto 20px auto;color: #444444;"
+  <table class="resume-table" cellspacing="0" cellpadding="0" 
+    style="margin: auto auto 20px;color: #444444;"
     [ngStyle]="{'font-family': selectedFont}">
     <!-- font-family: sans-serif;  -->
     <tr>
-      <td style="padding: 20px 20px 0 20px; background-color: #193042">
+      <td style="padding: 10px 20px 0px 20px">
         <table cellspacing="0" cellpadding="0" style="width: 100%">
           <tr>
             <td>
-              <h2 style="margin: 0 0 5px; font-size: 14px;font-weight: 500;color: #fff;">
+              <h2 style="margin: 0 0 5px; font-size: 14px;font-weight: 700;color: #3f3d3d;">
                 <span *ngIf="templateForm.firstName">{{templateForm.firstName}} </span>
                 <span *ngIf="!templateForm.firstName">Sumit </span>
                 <span *ngIf="templateForm.lastName ">{{templateForm.lastName}}</span>
@@ -17,12 +18,12 @@
                 <ng-container *ngIf="templateForm?.designation">{{templateForm?.designation}}</ng-container>
                 <ng-container *ngIf="!templateForm?.designation">{{ MockData.designation }}</ng-container>
               </h4>
-              <div style="margin: 0 0 5px 0; font-size: 10px;color: #fff;"
+              <div style="margin: 0 0 5px 0; font-size: 10px;color: #0e0d0d;font-weight: 600;"
                 [innerHTML]="careerObjective || ResumeMockData.data.careerObjective | safeHtml"></div>
             </td>
             <td *ngIf="profileSrc">
               <div style="border: solid 2px #2f9032;border-radius: 5px;">
-                <img style="display: block;" [src]="profileSrc" alt="profile" width="75">
+                <img style="display: block; width: 150px;" [src]="profileSrc" alt="profile">
               </div>
             </td>
           </tr>
@@ -30,7 +31,7 @@
       </td>
     </tr>
     <tr>
-      <td style="background: #001729;padding: 10px 20px; font-size: 0;color: #fff">
+      <td style="padding: 0px 20px; font-size: 0;color: #262525;">
         <div
           style="display: inline-table;white-space: nowrap;padding: 7px 20px 7px 0;width: 50%;box-sizing: border-box;">
           <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="mailUrl" alt="mail">
@@ -88,7 +89,7 @@
       </td>
     </tr>
     <tr>
-      <td style="padding: 20px">
+      <td style="padding: 10px 20px">
         <table cellspacing="0" cellpadding="0" style="width: 100%">
           <tr>
             <td style="padding-right: 15px;width: 50%;vertical-align: top;">
@@ -118,7 +119,7 @@
                     </div>
                   </td>
                 </tr>
-                <tr>
+                <tr *ngIf="educationList.length > 0">
                   <td style="height: 5px;"></td>
                 </tr>
                 <tr *ngIf="educationList.length > 0">

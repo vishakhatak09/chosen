@@ -1,8 +1,7 @@
 <div class="temp-box" id="template-resume" style="margin-top: 20px;margin-bottom: 10px;border: solid 2px #d2d2d2;
 box-shadow: 0 0 22px -10px #000;">
     <table class="resume-table" cellspacing="0" cellpadding="0"
-        style="width: 100%; margin: 20px auto 20px auto;color: #444444;"
-        [ngStyle]="{'font-family': selectedFont}">
+        style="width: 100%; margin: 20px auto 20px auto;color: #444444;" [ngStyle]="{'font-family': selectedFont}">
         <!-- font-family: sans-serif;  -->
         <tr>
             <td style="padding: 0 20px">
@@ -16,8 +15,10 @@ box-shadow: 0 0 22px -10px #000;">
                                 <span *ngIf="!templateForm.lastName">Patel</span>
                             </h2>
                             <h4 style="margin: 0; font-size: 12px;font-weight: 500;color: #8c8c8cdd;">
-                                <ng-container *ngIf="templateForm?.designation">{{templateForm?.designation}}</ng-container>
-                                <ng-container *ngIf="!templateForm?.designation">{{ MockData.designation }}</ng-container>
+                                <ng-container *ngIf="templateForm?.designation">{{templateForm?.designation}}
+                                </ng-container>
+                                <ng-container *ngIf="!templateForm?.designation">{{ MockData.designation }}
+                                </ng-container>
                             </h4>
                             <p style="margin: 0; font-size: 10px;color: #444444;"
                                 [innerHTML]="careerObjective || ResumeMockData.data.careerObjective | safeHtml">
@@ -28,12 +29,13 @@ box-shadow: 0 0 22px -10px #000;">
             </td>
         </tr>
         <tr>
-            <td style="height: 5px;"></td>
+            <td style="height: 10px;"></td>
         </tr>
         <tr>
-            <td style="background: #eaeaea;padding: 5px 20px; font-size: 10px;">
+            <td style="background: #eaeaea;padding: 5px 20px; font-size: 10px; display: flex;
+            flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
 
-                <div style="display: inline-table;margin: 5px 20px 5px 0;">
+                <div style="display: inline-table; margin: 5px 20px 5px 0; width: 150px;  white-space: pre;">
                     <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="mailUrl" alt="">
                     <span style="margin-left: 7px;display: inline-block;vertical-align: middle;" *ngIf="userEmail"
                         [innerHTML]="userEmail">
@@ -42,9 +44,9 @@ box-shadow: 0 0 22px -10px #000;">
                         *ngIf="!userEmail">sumit.patel@gmail.com
                     </span>
                 </div>
-                <div style="display: inline-table;margin: 5px 20px 5px 0;">
-                    <img style="width: 14px;display: inline-block;vertical-align: middle;"
-                        [src]="mobileUrl" alt="mobile">
+                <div style="display: inline-table; margin: 5px 20px 5px 0; width: 150px;  white-space: pre;">
+                    <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="mobileUrl"
+                        alt="mobile">
                     <span style="margin-left: 7px;display: inline-block;vertical-align: middle;"
                         *ngIf="templateForm.contactNumber" [innerHTML]="templateForm.contactNumber">
                     </span>
@@ -53,9 +55,9 @@ box-shadow: 0 0 22px -10px #000;">
                     </span>
                 </div>
 
-                <div style="display: inline-table;margin: 5px 20px 5px 0;">
-                    <img style="width: 14px;display: inline-block;vertical-align: middle;"
-                        [src]="addressUrl" alt="location">
+                <div style="display: inline-table; margin: 5px 20px 5px 0; width: 150px;  white-space: pre;">
+                    <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="addressUrl"
+                        alt="location">
                     <span style="margin-left: 7px;display: inline-block;vertical-align: middle;"
                         *ngIf="templateForm.fullAddress" [innerHTML]="templateForm.fullAddress">
                     </span>
@@ -63,31 +65,33 @@ box-shadow: 0 0 22px -10px #000;">
                         *ngIf="!templateForm.fullAddress"> Lorem ipsum dolor met
                     </span>
                 </div>
-            </td>
-        </tr>
-        <tr *ngIf="socialData.length > 0">
-            <td style="background: #eaeaea;padding: 5px 20px; font-size: 10px;">
-                <ng-container *ngFor="let social of socialData">
-                    <div style="display: inline-table;margin: 5px 20px 5px 0;" *ngIf="social.link && social.website">
-                        <!-- <img style="width: 14px;display: inline-block;vertical-align: middle;"
-                            [src]="'assets/icons/template-icons/' + social.website + '.svg'" alt=""> -->
-                        <ng-container [ngSwitch]="social.website">
-                            <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="skypeUrl"
-                                alt="{{social.website}}" *ngSwitchCase="'skype'">
-                            <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="linkedinUrl"
-                                alt="{{social.website}}" *ngSwitchCase="'linkedin'">
-                            <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="websiteUrl"
-                                alt="{{social.website}}" *ngSwitchCase="'website'">
-                            <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="fbUrl"
-                                alt="{{social.website}}" *ngSwitchCase="'facebook'">
-                        </ng-container>
-                        <span style="margin-left: 7px;display: inline-block;vertical-align: middle;"
-                            [innerHTML]="social.link"></span>
-                    </div>
+
+                <ng-container>
+                    <ng-container *ngFor="let social of socialData">
+                        <div style="display: inline-table; margin: 5px 20px 5px 0; width: 150px;  white-space: pre;"
+                            *ngIf="social.link && social.website">
+                            <!-- <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                [src]="'assets/icons/template-icons/' + social.website + '.svg'" alt=""> -->
+                            <ng-container [ngSwitch]="social.website">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="skypeUrl"
+                                    alt="{{social.website}}" *ngSwitchCase="'skype'">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    [src]="linkedinUrl" alt="{{social.website}}" *ngSwitchCase="'linkedin'">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;"
+                                    [src]="websiteUrl" alt="{{social.website}}" *ngSwitchCase="'website'">
+                                <img style="width: 14px;display: inline-block;vertical-align: middle;" [src]="fbUrl"
+                                    alt="{{social.website}}" *ngSwitchCase="'facebook'">
+                            </ng-container>
+                            <span style="margin-left: 7px;display: inline-block;vertical-align: middle;"
+                                [innerHTML]="social.link"></span>
+                        </div>
+                    </ng-container>
                 </ng-container>
+
             </td>
         </tr>
-        <tr>
+
+        <tr *ngIf="skillList.length > 0">
             <td style="height: 10px;"></td>
         </tr>
         <tr *ngIf="skillList.length > 0">
@@ -95,22 +99,26 @@ box-shadow: 0 0 22px -10px #000;">
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td style="font-size: 0;">
-                            <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;">
-                                Areas of expertise
-                            </h3>
-                            <p style="margin: 2px 5px;font-size: 10px; transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
-                                    display: inline-flex; padding: 7px 0; border-radius: 16px;"
-                                *ngFor="let item of skillList" [ngStyle]="{'color': fontColor ,
-                                    'background-color' : backColor}">
-                                {{ item.skillName }}
-                            </p>
+                            <tr>
+                                <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;">
+                                    Areas of expertise
+                                </h3>
+                            </tr>
+                            <tr style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
+                                <p style="margin: 2px 5px; font-size: 10px; transition: unsafe 0s ease 0s; padding: 7px 0px;
+                                border-radius: 16px; color: black; width: 100px; white-space: pre; display: inline-table;"
+                                    *ngFor="let item of skillList" [ngStyle]="{'color': fontColor ,
+                                        'background-color' : backColor}">
+                                    {{ item.skillName }}
+                                </p>
+                            </tr>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
-        <tr>
-            <td style="height: 5px;"></td>
+        <tr *ngIf="experienceList.length > 0">
+            <td style="height: 10px;"></td>
         </tr>
         <tr *ngIf="experienceList.length > 0">
             <td style="padding: 0 20px">
@@ -138,7 +146,7 @@ box-shadow: 0 0 22px -10px #000;">
                                     [innerHTML]="item.location">
                                 </p>
                             </div>
-                            <div style="margin:0; font-size: 10px; color: #909090;"
+                            <div style="margin:0; font-size: 10px; color: #070707;"
                                 [innerHTML]="item.jobDescription | safeHtml">
                             </div>
                         </td>
@@ -146,8 +154,8 @@ box-shadow: 0 0 22px -10px #000;">
                 </table>
             </td>
         </tr>
-        <tr>
-            <td style="height: 5px;"></td>
+        <tr *ngIf="educationList.length > 0">
+            <td style="height: 10px;"></td>
         </tr>
         <tr *ngIf="educationList.length > 0">
             <td style="padding: 0 20px">
@@ -159,8 +167,9 @@ box-shadow: 0 0 22px -10px #000;">
                             </h3>
                         </td>
                     </tr>
-                    <tr *ngFor="let item of educationList">
-                        <td style="font-size: 0; padding: 0 10px;">
+                    <tr>
+                        <td style="font-size: 0; padding: 0 10px; width: 50%; vertical-align: top;"
+                            *ngFor="let item of educationList">
                             <h3 style="margin:0; font-size: 10px;" [innerHTML]="item.courseName"></h3>
                             <h4 style="margin:2px 0 0; font-size: 10px; color: #909090;" [innerHTML]="item.collegeName">
                             </h4>
@@ -182,7 +191,7 @@ box-shadow: 0 0 22px -10px #000;">
         <ng-container *ngIf="additionalList.length > 0">
             <ng-container *ngFor="let item of additionalList">
                 <tr>
-                    <td style="height: 5px;"></td>
+                    <td style="height: 10px;"></td>
                 </tr>
                 <tr>
                     <td style="padding: 0 20px;">
@@ -192,37 +201,41 @@ box-shadow: 0 0 22px -10px #000;">
                                     <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;"
                                         [innerHTML]="item.type">
                                     </h3>
-                                    <ng-container [ngSwitch]="item.type">
-                                        <ng-container *ngSwitchCase="'Accomplishments'">
-                                            <p [innerHTML]="item.value | safeHtml"></p>
-                                        </ng-container>
-                                        <ng-container *ngSwitchCase="'Affiliations'">
-                                            <p [innerHTML]="item.value | safeHtml"></p>
-                                        </ng-container>
-                                        <ng-container *ngSwitchCase="'Certifications'">
-                                            <div style="width: 50%;padding-right: 15px;
-                                                padding-top: 10px; vertical-align: top;"
-                                                *ngFor="let data of item.value">
-                                                <h3 style="margin:0; font-size: 10px;">
-                                                    {{ data.certificate }}
-                                                </h3>
-                                                <p
-                                                    style="display:inline-block;margin:0;font-style: italic;font-size: 10px;color: #909090;">
-                                                    {{ data.date | date: 'yyyy' }}
-                                                </p>
-                                            </div>
-                                        </ng-container>
-                                        <ng-container *ngSwitchDefault>
-                                            <p style="margin: 2px 5px;font-size: 10px; transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
-                                                    display: inline-flex; padding: 7px 0; border-radius: 16px;"
-                                                [ngStyle]="{'color': fontColor ,
-                                                    'background-color' : backColor}" *ngFor="let data of item.value">
-                                                {{ data }}
-                                            </p>
-                                        </ng-container>
-                                    </ng-container>
+
                                 </td>
                             </tr>
+                            <ng-container [ngSwitch]="item.type">
+                                <ng-container *ngSwitchCase="'Accomplishments'">
+                                    <p [innerHTML]="item.value | safeHtml" style="font-size: 10px;color: black;margin: 2px 5px;"></p>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'Affiliations'">
+                                    <p [innerHTML]="item.value | safeHtml" style="font-size: 10px;color: black;margin: 2px 5px;"></p>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'Certifications'">
+                                    <tr>
+                                        <td style="width: 50%; padding: 0px 15px 0 10px; vertical-align: top;"
+                                            *ngFor="let data of item.value">
+                                            <h3 style="margin:0; font-size: 10px;">
+                                                {{ data.certificate }}
+                                            </h3>
+                                            <p
+                                                style="display:inline-block;margin:0;font-style: italic;font-size: 10px;color: #909090;">
+                                                {{ data.date | date: 'yyyy' }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    <tr style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
+                                        <p style="margin: 2px 5px; font-size: 10px; transition: unsafe 0s ease 0s; padding: 7px 0px;
+                                        border-radius: 16px; color: black; width: 50px; white-space: pre; display: inline-table;"
+                                        [ngStyle]="{'color': fontColor ,'background-color' : backColor}" *ngFor="let data of item.value">
+                                            {{ data }}
+                                        </p>
+                                    </tr>
+
+                                </ng-container>
+                            </ng-container>
                         </table>
                     </td>
                 </tr>
