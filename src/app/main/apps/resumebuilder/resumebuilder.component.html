@@ -29,10 +29,10 @@
                 <span>SAVE</span>
             </button> -->
             <div class="top-button">
-                <button mat-mini-fab type="button" matTooltip="Preview" [matTooltipPosition]="'above'"
+                <!-- <button mat-mini-fab type="button" matTooltip="Preview" [matTooltipPosition]="'above'"
                     (click)="templatePreview()" class="save-product-button">
                     <mat-icon>remove_red_eye</mat-icon>
-                </button>
+                </button> -->
                 <button *ngIf="allowDownload || resumeEditData" mat-mini-fab type="button" matTooltip="Download"
                     [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf()">
                     <mat-icon>picture_as_pdf</mat-icon>
