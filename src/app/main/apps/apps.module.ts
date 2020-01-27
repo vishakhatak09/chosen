@@ -40,6 +40,14 @@ const routes: Routes = [
         loadChildren: './job-search/job-search.module#JobSearchModule'
     },
     {
+        path: 'job-email',
+        loadChildren: './job-email/job-email.module#JobEmailModule'
+    },
+    {
+        path: 'preview',
+        loadChildren: './resume-preview/resume-preview.module#ResumePreviewModule'
+    },
+    {
         path: '**',
         redirectTo: 'templates',
         pathMatch: 'full',

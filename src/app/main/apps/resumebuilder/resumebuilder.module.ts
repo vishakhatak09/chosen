@@ -25,7 +25,7 @@ import { AddEducationComponent } from './add-education/add-education.component';
 import { FuseMaterialColorPickerModule } from '@fuse/components';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
 // import { Template1Component } from 'core/components/template1/template1.component';
-import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
+// import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
 import { CommonService } from 'core/services/common.service';
 import { ResumeBuilderResolver } from './resumebuilder.resolver';
 import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
@@ -51,7 +51,7 @@ const routes: Routes = [
     AddWorkComponent,
     AddEducationComponent,
     AdditionalInfoComponent,
-    ResumePreviewComponent,
+    // ResumePreviewComponent,
 
     ResumeProfessionalComponent,
 
@@ -62,7 +62,7 @@ const routes: Routes = [
     AddWorkComponent,
     AddEducationComponent,
     AdditionalInfoComponent,
-    ResumePreviewComponent,
+    // ResumePreviewComponent,
 
     ResumeProfessionalComponent,
     PdfViewComponent

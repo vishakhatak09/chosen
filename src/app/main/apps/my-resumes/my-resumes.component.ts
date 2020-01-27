@@ -148,37 +148,44 @@ export class MyResumesComponent implements OnInit, OnDestroy {
       });
       dialogRef.afterClosed().subscribe((isConfirm: boolean) => {
         if (isConfirm) {
-          const params = {
-            'params': {
-              'resumeId': resume._id,
-              'email': this.jobDetail.email,
-              'jobId': this.jobDetail._id,
-              'jobPosition': this.jobDetail.jobPosition
-            }
-          };
-          this.myResumeService.chooseSendEmail(this.sendResumeMail, params)
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(
-              (response) => {
-                if (response.code === 200) {
-                  this.toastrService.displaySnackBar(
-                    'Job application mail has been sent with your selected resume successfully',
-                    'success',
-                    3000
-                  );
-                  this.router.navigate(['/user/templates']);
-                }
-              },
-              (err) => {
-                // console.log(err);
-                if (err && err.code && err.code === 400 && (err.err && err.err.code || err.err.code === 'ESTREAM')) {
-                  this.toastrService.displaySnackBar('Please fill all your details is selected resume', 'error', 3000);
-                } else {
-                  this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);
-                }
-                this.router.navigate(['/user/templates']);
+          this.router.navigate(['/user/job-email'], {
+            state: {
+              jobData: {
+                resume: resume,
+                job: this.jobDetail
               }
-            );
+            }
+          });
+          // const params = {
+          //   'params': {
+          //     'resumeId': resume._id,
+          //     'email': this.jobDetail.email,
+          //     'jobId': this.jobDetail._id,
+          //     'jobPosition': this.jobDetail.jobPosition
+          //   }
+          // };
+          // this.myResumeService.chooseSendEmail(this.sendResumeMail, params)
+          //   .pipe(takeUntil(this._unsubscribeAll))
+          //   .subscribe(
+          //     (response) => {
+          //       if (response.code === 200) {
+          //         this.toastrService.displaySnackBar(
+          //           'Job application mail has been sent with your selected resume successfully',
+          //           'success',
+          //           3000
+          //         );
+          //         this.router.navigate(['/user/templates']);
+          //       }
+          //     },
+          //     (err) => {
+          //       if (err && err.code && err.code === 400 && (err.err && err.err.code || err.err.code === 'ESTREAM')) {
+          //         this.toastrService.displaySnackBar('Please fill all your details is selected resume', 'error', 3000);
+          //       } else {
+          //         this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);
+          //       }
+          //       this.router.navigate(['/user/templates']);
+          //     }
+          //   );
         } else {
           this.chooseResume = false;
           this.jobDetail = null;

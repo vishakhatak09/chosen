@@ -1,0 +1,104 @@
+<div id="add-job-email" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+            fxLayoutAlign.gt-xs="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon s-30 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    mail
+                </mat-icon>
+                <span class="logo-text h3" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Set Job Email
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <div class="content">
+
+                <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="100">
+
+                    <div class="tab-content pl-12 h-100-p">
+
+                        <form class="template-form" fxLayout="row wrap" [formGroup]="setEmailForm"
+                            (ngSubmit)="onSubmit()" novalidate>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="px-8 m-0">
+                                <mat-label>To</mat-label>
+                                <input matInput type="text" placeholder="Enter to email" name="ToEmail"
+                                    formControlName="to" autocomplete="off" required>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="px-8 m-0">
+                                <mat-label>From</mat-label>
+                                <input matInput type="text" placeholder="Enter from email" name="FromEmail"
+                                    formControlName="from" autocomplete="off" required>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" floatLabel="always" appearance="outline" class="px-8 m-0">
+                                <mat-label>Subject</mat-label>
+                                <input matInput type="text" placeholder="Enter email subject" name="EmailSubject"
+                                    formControlName="subject" autocomplete="off" required>
+                            </mat-form-field>
+
+                            <div fxFlex.xs="100" fxFlex="100">
+                                <ng-container *ngTemplateOutlet="editor"></ng-container>
+                                <ng-template matTabContent #editor>
+                                    <label class="ml-8 info">Mail Body</label>
+                                    <editor [id]="'EmailBody'" autofocus class="tiny-editor"
+                                        [init]="tinyEditorConfig" placeholder="Job application email body"
+                                        [formControlName]="'body'" tagName="textarea">
+                                    </editor>
+                                    <mat-error *ngIf="setEmailForm.get('body').touched &&
+                                      setEmailForm.get('body').value == '' ">
+                                        Please fill in job application email body
+                                    </mat-error>
+                                </ng-template>
+                            </div>
+
+                            <div fxFlex="100" class="mb-24">
+                                <div class="mt-12" floatLabel="always" *ngIf="jobStateData?.resume">
+                                    <span class="font-size-18 font-weight-600">Attachment: </span>
+                                    <span class="accent upload-span border-radius-16 p-8 w-50-p">
+                                        {{jobStateData?.resume?.resumePdf}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="pt-12 pl-8 pb-4">
+                                <button type="submit" class="stepper-back" color="primary" mat-raised-button>
+                                    Send Mail
+                                </button> &nbsp;
+                                <button type="submit" class="stepper-back" color="accent" mat-raised-button
+                                    [routerLink]="['/user/templates']">
+                                    Cancel
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

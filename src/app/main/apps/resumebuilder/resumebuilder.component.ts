@@ -39,7 +39,7 @@ import { ConfirmationDialogComponent } from '../../pages/common-components/confi
 import { AddEducationComponent } from './add-education/add-education.component';
 import { AddWorkComponent } from './add-work/add-work.component';
 import { AdditionalInfoComponent } from './additional-info/additional-info.component';
-import { ResumePreviewComponent } from './resume-preview/resume-preview.component';
+// import { ResumePreviewComponent } from '../resume-preview/resume-preview.component';
 import { ResumeBuilderService } from './resumebuilder.service';
 import { AuthenticationService } from 'core/services/authentication.service';
 declare var tinymce: any;
@@ -266,28 +266,28 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   // -----------------------------------------------------------------------------------------------------
 
   templatePreview(): void {
-    this.lastStep = true;
-    setTimeout(() => {
-      if (this.templateContent) {
-        // if (this.container) {
-        const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
-        // const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
-        const dialogRef = this.matDialog.open(
-          ResumePreviewComponent,
-          {
-            width: 'auto',
-            height: '100%',
-            disableClose: true,
-            data: data,
-            restoreFocus: false,
-            panelClass: this.currentTemplate === 'tp1' ? 'template-preview-first' : 'template-preview-pane'
-          },
-        );
-        dialogRef.beforeClosed().subscribe(() => {
-          this.lastStep = false;
-        });
-      }
-    }, 100);
+    // this.lastStep = true;
+    // setTimeout(() => {
+    //   if (this.templateContent) {
+    //     // if (this.container) {
+    //     const data = this.templateContent['hostElement']['nativeElement']['innerHTML'];
+    //     // const data = this.container['element']['nativeElement']['nextSibling']['innerHTML'];
+    //     const dialogRef = this.matDialog.open(
+    //       ResumePreviewComponent,
+    //       {
+    //         width: 'auto',
+    //         height: '100%',
+    //         disableClose: true,
+    //         data: data,
+    //         restoreFocus: false,
+    //         panelClass: this.currentTemplate === 'tp1' ? 'template-preview-first' : 'template-preview-pane'
+    //       },
+    //     );
+    //     dialogRef.beforeClosed().subscribe(() => {
+    //       this.lastStep = false;
+    //     });
+    //   }
+    // }, 100);
 
   }
 
@@ -1072,6 +1072,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     const oldHeight = element.style.height;
     element.style.width = imgWidth + 'px';
     element.style.height = pageHeight + 'px';
+    // element.parentElement.parentElement.style.width = '';
+    element.style.display = 'inline-block';
+    element.style.width = 'auto';
     await html2canvas(element, {
       scale: 4,
       useCORS: true,

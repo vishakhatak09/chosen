@@ -149,13 +149,13 @@ export class JobSearchComponent implements OnInit, OnDestroy {
           const element = document.getElementById('fuse-search-bar-input');
           if (element) {
             // this.filterResults = this.filterResults.slice();
-            this.searchBox.patchValue(this.searchBox.value ? this.previousSearch : ' ', { emitEvent: true });
+            this.searchBox.patchValue(this.previousSearch, { emitEvent: true });
             element.focus();
           }
         } else {
-          this.previousSearch = '';
-          this.selectedFilters = null;
-          this.searchBox.setValue('', { emitEvent: false });
+          // this.previousSearch = '';
+          // this.selectedFilters = null;
+          // this.searchBox.setValue('', { emitEvent: false });
         }
       }
     );
@@ -175,7 +175,7 @@ export class JobSearchComponent implements OnInit, OnDestroy {
         this.selectedFilters = response;
         const element = document.getElementById('fuse-search-bar-input');
         if (element) {
-          this.searchBox.patchValue(this.searchBox.value ? this.searchBox.value : '', { emitEvent: true });
+          this.searchBox.patchValue(this.previousSearch, { emitEvent: true });
           element.focus();
         }
       }
