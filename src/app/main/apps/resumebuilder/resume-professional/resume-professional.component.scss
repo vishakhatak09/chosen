@@ -21,8 +21,9 @@ ul{
     padding-left: 30px !important;
 }
 
-// @media only screen and (max-width: 600px) {
-//     .temp-box{
-//         width: 12000px;
-//     }
-// }
+@media only screen and (max-width: 600px) {
+    .temp-box{
+        // width: 12000px;
+        width: 100%;
+    }
+}

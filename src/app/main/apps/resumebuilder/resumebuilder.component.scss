@@ -254,3 +254,26 @@ button.upload-btn {
 .tox .tox-menubar {
     display: none !important;
 }
+
+.responsive-class{
+    flex: 1 1 100%; box-sizing: border-box; max-width: 50%;
+}
+
+@media only screen and (max-width: 600px) {
+    .responsive-class{
+        flex: 1 1 100%;
+        box-sizing: border-box;
+        // max-width: 100%;
+        &:not(.template){
+            max-width: 100%;
+        }
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    .responsive-class{
+        flex: 1 1 100%;
+        box-sizing: border-box;
+        max-width: 50%;
+    }
+}

@@ -66,6 +66,7 @@
                 </div>
 
                 <div fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50" fusePerfectScrollbar>
+                <!-- <div class="responsive-class" fusePerfectScrollbar> -->
 
                     <mat-vertical-stepper [linear]="isLinear" id="resume-stepper" #stepper fxFlex="100"
                         fxFlex.gt-xs="100" fxFlex.gt-md="100" fusePerfectScrollbar [selectedIndex]="selectedIndex"
@@ -595,8 +596,8 @@
 
                 </div>
 
-                <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50"
-                    >
+                <!-- <div class="template responsive-class" id="save-template" > -->
+                <div class="template" id="save-template" fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-md="50">
                         <!-- <ng-template template-dynamic></ng-template> -->
                         <app-resume-template #templateRef *ngIf="currentTemplate === 'tp1'"
                             [templateForm]="basicDetailForm.getRawValue()" [userEmail]="userEmail"

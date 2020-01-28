@@ -11,7 +11,8 @@ import {
   ViewContainerRef,
   ComponentRef,
   AfterContentInit,
-  OnChanges
+  OnChanges,
+  HostListener
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -136,6 +137,14 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
   selectedImage: File;
   lastStep: boolean;
   selectedSkillType = false;
+  screenWidth = window.screen.width;
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.screenWidth = event.target.innerWidth;
+    this.removeWidth();
+  }
 
   /**
    * Constructor
@@ -1071,21 +1080,24 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     const pageHeight = 841.89;
     const oldWidth = element.style.width;
     const oldHeight = element.style.height;
-    // element.style.width = imgWidth + 'px';
-    // element.style.height = pageHeight + 'px';
-    // element.parentElement.parentElement.style.width = '';
     element.style.display = 'inline-block';
-    element.style.width = 'auto';
+    element.style.width = '600px';
+    let containerMaxWidth = '';
+    const templateContainer = document.getElementById('save-template');
+    if (templateContainer) {
+      containerMaxWidth = templateContainer.style.maxWidth;
+      templateContainer.style.maxWidth = '';
+    }
     // scale: 4,
     // useCORS: true,
     // logging: false,
-    const html2canvasOptions = {
+    const html2canvasOptions: any = {
       allowTaint: false,
       removeContainer: true,
       imageTimeout: 15000,
       logging: false,
       scale: 4,
-      useCORS: true
+      useCORS: true,
     };
     await html2canvas(element, html2canvasOptions).then(async canvas => {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
@@ -1126,6 +1138,9 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         );
         heightLeft -= pageHeight;
       }
+      if (templateContainer) {
+        templateContainer.style.maxWidth = containerMaxWidth;
+      }
       if (downloadPdfOnly === true) {
         const timestamp = moment().format('x');
         element.style.border = styles.border;
@@ -1140,21 +1155,25 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           element.style.width = oldWidth;
           element.style.height = oldHeight;
           // console.log('pdf', pdfUrl);
-          const dialogRef = this.matDialog.open(
-            PdfViewComponent,
-            {
-              width: '1000px',
-              height: '100%',
-              data: pdfUrl,
-              restoreFocus: false,
-              disableClose: true
-            },
-          );
-          dialogRef.beforeClosed().subscribe((response: boolean) => {
-            if (response === true) {
-              doc.save(`resume_${this.userName}_${timestamp}`);
-            }
-          });
+          if (window.screen.width > 600) {
+            const dialogRef = this.matDialog.open(
+              PdfViewComponent,
+              {
+                width: '1000px',
+                height: '100%',
+                data: pdfUrl,
+                restoreFocus: false,
+                disableClose: true
+              },
+            );
+            dialogRef.beforeClosed().subscribe((response: boolean) => {
+              if (response === true) {
+                doc.save(`resume_${this.userName}_${timestamp}`);
+              }
+            });
+          } else {
+            doc.save(`resume_${this.userName}_${timestamp}`);
+          }
         }, 500);
       } else {
         setTimeout(() => {
@@ -1176,6 +1195,13 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       }
 
     });
+  }
+
+  removeWidth() {
+    const templateContainer = document.getElementById('save-template');
+    if (templateContainer && this.screenWidth <= 600) {
+      templateContainer.style.maxWidth = '';
+    }
   }
 
   /**
