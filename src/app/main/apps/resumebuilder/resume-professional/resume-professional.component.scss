@@ -4,7 +4,7 @@
     // width: 595px; // A4 size
     width: 625px;
     height: auto;
-    max-width: 100%;
+    // max-width: 100%;
     background: #fff;
     // background: #ebffec;
     // border: solid 2px #d2d2d2;
@@ -21,8 +21,8 @@ ul{
     padding-left: 30px !important;
 }
 
-@media only screen and (max-width: 600px) {
-    .temp-box{
-        width: 12000px;
-    }
-}
+// @media only screen and (max-width: 600px) {
+//     .temp-box{
+//         width: 12000px;
+//     }
+// }

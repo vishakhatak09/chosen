@@ -11,7 +11,6 @@ import {
   ViewContainerRef,
   ComponentRef,
   AfterContentInit,
-  // ComponentFactoryResolver,
   OnChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -319,11 +318,13 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
       const shadow = element.style.boxShadow;
       const marginTop = element.style.marginTop;
       const marginBottom = element.style.marginTop;
+      const marginLeft = element.style.marginLeft;
       element.style.border = '';
       element.style.boxShadow = '';
       element.style.marginTop = '';
       element.style.marginBottom = '';
-      this.makePdf(element, { border, shadow, marginTop, marginBottom }, isSaveImgPDF, isLastStep);
+      element.style.marginLeft = '';
+      this.makePdf(element, { border, shadow, marginTop, marginBottom, marginLeft }, isSaveImgPDF, isLastStep);
     }
   }
 
@@ -1062,7 +1063,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
    * @param isLastStep When it is last step or not
    */
   async makePdf(element: HTMLElement,
-    styles: { border: any; shadow: any; marginTop: any; marginBottom: any; },
+    styles: { border: any; shadow: any; marginTop: any; marginBottom: any; marginLeft: any },
     downloadPdfOnly = false,
     isLastStep = false
   ) {
@@ -1070,16 +1071,23 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     const pageHeight = 841.89;
     const oldWidth = element.style.width;
     const oldHeight = element.style.height;
-    element.style.width = imgWidth + 'px';
-    element.style.height = pageHeight + 'px';
+    // element.style.width = imgWidth + 'px';
+    // element.style.height = pageHeight + 'px';
     // element.parentElement.parentElement.style.width = '';
     element.style.display = 'inline-block';
     element.style.width = 'auto';
-    await html2canvas(element, {
-      scale: 4,
-      useCORS: true,
+    // scale: 4,
+    // useCORS: true,
+    // logging: false,
+    const html2canvasOptions = {
+      allowTaint: false,
+      removeContainer: true,
+      imageTimeout: 15000,
       logging: false,
-    }).then(async canvas => {
+      scale: 4,
+      useCORS: true
+    };
+    await html2canvas(element, html2canvasOptions).then(async canvas => {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
       const imgData = canvas.toDataURL('image/jpeg', '1.0');
@@ -1124,6 +1132,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
         element.style.boxShadow = styles.shadow;
         element.style.marginTop = styles.marginTop;
         element.style.marginBottom = styles.marginBottom;
+        element.style.marginLeft = styles.marginLeft;
         this.loaderService.hide();
         setTimeout(() => {
           const pdfdata = doc.output('blob');
@@ -1161,6 +1170,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
           element.style.boxShadow = styles.shadow;
           element.style.marginTop = styles.marginTop;
           element.style.marginBottom = styles.marginBottom;
+          element.style.marginLeft = styles.marginLeft;
           this.loaderService.hide();
         }, 500);
       }
