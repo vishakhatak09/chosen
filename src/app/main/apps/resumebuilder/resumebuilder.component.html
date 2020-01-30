@@ -28,14 +28,18 @@
             <!-- <button mat-raised-button type="button" (click)="formSubmit()" class="save-product-button">
                 <span>SAVE</span>
             </button> -->
-            <div class="top-button">
+            <div>
                 <!-- <button mat-mini-fab type="button" matTooltip="Preview" [matTooltipPosition]="'above'"
                     (click)="templatePreview()" class="save-product-button">
                     <mat-icon>remove_red_eye</mat-icon>
                 </button> -->
-                <button *ngIf="allowDownload || resumeEditData" mat-mini-fab type="button" matTooltip="Download"
+                <!-- <button *ngIf="allowDownload || resumeEditData" mat-raised-button type="button" color="primary" matTooltip="Download"
                     [matTooltipPosition]="'above'" class="save-product-button" (click)="saveAsPdf()">
-                    <mat-icon>picture_as_pdf</mat-icon>
+                    <mat-icon>picture_as_pdf</mat-icon> Download
+                </button> -->
+                <button mat-raised-button class="fuse-search-bar-expander m-4" color="primary"
+                    matTooltip="Download" [matTooltipPosition]="'above'" (click)="saveAsPdf()">
+                    <mat-icon>arrow_downward</mat-icon> Download
                 </button>
             </div>
 
