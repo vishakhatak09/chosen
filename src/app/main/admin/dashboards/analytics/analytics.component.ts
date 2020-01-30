@@ -24,8 +24,8 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     widget5Conf: any = {};
     widget1Years = [];
     widget5Years = [];
-    widget1SelectedYear: string;
-    widget5SelectedDay: string;
+    widget1SelectedYear: any;
+    widget5SelectedDay: any;
     statisticWidget: any[] = [];
     public getUserApiUrl = environment.serverBaseUrl + 'admin/dashBoard';
     dashboardData: any;
@@ -216,11 +216,20 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
                     }
                 }
             });
+            const currentYear = new Date().getFullYear();
             if (this.widget1Years.length > 0) {
-                this.widget1SelectedYear = (this.widget1Years[0] || '');
+                if ( this.widget1Years.indexOf(currentYear) !== -1 ) {
+                    this.widget1SelectedYear = currentYear;
+                } else {
+                    this.widget1SelectedYear = (this.widget1Years[0] || '');
+                }
             }
             if (this.widget5Years.length > 0) {
-                this.widget5SelectedDay = (this.widget5Years[0] || '');
+                if ( this.widget1Years.indexOf(currentYear) !== -1 ) {
+                    this.widget5SelectedDay = currentYear;
+                } else {
+                    this.widget5SelectedDay = (this.widget5Years[0] || '');
+                }
             }
             // this.widget1Conf.datasets[this.widget1SelectedYear][0].data = widget1Array;
             // this.widgets.widget5.datasets[this.widget5SelectedDay][0].data = monthTemplateArray;

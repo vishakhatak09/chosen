@@ -11,8 +11,8 @@ import {
   ViewContainerRef,
   ComponentRef,
   AfterContentInit,
-  OnChanges,
-  HostListener
+  HostListener,
+  AfterViewInit
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -47,9 +47,9 @@ import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TemplateDynamicDirective } from '@fuse/directives/template-dynamic.directive';
-import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
-import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
+// import { TemplateDynamicDirective } from '@fuse/directives/template-dynamic.directive';
+// import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
+// import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
 import { LoadingScreenService } from '@fuse/services/loading.service';
 import { templateMock } from 'core/mock/temp-content';
 import * as jsPDF from 'jspdf';
@@ -67,7 +67,9 @@ import { PdfViewComponent } from './pdf-view/pdf-view.component';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentInit, OnChanges {
+export class ResumebuilderComponent implements
+  OnInit, OnDestroy, AfterContentInit,
+  AfterViewInit {
 
   public defaultProfile = environment.baseUrl + 'assets/images/logos/profile.jpg';
   public getEditUrl = environment.serverBaseUrl + 'api/resume/singleResume';
@@ -245,10 +247,8 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     // // Generate dynamic component with html
   }
 
-  ngOnChanges(): void {
-    // if ( this.isComponentLoaded === true) {
-    //   // this.loadComponent();
-    // }
+  ngAfterViewInit(): void {
+    this.removeWidth();
   }
 
   private setupTinyMce(): void {
@@ -1082,6 +1082,7 @@ export class ResumebuilderComponent implements OnInit, OnDestroy, AfterContentIn
     const oldHeight = element.style.height;
     element.style.display = 'inline-block';
     element.style.width = '600px';
+    // element.style.height = 'auto';
     let containerMaxWidth = '';
     const templateContainer = document.getElementById('save-template');
     if (templateContainer) {
