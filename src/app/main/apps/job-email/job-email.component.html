@@ -73,9 +73,18 @@
                             <div fxFlex="100" class="mb-24">
                                 <div class="mt-12" floatLabel="always" *ngIf="jobStateData?.resume">
                                     <span class="font-size-18 font-weight-600">Attachment: </span>
-                                    <span class="accent upload-span border-radius-16 p-8 w-50-p">
+                                    <span class="accent upload-span border-radius-16 p-8 w-50-p" *ngIf="uploadFile == true">
                                         {{jobStateData?.resume?.resumePdf}}
                                     </span>
+                                    <div class="w-100-p upload-class" *ngIf="uploadFile == false">
+                                        <input type="file" #file hidden (change)="selectFile($event.target.files)">
+                                        <button class="upload-btn" type="button" mat-icon-button (click)="file.click()">
+                                            <mat-icon>cloud_upload</mat-icon>&nbsp;Upload Resume Pdf
+                                        </button>
+                                        <p class="accent upload-span border-radius-8 p-4" *ngIf="selectedFile">
+                                            {{selectedFile?.name}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 

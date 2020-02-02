@@ -258,13 +258,14 @@ export class ResumebuilderComponent implements
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config
       suffix: '.min',       // Suffix to use when loading resources
-      plugins: 'lists advlist',
+      plugins: 'lists advlist paste',
       statusbar: false,
       browser_spellcheck: true,
       toolbar: 'bold italic underline | bullist numlist |  undo redo',
       height: 300,
       menubar: false,
       header: false,
+      paste_as_text: true
     };
     tinymce.init(this.tinyEditorConfig);
   }
@@ -1076,18 +1077,26 @@ export class ResumebuilderComponent implements
     downloadPdfOnly = false,
     isLastStep = false
   ) {
-    const imgWidth = 595.28;
-    const pageHeight = 841.89;
+    // const imgWidth = 595.28;
+    // const pageHeight = 841.89;
+    const imgWidth = 210;
+    const pageHeight = 295;
     const oldWidth = element.style.width;
     const oldHeight = element.style.height;
     element.style.display = 'inline-block';
     element.style.width = '600px';
     // element.style.height = 'auto';
     let containerMaxWidth = '';
+    let tableMargin = '';
     const templateContainer = document.getElementById('save-template');
     if (templateContainer) {
       containerMaxWidth = templateContainer.style.maxWidth;
       templateContainer.style.maxWidth = '';
+    }
+    const table = document.getElementById('resume-table');
+    if (table && table.style.margin) {
+      tableMargin = table.style.margin;
+      table.style.margin = '';
     }
     // scale: 4,
     // useCORS: true,
@@ -1097,15 +1106,16 @@ export class ResumebuilderComponent implements
       removeContainer: true,
       imageTimeout: 15000,
       logging: false,
-      scale: 4,
+      scale: 2.5,
       useCORS: true,
     };
     await html2canvas(element, html2canvasOptions).then(async canvas => {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
+      // console.log('imgHeight', imgHeight);
+      let imageA4Height = imgHeight;
       const imgData = canvas.toDataURL('image/jpeg', '1.0');
 
-      const doc = new jsPDF('p', 'pt', 'a4');
+      const doc = new jsPDF('p', 'mm', 'a4');
       doc.internal.scaleFactor = 1.55;
       doc.setProperties({
         title: `${this.userName}'s Resume`,
@@ -1116,31 +1126,39 @@ export class ResumebuilderComponent implements
         imgData,
         'JPEG',
         0,
-        position,
+        position + 14.5,
         imgWidth,
         imgHeight + 15,
         null,
         'FAST'
       );
-      heightLeft -= pageHeight;
+      // console.log('data', doc.internal.getPageInfo(1));
+      // console.log('imageA4Height', imageA4Height);
+      imageA4Height -= pageHeight;
+      // console.log('after minus', imageA4Height);
+      // console.log('after minus imgHeight', imgHeight);
 
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
+      while (imageA4Height >= 0) {
+        position = Math.fround(imageA4Height - imgHeight);
+        // console.log('position ++++++++++++++', position);
         doc.addPage();
         doc.addImage(
           imgData,
           'JPEG',
           0,
-          position,
+          position + 12.5,
           imgWidth,
-          imgHeight + 15,
+          imgHeight + 20,
           null,
           'FAST'
         );
-        heightLeft -= pageHeight;
+        imageA4Height -= pageHeight;
       }
       if (templateContainer) {
         templateContainer.style.maxWidth = containerMaxWidth;
+      }
+      if (table) {
+        table.style.margin = tableMargin;
       }
       if (downloadPdfOnly === true) {
         const timestamp = moment().format('x');
@@ -1155,6 +1173,10 @@ export class ResumebuilderComponent implements
           const pdfUrl = URL.createObjectURL(pdfdata);
           element.style.width = oldWidth;
           element.style.height = oldHeight;
+          // const pageCount = doc.internal.getNumberOfPages();
+          // for (let i = 0; i < pageCount; i++) {
+          //   doc.text(String(i), 196, 285);
+          // }
           // console.log('pdf', pdfUrl);
           if (window.screen.width > 600) {
             const dialogRef = this.matDialog.open(

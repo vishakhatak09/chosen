@@ -8,6 +8,9 @@ import { environment } from 'environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { switchMap, takeUntil, startWith } from 'rxjs/operators';
 import { JobDetailComponent } from '../job-detail/job-detail.component';
+import { Router } from '@angular/router';
+import { ResumePreviewComponent } from '../resume-preview/resume-preview.component';
+import { AuthenticationService } from 'core/services/authentication.service';
 
 @Component({
   selector: 'app-job-search',
@@ -26,6 +29,7 @@ export class JobSearchComponent implements OnInit, OnDestroy {
   options: JobModel[] = [];
   filteredOptions: Observable<JobModel[]>;
   previousSearch = '';
+  jobResumeData;
 
   // Private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -33,10 +37,22 @@ export class JobSearchComponent implements OnInit, OnDestroy {
   constructor(
     private commonService: CommonService,
     private matDialog: MatDialog,
+    private router: Router,
+    private auth: AuthenticationService
   ) { }
 
   ngOnInit() {
     this.initAutoComplete();
+    if (this.auth.currentUserValue) {
+      // console.log(this.auth.currentUserValue);
+      const resumeData = {
+        personalInfo: {
+          email: this.auth.currentUserValue.email,
+          firstName: this.auth.currentUserValue.name
+        }
+      };
+      this.jobResumeData = resumeData;
+    }
   }
 
   initAutoComplete(initialValue = '') {
@@ -156,6 +172,7 @@ export class JobSearchComponent implements OnInit, OnDestroy {
           // this.previousSearch = '';
           // this.selectedFilters = null;
           // this.searchBox.setValue('', { emitEvent: false });
+          this.openJobEmailDialog(data);
         }
       }
     );
@@ -178,6 +195,38 @@ export class JobSearchComponent implements OnInit, OnDestroy {
           this.searchBox.patchValue(this.previousSearch, { emitEvent: true });
           element.focus();
         }
+      }
+    });
+  }
+
+  openJobEmailDialog(data): void {
+    const dialogRef = this.matDialog.open(ResumePreviewComponent,
+      {
+        width: '1000px',
+        height: 'auto',
+        closeOnNavigation: true,
+        restoreFocus: false
+      }
+    );
+    dialogRef.afterClosed().subscribe((response: boolean) => {
+      if (response === true) {
+        // chosen
+        this.router.navigate(['/user/my-resumes/choose'],
+          {
+            state: {
+              'jobDetail': data
+            }
+          }
+        );
+      } else if ( response === false ) {
+        this.router.navigate(['/user/job-email'], {
+          state: {
+            jobData: {
+              job: data,
+              resume: this.jobResumeData
+            }
+          }
+        });
       }
     });
   }

@@ -43,10 +43,10 @@ const routes: Routes = [
         path: 'job-email',
         loadChildren: './job-email/job-email.module#JobEmailModule'
     },
-    {
-        path: 'preview',
-        loadChildren: './resume-preview/resume-preview.module#ResumePreviewModule'
-    },
+    // {
+    //     path: 'preview',
+    //     loadChildren: './resume-preview/resume-preview.module#ResumePreviewModule'
+    // },
     {
         path: '**',
         redirectTo: 'templates',

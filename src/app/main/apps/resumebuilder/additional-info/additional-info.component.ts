@@ -147,13 +147,14 @@ export class AdditionalInfoComponent implements OnInit {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config
       suffix: '.min',       // Suffix to use when loading resources
-      plugins: 'lists advlist',
+      plugins: 'lists advlist paste',
       statusbar: false,
       browser_spellcheck: true,
       toolbar: 'bold italic underline | bullist numlist |  undo redo',
       height: 300,
       menubar: false,
       header: false,
+      paste_as_text: true
       // forced_root_block: ''
     };
     tinymce.init(this.tinyEditorConfig);

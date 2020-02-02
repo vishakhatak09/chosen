@@ -1,21 +1,21 @@
 <div class="temp-box" id="template-resume" 
-style="margin-top: 20px;margin-bottom: 10px;border: solid 2px #d2d2d2;
+style="padding: 0 20px; margin-top: 20px;margin-bottom: 10px;border: solid 2px #d2d2d2;
 box-shadow: 0 0 22px -10px #000;margin-left: 50px;">
-    <table class="resume-table" cellspacing="0" cellpadding="0"
-        style="width: 100%; margin: 20px auto 20px auto;color: #444444;" [ngStyle]="{'font-family': selectedFont}">
-        <!-- font-family: sans-serif;  -->
+    <table class="resume-table" cellspacing="0" cellpadding="0" id="resume-table"
+        style="width: 100%; color: #444444; margin: 20px auto;" [ngStyle]="{'font-family': selectedFont}">
+        <!-- font-family: sans-serif; margin: 20px auto 20px auto;  -->
         <tr>
             <td style="padding: 0 20px">
                 <table cellspacing="0" cellpadding="0" style="width: 100%">
                     <tr>
                         <td>
-                            <h2 style="margin: 0; font-size: 14px;font-weight: 600;color: #444444;">
+                            <h2 style="margin: 0; font-size: 14px;font-weight: 700;color: #444444;">
                                 <span *ngIf="templateForm.firstName">{{templateForm.firstName}} </span>
                                 <span *ngIf="!templateForm.firstName">Sumit </span>
                                 <span *ngIf="templateForm.lastName ">{{templateForm.lastName}}</span>
                                 <span *ngIf="!templateForm.lastName">Patel</span>
                             </h2>
-                            <h4 style="margin: 0; font-size: 12px;font-weight: 500;color: #8c8c8cdd;">
+                            <h4 style="margin: 0; font-size: 12px;font-weight: 600;color: #5f5e5edd;">
                                 <ng-container *ngIf="templateForm?.designation">{{templateForm?.designation}}
                                 </ng-container>
                                 <ng-container *ngIf="!templateForm?.designation">{{ MockData.designation }}
@@ -29,11 +29,11 @@ box-shadow: 0 0 22px -10px #000;margin-left: 50px;">
                 </table>
             </td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td style="height: 10px;"></td>
-        </tr>
+        </tr> -->
         <tr>
-            <td style="background: #eaeaea;padding: 5px 20px; font-size: 10px; display: flex;
+            <td style="background: #c2c3c2d1;padding: 5px 20px; font-size: 10px; display: flex;
             flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
 
                 <div style="display: inline-table; margin: 5px 20px 5px 0; width: 150px;  white-space: pre;">
@@ -106,8 +106,9 @@ box-shadow: 0 0 22px -10px #000;margin-left: 50px;">
                                 </h3>
                             </tr>
                             <tr style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
-                                <p style="margin: 2px 5px; font-size: 10px; transition: unsafe 0s ease 0s; padding: 7px 0px;
-                                border-radius: 16px; color: black; width: 100px; white-space: pre; display: inline-table;"
+                                <p style="margin: 2px 5px; font-size: 10px; transition: unsafe 0s ease 0s;
+                                border-radius: 16px; color: black; width: 100px; white-space: pre; display: inline-table;
+                                padding-top: 7px;"
                                     *ngFor="let item of skillList" [ngStyle]="{'color': fontColor ,
                                         'background-color' : backColor}">
                                     {{ item.skillName }}
@@ -133,17 +134,17 @@ box-shadow: 0 0 22px -10px #000;margin-left: 50px;">
                     </tr>
                     <tr *ngFor="let item of experienceList">
                         <td style="font-size: 0; padding: 0 10px 0px 10px;">
-                            <h3 style="margin:0; font-size: 10px;" [innerHTML]="item.designation"></h3>
-                            <h4 style="margin:2px 0 0; font-size: 10px; color: #909090;" [innerHTML]="item.companyName">
+                            <h3 style="margin:0; font-size: 10px; font-weight: 600;" [innerHTML]="item.designation"></h3>
+                            <h4 style="margin:2px 0 0; font-size: 10px; color: #0e0e0edd;" [innerHTML]="item.companyName">
                             </h4>
                             <div style="margin: 7px 0 5px;">
                                 <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
-                                                font-size: 10px;color: #909090;">
+                                                font-size: 10px;color: #383737;">
                                     {{ item.joiningDate | date: 'LLLL yyyy' }} -
                                     {{ item.leavingDate | date: 'LLLL yyyy' }}
                                 </p>
                                 <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
-                                                font-size: 10px;color: #909090;text-align: right;"
+                                                font-size: 10px;color: #383737;text-align: right;"
                                     [innerHTML]="item.location">
                                 </p>
                             </div>
@@ -160,7 +161,7 @@ box-shadow: 0 0 22px -10px #000;margin-left: 50px;">
         </tr>
         <tr *ngIf="educationList.length > 0">
             <td style="padding: 0 20px">
-                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                <table cellspacing="0" cellpadding="0" style="width: 100%; display: flex; flex-direction: column;">
                     <tr>
                         <td>
                             <h3 style="margin:0 0 5px; font-size: 12px; text-transform: uppercase; font-weight: bold;">
@@ -168,19 +169,19 @@ box-shadow: 0 0 22px -10px #000;margin-left: 50px;">
                             </h3>
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="width: 100%; flex-direction: row; flex-wrap: wrap; justify-content: space-evenly; display: flex;">
                         <td style="font-size: 0; padding: 0 10px; width: 50%; vertical-align: top;"
                             *ngFor="let item of educationList">
                             <h3 style="margin:0; font-size: 10px;" [innerHTML]="item.courseName"></h3>
-                            <h4 style="margin:2px 0 0; font-size: 10px; color: #909090;" [innerHTML]="item.collegeName">
+                            <h4 style="margin:2px 0 0; font-size: 10px; color: #383737;" [innerHTML]="item.collegeName">
                             </h4>
                             <div style="margin: 7px 0 5px;">
                                 <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
-                                                font-size: 10px;color: #909090;">
+                                                font-size: 10px;color: #383737;">
                                     {{ item.yearOfPassing | date: 'yyyy' }}
                                 </p>
                                 <p style="display:inline-block;width: 50%;margin:0;font-style: italic;
-                                                font-size: 10px;color: #909090;text-align: right;"
+                                                font-size: 10px;color: #383737;text-align: right;"
                                     [innerHTML]="item.universityName">
                                 </p>
                             </div>
@@ -220,7 +221,7 @@ box-shadow: 0 0 22px -10px #000;margin-left: 50px;">
                                                 {{ data.certificate }}
                                             </h3>
                                             <p
-                                                style="display:inline-block;margin:0;font-style: italic;font-size: 10px;color: #909090;">
+                                                style="display:inline-block;margin:0;font-style: italic;font-size: 10px;color: #383737;">
                                                 {{ data.date | date: 'yyyy' }}
                                             </p>
                                         </td>

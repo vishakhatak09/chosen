@@ -24,6 +24,8 @@ export class JobEmailComponent implements OnInit, OnDestroy {
   setEmailForm: FormGroup;
   jobStateData;
   sendResumeMail = environment.serverBaseUrl + 'api/resume/sentMail';
+  uploadFile = false;
+  selectedFile: File;
 
 
   // private
@@ -49,14 +51,17 @@ export class JobEmailComponent implements OnInit, OnDestroy {
 
     this.setupTinyMce();
     // console.log('this.jobStateData', this.jobStateData);
-    if (this.jobStateData && this.jobStateData.job && this.jobStateData.resume) {
+    if (this.jobStateData && this.jobStateData.job) {
       this.setEmailForm.get('to').setValue(this.jobStateData.job.email);
       this.setEmailForm.get('to').disable();
-      this.setEmailForm.get('from').setValue(this.jobStateData.resume.personalInfo.email);
       this.setEmailForm.get('from').disable();
       this.setEmailForm.get('subject').setValue('Job Application for ' + this.jobStateData.job.jobPosition);
+      this.setEmailForm.get('from').setValue(this.jobStateData.resume.personalInfo.email);
+      if ( this.jobStateData.resume._id ) {
+        this.uploadFile = true;
+      }
     } else {
-      this.router.navigate(['/user/templates']);
+      this.router.navigate(['/user/job-search']);
     }
   }
 
@@ -67,13 +72,14 @@ export class JobEmailComponent implements OnInit, OnDestroy {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config
       suffix: '.min',       // Suffix to use when loading resources
-      plugins: 'lists advlist',
+      plugins: 'lists advlist paste',
       statusbar: false,
       browser_spellcheck: true,
       toolbar: 'bold italic underline | bullist numlist |  undo redo',
       height: 300,
       menubar: false,
       header: false,
+      paste_as_text: true
     };
     tinymce.init(this.tinyEditorConfig);
   }
@@ -82,11 +88,18 @@ export class JobEmailComponent implements OnInit, OnDestroy {
     if (this.setEmailForm.valid) {
       const formValue = this.setEmailForm.getRawValue();
 
-      const params = {
+      if ( !this.jobStateData.resume._id && !this.selectedFile ) {
+        this.toastrService.displaySnackBar('Please upload resume', 'error');
+        return;
+      }
+      console.log(this.selectedFile);
+      const formdata = new FormData();
+
+      const params: any = {
         'params': {
-          'resumeId': this.jobStateData.resume._id,
+          // 'resumeId': this.jobStateData.resume._id,
           'toEmail': this.jobStateData.job.email,
-          'personName': this.jobStateData.resume.personalInfo.firstName + ' ' + this.jobStateData.resume.personalInfo.lastName,
+          'personName': this.jobStateData.resume.personalInfo.firstName + ' ' + (this.jobStateData.resume.personalInfo.lastName || ''),
           'fromEmail': this.jobStateData.resume.personalInfo.email,
           'jobId': this.jobStateData.job._id,
           'jobPosition': this.jobStateData.job.jobPosition,
@@ -94,6 +107,12 @@ export class JobEmailComponent implements OnInit, OnDestroy {
           'mailBody': formValue.body,
         }
       };
+      if ( this.jobStateData.resume._id ) {
+        params.params.resumeId = this.jobStateData.resume._id;
+      } else {
+        formdata.append('resume', this.selectedFile);
+        params.params.resume = formdata;
+      }
       this.httpClient.post<any>(this.sendResumeMail, params)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(
@@ -104,7 +123,7 @@ export class JobEmailComponent implements OnInit, OnDestroy {
                 'success',
                 3000
               );
-              this.router.navigate(['/user/templates']);
+              this.router.navigate(['/user/job-search']);
             }
           },
           (err) => {
@@ -113,10 +132,18 @@ export class JobEmailComponent implements OnInit, OnDestroy {
             } else {
               this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);
             }
-            this.router.navigate(['/user/templates']);
+            this.router.navigate(['/user/job-search']);
           }
         );
 
+    }
+  }
+
+  selectFile(files: FileList): void {
+    if ( files.length > 0 ) {
+      this.selectedFile = files[0];
+    } else {
+      this.selectedFile = null;
     }
   }
 

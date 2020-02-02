@@ -59,7 +59,8 @@
                 <div class="add-certificate">
                     <button mat-button type="button" class="add-button" (click)="addDeleteCertificate('add')">
                         <mat-icon>add_box</mat-icon>
-                        Add <span *ngIf="certifications.length > 0">More</span>
+                        <span *ngIf="certifications.length == 0">Add</span>
+                        <span *ngIf="certifications.length > 0">Add More</span>
                     </button>
                 </div>
 

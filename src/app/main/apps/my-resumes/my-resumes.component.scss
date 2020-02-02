@@ -7,11 +7,12 @@ app-my-resumes {
             box-shadow: 0 0 5px 0px #9c9c9c;
             max-width: initial;
             min-width: auto;
-            height: 100%;
+            height: 500px;
             position: relative;
+            overflow: hidden;
             img {
                 max-width: 100%;
-                overflow: hidden;
+                // overflow: hidden;
             }
             .hover-box {
                 position: absolute;

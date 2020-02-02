@@ -226,13 +226,14 @@ export class AddWorkComponent implements OnInit, OnDestroy {
       // selector: 'textarea#editorId',
       // skin_url: '/skins', // Or loaded from your environments config
       suffix: '.min',       // Suffix to use when loading resources
-      plugins: 'lists advlist',
+      plugins: 'lists advlist paste',
       statusbar: false,
       browser_spellcheck: true,
       toolbar: 'bold italic underline | bullist numlist |  undo redo',
       height: 300,
       menubar: false,
       header: false,
+      paste_as_text: true
     };
     tinymce.init(this.tinyEditorConfig);
   }

@@ -184,3 +184,43 @@
     color: black !important;
     margin-bottom: 10px;
   }
+  .mat-dialog-actions{ 
+    justify-content: space-evenly !important;
+    align-items: center !important;
+    margin-top: 30px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+
+    .images{
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
+      flex-basis: calc(50% - 20px);
+      margin: 10px;
+      min-width: 200px;
+      height: 300px;
+      color: #fff;
+      &.first{
+        background-color: #43a047;        
+      }
+      &:active {
+          color: black;
+          box-shadow: 0 0 5px -1px rgba(0,0,0,0.6);
+      }
+      
+      background-color: gray;     
+      div{
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        div{
+          margin: 10px;
+          min-width: 300px;
+          display: flex;
+          justify-content: center;
+        }
+      }   
+    }
+  }
