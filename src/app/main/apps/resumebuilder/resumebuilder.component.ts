@@ -55,6 +55,8 @@ import { templateMock } from 'core/mock/temp-content';
 import * as jsPDF from 'jspdf';
 import 'html2canvas';
 import { PdfViewComponent } from './pdf-view/pdf-view.component';
+import 'html2pdf';
+declare var html2pdf;
 
 @Component({
   selector: 'app-resumebuilder',
@@ -323,7 +325,7 @@ export class ResumebuilderComponent implements
   saveAsPdf(isSaveImgPDF = true, isLastStep = false): void {
     const element = document.getElementById('template-resume');
     if (element) {
-      this.loaderService.show();
+      // this.loaderService.show();
       const border = element.style.border;
       const shadow = element.style.boxShadow;
       const marginTop = element.style.marginTop;
@@ -1098,9 +1100,7 @@ export class ResumebuilderComponent implements
       tableMargin = table.style.margin;
       table.style.margin = '';
     }
-    // scale: 4,
-    // useCORS: true,
-    // logging: false,
+    const worker = html2pdf();
     const html2canvasOptions: any = {
       allowTaint: false,
       removeContainer: true,
@@ -1109,115 +1109,123 @@ export class ResumebuilderComponent implements
       scale: 2.5,
       useCORS: true,
     };
-    await html2canvas(element, html2canvasOptions).then(async canvas => {
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      // console.log('imgHeight', imgHeight);
-      let imageA4Height = imgHeight;
-      const imgData = canvas.toDataURL('image/jpeg', '1.0');
+    const opt = {
+      margin:       1,
+      filename:     'myfile.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    worker.from(element).set(opt).save();
+    // await html2canvas(element, html2canvasOptions).then(async canvas => {
+    //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    //   // console.log('imgHeight', imgHeight);
+    //   let imageA4Height = imgHeight;
+    //   const imgData = canvas.toDataURL('image/jpeg', '1.0');
 
-      const doc = new jsPDF('p', 'mm', 'a4');
-      doc.internal.scaleFactor = 1.55;
-      doc.setProperties({
-        title: `${this.userName}'s Resume`,
-      });
-      let position = 0;
+    //   const doc = new jsPDF('p', 'mm', 'a4');
+    //   doc.internal.scaleFactor = 1.55;
+    //   doc.setProperties({
+    //     title: `${this.userName}'s Resume`,
+    //   });
+    //   let position = 0;
 
-      doc.addImage(
-        imgData,
-        'JPEG',
-        0,
-        position + 14.5,
-        imgWidth,
-        imgHeight + 15,
-        null,
-        'FAST'
-      );
-      // console.log('data', doc.internal.getPageInfo(1));
-      // console.log('imageA4Height', imageA4Height);
-      imageA4Height -= pageHeight;
-      // console.log('after minus', imageA4Height);
-      // console.log('after minus imgHeight', imgHeight);
+    //   doc.addImage(
+    //     imgData,
+    //     'JPEG',
+    //     0,
+    //     position + 14.5,
+    //     imgWidth,
+    //     imgHeight + 15,
+    //     null,
+    //     'FAST'
+    //   );
+    //   // console.log('data', doc.internal.getPageInfo(1));
+    //   // console.log('imageA4Height', imageA4Height);
+    //   imageA4Height -= pageHeight;
+    //   // console.log('after minus', imageA4Height);
+    //   // console.log('after minus imgHeight', imgHeight);
 
-      while (imageA4Height >= 0) {
-        position = Math.fround(imageA4Height - imgHeight);
-        // console.log('position ++++++++++++++', position);
-        doc.addPage();
-        doc.addImage(
-          imgData,
-          'JPEG',
-          0,
-          position + 12.5,
-          imgWidth,
-          imgHeight + 20,
-          null,
-          'FAST'
-        );
-        imageA4Height -= pageHeight;
-      }
-      if (templateContainer) {
-        templateContainer.style.maxWidth = containerMaxWidth;
-      }
-      if (table) {
-        table.style.margin = tableMargin;
-      }
-      if (downloadPdfOnly === true) {
-        const timestamp = moment().format('x');
-        element.style.border = styles.border;
-        element.style.boxShadow = styles.shadow;
-        element.style.marginTop = styles.marginTop;
-        element.style.marginBottom = styles.marginBottom;
-        element.style.marginLeft = styles.marginLeft;
-        this.loaderService.hide();
-        setTimeout(() => {
-          const pdfdata = doc.output('blob');
-          const pdfUrl = URL.createObjectURL(pdfdata);
-          element.style.width = oldWidth;
-          element.style.height = oldHeight;
-          // const pageCount = doc.internal.getNumberOfPages();
-          // for (let i = 0; i < pageCount; i++) {
-          //   doc.text(String(i), 196, 285);
-          // }
-          // console.log('pdf', pdfUrl);
-          if (window.screen.width > 600) {
-            const dialogRef = this.matDialog.open(
-              PdfViewComponent,
-              {
-                width: '1000px',
-                height: '100%',
-                data: pdfUrl,
-                restoreFocus: false,
-                disableClose: true
-              },
-            );
-            dialogRef.beforeClosed().subscribe((response: boolean) => {
-              if (response === true) {
-                doc.save(`resume_${this.userName}_${timestamp}`);
-              }
-            });
-          } else {
-            doc.save(`resume_${this.userName}_${timestamp}`);
-          }
-        }, 500);
-      } else {
-        setTimeout(() => {
-          const pdfUrl = doc.output('datauristring');
-          const imgUrl = canvas.toDataURL('image/jpeg', '1.0');
-          this.templateImageBase64 = imgUrl;
-          const fileObject = this.dataURLtoFile(pdfUrl, `resume_${this.userName}.pdf`);
-          this.templatePdfFile = fileObject;
-          this.saveTemplatePdfImg(isLastStep);
-          element.style.width = oldWidth;
-          element.style.height = oldHeight;
-          element.style.border = styles.border;
-          element.style.boxShadow = styles.shadow;
-          element.style.marginTop = styles.marginTop;
-          element.style.marginBottom = styles.marginBottom;
-          element.style.marginLeft = styles.marginLeft;
-          this.loaderService.hide();
-        }, 500);
-      }
+    //   while (imageA4Height >= 0) {
+    //     position = Math.fround(imageA4Height - imgHeight);
+    //     // console.log('position ++++++++++++++', position);
+    //     doc.addPage();
+    //     doc.addImage(
+    //       imgData,
+    //       'JPEG',
+    //       0,
+    //       position + 12.5,
+    //       imgWidth,
+    //       imgHeight + 20,
+    //       null,
+    //       'FAST'
+    //     );
+    //     imageA4Height -= pageHeight;
+    //   }
+    //   if (templateContainer) {
+    //     templateContainer.style.maxWidth = containerMaxWidth;
+    //   }
+    //   if (table) {
+    //     table.style.margin = tableMargin;
+    //   }
+    //   if (downloadPdfOnly === true) {
+    //     const timestamp = moment().format('x');
+    //     element.style.border = styles.border;
+    //     element.style.boxShadow = styles.shadow;
+    //     element.style.marginTop = styles.marginTop;
+    //     element.style.marginBottom = styles.marginBottom;
+    //     element.style.marginLeft = styles.marginLeft;
+    //     this.loaderService.hide();
+    //     setTimeout(() => {
+    //       const pdfdata = doc.output('blob');
+    //       const pdfUrl = URL.createObjectURL(pdfdata);
+    //       element.style.width = oldWidth;
+    //       element.style.height = oldHeight;
+    //       // const pageCount = doc.internal.getNumberOfPages();
+    //       // for (let i = 0; i < pageCount; i++) {
+    //       //   doc.text(String(i), 196, 285);
+    //       // }
+    //       // console.log('pdf', pdfUrl);
+    //       if (window.screen.width > 600) {
+    //         const dialogRef = this.matDialog.open(
+    //           PdfViewComponent,
+    //           {
+    //             width: '1000px',
+    //             height: '100%',
+    //             data: pdfUrl,
+    //             restoreFocus: false,
+    //             disableClose: true
+    //           },
+    //         );
+    //         dialogRef.beforeClosed().subscribe((response: boolean) => {
+    //           if (response === true) {
+    //             doc.save(`resume_${this.userName}_${timestamp}`);
+    //           }
+    //         });
+    //       } else {
+    //         doc.save(`resume_${this.userName}_${timestamp}`);
+    //       }
+    //     }, 500);
+    //   } else {
+    //     setTimeout(() => {
+    //       const pdfUrl = doc.output('datauristring');
+    //       const imgUrl = canvas.toDataURL('image/jpeg', '1.0');
+    //       this.templateImageBase64 = imgUrl;
+    //       const fileObject = this.dataURLtoFile(pdfUrl, `resume_${this.userName}.pdf`);
+    //       this.templatePdfFile = fileObject;
+    //       this.saveTemplatePdfImg(isLastStep);
+    //       element.style.width = oldWidth;
+    //       element.style.height = oldHeight;
+    //       element.style.border = styles.border;
+    //       element.style.boxShadow = styles.shadow;
+    //       element.style.marginTop = styles.marginTop;
+    //       element.style.marginBottom = styles.marginBottom;
+    //       element.style.marginLeft = styles.marginLeft;
+    //       this.loaderService.hide();
+    //     }, 500);
+    //   }
 
-    });
+    // });
   }
 
   removeWidth() {

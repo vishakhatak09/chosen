@@ -36,7 +36,8 @@
                         ],
                         "scripts": [
                             "node_modules/html2canvas/dist/html2canvas.js",
-                            "node_modules/tinymce/tinymce.min.js"
+                            "node_modules/tinymce/tinymce.min.js",
+                            "node_modules/html2pdf/dist/html2pdf.js"
                         ],
                         "showCircularDependencies": false
                     },
