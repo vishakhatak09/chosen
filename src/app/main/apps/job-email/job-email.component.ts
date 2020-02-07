@@ -92,28 +92,39 @@ export class JobEmailComponent implements OnInit, OnDestroy {
         this.toastrService.displaySnackBar('Please upload resume', 'error');
         return;
       }
-      console.log(this.selectedFile);
+      // console.log(this.selectedFile);
       const formdata = new FormData();
 
-      const params: any = {
-        'params': {
-          // 'resumeId': this.jobStateData.resume._id,
-          'toEmail': this.jobStateData.job.email,
-          'personName': this.jobStateData.resume.personalInfo.firstName + ' ' + (this.jobStateData.resume.personalInfo.lastName || ''),
-          'fromEmail': this.jobStateData.resume.personalInfo.email,
-          'jobId': this.jobStateData.job._id,
-          'jobPosition': this.jobStateData.job.jobPosition,
-          'subject': formValue.subject,
-          'mailBody': formValue.body,
-        }
-      };
+      // const params: any = {
+      //   'params': {
+      //     // 'resumeId': this.jobStateData.resume._id,
+      //     'toEmail': this.jobStateData.job.email,
+      //     'personName': this.jobStateData.resume.personalInfo.firstName + ' ' + (this.jobStateData.resume.personalInfo.lastName || ''),
+      //     'fromEmail': this.jobStateData.resume.personalInfo.email,
+      //     'jobId': this.jobStateData.job._id,
+      //     'jobPosition': this.jobStateData.job.jobPosition,
+      //     'subject': formValue.subject,
+      //     'mailBody': formValue.body,
+      //   }
+      // };
+      const name = this.jobStateData.resume.personalInfo.firstName + ' ' + (this.jobStateData.resume.personalInfo.lastName || '');
+      formdata.append('toEmail', this.jobStateData.job.email);
+      formdata.append('personName', name);
+      formdata.append('fromEmail', this.jobStateData.resume.personalInfo.email);
+      formdata.append('jobId', this.jobStateData.job._id);
+      formdata.append('jobPosition', this.jobStateData.job.jobPosition);
+      formdata.append('subject', formValue.subject);
+      formdata.append('mailBody', formValue.body);
       if ( this.jobStateData.resume._id ) {
-        params.params.resumeId = this.jobStateData.resume._id;
+        // params.params.resumeId = this.jobStateData.resume._id;
+        formdata.append('resumeId', this.jobStateData.resume._id);
+        formdata.append('isCustomResume', '0');
       } else {
-        formdata.append('resume', this.selectedFile);
-        params.params.resume = formdata;
+        // params.params.resume = formdata;
+        formdata.append('isCustomResume', '1');
+        formdata.append('customResume', this.selectedFile);
       }
-      this.httpClient.post<any>(this.sendResumeMail, params)
+      this.httpClient.post<any>(this.sendResumeMail, formdata)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(
           (response) => {
@@ -127,7 +138,7 @@ export class JobEmailComponent implements OnInit, OnDestroy {
             }
           },
           (err) => {
-            if (err && err.code && err.code === 400 && (err.err && err.err.code || err.err.code === 'ESTREAM')) {
+            if (err && err.code && err.code === 400 && (err.err && (err.err.code || err.err.code === 'ESTREAM'))) {
               this.toastrService.displaySnackBar('Please fill all your details is selected resume', 'error', 3000);
             } else {
               this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);

@@ -10,7 +10,6 @@ import {
   ChangeDetectorRef,
   ViewContainerRef,
   ComponentRef,
-  AfterContentInit,
   HostListener,
   AfterViewInit
 } from '@angular/core';
@@ -47,11 +46,7 @@ import * as _ from 'lodash';
 import { CommonService } from 'core/services/common.service';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { TemplateDynamicDirective } from '@fuse/directives/template-dynamic.directive';
-// import { ResumeTemplateComponent } from './resume-template/resumetemplate.component';
-// import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
 import { LoadingScreenService } from '@fuse/services/loading.service';
-import { templateMock } from 'core/mock/temp-content';
 import * as jsPDF from 'jspdf';
 import 'html2canvas';
 import { PdfViewComponent } from './pdf-view/pdf-view.component';
@@ -68,8 +63,7 @@ import { PdfViewComponent } from './pdf-view/pdf-view.component';
   animations: fuseAnimations
 })
 export class ResumebuilderComponent implements
-  OnInit, OnDestroy, AfterContentInit,
-  AfterViewInit {
+  OnInit, OnDestroy, AfterViewInit {
 
   public defaultProfile = environment.baseUrl + 'assets/images/logos/profile.jpg';
   public getEditUrl = environment.serverBaseUrl + 'api/resume/singleResume';
@@ -107,7 +101,6 @@ export class ResumebuilderComponent implements
   // @ViewChild('pdf', { static: false }) pdfComponent;
   separatorKeysCodes: number[] = [ENTER];
   selectedIndex = 0;
-  public MockTemplate: string;
   isLinear = true;
   userEmail: string;
   userName: string;
@@ -161,7 +154,6 @@ export class ResumebuilderComponent implements
     private toastrService: ToastrService,
     private authService: AuthenticationService,
     private commonService: CommonService,
-    // private componentFactoryResolver: ComponentFactoryResolver,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private loaderService: LoadingScreenService
@@ -239,12 +231,6 @@ export class ResumebuilderComponent implements
     const userData = this.authService.currentUserValue;
     this.userEmail = userData ? userData.email : '';
     this.userName = userData ? userData.name : '';
-  }
-
-  ngAfterContentInit(): void {
-    this.MockTemplate = templateMock;
-    // this.loadComponent();
-    // // Generate dynamic component with html
   }
 
   ngAfterViewInit(): void {
@@ -1006,35 +992,6 @@ export class ResumebuilderComponent implements
 
   }
 
-  // loadComponent(): void {
-
-  //   let componentFactory;
-  //   if (this.currentTemplate === 'tp1') {
-  //     componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeTemplateComponent);
-  //   } else if (this.currentTemplate === 'tp2') {
-  //     componentFactory = this.componentFactoryResolver.resolveComponentFactory(ResumeProfessionalComponent);
-  //   }
-
-  //   const viewContainerRef = this.dynamicTemplate.viewContainerRef;
-  //   viewContainerRef.clear();
-
-  //   if (componentFactory) {
-  //     const componentRef = viewContainerRef.createComponent(componentFactory);
-  //     (<any>componentRef.instance).templateForm = this.basicDetailForm.getRawValue();
-  //     (<any>componentRef.instance).userEmail = this.userEmail;
-  //     (<any>componentRef.instance).experienceData = this.workExperienceData;
-  //     (<any>componentRef.instance).careerObjective = this.careerObjForm.get('careerObjective').value;
-  //     (<any>componentRef.instance).educationData = this.educationData;
-  //     (<any>componentRef.instance).skillData = this.skillRatingList;
-  //     (<any>componentRef.instance).additionalInfo = this.additionalInfoData;
-  //     (<any>componentRef.instance).socialData = this.socialLinkArray;
-  //     (<any>componentRef.instance).profileSrc = this.profileSrc;
-  //     // this.loaderService.hide();
-  //     this.isComponentLoaded = true;
-  //   }
-
-  // }
-
   everyStepSaveImage(): void {
     this.saveAsPdf(false, false);
   }
@@ -1132,15 +1089,10 @@ export class ResumebuilderComponent implements
         null,
         'FAST'
       );
-      // console.log('data', doc.internal.getPageInfo(1));
-      // console.log('imageA4Height', imageA4Height);
       imageA4Height -= pageHeight;
-      // console.log('after minus', imageA4Height);
-      // console.log('after minus imgHeight', imgHeight);
 
       while (imageA4Height >= 0) {
         position = Math.fround(imageA4Height - imgHeight);
-        // console.log('position ++++++++++++++', position);
         doc.addPage();
         doc.addImage(
           imgData,
