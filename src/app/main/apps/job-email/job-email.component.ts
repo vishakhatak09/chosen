@@ -143,7 +143,7 @@ export class JobEmailComponent implements OnInit, OnDestroy {
             } else {
               this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);
             }
-            this.router.navigate(['/user/job-search']);
+            // this.router.navigate(['/user/job-search']);
           }
         );
 

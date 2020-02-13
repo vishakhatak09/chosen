@@ -976,7 +976,7 @@ export class ResumebuilderComponent implements
         (response) => {
           if (response.code === 200) {
             this.loaderService.hide();
-            if (isLastStep) {
+            if (isLastStep === true) {
               this.toastrService.displaySnackBar('Your resume has been saved', 'success');
               this.router.navigate(['/user/my-resumes']);
             } else {
@@ -1000,7 +1000,7 @@ export class ResumebuilderComponent implements
 
     if (!this.resumeEditData && this.basicDetailForm.touched &&
       (this.basicDetailForm.invalid || this.careerObjForm.invalid ||
-        this.selectedIndex > 0
+        this.selectedIndex > 0 && this.selectedIndex < 4
       )
     ) {
       const dialogRef = this.matDialog.open(

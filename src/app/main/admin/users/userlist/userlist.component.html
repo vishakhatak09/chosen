@@ -81,6 +81,24 @@
                         </td>
                     </ng-container>
 
+                    <ng-container matColumnDef="currentJobLocation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Current Job Location</th>
+                        <td mat-cell *matCellDef="let user">
+                            <p class="text-truncate text-capitalize">
+                                {{user?.resume?.personalInfo?.currentJobLocation}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="preferredJobLocation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Preferred Job Location</th>
+                        <td mat-cell *matCellDef="let user">
+                            <p class="text-truncate text-capitalize">
+                                {{user?.resume?.personalInfo?.preferredJobLocation}}
+                            </p>
+                        </td>
+                    </ng-container>
+
                     <!-- Payment Column -->
                     <!-- <ng-container matColumnDef="payment">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Payment</th>

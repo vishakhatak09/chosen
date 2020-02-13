@@ -33,7 +33,10 @@ export class UserlistComponent implements OnInit {
     'type',
     // 'resumes',
     // 'payment',
-    'status', 'action'];
+    'currentJobLocation',
+    'preferredJobLocation',
+    'status',
+    'action'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -87,6 +90,16 @@ export class UserlistComponent implements OnInit {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+  }
+
+  sortingDataAccessor(item: any, property: string) {
+    if (property === 'currentJobLocation' || property === 'preferredJobLocation') {
+      if ( item.resume && item.resume.personalInfo && item.resume.personalInfo[property] ) {
+        return item.resume.personalInfo[property];
+      }
+    }
+    return item[property];
   }
 
   getUsers(): void {
