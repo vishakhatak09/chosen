@@ -90,12 +90,12 @@ export class UserlistComponent implements OnInit {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+    // this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
   }
 
   sortingDataAccessor(item: any, property: string) {
     if (property === 'currentJobLocation' || property === 'preferredJobLocation') {
-      if ( item.resume && item.resume.personalInfo && item.resume.personalInfo[property] ) {
+      if (item.resume && item.resume.personalInfo && item.resume.personalInfo[property]) {
         return item.resume.personalInfo[property];
       }
     }
@@ -110,9 +110,28 @@ export class UserlistComponent implements OnInit {
         response => {
           // console.log('userdata', response);
           if (response.code === 200 && response.data) {
-            this.userList = response.data;
+            // this.userList = response.data;
+            this.userList = response.data.filter(
+              (item: any) => {
+                if (item.resume && item.resume.personalInfo) {
+                  if (item.resume.personalInfo.currentJobLocation) {
+                    item.currentJobLocation = item.resume.personalInfo.currentJobLocation;
+                  } else {
+                    item.currentJobLocation = '';
+                  }
+                  if (item.resume.personalInfo.preferredJobLocation) {
+                    item.preferredJobLocation = item.resume.personalInfo.preferredJobLocation;
+                  } else {
+                    item.preferredJobLocation = '';
+                  }
+                }
+                return item;
+              }
+            );
+            this.initDataTable(this.userList);
+          } else {
+            this.initDataTable(this.userList);
           }
-          this.initDataTable(this.userList);
         },
         error => {
           // console.log(error);

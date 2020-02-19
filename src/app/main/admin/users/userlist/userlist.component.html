@@ -85,7 +85,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Current Job Location</th>
                         <td mat-cell *matCellDef="let user">
                             <p class="text-truncate text-capitalize">
-                                {{user?.resume?.personalInfo?.currentJobLocation}}
+                                {{user.currentJobLocation}}
                             </p>
                         </td>
                     </ng-container>
@@ -94,7 +94,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Preferred Job Location</th>
                         <td mat-cell *matCellDef="let user">
                             <p class="text-truncate text-capitalize">
-                                {{user?.resume?.personalInfo?.preferredJobLocation}}
+                                {{user.preferredJobLocation}}
                             </p>
                         </td>
                     </ng-container>

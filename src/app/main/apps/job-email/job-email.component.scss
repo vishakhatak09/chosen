@@ -232,9 +232,9 @@ button.upload-btn{
     padding: 0 0 20px 0 !important;
     span.upload-span{
         margin-left: 150px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 10px;
+        // font-weight: 800;
+        // border-radius: 10px;
+        // padding: 10px;
     }
 }
 
@@ -258,3 +258,10 @@ form{
 
 
 // Slider css
+.no-resume{
+    color: red;
+    font-size: 16px;
+    img{
+        color: red;
+    }
+}

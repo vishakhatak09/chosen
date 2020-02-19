@@ -157,6 +157,7 @@ export class AppConstant {
         'internalServerError': 'Internal server error occurred, please try again',
         'serverDown': 'The server is temporary unavailable. Please try again later',
         'noInternet': 'No internet connection detected.',
+        'noResumeFound': 'Please attach resume in your profile first.'
     };
 
     public static AuthStorageKey = 'user';

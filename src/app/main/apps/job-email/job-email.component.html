@@ -59,9 +59,9 @@
                                 <ng-container *ngTemplateOutlet="editor"></ng-container>
                                 <ng-template matTabContent #editor>
                                     <label class="ml-8 info">Mail Body</label>
-                                    <editor [id]="'EmailBody'" autofocus class="tiny-editor"
-                                        [init]="tinyEditorConfig" placeholder="Job application email body"
-                                        [formControlName]="'body'" tagName="textarea">
+                                    <editor [id]="'EmailBody'" autofocus class="tiny-editor" [init]="tinyEditorConfig"
+                                        placeholder="Job application email body" [formControlName]="'body'"
+                                        tagName="textarea">
                                     </editor>
                                     <mat-error *ngIf="setEmailForm.get('body').touched &&
                                       setEmailForm.get('body').value == '' ">
@@ -70,30 +70,43 @@
                                 </ng-template>
                             </div>
 
-                            <div fxFlex="100" class="mb-24">
+                            <div fxFlex="100" class="mb-24" *ngIf="uploadFile == true">
                                 <div class="mt-12" floatLabel="always" *ngIf="jobStateData?.resume">
                                     <span class="font-size-18 font-weight-600">Attachment: </span>
-                                    <span class="accent upload-span border-radius-16 p-8 w-50-p" *ngIf="uploadFile == true">
+                                    <span class="accent upload-span border-radius-16 p-8 w-50-p">
                                         {{jobStateData?.resume?.resumePdf}}
                                     </span>
-                                    <div class="w-100-p upload-class" *ngIf="uploadFile == false">
+                                    <!-- <div class="w-100-p upload-class" *ngIf="uploadFile == false">
                                         <input type="file" #file hidden (change)="selectFile($event.target.files)">
                                         <button class="upload-btn" type="button" mat-icon-button (click)="file.click()">
                                             <mat-icon>cloud_upload</mat-icon>&nbsp;Upload Resume Pdf
                                         </button>
-                                        <p class="accent upload-span border-radius-8 p-4" *ngIf="selectedFile">
+                                        <span class="accent upload-span border-radius-16 p-8 w-50-p" *ngIf="selectedFile">
                                             {{selectedFile?.name}}
-                                        </p>
-                                    </div>
+                                        </span>
+                                    </div> -->
                                 </div>
                             </div>
 
+                            <div fxFlex="100" class="mb-24" *ngIf="noResumeUploaded === false">
+                                <p class="no-resume">
+                                    <!-- <mat-icon>warning</mat-icon> -->
+                                    <img class="mr-2" src="assets/icons/material-icons/no-resume.svg">
+                                    Resume is not uploaded. Please go to profile and upload your resume
+                                    <a href="javascript:void(0)" [routerLink]="['/user/profile']"
+                                        class="font-weight-800 font-size-18">
+                                        Click here
+                                    </a>
+                                </p>
+                            </div>
+
                             <div class="pt-12 pl-8 pb-4">
-                                <button type="submit" class="stepper-back" color="primary" mat-raised-button>
+                                <button type="submit" class="stepper-back" color="primary" mat-raised-button
+                                    [disabled]="noResumeUploaded === false">
                                     Send Mail
                                 </button> &nbsp;
                                 <button type="submit" class="stepper-back" color="accent" mat-raised-button
-                                    [routerLink]="['/user/templates']">
+                                    [routerLink]="['/user/job-search']">
                                     Cancel
                                 </button>
                             </div>

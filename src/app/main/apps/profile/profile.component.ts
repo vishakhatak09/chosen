@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     public profileApi = environment.serverBaseUrl + 'api/getUserProfile';
     public updateProfileApi = environment.serverBaseUrl + 'api/profileUpdate';
     public imageBaseUrl = AppConstant.GeneralConst.profileImagePath;
+    public resumeBaseUrl = AppConstant.GeneralConst.UserImagePath;
     public userData: any;
     public loginData: any;
     public isEdited = false;
@@ -29,6 +30,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     profileImgName: string;
     userId: string;
     defaultProfileImage: string;
+    selectedResume: File;
+    selectedResumeFile: string;
 
     private unSubscribeAll: Subject<any> = new Subject();
 
@@ -65,10 +68,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
                             }
                         }
                         if (response.data.singleUser) {
-                            this.userId = response.data.singleUser._id;
-                            this.defaultProfileImage = response.data.singleUser.image;
+                            const singleUserData = response.data.singleUser;
+                            this.userId = singleUserData._id;
+                            this.defaultProfileImage = singleUserData.image;
                             this._authService.currentUserValue.image = this.defaultProfileImage;
                             this._authService.currentUserValue = this._authService.currentUserValue;
+                            this.selectedResumeFile = singleUserData.userResume ?
+                                this.resumeBaseUrl + singleUserData.userResume : '';
+                            // this.selectedResumeFile = singleUserData.userResume || '';
                         }
                     }
                 },
@@ -95,22 +102,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
         }
     }
 
-    uploadImage(): void {
+    uploadImage(isResume = false): void {
 
-        if (!this.profileSrc) {
+        if (!this.profileSrc && isResume === false) {
             this._toastrService.displaySnackBar('Please select image to upload', 'error');
             return;
         }
 
-        const params = {
-            'params': {
-                'userId': this.userId,
-                'imageName': this.profileImgName,
-                'photo': this.profileSrc,
-            }
-        };
+        const formData = new FormData();
+        formData.append('userId', this.userId);
+        if (this.profileSrc) {
+            formData.append('imageName', this.profileImgName);
+            formData.append('photo', this.profileSrc);
+        }
+        if (this.selectedResume) {
+            formData.append('userResume', this.selectedResume);
+        }
+        // const params = {
+        //     'params': {
+        //         'userId': this.userId,
+        //         'imageName': this.profileImgName,
+        //         'photo': this.profileSrc,
+        //     }
+        // };
 
-        this._profileService.updateProfileData(this.updateProfileApi, params)
+        this._profileService.updateProfileData(this.updateProfileApi, formData)
             .pipe(takeUntil(this.unSubscribeAll))
             .subscribe(
                 (resp) => {
@@ -125,6 +141,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 }
             );
 
+    }
+
+    getResumeAttachment(event: FileList): void {
+        if (event.length > 0) {
+            this.selectedResume = event[0];
+            this.uploadImage(true);
+        } else {
+            this.selectedResume = null;
+        }
     }
 
     ngOnDestroy(): void {

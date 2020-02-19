@@ -22,10 +22,12 @@ export class JobEmailComponent implements OnInit, OnDestroy {
   tinyEditorConfig = {};
 
   setEmailForm: FormGroup;
-  jobStateData;
+  jobStateData: any;
   sendResumeMail = environment.serverBaseUrl + 'api/resume/sentMail';
   uploadFile = false;
   selectedFile: File;
+  public profileApi = environment.serverBaseUrl + 'api/getUserProfile';
+  noResumeUploaded: boolean;
 
 
   // private
@@ -39,7 +41,7 @@ export class JobEmailComponent implements OnInit, OnDestroy {
   ) {
     this.jobStateData = window.history.state['jobData'];
     window.history.state['jobData'] = null;
-   }
+  }
 
   ngOnInit() {
     this.setEmailForm = this.fb.group({
@@ -57,8 +59,11 @@ export class JobEmailComponent implements OnInit, OnDestroy {
       this.setEmailForm.get('from').disable();
       this.setEmailForm.get('subject').setValue('Job Application for ' + this.jobStateData.job.jobPosition);
       this.setEmailForm.get('from').setValue(this.jobStateData.resume.personalInfo.email);
-      if ( this.jobStateData.resume._id ) {
+      if (this.jobStateData.resume._id) {
         this.uploadFile = true;
+        this.noResumeUploaded = true;
+      } else {
+        this.getProfileData();
       }
     } else {
       this.router.navigate(['/user/job-search']);
@@ -88,10 +93,10 @@ export class JobEmailComponent implements OnInit, OnDestroy {
     if (this.setEmailForm.valid) {
       const formValue = this.setEmailForm.getRawValue();
 
-      if ( !this.jobStateData.resume._id && !this.selectedFile ) {
-        this.toastrService.displaySnackBar('Please upload resume', 'error');
-        return;
-      }
+      // if ( !this.jobStateData.resume._id && !this.selectedFile ) {
+      //   this.toastrService.displaySnackBar('Please upload resume', 'error');
+      //   return;
+      // }
       // console.log(this.selectedFile);
       const formdata = new FormData();
 
@@ -115,14 +120,14 @@ export class JobEmailComponent implements OnInit, OnDestroy {
       formdata.append('jobPosition', this.jobStateData.job.jobPosition);
       formdata.append('subject', formValue.subject);
       formdata.append('mailBody', formValue.body);
-      if ( this.jobStateData.resume._id ) {
+      if (this.jobStateData.resume._id) {
         // params.params.resumeId = this.jobStateData.resume._id;
         formdata.append('resumeId', this.jobStateData.resume._id);
         formdata.append('isCustomResume', '0');
       } else {
         // params.params.resume = formdata;
         formdata.append('isCustomResume', '1');
-        formdata.append('customResume', this.selectedFile);
+        // formdata.append('customResume', this.selectedFile);
       }
       this.httpClient.post<any>(this.sendResumeMail, formdata)
         .pipe(takeUntil(this._unsubscribeAll))
@@ -140,6 +145,9 @@ export class JobEmailComponent implements OnInit, OnDestroy {
           (err) => {
             if (err && err.code && err.code === 400 && (err.err && (err.err.code || err.err.code === 'ESTREAM'))) {
               this.toastrService.displaySnackBar('Please fill all your details is selected resume', 'error', 3000);
+            } else if (err.code === 404 && err.message === 'Resume not found.') {
+              this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.noResumeFound, 'error', 3000);
+              this.router.navigate(['/user/profile']);
             } else {
               this.toastrService.displaySnackBar(AppConstant.ConstantMsgs.somethingWentWrong, 'error', 3000);
             }
@@ -151,11 +159,41 @@ export class JobEmailComponent implements OnInit, OnDestroy {
   }
 
   selectFile(files: FileList): void {
-    if ( files.length > 0 ) {
+    if (files.length > 0) {
       this.selectedFile = files[0];
     } else {
       this.selectedFile = null;
     }
+  }
+
+  getProfileData(): void {
+
+    this.httpClient.get(this.profileApi)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (response: any) => {
+          // console.log('response', response);
+          if (response.code === 200 && response.data) {
+            if (response.data.singleUser) {
+              const singleUserData = response.data.singleUser;
+              if (singleUserData.userResume) {
+                this.noResumeUploaded = true;
+              } else {
+                this.noResumeUploaded = false;
+              }
+            } else {
+              this.noResumeUploaded = false;
+            }
+          } else {
+            this.noResumeUploaded = false;
+          }
+        },
+        (error) => {
+          this.noResumeUploaded = false;
+          // console.log(error);
+        }
+      );
+
   }
 
   ngOnDestroy(): void {

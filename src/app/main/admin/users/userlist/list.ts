@@ -48,4 +48,6 @@ export interface User {
     secondaryEmails: string[];
     createdAt: string;
     updatedAt: string;
+    currentJobLocation: string;
+    preferredJobLocation: string;
 }

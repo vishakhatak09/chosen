@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -16,6 +16,8 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
     about: any;
     @Input() userData: any;
     @Input() loginData: any;
+    @Output() attachment: EventEmitter<FileList> = new EventEmitter();
+    @Input() resumeAttachment: string;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -45,6 +47,10 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
             .subscribe(about => {
                 this.about = about;
             });
+    }
+
+    getAttachment(file: FileList): void {
+        this.attachment.emit(file);
     }
 
     /**

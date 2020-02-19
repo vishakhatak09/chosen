@@ -2,8 +2,8 @@
 
     <div class="about-content" fxLayout="row wrap" fxFlex="100" fxlayoutgap="5px" fxLayoutAlign="space-between">
 
-        <div class="profile-box info-box general" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100" fxFlex.lt-md="100"
-            fxFlex.lt-lg="100" fxFlex.lt-xl="100" fxFlex.lt-md="100">
+        <div class="profile-box info-box general" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100"
+            fxFlex.lt-md="100" fxFlex.lt-lg="100" fxFlex.lt-xl="100" fxFlex.lt-md="100">
 
             <!-- <header class="accent">
                 <div class="title">Personal Information</div>
@@ -47,14 +47,48 @@
                     <div class="title">Gender</div>
                     <div class="info text-capitalize">{{ userData?.gender }}</div>
                 </div>
-                <!-- <div class="info-line">
-                    <div class="title">Locations</div>
-                    <div class="info location" fxLayout="row" fxLayoutAlign="start center"
-                         *ngFor="let location of about.general.locations">
-                        <span>{{location}}</span>
-                        <mat-icon class="s-16 ml-4">location_on</mat-icon>
+                <!-- <hr> -->
+                <!-- <div class="info-line w-100-p mt-4">                    
+                    <div class="info w-100-p upload-class">
+                        <input type="file" #file hidden (change)="getAttachment($event.target.files)">
+                        <button class="upload-btn" type="button" mat-icon-button (click)="file.click()">
+                            <mat-icon>cloud_upload</mat-icon>&nbsp;Upload Resume
+                        </button>   
+                        
+                    </div>
+                    <div class="title resume mt-8">
+                        <a [href]="resumeAttachment" *ngIf="resumeAttachment" target="_blank">
+                            <mat-icon>file_copy</mat-icon> My resume
+                        </a>
                     </div>
                 </div> -->
+
+            </div>
+
+        </div>
+
+        <div class="profile-box info-box general" fxLayout="column" fxFlex.gt-xs="100" fxFlex.sm="100"
+            fxFlex.lt-md="100" fxFlex.lt-lg="100" fxFlex.lt-xl="100" fxFlex.lt-md="100">
+
+            <div class="content profile-content">
+
+                <div class="info-line w-100-p mt-4">
+                    <div class="title resume" *ngIf="resumeAttachment">
+                        <span>
+                            <mat-icon>file_copy</mat-icon> <a [href]="resumeAttachment" target="_blank">
+                                My uploaded resume
+                           </a>
+                        </span>                        
+                    </div>
+                    <div class="info w-100-p upload-class mt-12">
+                        <input type="file" #file hidden (change)="getAttachment($event.target.files)">
+                        <button class="upload-btn" color="primary" type="button" mat-raised-button
+                            (click)="file.click()">
+                            <mat-icon>cloud_upload</mat-icon>&nbsp;&nbsp;Upload Resume
+                        </button>
+                    </div>
+
+                </div>
 
             </div>
 

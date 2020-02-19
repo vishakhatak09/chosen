@@ -47,7 +47,9 @@
             </mat-tab> -->
 
             <mat-tab label="About">
-                <profile-about [userData]="userData" [loginData]="loginData"></profile-about>
+                <profile-about [userData]="userData" [loginData]="loginData"
+                    (attachment)="getResumeAttachment($event)" [resumeAttachment]="selectedResumeFile">
+                </profile-about>
             </mat-tab>
 
             <!-- <mat-tab label="Photos & Videos">
