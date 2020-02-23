@@ -63,8 +63,7 @@
                                         placeholder="Job application email body" [formControlName]="'body'"
                                         tagName="textarea">
                                     </editor>
-                                    <mat-error *ngIf="setEmailForm.get('body').touched &&
-                                      setEmailForm.get('body').value == '' ">
+                                    <mat-error *ngIf="submitted === true && setEmailForm.get('body').value == '' ">
                                         Please fill in job application email body
                                     </mat-error>
                                 </ng-template>

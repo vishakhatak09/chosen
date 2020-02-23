@@ -28,7 +28,7 @@ export class JobEmailComponent implements OnInit, OnDestroy {
   selectedFile: File;
   public profileApi = environment.serverBaseUrl + 'api/getUserProfile';
   noResumeUploaded: boolean;
-
+  submitted = false;
 
   // private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -91,7 +91,9 @@ export class JobEmailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.setEmailForm.valid) {
+      this.submitted = false;
       const formValue = this.setEmailForm.getRawValue();
+      // console.log('submitted'); return;
 
       // if ( !this.jobStateData.resume._id && !this.selectedFile ) {
       //   this.toastrService.displaySnackBar('Please upload resume', 'error');
@@ -155,6 +157,8 @@ export class JobEmailComponent implements OnInit, OnDestroy {
           }
         );
 
+    } else {
+      this.submitted = true;
     }
   }
 
