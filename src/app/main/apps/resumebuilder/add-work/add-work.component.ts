@@ -32,7 +32,7 @@ declare var tinymce: any;
         (click)="dialogRef.close()" class="dialog-close-btn">
         <mat-icon>close</mat-icon>
     </button>&nbsp;
-    <button type="button" class="accent save-btn" mat-raised-button 
+    <button type="button" class="accent save-btn" mat-raised-button
       (click)="submitForm()">Save</button>
   </h1>
   <div mat-dialog-content>

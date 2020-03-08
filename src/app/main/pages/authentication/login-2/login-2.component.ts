@@ -26,6 +26,7 @@ export class Login2Component implements OnInit, OnDestroy {
     public isLoading = false;
     // rememeberMe = false;
     rememeberedData: string;
+    // response;
 
     private _unSubscribeAll: Subject<any> = new Subject();
 
@@ -93,13 +94,15 @@ export class Login2Component implements OnInit, OnDestroy {
             this.loginForm = this._formBuilder.group({
                 email: [email, [Validators.required, Validators.email]],
                 password: [pswd, [Validators.required, Validators.minLength(6)]],
-                rememeberMe: [true]
+                rememeberMe: [true],
+                recaptchaReactive: [null, Validators.required]
             });
         } else {
             this.loginForm = this._formBuilder.group({
                 email: ['', [Validators.required, Validators.email]],
                 password: ['', [Validators.required, Validators.minLength(6)]],
-                rememeberMe: [false]
+                rememeberMe: [false],
+                recaptchaReactive: [null, Validators.required]
             });
         }
     }

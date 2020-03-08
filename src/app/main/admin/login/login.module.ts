@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { AdLoginComponent } from './login.component';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 
 const routes = [
@@ -30,7 +31,9 @@ const routes = [
         MatIconModule,
         MatInputModule,
 
-        FuseSharedModule
+        FuseSharedModule,
+        RecaptchaModule,
+        RecaptchaFormsModule,
     ]
 })
 export class AdLoginModule {

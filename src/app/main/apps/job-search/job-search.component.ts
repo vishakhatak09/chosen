@@ -190,16 +190,16 @@ export class JobSearchComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
         this.selectedFilters = response;
-        const element = document.getElementById('fuse-search-bar-input');
-        if (element) {
+        // const element = document.getElementById('fuse-search-bar-input');
+        // if (element) {
           this.searchBox.patchValue(this.previousSearch, { emitEvent: true });
-          element.focus();
-        }
+          // element.focus();
+        // }
       }
     });
   }
 
-  openJobEmailDialog(data): void {
+  openJobEmailDialog(data: JobModel): void {
     const dialogRef = this.matDialog.open(ResumePreviewComponent,
       {
         width: '1000px',

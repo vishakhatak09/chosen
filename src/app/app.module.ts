@@ -21,7 +21,8 @@ import { AuthGuardService, AdminGuardService } from 'core/services/auth-guard.se
 import 'hammerjs';
 import { PageNotFoundComponent } from './main/pageNotFound/pageNotFound.component';
 
-// import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
+import { RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from 'environments/environment';
 
 const appRoutes: Routes = [
     {
@@ -90,7 +91,12 @@ const appRoutes: Routes = [
         AdminGuardService,
         { provide: 'LOCALSTORAGE', useFactory: getLocalStorage },
         { provide: 'WINDOW', useFactory: getWindow },
-        // {provide: Compiler, useFactory: createJitCompiler}
+        {
+            provide: RECAPTCHA_SETTINGS,
+            useValue: {
+                siteKey: environment.recaptchaSiteKey,
+            } as RecaptchaSettings,
+        }
     ],
     bootstrap: [
         AppComponent

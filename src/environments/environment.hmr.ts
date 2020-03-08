@@ -6,5 +6,6 @@ export const environment = {
     serverBaseUrl: 'https://staging-api.chosenyou.com:3000/',
     serverImagePath: 'https://staging-api.chosenyou.com/dist/public/upload/',
     analyticsApiKey: 'AIzaSyBhqmTBy1mw-KnP7vN2-aF-kz_bt8xJVpM',
-    baseHrefUrl: 'https://staging.chosenyou.com/'
+    baseHrefUrl: 'https://staging.chosenyou.com/',
+    recaptchaSiteKey: '6Ld5pt8UAAAAAGU6CsU11sNwDBx0rQAJz62xkp4D'
 };

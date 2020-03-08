@@ -10,7 +10,6 @@ import { environment } from 'environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'core/services/toastr.service';
-import { EncryptDecryptService } from 'core/services/encrypt-decrypt.service';
 
 @Component({
     selector: 'ad-login',
@@ -38,9 +37,7 @@ export class AdLoginComponent implements OnInit, OnDestroy {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _authService: AuthenticationService,
-        private _toastrService: ToastrService,
-        private _encryptDecryptService: EncryptDecryptService
-    ) {
+        private _toastrService: ToastrService    ) {
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
@@ -79,7 +76,8 @@ export class AdLoginComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.loginForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required]
+            password: ['', Validators.required],
+            recaptchaReactive: [null, Validators.required]
         });
     }
 

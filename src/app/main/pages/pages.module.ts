@@ -23,6 +23,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // import { Login2Module } from 'app/main/pages/authentication/login-2/login-2.module';
 // import { Register2Module } from 'app/main/pages/authentication/register-2/register-2.module';
 // import { ResetPassword2Module } from 'app/main/pages/authentication/reset-password-2/reset-password-2.module';
+import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings, RecaptchaFormsModule } from 'ng-recaptcha';
+import { environment } from 'environments/environment';
 
 const routes: Routes = [
     {
@@ -74,9 +76,19 @@ const routes: Routes = [
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-        FlexLayoutModule
+        FlexLayoutModule,
 
+        RecaptchaModule,
+        RecaptchaFormsModule,
         // FuseSharedModule
+    ],
+    providers: [
+        // {
+        //     provide: RECAPTCHA_SETTINGS,
+        //     useValue: {
+        //         siteKey: environment.recaptchaSiteKey,
+        //     } as RecaptchaSettings,
+        // }
     ]
 })
 export class PagesModule {
