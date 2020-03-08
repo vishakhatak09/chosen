@@ -126,8 +126,6 @@ declare var tinymce: any;
                 <editor [id]="'jobDescriptionArea'" autofocus class="tiny-editor"
                 [init]="tinyEditorConfig" placeholder="Job profile description" [formControlName]="'jobDescription'" tagName="textarea">
                 </editor>
-                <!-- <kendo-editor [formControlName]="'jobDescription'" style="height: 400px;" placeholder="Job profile description">
-                </kendo-editor> -->
                 <mat-error *ngIf="userWorkForm.get('jobDescription').touched &&
                 userWorkForm.get('jobDescription').value == '' ">
                     Please fill in job profile description

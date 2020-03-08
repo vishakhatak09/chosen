@@ -10,6 +10,8 @@ import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { EncryptDecryptService } from 'core/services/encrypt-decrypt.service';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
     selector: 'login-2',
@@ -22,6 +24,8 @@ export class Login2Component implements OnInit, OnDestroy {
     loginForm: FormGroup;
     loginUrl = environment.serverBaseUrl + 'api/login';
     public isLoading = false;
+    // rememeberMe = false;
+    rememeberedData: string;
 
     private _unSubscribeAll: Subject<any> = new Subject();
 
@@ -37,6 +41,7 @@ export class Login2Component implements OnInit, OnDestroy {
         private _router: Router,
         private _toastrService: ToastrService,
         private authService: AuthenticationService,
+        private encryptDecryptService: EncryptDecryptService
     ) {
 
         // Configure the layout
@@ -65,6 +70,13 @@ export class Login2Component implements OnInit, OnDestroy {
         //  else {
         //     this._router.navigate(['/user/templates']);
         // }
+        const data: string = this.encryptDecryptService.getDecryptedLocalStorage(AppConstant.AuthRememberKey);
+        if (data !== undefined && data !== null && data.includes(AppConstant.AuthRememberSeperator)) {
+            // this.rememeberMe = true;
+            this.rememeberedData = data;
+        } else {
+            this.encryptDecryptService.removeEncryptedLocalStorage(AppConstant.AuthRememberKey);
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -75,10 +87,21 @@ export class Login2Component implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.loginForm = this._formBuilder.group({
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required, Validators.minLength(6)]]
-        });
+        if (this.rememeberedData) {
+            const email = this.rememeberedData.split(AppConstant.AuthRememberSeperator)[0];
+            const pswd = this.rememeberedData.split(AppConstant.AuthRememberSeperator)[1];
+            this.loginForm = this._formBuilder.group({
+                email: [email, [Validators.required, Validators.email]],
+                password: [pswd, [Validators.required, Validators.minLength(6)]],
+                rememeberMe: [true]
+            });
+        } else {
+            this.loginForm = this._formBuilder.group({
+                email: ['', [Validators.required, Validators.email]],
+                password: ['', [Validators.required, Validators.minLength(6)]],
+                rememeberMe: [false]
+            });
+        }
     }
 
     /**
@@ -99,6 +122,12 @@ export class Login2Component implements OnInit, OnDestroy {
                 .pipe(takeUntil(this._unSubscribeAll))
                 .subscribe(
                     (response) => {
+                        if (this.loginForm.get('rememeberMe').value === true) {
+                            const cookie = formValue.email + AppConstant.AuthRememberSeperator + formValue.password;
+                            this.encryptDecryptService.setEncryptedLocalStorage(AppConstant.AuthRememberKey, cookie);
+                        } else {
+                            this.encryptDecryptService.removeEncryptedLocalStorage(AppConstant.AuthRememberKey);
+                        }
                         // this._toastrService.displaySnackBar('Login successfull', 'success');
                         // this.isLoading = false;
                         this._router.navigate(['/user/templates']);

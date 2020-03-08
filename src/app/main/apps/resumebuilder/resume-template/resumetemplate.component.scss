@@ -30,6 +30,7 @@
     table.resume-table{
         min-width: 450px;
     }
+    background: #fff !important; // to overwrite theme color change
 }
 
 @media only screen and (max-width: 600px) {

@@ -1,9 +1,9 @@
 <div class="navbar-header" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
 
-    <div class="logo" [routerLink]="['/']">
+    <a class="logo" [href]="baseUrl"
         <img class="logo-icon" src="assets/icons/chosen-logo.svg">
         <!-- <span class="logo-text"></span> -->
-    </div>
+    </a>
 
     <button mat-icon-button class="toggle-sidebar-folded"
             (click)="toggleSidebarFolded()" fxHide.lt-lg>

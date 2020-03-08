@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import {
     FuseProgressBarModule,
     FuseSidebarModule,
@@ -26,16 +26,16 @@ import { PageNotFoundComponent } from './main/pageNotFound/pageNotFound.componen
 const appRoutes: Routes = [
     {
         path: 'user',
-        loadChildren: './main/apps/apps.module#AppsModule',
+        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule),
         canLoad: [AuthGuardService]
     },
     {
         path: 'auth',
-        loadChildren: './main/pages/pages.module#PagesModule'
+        loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule),
     },
     {
         path: 'ad',
-        loadChildren: './main/admin/admin.module#AdminModule',
+        loadChildren: () => import('./main/admin/admin.module').then(m => m.AdminModule),
     },
     {
         path: '404page',
@@ -63,7 +63,7 @@ const appRoutes: Routes = [
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot(appRoutes),
+        RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
 
         TranslateModule.forRoot(),
 

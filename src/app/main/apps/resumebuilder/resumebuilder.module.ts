@@ -31,7 +31,6 @@ import { ResumeBuilderResolver } from './resumebuilder.resolver';
 import { ResumeProfessionalComponent } from './resume-professional/resume-professional.component';
 import { CanDeactivateGuard } from './can-deactivate-guard.service';
 import { PdfViewComponent } from './pdf-view/pdf-view.component';
-// import {EditorModule} from '@progress/kendo-angular-editor';
 
 const routes: Routes = [
   {
@@ -86,7 +85,6 @@ const routes: Routes = [
     FuseMaterialColorPickerModule,
 
     EditorModule,
-    // EditorModule
   ],
   providers: [ResumeBuilderService, CommonService, ResumeBuilderResolver, CanDeactivateGuard],
   schemas: []

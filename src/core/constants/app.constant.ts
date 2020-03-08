@@ -161,6 +161,8 @@ export class AppConstant {
     };
 
     public static AuthStorageKey = 'user';
+    public static AuthRememberKey = 'previous';
+    public static AuthRememberSeperator = '&chosen&';
 
     public static MY_YEAR_FORMATS = {
         parse: {

@@ -25,6 +25,7 @@ export class MyResumesComponent implements OnInit, OnDestroy {
   sendResumeMail = environment.serverBaseUrl + 'api/resume/sentMail';
   public imageBaseUrl = AppConstant.GeneralConst.UserImagePath;
   public resumeList: MyResumesModel[] = [];
+  noResume = false;
 
   // private
   private _unsubscribeAll: Subject<any> = new Subject();
@@ -73,8 +74,12 @@ export class MyResumesComponent implements OnInit, OnDestroy {
           if (response.data) {
             this.resumeList = response.data;
           }
+          if ( this.resumeList.length === 0 ) {
+            this.noResume = true;
+          }
         },
         (err) => {
+          this.noResume = true;
           // console.log(err);
         }
       );

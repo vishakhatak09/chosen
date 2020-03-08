@@ -10,7 +10,7 @@ const routes: Routes = [
     // },
     {
         path: 'login',
-        loadChildren: './login/login.module#AdLoginModule'
+        loadChildren: () => import('./login/login.module').then(m => m.AdLoginModule)
     },
     // { // hide register for admin
     //     path: 'register',
@@ -18,65 +18,65 @@ const routes: Routes = [
     // },
     {
         path: 'forgot-password',
-        loadChildren: './forgot-password/forgot-password.module#AdForgotPasswordModule'
+        loadChildren: () => import('./forgot-password/forgot-password.module').then(m => m.AdForgotPasswordModule)
     },
     {
         path: 'reset-password/:token',
-        loadChildren: './reset-password/reset-password.module#AdResetPasswordModule'
+        loadChildren: () => import('./reset-password/reset-password.module').then(m => m.AdResetPasswordModule)
     },
     {
         path        : 'dashboard',
-        loadChildren: './dashboards/analytics/analytics.module#AnalyticsDashboardModule',
+        loadChildren: () => import('./dashboards/analytics/analytics.module').then(m => m.AnalyticsDashboardModule),
         canLoad: [AdminGuardService]
     },
     {
         path: 'userlist',
-        loadChildren: './users/userlist/userlist.module#UserlistModule',
+        loadChildren: () => import('./users/userlist/userlist.module').then(m => m.UserlistModule),
         canLoad: [AdminGuardService]
     },
     {
         path: 'user',
-        loadChildren: './users/user/user.module#UserModule',
+        loadChildren: () => import('./users/user/user.module').then(m => m.UserModule),
         canLoad: [AdminGuardService]
     },
     {
         path: ':userId/user',
-        loadChildren: './users/user/user.module#UserModule',
+        loadChildren: () => import('./users/user/user.module').then(m => m.UserModule),
         canLoad: [AdminGuardService]
     },
     {
         path: 'template-list',
-        loadChildren: './upload-templates/template-list/template-list.module#TemplateListModule',
+        loadChildren: () => import('./upload-templates/template-list/template-list.module').then(m => m.TemplateListModule),
         canLoad: [AdminGuardService]
     },
     {
         path: 'upload-template',
-        loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
+        loadChildren: () => import('./upload-templates/upload-template/upload-template.module').then(m => m.UploadTemplateModule),
         canLoad: [AdminGuardService]
     },
     {
         path: ':id/upload-template',
-        loadChildren: './upload-templates/upload-template/upload-template.module#UploadTemplateModule',
+        loadChildren: () => import('./upload-templates/upload-template/upload-template.module').then(m => m.UploadTemplateModule),
         canLoad: [AdminGuardService]
     },
     {
         path: 'job-mgmt',
-        loadChildren: './job-mgmt/job-mgmt.module#JobMgmtModule',
+        loadChildren: () => import('./job-mgmt/job-mgmt.module').then(m => m.JobMgmtModule),
         canLoad: [AdminGuardService]
     },
     {
         path: 'add-job',
-        loadChildren: './add-job/add-job.module#AddJobModule',
+        loadChildren: () => import('./add-job/add-job.module').then(m => m.AddJobModule),
         canLoad: [AdminGuardService]
     },
     {
         path: ':jobId/add-job',
-        loadChildren: './add-job/add-job.module#AddJobModule',
+        loadChildren: () => import('./add-job/add-job.module').then(m => m.AddJobModule),
         canLoad: [AdminGuardService]
     },
     {
         path: 'content-mgmt',
-        loadChildren: './cms/content-mgmt/content-mgmt.module#ContentMgmtModule',
+        loadChildren: () => import('./cms/content-mgmt/content-mgmt.module').then(m => m.ContentMgmtModule),
         canLoad: [AdminGuardService]
     },
     {

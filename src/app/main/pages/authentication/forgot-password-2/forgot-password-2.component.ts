@@ -92,7 +92,7 @@ export class ForgotPassword2Component implements OnInit, OnDestroy {
                 }
             );
 
-    } 
+    }
 
     ngOnDestroy(): void {
         this._unsubscribeAll.next();

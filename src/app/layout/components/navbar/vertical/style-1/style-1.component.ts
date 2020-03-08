@@ -8,6 +8,7 @@ import { FuseNavigationService } from '@fuse/components/navigation/navigation.se
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { AuthenticationService } from 'core/services/authentication.service';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'navbar-vertical-style-1',
@@ -25,6 +26,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
     userEmail: string;
     userName: string;
     userData: any;
+    baseUrl = environment.baseHrefUrl;
 
     /**
      * Constructor

@@ -13,35 +13,35 @@ const routes: Routes = [
     // },
     {
         path: ':templateId/resumebuilder',
-        loadChildren: './resumebuilder/resumebuilder.module#ResumebuilderModule'
+        loadChildren: () => import('./resumebuilder/resumebuilder.module').then(m => m.ResumebuilderModule)
     },
     {
         path: ':templateId/resumebuilder/:resumeId',
-        loadChildren: './resumebuilder/resumebuilder.module#ResumebuilderModule'
+        loadChildren: () => import('./resumebuilder/resumebuilder.module').then(m => m.ResumebuilderModule)
     },
     {
         path: 'templates',
-        loadChildren: './templates/templates.module#TemplatesModule',
+        loadChildren: () => import('./templates/templates.module').then(m => m.TemplatesModule)
     },
     {
         path: 'my-resumes',
-        loadChildren: './my-resumes/my-resumes.module#MyResumesModule'
+        loadChildren: () => import('./my-resumes/my-resumes.module').then(m => m.MyResumesModule)
     },
     {
         path: 'my-resumes/:choose',
-        loadChildren: './my-resumes/my-resumes.module#MyResumesModule'
+        loadChildren: () => import('./my-resumes/my-resumes.module').then(m => m.MyResumesModule)
     },
     {
         path: 'profile',
-        loadChildren: './profile/profile.module#ProfileModule'
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
     },
     {
         path: 'job-search',
-        loadChildren: './job-search/job-search.module#JobSearchModule'
+        loadChildren: () => import('./job-search/job-search.module').then(m => m.JobSearchModule)
     },
     {
         path: 'job-email',
-        loadChildren: './job-email/job-email.module#JobEmailModule'
+        loadChildren: () => import('./job-email/job-email.module').then(m => m.JobEmailModule)
     },
     // {
     //     path: 'preview',
