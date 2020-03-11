@@ -309,15 +309,15 @@ export class ResumebuilderComponent implements
   saveAsPdf(isSaveImgPDF = true, isLastStep = false): void {
     const element = document.getElementById('template-resume');
     if (element) {
-      this.loaderService.show();
+      // this.loaderService.show();
       const border = element.style.border;
       const shadow = element.style.boxShadow;
       const marginTop = element.style.marginTop;
       const marginBottom = element.style.marginTop;
       const marginLeft = element.style.marginLeft;
-      element.style.border = '';
+      element.style.border = '1px solid #d2d2d2';
       element.style.boxShadow = '';
-      element.style.marginTop = '';
+      element.style.paddingTop = '20px';
       element.style.marginBottom = '';
       element.style.marginLeft = '';
       this.makePdf(element, { border, shadow, marginTop, marginBottom, marginLeft }, isSaveImgPDF, isLastStep);
@@ -1036,12 +1036,14 @@ export class ResumebuilderComponent implements
   ) {
     // const imgWidth = 595.28;
     // const pageHeight = 841.89;
-    const imgWidth = 210;
-    const pageHeight = 295;
+    // const imgWidth = 210;
+    // const pageHeight = 295;
     const oldWidth = element.style.width;
     const oldHeight = element.style.height;
     element.style.display = 'inline-block';
     element.style.width = '600px';
+    element.style.border = '';
+    // element.style.width = '';
     // element.style.height = 'auto';
     let containerMaxWidth = '';
     let tableMargin = '';
@@ -1061,50 +1063,59 @@ export class ResumebuilderComponent implements
     const html2canvasOptions: any = {
       allowTaint: false,
       removeContainer: true,
-      imageTimeout: 15000,
+      imageTimeout: 0,
       logging: false,
-      scale: 2.5,
+      scale: 2,
       useCORS: true,
+      devicePixelRatio: 3
     };
     await html2canvas(element, html2canvasOptions).then(async canvas => {
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      // console.log('imgHeight', imgHeight);
-      let imageA4Height = imgHeight;
-      const imgData = canvas.toDataURL('image/jpeg', '1.0');
+      const doc = new jsPDF('p', 'px', 'a4');
 
-      const doc = new jsPDF('p', 'mm', 'a4');
-      doc.internal.scaleFactor = 1.55;
-      doc.setProperties({
-        title: `${this.userName}'s Resume`,
-      });
-      let position = 0;
+      for (let i = 0; i <= element.clientHeight / 840; i++) {
+        // ! This is all just html2canvas stuff
+        const srcImg = canvas;
+        const sX = 0;
+        const sY = 1780 * i; // start 1780 pixels down for every new page
+        const sWidth = 1200;
+        const sHeight = 1780;
+        const dX = 0;
+        const dY = 0;
+        const dWidth = 1200;
+        const dHeight = 1780;
 
-      doc.addImage(
-        imgData,
-        'JPEG',
-        0,
-        position + 14.5,
-        imgWidth,
-        imgHeight + 15,
-        null,
-        'FAST'
-      );
-      imageA4Height -= pageHeight;
+        const onePageCanvas = document.createElement('canvas');
+        onePageCanvas.setAttribute('width', '1200');
+        onePageCanvas.setAttribute('height', '1780');
+        const ctx = onePageCanvas.getContext('2d');
 
-      while (imageA4Height >= 0) {
-        position = Math.fround(imageA4Height - imgHeight);
-        doc.addPage();
-        doc.addImage(
-          imgData,
-          'JPEG',
-          0,
-          position + 12.5,
-          imgWidth,
-          imgHeight + 20,
-          null,
-          'FAST'
-        );
-        imageA4Height -= pageHeight;
+        ctx.clearRect(0, 0, onePageCanvas.width, onePageCanvas.height);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, onePageCanvas.width, onePageCanvas.height);
+
+        ctx.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
+        ctx.strokeRect(dX, dY, dWidth, dHeight);
+        const canvasDataURL = onePageCanvas.toDataURL('image/png', 1);
+
+        const width = onePageCanvas.width;
+        const height = onePageCanvas.height;
+
+        // ! If we're on anything other than the first page,
+        // add another page
+        if (i > 0) {
+          doc.addPage(); // 8.5" x 11" in pts (in*72)
+        }
+        // ! now we declare that we're working on that page
+        doc.setPage(i + 1);
+        // ! now we add content to that page!
+
+        doc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
+      }
+      const allPages = doc.internal.pages;
+      for (let i = 0; i < allPages.length; i++) {
+        if (allPages[i] === undefined) {
+          doc.deletePage(i);
+        }
       }
       if (templateContainer) {
         templateContainer.style.maxWidth = containerMaxWidth;
