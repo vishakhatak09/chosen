@@ -102,7 +102,7 @@ export class LoadingScreenService {
             setTimeout(() => {
                 this.player.play();
                 this.isPlaying = false;
-            }, 1500);
+            }, 500);
         // }
     }
 }

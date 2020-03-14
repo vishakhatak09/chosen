@@ -28,7 +28,7 @@ export class JwtInterceptor implements HttpInterceptor {
     this.currentUser = this.authenticationService.currentUserValue;
     if (this.currentUser && this.currentUser.token) {
       // if (!request.url.includes('Step') && !request.url.includes('jobFilter')) {
-      if ( !request.url.endsWith('jobFilter')) {
+      if ( !request.url.endsWith('jobFilter') && !request.url.endsWith('resumeImagePdf')) {
         this.isDisplaying = true;
         this.loadingService.show();
       }

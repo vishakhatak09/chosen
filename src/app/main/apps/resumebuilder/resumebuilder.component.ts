@@ -309,7 +309,7 @@ export class ResumebuilderComponent implements
   saveAsPdf(isSaveImgPDF = true, isLastStep = false): void {
     const element = document.getElementById('template-resume');
     if (element) {
-      // this.loaderService.show();
+      this.loaderService.show();
       const border = element.style.border;
       const shadow = element.style.boxShadow;
       const marginTop = element.style.marginTop;
@@ -344,6 +344,7 @@ export class ResumebuilderComponent implements
         width: 'auto',
         height: 'auto',
         disableClose: true,
+        closeOnNavigation: true
       }
     );
     dialogRef.afterClosed().subscribe((data: WorkModel) => {
@@ -361,6 +362,7 @@ export class ResumebuilderComponent implements
         width: 'auto',
         height: 'auto',
         disableClose: true,
+        closeOnNavigation: true
       }
     );
     dialogRef.afterClosed().subscribe((data: EducationModel) => {
@@ -382,6 +384,7 @@ export class ResumebuilderComponent implements
         height: 'auto',
         data: dialogData,
         disableClose: true,
+        closeOnNavigation: true
       }
     );
     dialogRef.afterClosed().subscribe((data: any) => {
@@ -406,7 +409,8 @@ export class ResumebuilderComponent implements
           data: {
             msg: 'Do you want to remove this detail ?',
           },
-          id: 'confirmation-dialog'
+          id: 'confirmation-dialog',
+          closeOnNavigation: true
         }
       );
       dialogRef.afterClosed().subscribe((data: boolean) => {
@@ -513,6 +517,7 @@ export class ResumebuilderComponent implements
         height: 'auto',
         disableClose: true,
         data: dialogData,
+        closeOnNavigation: true
       });
       dialogRef.afterClosed().subscribe((response) => {
         if (response) {
@@ -544,6 +549,7 @@ export class ResumebuilderComponent implements
       disableClose: true,
       data: value,
       restoreFocus: true,
+      closeOnNavigation: true
     });
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
@@ -598,7 +604,8 @@ export class ResumebuilderComponent implements
               msg: 'Do you want to add Additional Information ?',
             },
             id: 'confirmation-dialog',
-            panelClass: 'custom-confirmation'
+            panelClass: 'custom-confirmation',
+            closeOnNavigation: true
           }
         );
         dialogRef.afterClosed().subscribe((resp: boolean) => {
@@ -960,7 +967,11 @@ export class ResumebuilderComponent implements
   }
 
   saveTemplatePdfImg(isLastStep = false): void {
-    this.loaderService.show();
+    if ( isLastStep === true ) {
+      this.loaderService.show();
+    } else {
+      this.loaderService.hide();
+    }
 
     const formData = new FormData();
     if (isLastStep || this.templatePdfFile) {
@@ -1012,7 +1023,8 @@ export class ResumebuilderComponent implements
           data: {
             msg: 'Your changes will be lost, are you sure you want to exit ?',
           },
-          id: 'deactivate-dialog'
+          id: 'deactivate-dialog',
+          closeOnNavigation: true
         }
       );
       return dialogRef.afterClosed();
@@ -1057,9 +1069,6 @@ export class ResumebuilderComponent implements
       tableMargin = table.style.margin;
       table.style.margin = '';
     }
-    // scale: 4,
-    // useCORS: true,
-    // logging: false,
     const html2canvasOptions: any = {
       allowTaint: false,
       removeContainer: true,
@@ -1070,15 +1079,19 @@ export class ResumebuilderComponent implements
       devicePixelRatio: 3
     };
     await html2canvas(element, html2canvasOptions).then(async canvas => {
-      const doc = new jsPDF('p', 'px', 'a4');
+      const doc = new jsPDF('p', 'px', 'a4'); // With watermark for display purpose
+      const downloadDoc = new jsPDF('p', 'px', 'a4'); // Without watermark for download purpose
 
-      for (let i = 0; i <= element.clientHeight / 840; i++) {
+      // console.log('element.clientHeight', element.clientHeight);
+      const loopHeight = Math.floor(element.clientHeight / 840);
+      // console.log('loopHeight', loopHeight);
+      for (let i = 0; i <= loopHeight; i++) {
         // ! This is all just html2canvas stuff
         const srcImg = canvas;
         const sX = 0;
-        const sY = 1780 * i; // start 1780 pixels down for every new page
+        const sY = 1710 * i; // start 1780 pixels down for every new page
         const sWidth = 1200;
-        const sHeight = 1780;
+        const sHeight = 1710;
         const dX = 0;
         const dY = 0;
         const dWidth = 1200;
@@ -1104,17 +1117,36 @@ export class ResumebuilderComponent implements
         // add another page
         if (i > 0) {
           doc.addPage(); // 8.5" x 11" in pts (in*72)
+          downloadDoc.addPage(); // 8.5" x 11" in pts (in*72)
         }
         // ! now we declare that we're working on that page
         doc.setPage(i + 1);
+        downloadDoc.setPage(i + 1);
         // ! now we add content to that page!
 
         doc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
+        downloadDoc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
+
+        // Set Watermark start
+        doc.setFont('helvetica');
+        doc.setTextColor('#C5C6CB');
+        doc.setFontSize(22);
+        doc.setFontType('bold');
+        const horizontalSpace = 160;
+        const verticalSpace = 220;
+        for (let j = 1; j <= 5; j++) {
+          doc.text(horizontalSpace * 0, verticalSpace * j, 'Chosenyou');
+          doc.text(horizontalSpace * 1, verticalSpace * j, 'Chosenyou');
+          doc.text(horizontalSpace * 2, verticalSpace * j, 'Chosenyou');
+        }
+        // doc.text(doc.internal.pageSize.width / 2.55, doc.internal.pageSize.height / 2, 'Chosenyou');
+        // Set Watermark end
       }
       const allPages = doc.internal.pages;
       for (let i = 0; i < allPages.length; i++) {
         if (allPages[i] === undefined) {
           doc.deletePage(i);
+          downloadDoc.deletePage(i);
         }
       }
       if (templateContainer) {
@@ -1136,11 +1168,6 @@ export class ResumebuilderComponent implements
           const pdfUrl = URL.createObjectURL(pdfdata);
           element.style.width = oldWidth;
           element.style.height = oldHeight;
-          // const pageCount = doc.internal.getNumberOfPages();
-          // for (let i = 0; i < pageCount; i++) {
-          //   doc.text(String(i), 196, 285);
-          // }
-          // console.log('pdf', pdfUrl);
           if (window.screen.width > 600) {
             const dialogRef = this.matDialog.open(
               PdfViewComponent,
@@ -1149,35 +1176,36 @@ export class ResumebuilderComponent implements
                 height: '100%',
                 data: pdfUrl,
                 restoreFocus: false,
-                disableClose: true
+                disableClose: true,
+                closeOnNavigation: true
               },
             );
             dialogRef.beforeClosed().subscribe((response: boolean) => {
               if (response === true) {
-                doc.save(`resume_${this.userName}_${timestamp}`);
+                downloadDoc.save(`resume_${this.userName}_${timestamp}`);
               }
             });
           } else {
-            doc.save(`resume_${this.userName}_${timestamp}`);
+            downloadDoc.save(`resume_${this.userName}_${timestamp}`);
           }
         }, 500);
       } else {
+        this.loaderService.hide();
+        element.style.width = oldWidth;
+        element.style.height = oldHeight;
+        element.style.border = styles.border;
+        element.style.boxShadow = styles.shadow;
+        element.style.marginTop = styles.marginTop;
+        element.style.marginBottom = styles.marginBottom;
+        element.style.marginLeft = styles.marginLeft;
         setTimeout(() => {
-          const pdfUrl = doc.output('datauristring');
+          const pdfUrl = downloadDoc.output('datauristring');
           const imgUrl = canvas.toDataURL('image/jpeg', '1.0');
           this.templateImageBase64 = imgUrl;
           const fileObject = this.dataURLtoFile(pdfUrl, `resume_${this.userName}.pdf`);
           this.templatePdfFile = fileObject;
           this.saveTemplatePdfImg(isLastStep);
-          element.style.width = oldWidth;
-          element.style.height = oldHeight;
-          element.style.border = styles.border;
-          element.style.boxShadow = styles.shadow;
-          element.style.marginTop = styles.marginTop;
-          element.style.marginBottom = styles.marginBottom;
-          element.style.marginLeft = styles.marginLeft;
-          this.loaderService.hide();
-        }, 500);
+        }, 1000);
       }
 
     });
@@ -1196,6 +1224,7 @@ export class ResumebuilderComponent implements
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     localStorage.removeItem('selected');
+    this.matDialog.closeAll();
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
