@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { ProfileService } from '../../profile.service';
+import { AppConstant } from 'core/constants/app.constant';
 
 @Component({
     selector: 'profile-about',
@@ -18,6 +19,7 @@ export class ProfileAboutComponent implements OnInit, OnDestroy {
     @Input() loginData: any;
     @Output() attachment: EventEmitter<FileList> = new EventEmitter();
     @Input() resumeAttachment: string;
+    acceptTypes: string = AppConstant.ResumeAcceptTypes.toString();
 
     // Private
     private _unsubscribeAll: Subject<any>;

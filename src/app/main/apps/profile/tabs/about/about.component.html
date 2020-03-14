@@ -81,7 +81,7 @@
                         </span>                        
                     </div>
                     <div class="info w-100-p upload-class mt-12">
-                        <input type="file" #file hidden (change)="getAttachment($event.target.files)">
+                        <input type="file" #file hidden (change)="getAttachment($event.target.files)" [accept]="acceptTypes">
                         <button class="upload-btn" color="primary" type="button" mat-raised-button
                             (click)="file.click()">
                             <mat-icon>cloud_upload</mat-icon>&nbsp;&nbsp;Upload Resume

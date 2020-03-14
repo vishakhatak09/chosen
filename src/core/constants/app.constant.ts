@@ -36,6 +36,13 @@ export class AppConstant {
     public static ValidUrlPattern = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
     public static ValidPhonePattern = '[0-9]\\d{9}';
 
+    public static ResumeAcceptTypes = [
+        'application/vnd.ms-excel',
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/msword'
+    ];
+
     /** Bar Rating Theme List with css imports */
     public static ratingThemeList = [
         {
