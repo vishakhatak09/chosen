@@ -7,7 +7,7 @@
             <div class="profile-imgBox">
                 <div class="edit-box">
                     <mat-icon (click)="fileSelect.click()">edit</mat-icon>
-                    <input #fileSelect type="file" (change)="getFile($event.target.files)">
+                    <input #fileSelect type="file" (change)="getFile($event.target.files)" accept="image/*">
                 </div>
                 <img class="profile-image avatar huge m-0" *ngIf="!defaultProfileImage" src="assets/images/logos/profile.jpg" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                 <img class="profile-image avatar huge m-0" *ngIf="defaultProfileImage" [src]="imageBaseUrl + defaultProfileImage" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
