@@ -967,7 +967,7 @@ export class ResumebuilderComponent implements
   }
 
   saveTemplatePdfImg(isLastStep = false): void {
-    if ( isLastStep === true ) {
+    if (isLastStep === true) {
       this.loaderService.show();
     } else {
       this.loaderService.hide();
@@ -1128,19 +1128,11 @@ export class ResumebuilderComponent implements
         downloadDoc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
 
         // Set Watermark start
-        doc.setFont('helvetica');
-        doc.setTextColor('#C5C6CB');
-        doc.setFontSize(22);
-        doc.setFontType('bold');
-        const horizontalSpace = 160;
-        const verticalSpace = 220;
-        for (let j = 1; j <= 5; j++) {
-          doc.text(horizontalSpace * 0, verticalSpace * j, 'Chosenyou');
-          doc.text(horizontalSpace * 1, verticalSpace * j, 'Chosenyou');
-          doc.text(horizontalSpace * 2, verticalSpace * j, 'Chosenyou');
-        }
-        // doc.text(doc.internal.pageSize.width / 2.55, doc.internal.pageSize.height / 2, 'Chosenyou');
+        const img = new Image();
+        img.src = environment.imageBaseUrl + 'assets/icons/logo.png';
+        doc.addImage(img, 'PNG', 25, 580, 80, 70);
         // Set Watermark end
+
       }
       const allPages = doc.internal.pages;
       for (let i = 0; i < allPages.length; i++) {
