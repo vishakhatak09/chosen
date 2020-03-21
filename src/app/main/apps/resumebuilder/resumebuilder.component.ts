@@ -1107,7 +1107,7 @@ export class ResumebuilderComponent implements
         ctx.fillRect(0, 0, onePageCanvas.width, onePageCanvas.height);
 
         ctx.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
-        ctx.strokeRect(dX, dY, dWidth, dHeight);
+        // ctx.strokeRect(dX, dY, dWidth, dHeight); // Pdf border
         const canvasDataURL = onePageCanvas.toDataURL('image/png', 1);
 
         const width = onePageCanvas.width;
@@ -1124,13 +1124,17 @@ export class ResumebuilderComponent implements
         downloadDoc.setPage(i + 1);
         // ! now we add content to that page!
 
-        doc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
-        downloadDoc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
+        // With padding
+        // doc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
+        // downloadDoc.addImage(canvasDataURL, 'PNG', 30, 30, width * 0.32, height * 0.32);
+
+        doc.addImage(canvasDataURL, 'PNG', 20, 20, width * 0.34, height * 0.32);
+        downloadDoc.addImage(canvasDataURL, 'PNG', 20, 20, width * 0.34, height * 0.32);
 
         // Set Watermark start
         const img = new Image();
         img.src = environment.imageBaseUrl + 'assets/icons/logo.png';
-        doc.addImage(img, 'PNG', 25, 580, 80, 70);
+        doc.addImage(img, 'PNG', 25, 575, 80, 75);
         // Set Watermark end
 
       }
