@@ -58,7 +58,7 @@
     "ngx-bar-rating": "1.1.0",
     "ngx-color-picker": "7.5.0",
     "perfect-scrollbar": "1.4.0",
-    "prismjs": "1.16.0",
+    "prismjs": "1.23.0",
     "rxjs": "6.5.2",
     "tinymce": "5.1.4",
     "web-animations-js": "github:angular/web-animations-js#release_pr208",
